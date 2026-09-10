@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde</title>
+<meta name="description" content="Prototype/démonstration locale d’une marketplace : explore une vitrine et teste la création d’un étal, sans données envoyées à un serveur ni paiement réel.">
+<meta name="theme-color" content="#1B1B2F">
+<meta name="color-scheme" content="light">
+<!-- En production, remettre noindex, nofollow tant que le site n'est pas prêt à être référencé. -->
+<meta name="robots" content="index, follow">
+<meta name="author" content="ÉtalAfrique">
+<meta property="og:title" content="ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde">
+<meta property="og:description" content="Prototype/démonstration locale d’une marketplace mobile — aucune vente, commande ou commission réelle.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="ÉtalAfrique">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ÉtalAfrique — Le marché de tout le monde">
+<meta name="twitter:description" content="Prototype/démonstration ÉtalAfrique — fonctionnalités simulées, sans transaction réelle.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8A83C'/%3E%3Cpath d='M14 38c4-6 8-6 12 0s8 6 12 0 8-6 12 0' fill='none' stroke='%231B1B2F' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='32' cy='18' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='42' cy='22' r='4' fill='%231B1B2F'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8A83C'/%3E%3Cpath d='M14 38c4-6 8-6 12 0s8 6 12 0 8-6 12 0' fill='none' stroke='%231B1B2F' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='32' cy='18' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='42' cy='22' r='4' fill='%231B1B2F'/%3E%3C/svg%3E">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"ÉtalAfrique","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","description":"Prototype local de marketplace : démonstration sans compte, sans paiement réel et sans données envoyées à un serveur.","isAccessibleForFree":true}
+</script>
+<style>
+/* =========================================================
+   ÉTALAFRIQUE — landing page, self-contained (no external assets)
+   Palette: ink #1B1B2F · gold #E8A83C · cream #F5F0E8 · terra #D4754E
+   ========================================================= */
+:root{
+  --ink:#1B1B2F;
+  --ink-soft:#3D3A56;
+  --ink-mute:#6B677A;
+  --gold:#E8A83C;
+  --gold-deep:#C48A24;
+  --gold-soft:#F2C57A;
+  --cream:#F5F0E8;
+  --paper:#FBF7EE;
+  --paper-2:#EFE6CE;
+  --terra:#D4754E;
+  --terra-deep:#B8552E;
+  --terra-soft:#E8A892;
+  --leaf:#1F8A5F;
+  --line:rgba(27,27,47,0.14);
+  --line-soft:rgba(27,27,47,0.08);
+  --line-on-ink:rgba(245,240,232,0.18);
+  --shadow-sm:0 2px 6px rgba(27,27,47,0.06);
+  --shadow-md:0 10px 30px rgba(27,27,47,0.10);
+  --shadow-lg:0 24px 50px rgba(27,27,47,0.18);
+  --radius:14px;
+  --radius-lg:22px;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"URW Palladio L",Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono","JetBrains Mono","Cascadia Mono",Menlo,Consolas,monospace;
+  --max:1240px;
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(1100px 600px at 90% -10%, rgba(232,168,60,0.18), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(212,117,78,0.10), transparent 60%);
+  background-attachment:fixed;
+}
+img,svg{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;}
+a{color:inherit;}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;letter-spacing:-0.01em;line-height:1.08;margin:0;color:var(--ink);}
+p{margin:0;}
+
+/* ---------- selection ---------- */
+::selection{background:var(--gold);color:var(--ink);}
+
+/* ---------- focus ring ---------- */
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px;}
+
+/* ---------- scroll progress ---------- */
+.scroll-progress{
+  position:fixed;top:0;left:0;height:3px;width:0;
+  background:linear-gradient(90deg,var(--gold),var(--terra));
+  z-index:120;transition:width 0.08s linear;
+}
+
+/* ---------- skip link ---------- */
+.skip{
+  position:absolute;left:-9999px;top:0;
+  background:var(--ink);color:var(--cream);
+  padding:10px 16px;border-radius:8px;z-index:200;font-weight:700;
+}
+.skip:focus{left:12px;top:12px;}
+
+/* ---------- topbar ---------- */
+.topbar{
+  background:var(--ink);color:var(--cream);
+  font-size:12.5px;letter-spacing:0.04em;
+  text-align:center;padding:9px 16px;
+  border-bottom:1px solid var(--line-on-ink);
+}
+.topbar strong{color:var(--gold);}
+.topbar-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--leaf);margin-right:8px;vertical-align:middle;box-shadow:0 0 0 3px rgba(31,138,95,0.25);animation:pulse 1.6s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.4);opacity:0.7;}}
+
+/* ---------- header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(245,240,232,0.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav{
+  max-width:var(--max);margin:0 auto;
+  padding:14px 24px;
+  display:flex;align-items:center;gap:28px;
+}
+.brand{
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--serif);font-weight:700;font-size:22px;
+  color:var(--ink);text-decoration:none;letter-spacing:-0.01em;
+}
+.brand-mark{
+  width:38px;height:38px;border-radius:11px;
+  background:var(--gold);
+  display:grid;place-items:center;color:var(--ink);
+  box-shadow:inset 0 -3px 0 rgba(27,27,47,0.18);
+  position:relative;overflow:hidden;
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M4 22c3-4 5-4 8 0s5 4 8 0 5-4 8 0 5 4 8 0' fill='none' stroke='%231B1B2F' stroke-width='2' stroke-linecap='round'/><circle cx='14' cy='12' r='2' fill='%231B1B2F'/><circle cx='20' cy='9' r='2' fill='%231B1B2F'/><circle cx='26' cy='12' r='2' fill='%231B1B2F'/></svg>");
+  background-repeat:no-repeat;background-position:center;background-size:28px;
+  opacity:0.9;
+}
+.brand-text small{
+  display:block;font-family:var(--sans);
+  font-size:10px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--terra);font-weight:800;margin-top:2px;
+}
+
+.nav-links{
+  display:flex;align-items:center;gap:6px;
+  margin-left:8px;
+}
+.nav-link{
+  position:relative;
+  padding:9px 14px;border-radius:999px;
+  font-size:14.5px;font-weight:600;color:var(--ink-soft);
+  text-decoration:none;transition:color 0.2s, background 0.2s;
+}
+.nav-link:hover{color:var(--ink);background:var(--paper-2);}
+.nav-link.is-active{color:var(--ink);}
+.nav-link.is-active::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:4px;
+  height:2px;background:var(--gold);border-radius:2px;
+}
+.nav-actions{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-weight:700;font-size:14.5px;
+  padding:11px 18px;border-radius:999px;
+  border:1px solid transparent;text-decoration:none;
+  transition:transform 0.15s, background 0.2s, color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  white-space:nowrap;
+}
+.btn:hover{transform:translateY(-1px);}
+.btn:active{transform:translateY(0);}
+.btn-primary{background:var(--ink);color:var(--cream);}
+.btn-primary:hover{background:#252544;}
+.btn-gold{background:var(--gold);color:var(--ink);box-shadow:0 6px 16px rgba(232,168,60,0.35);}
+.btn-gold:hover{background:var(--gold-deep);color:var(--cream);}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+.btn-ghost:hover{border-color:var(--ink);background:var(--paper);}
+.btn-outline-light{background:transparent;color:var(--cream);border-color:rgba(245,240,232,0.4);}
+.btn-outline-light:hover{background:rgba(245,240,232,0.1);}
+
+.menu-toggle{
+  display:none;
+  width:42px;height:42px;border-radius:10px;
+  background:var(--paper-2);border:1px solid var(--line);
+  place-items:center;color:var(--ink);
+}
+.menu-toggle svg{width:22px;height:22px;}
+.menu-toggle .x{display:none;}
+.menu-toggle[aria-expanded="true"] .open{display:none;}
+.menu-toggle[aria-expanded="true"] .x{display:block;}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+main{padding-bottom:80px;}
+section{padding:96px 0;position:relative;}
+@media (max-width:720px){section{padding:64px 0;}}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11.5px;
+  text-transform:uppercase;letter-spacing:0.18em;
+  color:var(--terra);font-weight:700;
+}
+.eyebrow::before{content:"";width:24px;height:1.5px;background:var(--terra);}
+.eyebrow.on-dark{color:var(--gold-soft);}
+.eyebrow.on-dark::before{background:var(--gold-soft);}
+
+.section-title{
+  font-size:clamp(28px,3.4vw,46px);
+  margin-top:14px;max-width:780px;
+}
+.section-title em{font-style:italic;color:var(--terra);}
+.section-lede{
+  margin-top:14px;max-width:640px;
+  font-size:17px;color:var(--ink-soft);line-height:1.65;
+}
+.section-head{display:flex;flex-direction:column;align-items:flex-start;margin-bottom:48px;gap:0;}
+@media (min-width:900px){
+  .section-head.split{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:48px;}
+  .section-head.split .section-title,.section-head.split .section-lede{max-width:560px;}
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{padding:72px 0 96px;position:relative;}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:64px;align-items:center;
+}
+@media (max-width:980px){.hero-grid{grid-template-columns:1fr;gap:48px;}}
+.hero h1{
+  font-size:clamp(40px,6vw,84px);
+  line-height:0.98;letter-spacing:-0.025em;
+  margin-top:20px;
+}
+.hero h1 em{
+  font-style:italic;color:var(--terra);
+  position:relative;display:inline-block;
+}
+.hero h1 em::after{
+  content:"";position:absolute;left:0;right:0;bottom:0.06em;
+  height:0.12em;background:var(--gold);opacity:0.5;z-index:-1;
+  border-radius:0.1em;
+}
+.hero p.lede{
+  margin-top:24px;font-size:18.5px;line-height:1.6;
+  color:var(--ink-soft);max-width:560px;
+}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px;}
+.hero-trust{
+  margin-top:36px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  font-size:13.5px;color:var(--ink-mute);
+}
+.hero-trust .avatars{display:flex;}
+.hero-trust .avatars span{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--cream);
+  display:grid;place-items:center;font-weight:700;color:var(--ink);
+  font-size:12px;font-family:var(--serif);
+  margin-left:-8px;
+}
+.hero-trust .avatars span:nth-child(2){background:var(--terra);color:var(--cream);}
+.hero-trust .avatars span:nth-child(3){background:var(--leaf);color:var(--cream);}
+.hero-trust .avatars span:nth-child(4){background:var(--ink);color:var(--gold);}
+.hero-trust strong{color:var(--ink);}
+
+/* hero phone mockup */
+.hero-visual{position:relative;}
+.phone{
+  width:min(380px,100%);margin-left:auto;
+  aspect-ratio:9/18.5;
+  background:var(--ink);border-radius:42px;
+  padding:14px;
+  box-shadow:var(--shadow-lg), 0 0 0 8px rgba(27,27,47,0.06);
+  position:relative;
+  transform:rotate(-3deg);
+  transition:transform 0.5s cubic-bezier(.2,.7,.2,1);
+}
+.phone:hover{transform:rotate(0deg) translateY(-6px);}
+.phone::before{
+  content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);
+  width:88px;height:22px;background:var(--ink);border-radius:0 0 12px 12px;
+  z-index:2;
+}
+.phone-screen{
+  width:100%;height:100%;border-radius:30px;overflow:hidden;
+  background:var(--paper);
+  display:flex;flex-direction:column;
+  font-size:13px;
+}
+.phone-bar{
+  padding:42px 18px 14px;display:flex;justify-content:space-between;
+  font-size:11px;font-weight:700;color:var(--ink);
+}
+.phone-bar .time{font-family:var(--mono);}
+.phone-hero{
+  padding:8px 18px 16px;
+  background:linear-gradient(160deg,var(--ink) 0%,#2A2A48 100%);
+  color:var(--cream);position:relative;overflow:hidden;
+}
+.phone-hero::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'><path d='M0 20l10-10 10 10 10-10 10 10' fill='none' stroke='%23E8A83C' stroke-opacity='.15' stroke-width='2'/></svg>");
+  opacity:0.8;
+}
+.phone-hero h3{
+  color:var(--cream);font-size:18px;margin:6px 0 4px;font-family:var(--serif);
+}
+.phone-hero .sub{font-size:11px;color:var(--gold-soft);}
+.phone-hero .stat{
+  margin-top:10px;background:rgba(245,240,232,0.1);
+  border:1px solid var(--line-on-ink);
+  padding:8px 10px;border-radius:10px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:11.5px;
+}
+.phone-hero .stat b{color:var(--gold);}
+.phone-list{flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:8px;overflow:hidden;}
+.phone-card{
+  background:var(--paper-2);border-radius:10px;padding:8px;
+  display:flex;gap:10px;align-items:center;
+}
+.phone-card .thumb{
+  width:42px;height:42px;border-radius:8px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--terra));
+}
+.phone-card .thumb.b{background:linear-gradient(135deg,var(--terra),var(--leaf));}
+.phone-card .thumb.c{background:linear-gradient(135deg,var(--ink),var(--gold));}
+.phone-card .meta{flex:1;min-width:0;}
+.phone-card .meta .name{font-weight:700;color:var(--ink);font-size:12.5px;}
+.phone-card .meta .price{color:var(--terra);font-weight:700;font-size:12px;}
+.phone-card .meta .city{font-size:10px;color:var(--ink-mute);}
+.phone-card .badge{
+  background:var(--leaf);color:var(--cream);font-size:9px;font-weight:700;
+  padding:3px 6px;border-radius:99px;letter-spacing:0.04em;
+}
+.phone-cta{
+  margin:8px 14px 14px;background:var(--gold);color:var(--ink);
+  text-align:center;padding:11px;border-radius:12px;
+  font-weight:800;font-size:12.5px;letter-spacing:0.04em;
+}
+
+.hero-decor{
+  position:absolute;pointer-events:none;
+}
+.hero-decor.d1{top:-30px;left:-30px;width:120px;height:120px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><g fill='none' stroke='%23E8A83C' stroke-width='2'><circle cx='60' cy='60' r='40'/><circle cx='60' cy='60' r='28'/><circle cx='60' cy='60' r='16'/></g></svg>");
+  opacity:0.55;
+}
+.hero-decor.d2{bottom:-30px;right:30%;width:90px;height:90px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 90'><g fill='%23D4754E'><rect x='10' y='10' width='12' height='12'/><rect x='30' y='10' width='12' height='12' transform='rotate(15 36 16)'/><rect x='50' y='10' width='12' height='12' transform='rotate(30 56 16)'/><rect x='70' y='10' width='12' height='12' transform='rotate(45 76 16)'/></g></svg>");
+  opacity:0.4;
+}
+
+/* =========================================================
+   KPIs row (under hero)
+   ========================================================= */
+.kpis{
+  margin-top:64px;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius-lg);
+  overflow:hidden;
+}
+@media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--paper);padding:24px 22px;}
+.kpi strong{
+  font-family:var(--serif);font-size:clamp(28px,3vw,40px);
+  color:var(--ink);display:block;line-height:1;font-weight:600;
+}
+.kpi span{font-size:13px;color:var(--ink-mute);display:block;margin-top:6px;letter-spacing:0.02em;}
+.kpi .accent{color:var(--terra);}
+
+/* =========================================================
+   ADVANTAGES — 4 columns
+   ========================================================= */
+.advantages{
+  background:var(--ink);color:var(--cream);
+  border-radius:var(--radius-lg);
+  padding:80px 56px;position:relative;overflow:hidden;
+}
+@media (max-width:720px){.advantages{padding:56px 24px;}}
+.advantages::before{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><g fill='none' stroke='%23E8A83C' stroke-opacity='.07' stroke-width='2'><path d='M0 60 L60 0 L120 60 L60 120 Z'/><path d='M30 60 L60 30 L90 60 L60 90 Z'/><path d='M45 60 L60 45 L75 60 L60 75 Z'/></g></svg>");
+  opacity:0.9;pointer-events:none;
+}
+.advantages .wrap{position:relative;}
+.advantages .grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+  margin-top:48px;
+}
+@media (max-width:900px){.advantages .grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:520px){.advantages .grid{grid-template-columns:1fr;}}
+.adv{
+  border-top:1px solid var(--line-on-ink);
+  padding:24px 0 8px;
+}
+.adv .num{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.18em;
+  color:var(--gold-soft);font-weight:700;
+}
+.adv h3{
+  color:var(--cream);font-size:22px;margin:12px 0 10px;
+  font-family:var(--serif);font-weight:600;line-height:1.15;
+}
+.adv p{color:rgba(245,240,232,0.7);font-size:14.5px;line-height:1.55;}
+.adv .ic{
+  width:44px;height:44px;border-radius:11px;
+  background:rgba(232,168,60,0.14);border:1px solid rgba(232,168,60,0.3);
+  display:grid;place-items:center;color:var(--gold);
+  margin-bottom:18px;
+}
+.adv .ic svg{width:22px;height:22px;}
+
+/* =========================================================
+   FEATURES grid
+   ========================================================= */
+.features-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+  margin-top:16px;
+}
+@media (max-width:980px){.features-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.features-grid{grid-template-columns:1fr;}}
+.feature{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:28px;
+  transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position:relative;overflow:hidden;
+}
+.feature::before{
+  content:"";position:absolute;top:0;right:0;width:80px;height:80px;
+  background:radial-gradient(circle at top right, rgba(232,168,60,0.18), transparent 70%);
+  opacity:0;transition:opacity 0.3s;
+}
+.feature:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:rgba(27,27,47,0.18);}
+.feature:hover::before{opacity:1;}
+.feature .ic{
+  width:52px;height:52px;border-radius:14px;
+  display:grid;place-items:center;
+  background:var(--cream);color:var(--ink);margin-bottom:18px;
+  border:1px solid var(--line);
+}
+.feature .ic svg{width:26px;height:26px;}
+.feature h3{font-size:20px;margin-bottom:10px;font-family:var(--serif);}
+.feature p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
+.feature .tag{
+  display:inline-block;margin-top:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.14em;
+  text-transform:uppercase;color:var(--terra);font-weight:700;
+}
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+.steps{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+  margin-top:48px;position:relative;
+}
+@media (max-width:900px){.steps{grid-template-columns:1fr;}}
+.step{
+  background:var(--paper);border-radius:var(--radius-lg);
+  padding:32px;border:1px solid var(--line);
+  position:relative;
+}
+.step .num{
+  font-family:var(--serif);font-size:80px;font-weight:600;
+  line-height:1;color:var(--gold);letter-spacing:-0.04em;
+  display:block;
+}
+.step .label{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--ink-mute);font-weight:700;
+  margin-top:14px;display:block;
+}
+.step h3{font-size:24px;margin:8px 0 12px;font-family:var(--serif);}
+.step p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
+.step .visual{
+  margin-top:20px;border-radius:12px;overflow:hidden;
+  aspect-ratio:16/9;
+  background:var(--cream);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--ink);
+  position:relative;
+}
+.step .visual svg{width:80%;height:80%;}
+.step-connector{
+  display:none;
+}
+@media (min-width:900px){
+  .step-connector{
+    display:block;position:absolute;top:60px;
+    left:0;right:0;height:2px;
+    background:repeating-linear-gradient(90deg, var(--line) 0 8px, transparent 8px 16px);
+    z-index:-1;
+  }
+}
+
+/* =========================================================
+   TESTIMONIALS slider
+   ========================================================= */
+.testimonial-stage{
+  position:relative;margin-top:48px;
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:48px 64px;
+}
+@media (max-width:720px){.testimonial-stage{padding:36px 24px;}}
+.testimonial-track{
+  position:relative;overflow:hidden;
+}
+.testimonial-slide{
+  display:grid;grid-template-columns:1fr 1.6fr;gap:40px;align-items:center;
+  animation:fadeIn 0.5s ease;
+}
+.testimonial-slide:not(.is-active){display:none;}
+@media (max-width:760px){.testimonial-slide.is-active{grid-template-columns:1fr;gap:24px;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.testimonial-portrait{
+  width:140px;height:140px;border-radius:50%;
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:48px;font-weight:600;color:var(--cream);
+  box-shadow:var(--shadow-md);
+}
+@media (max-width:760px){.testimonial-portrait{width:96px;height:96px;font-size:32px;}}
+.tone-a{background:linear-gradient(135deg,var(--gold),var(--terra));}
+.tone-b{background:linear-gradient(135deg,var(--terra),var(--ink));}
+.tone-c{background:linear-gradient(135deg,var(--leaf),var(--gold-deep));}
+.tone-d{background:linear-gradient(135deg,var(--ink),var(--terra));}
+.testimonial-body blockquote{
+  margin:0;font-family:var(--serif);font-style:italic;
+  font-size:clamp(20px,2vw,26px);line-height:1.45;color:var(--ink);
+}
+.testimonial-body blockquote::before{
+  content:"\201C";font-size:60px;color:var(--gold);
+  line-height:0;display:block;margin-bottom:14px;
+  font-family:var(--serif);
+}
+.testimonial-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;}
+.testimonial-meta .who{font-weight:700;color:var(--ink);font-size:16px;}
+.testimonial-meta .role{color:var(--ink-mute);font-size:14px;}
+.testimonial-meta .stars{color:var(--gold);font-size:16px;letter-spacing:2px;}
+
+.slider-controls{
+  display:flex;align-items:center;gap:14px;
+  margin-top:32px;justify-content:space-between;flex-wrap:wrap;
+}
+.slider-dots{display:flex;gap:8px;}
+.slider-dots button{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--line);border:0;padding:0;
+  transition:background 0.2s, transform 0.2s;
+}
+.slider-dots button.is-active{background:var(--gold);transform:scale(1.25);}
+.slider-buttons{display:flex;gap:8px;}
+.slider-buttons button{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--cream);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--ink);
+  transition:background 0.2s, border-color 0.2s;
+}
+.slider-buttons button:hover{background:var(--gold);border-color:var(--gold);}
+.slider-buttons button svg{width:18px;height:18px;}
+
+/* =========================================================
+   PRICING
+   ========================================================= */
+.pricing-card{
+  margin-top:48px;
+  background:var(--ink);color:var(--cream);
+  border-radius:var(--radius-lg);
+  padding:56px;
+  display:grid;grid-template-columns:1.1fr 1fr;gap:48px;
+  align-items:center;position:relative;overflow:hidden;
+}
+@media (max-width:880px){.pricing-card{grid-template-columns:1fr;padding:36px 28px;}}
+.pricing-card::before{
+  content:"";position:absolute;inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><g fill='none' stroke='%23E8A83C' stroke-opacity='.1' stroke-width='2'><circle cx='40' cy='40' r='38'/><circle cx='40' cy='40' r='26'/><circle cx='40' cy='40' r='14'/></g></svg>");
+  opacity:0.7;pointer-events:none;
+}
+.pricing-card > *{position:relative;}
+.pricing-eyebrow{
+  display:inline-block;background:var(--gold);color:var(--ink);
+  padding:6px 14px;border-radius:99px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:0.16em;
+  font-weight:800;text-transform:uppercase;
+}
+.pricing-card h2{color:var(--cream);font-size:clamp(32px,3.5vw,46px);margin:18px 0 14px;letter-spacing:-0.02em;}
+.pricing-card .price{
+  display:flex;align-items:baseline;gap:8px;margin:8px 0 18px;
+}
+.pricing-card .price .big{
+  font-family:var(--serif);font-size:clamp(80px,10vw,140px);font-weight:600;
+  color:var(--gold);line-height:0.9;letter-spacing:-0.04em;
+}
+.pricing-card .price .small{font-size:20px;color:rgba(245,240,232,0.7);}
+.pricing-card p{color:rgba(245,240,232,0.8);font-size:16px;line-height:1.6;max-width:480px;}
+.pricing-card .cta-row{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+
+.compare{
+  background:rgba(245,240,232,0.05);
+  border:1px solid var(--line-on-ink);
+  border-radius:14px;padding:24px;
+}
+.compare h3{color:var(--cream);font-size:18px;margin-bottom:16px;font-family:var(--serif);}
+.compare-row{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px;
+  padding:12px 0;border-top:1px solid var(--line-on-ink);
+  font-size:14.5px;
+}
+.compare-row:first-of-type{border-top:0;}
+.compare-row .label{color:rgba(245,240,232,0.7);}
+.compare-row .ours{color:var(--gold);font-weight:700;}
+.compare-row .theirs{color:rgba(245,240,232,0.6);text-decoration:line-through;}
+
+/* =========================================================
+   TRUST
+   ========================================================= */
+.trust-row{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:20px;
+  margin-top:40px;
+}
+@media (max-width:900px){.trust-row{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:520px){.trust-row{grid-template-columns:repeat(2,1fr);}}
+.trust-badge{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius);padding:18px;text-align:center;
+  transition:transform 0.2s, border-color 0.2s;
+}
+.trust-badge:hover{transform:translateY(-3px);border-color:var(--terra);}
+.trust-badge .ic{
+  width:44px;height:44px;margin:0 auto 10px;
+  display:grid;place-items:center;color:var(--terra);
+  background:var(--cream);border-radius:50%;
+  border:1px solid var(--line);
+}
+.trust-badge .ic svg{width:22px;height:22px;}
+.trust-badge .name{font-weight:700;font-size:14.5px;color:var(--ink);}
+.trust-badge .meta{font-size:12px;color:var(--ink-mute);margin-top:2px;}
+
+.creds{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px;
+}
+@media (max-width:720px){.creds{grid-template-columns:repeat(2,1fr);}}
+.cred{
+  padding:18px;border-radius:12px;
+  background:linear-gradient(135deg, var(--paper), var(--cream));
+  border:1px solid var(--line);
+  display:flex;align-items:center;gap:14px;
+}
+.cred .check{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--leaf);color:var(--cream);
+  display:grid;place-items:center;flex-shrink:0;
+}
+.cred .check svg{width:18px;height:18px;}
+.cred .t{font-size:14px;color:var(--ink);line-height:1.4;}
+.cred .t strong{display:block;font-size:14.5px;margin-bottom:2px;}
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq-list{margin-top:36px;border-top:1px solid var(--line);}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{
+  width:100%;background:transparent;border:0;text-align:left;
+  padding:22px 0;font-family:var(--serif);font-size:19px;
+  font-weight:600;color:var(--ink);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  cursor:pointer;
+}
+.faq-q .chev{transition:transform 0.3s ease;color:var(--terra);flex-shrink:0;}
+.faq-q[aria-expanded="true"] .chev{transform:rotate(180deg);}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease;
+}
+.faq-a-inner{
+  padding:0 0 24px;font-size:15.5px;line-height:1.65;
+  color:var(--ink-soft);max-width:760px;
+}
+
+/* =========================================================
+   CONTACT
+   ========================================================= */
+.contact-grid{
+  display:grid;grid-template-columns:1.1fr 1fr;gap:48px;
+  margin-top:36px;
+}
+@media (max-width:880px){.contact-grid{grid-template-columns:1fr;gap:32px;}}
+.contact-info{
+  background:var(--ink);color:var(--cream);
+  border-radius:var(--radius-lg);padding:40px;
+  position:relative;overflow:hidden;
+}
+.contact-info::before{
+  content:"";position:absolute;top:-50%;right:-20%;width:80%;height:200%;
+  background:radial-gradient(ellipse, rgba(232,168,60,0.25), transparent 60%);
+  pointer-events:none;
+}
+.contact-info > *{position:relative;}
+.contact-info h3{color:var(--cream);font-size:28px;font-family:var(--serif);}
+.contact-info p{color:rgba(245,240,232,0.7);margin-top:8px;font-size:15.5px;line-height:1.6;}
+.contact-list{margin-top:28px;display:flex;flex-direction:column;gap:18px;}
+.contact-list li{
+  list-style:none;display:flex;align-items:flex-start;gap:14px;
+  font-size:14.5px;
+}
+.contact-list li .ic{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(232,168,60,0.16);border:1px solid rgba(232,168,60,0.3);
+  display:grid;place-items:center;color:var(--gold);flex-shrink:0;
+}
+.contact-list li .ic svg{width:18px;height:18px;}
+.contact-list li .label{color:rgba(245,240,232,0.5);font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;font-family:var(--mono);font-weight:700;}
+.contact-list li .v{color:var(--cream);font-weight:600;font-size:15.5px;}
+
+.contact-form{
+  background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:40px;
+}
+.field{margin-bottom:18px;}
+.field label{
+  display:block;font-size:13px;font-weight:700;color:var(--ink);
+  margin-bottom:6px;letter-spacing:0.02em;
+}
+.field label .req{color:var(--terra);margin-left:3px;}
+.field input,.field select,.field textarea{
+  width:100%;font-family:inherit;font-size:15px;
+  padding:12px 14px;border-radius:10px;
+  background:var(--cream);border:1.5px solid var(--line);
+  color:var(--ink);transition:border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;border-color:var(--gold);background:var(--paper);
+  box-shadow:0 0 0 4px rgba(232,168,60,0.18);
+}
+.field textarea{min-height:120px;resize:vertical;}
+.field .err{
+  display:none;margin-top:6px;
+  font-size:13px;color:var(--terra-deep);font-weight:600;
+}
+.field.is-invalid input,.field.is-invalid select,.field.is-invalid textarea{
+  border-color:var(--terra);background:#FCEAE3;
+}
+.field.is-invalid .err{display:block;}
+.contact-form button[type="submit"]{width:100%;margin-top:6px;}
+
+.form-success{
+  display:none;padding:18px;border-radius:12px;
+  background:var(--leaf);color:var(--cream);
+  font-weight:600;font-size:15px;
+  align-items:center;gap:12px;
+}
+.form-success.is-shown{display:flex;}
+.form-success svg{width:22px;height:22px;flex-shrink:0;}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer{
+  background:var(--ink);color:var(--cream);
+  padding:72px 0 32px;margin-top:96px;
+  position:relative;overflow:hidden;
+}
+.site-footer::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.footer-grid{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px;
+}
+@media (max-width:880px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px;}}
+@media (max-width:560px){.footer-grid{grid-template-columns:1fr;}}
+.footer-col h4{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.18em;
+  text-transform:uppercase;color:var(--gold-soft);
+  margin-bottom:18px;font-weight:700;
+}
+.footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.footer-col a{color:rgba(245,240,232,0.75);text-decoration:none;font-size:14.5px;transition:color 0.2s;}
+.footer-col a:hover{color:var(--gold);}
+.footer-brand p{color:rgba(245,240,232,0.7);font-size:14.5px;line-height:1.65;margin-top:14px;max-width:300px;}
+.footer-brand .brand-mark{background:var(--gold);}
+.footer-newsletter{margin-top:18px;display:flex;gap:8px;}
+.footer-newsletter input{
+  flex:1;min-width:0;padding:11px 14px;border-radius:10px;
+  background:rgba(245,240,232,0.06);border:1px solid var(--line-on-ink);
+  color:var(--cream);font-family:inherit;font-size:14px;
+}
+.footer-newsletter input::placeholder{color:rgba(245,240,232,0.5);}
+.footer-newsletter button{
+  background:var(--gold);color:var(--ink);border:0;
+  padding:11px 16px;border-radius:10px;font-weight:700;font-size:14px;
+  transition:background 0.2s;
+}
+.footer-newsletter button:hover{background:var(--gold-deep);color:var(--cream);}
+.footer-bottom{
+  margin-top:48px;padding-top:24px;
+  border-top:1px solid var(--line-on-ink);
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;
+  font-size:13px;color:rgba(245,240,232,0.6);
+}
+.footer-social{display:flex;gap:10px;}
+.footer-social a{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(245,240,232,0.06);border:1px solid var(--line-on-ink);
+  display:grid;place-items:center;color:var(--cream);
+  transition:background 0.2s, color 0.2s, transform 0.2s;
+}
+.footer-social a:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px);}
+.footer-social svg{width:16px;height:16px;}
+
+/* =========================================================
+   AOS-style reveal (CSS-only via .reveal + .is-visible)
+   ========================================================= */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.8s cubic-bezier(.2,.7,.2,1);}
+.js .reveal.is-visible{opacity:1;transform:none;}
+.js .reveal[data-delay="1"]{transition-delay:0.06s;}
+.js .reveal[data-delay="2"]{transition-delay:0.12s;}
+.js .reveal[data-delay="3"]{transition-delay:0.18s;}
+.js .reveal[data-delay="4"]{transition-delay:0.24s;}
+.js .reveal[data-delay="5"]{transition-delay:0.30s;}
+.js .reveal[data-delay="6"]{transition-delay:0.36s;}
+.js .reveal[data-delay="7"]{transition-delay:0.42s;}
+.js .reveal[data-delay="8"]{transition-delay:0.48s;}
+
+/* ---------- off-canvas navigation ---------- */
+.menu-scrim{position:fixed;inset:0;background:rgba(27,27,47,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .28s ease,visibility .28s ease;z-index:108;}
+.menu-scrim.is-open{opacity:1;visibility:visible;}
+.mobile-menu{display:flex;flex-direction:column;position:fixed;z-index:109;inset:0 auto 0 0;width:280px;max-width:calc(100vw - 42px);height:100dvh;padding:26px 20px;background:var(--cream);border:0;border-right:1px solid var(--line);box-shadow:var(--shadow-lg);overflow-y:auto;overscroll-behavior:contain;transform:translateX(-105%);visibility:hidden;transition:transform .32s cubic-bezier(.2,.75,.2,1),visibility .32s ease;}
+.mobile-menu.is-open{display:flex;transform:translateX(0);visibility:visible;animation:none;}
+.mobile-menu-head{display:flex;align-items:center;justify-content:space-between;padding:0 4px 22px;border-bottom:1px solid var(--line-soft);}
+.menu-kicker,.language-label{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--terra);font-weight:800;}
+.menu-close{width:36px;height:36px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--ink);font-size:27px;line-height:1;display:grid;place-items:center;transition:background .2s,color .2s;}
+.menu-close:hover{background:var(--ink);color:var(--cream);}
+.mobile-menu-links{display:flex;flex-direction:column;gap:4px;padding-top:22px;}
+.mobile-menu-links .nav-link{padding:13px 12px;border-radius:10px;font-size:16px;font-weight:700;text-decoration:none;}
+.mobile-menu-links .nav-link:hover,.mobile-menu-links .nav-link:focus-visible{background:var(--paper-2);color:var(--terra-deep);}
+.language-switcher{display:flex;align-items:center;gap:7px;margin-top:auto;padding:18px 4px 4px;border-top:1px solid var(--line-soft);}
+.language-label{margin-right:auto;color:var(--ink-mute);}
+.lang-btn{border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink-soft);padding:7px 11px;font:700 11px var(--mono);cursor:pointer;}
+.lang-btn.is-active{background:var(--ink);border-color:var(--ink);color:var(--gold);}
+.btn-catalog-outline{border-color:var(--gold);background:transparent;color:var(--ink);}
+.btn-catalog-outline:hover{background:var(--gold);color:var(--ink);}
+/* ---------- independent tabs (each major part of the site is its own view) ----------
+   Without JS, every section stays visible (single continuous page, graceful fallback). */
+.js main>[data-tab]{display:none;}
+.js main>[data-tab].is-active-tab{display:block;animation:tabIn .4s cubic-bezier(.2,.7,.2,1) both;}
+@keyframes tabIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.mobile-menu-links .nav-link.is-active{background:var(--paper-2);color:var(--terra-deep);}
+@media (min-width:881px){.nav-actions .btn-ghost{display:inline-flex;}}
+@media (prefers-reduced-motion: reduce){.mobile-menu,.menu-scrim{transition:none}.js main>[data-tab].is-active-tab{animation:none;}}
+
+/* ---------- responsive nav ---------- */
+@media (max-width:880px){
+  .nav-links{display:none;}
+  .nav-actions .btn-ghost{display:none;}
+  .menu-toggle{display:grid;}
+  .nav{padding:12px 18px;gap:14px;}
+  .hero-trust{font-size:12.5px;}
+}
+@media (max-width:480px){
+  .hero h1{font-size:42px;}
+  .testimonial-stage{padding:28px 18px;}
+  .advantages{padding:48px 22px;}
+  .pricing-card{padding:28px 22px;}
+  .contact-form,.contact-info{padding:28px 22px;}
+  .footer-newsletter{flex-direction:column;}
+  .footer-newsletter button{width:100%;}
+  .nav-actions .btn{padding:10px 14px;font-size:13.5px;}
+}
+
+/* Accessibility and motion safeguards */
+.btn-ghost.on-dark{color:var(--cream);border-color:rgba(245,240,232,.62);}
+.btn-ghost.on-dark:hover{color:var(--ink);background:var(--gold);border-color:var(--gold);}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  .btn:hover,.phone:hover,.footer-social a:hover{transform:none;}
+}
+
+/* ---------- print ---------- */
+@media print{
+  .topbar,.site-header,.scroll-progress,.menu-toggle,.mobile-menu,.footer-newsletter,.slider-controls{display:none !important;}
+  body{background:white;color:black;}
+  section{padding:20px 0;}
+}
+
+/* ---------- creator prototype ---------- */
+.creator-modal{position:fixed;inset:0;z-index:180;display:none;align-items:flex-start;justify-content:center;padding:clamp(18px,4vw,54px) 16px;overflow:auto;background:rgba(27,27,47,.68);backdrop-filter:blur(8px);}
+.creator-modal.is-open{display:flex;animation:fadeIn .2s ease both;}
+.creator-dialog{width:min(1080px,100%);background:var(--cream);border:1px solid rgba(245,240,232,.5);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;}
+.creator-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:24px 28px;background:var(--ink);color:var(--cream);}
+.creator-head h2{color:var(--cream);font-size:clamp(28px,4vw,42px);}.creator-head p{color:rgba(245,240,232,.72);margin-top:6px;font-size:14px;}
+.creator-close{width:40px;height:40px;border:1px solid rgba(245,240,232,.3);border-radius:50%;display:grid;place-items:center;background:transparent;color:var(--cream);font-size:25px;line-height:1;}
+.creator-close:hover{background:rgba(245,240,232,.12);}
+.creator-body{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(280px,.92fr);gap:0;}
+.creator-form{padding:28px;}.creator-preview{padding:28px;background:var(--paper);border-left:1px solid var(--line-soft);}
+.creator-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--terra);font-weight:800;display:block;margin-bottom:8px;}
+.creator-section-title{font-family:var(--serif);font-size:24px;margin:0 0 16px;}.creator-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px;}.creator-field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}.creator-field.full{grid-column:1/-1;}.creator-field label{font-size:13px;font-weight:800;color:var(--ink-soft);}.creator-field input,.creator-field textarea,.creator-field select{width:100%;border:1px solid var(--line);border-radius:10px;background:var(--paper);padding:11px 12px;color:var(--ink);font:inherit;min-height:44px;}.creator-field textarea{min-height:78px;resize:vertical;}.creator-field input:focus,.creator-field textarea:focus,.creator-field select:focus{border-color:var(--gold-deep);outline:2px solid rgba(232,168,60,.25);}
+.product-builder{border-top:1px solid var(--line);padding-top:20px;margin-top:4px;}.product-row{display:grid;grid-template-columns:minmax(0,1.4fr) 120px 100px 42px;gap:8px;align-items:end;margin-bottom:10px;}.product-row input{min-width:0;border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:10px 9px;font:inherit;color:var(--ink);}.product-row label{display:block;font-size:11px;color:var(--ink-mute);font-weight:700;margin:0 0 4px;}.remove-product{height:42px;border:1px solid rgba(184,85,46,.35);border-radius:9px;background:transparent;color:var(--terra-deep);font-size:22px;}.remove-product:hover{background:rgba(212,117,78,.12);}.creator-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px;}.creator-note{font-size:12px;color:var(--ink-mute);margin-top:10px;}.creator-error{min-height:20px;color:var(--terra-deep);font-size:13px;font-weight:700;margin-top:8px;}.stall-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow-sm);}.stall-card h3{font-size:29px;}.stall-meta{color:var(--ink-mute);font-size:14px;margin:5px 0 16px;}.stall-description{color:var(--ink-soft);margin-bottom:18px;}.stall-products{display:grid;gap:9px;}.stall-product{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 12px;background:var(--paper);border-radius:9px;border:1px solid var(--line-soft);}.stall-product strong{font-size:14px;}.stall-product span{font-weight:800;color:var(--terra-deep);white-space:nowrap;}.created-stall{display:none;margin-top:28px;}.created-stall.is-shown{display:block;animation:fadeIn .35s ease both;}.created-stall-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:12px;}.created-stall-head h3{font-size:clamp(24px,3vw,34px);}.created-stall-head p{color:var(--ink-mute);font-size:13px;}
+@media (max-width:780px){.creator-body{grid-template-columns:1fr}.creator-preview{border-left:0;border-top:1px solid var(--line-soft)}.creator-fields{grid-template-columns:1fr}.creator-field.full{grid-column:auto}.product-row{grid-template-columns:minmax(0,1fr) 100px 78px 40px}.creator-form,.creator-preview{padding:22px 18px}.creator-head{padding:20px 18px}.created-stall-head{display:block}.created-stall-head .btn{margin-top:10px;}}
+@media (max-width:480px){.product-row{grid-template-columns:1fr 1fr 40px}.product-row .product-name{grid-column:1/-1}.product-row .product-price{grid-column:1}.product-row .product-stock{grid-column:2}.creator-actions .btn{width:100%;}.creator-modal{padding:10px;}}
+
+/* ---------- seller space (dashboard) ---------- */
+.seller-space{background:var(--paper);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);}
+.seller-empty{display:grid;place-items:center;padding:18px 0 6px;}
+.seller-empty-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius-lg);padding:34px 30px;max-width:680px;text-align:center;box-shadow:var(--shadow-sm);}
+.seller-empty-card h3{font-size:clamp(24px,3vw,32px);margin:6px 0 10px;}
+.seller-empty-card p{color:var(--ink-soft);margin-bottom:18px;}
+.seller-empty-card .cta-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.seller-dashboard{padding:8px 0 6px;}
+.seller-summary{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);}
+.seller-summary-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;flex-wrap:wrap;border-bottom:1px solid var(--line-soft);padding-bottom:18px;margin-bottom:18px;}
+.seller-summary-head h3{font-size:clamp(26px,3.2vw,38px);margin:4px 0;}
+.seller-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.publish-toggle{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none;background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 8px;}
+.publish-toggle input{position:absolute;opacity:0;pointer-events:none;}
+.publish-track{width:38px;height:22px;background:var(--ink-mute);border-radius:999px;position:relative;transition:background .2s ease;}
+.publish-knob{position:absolute;top:2px;left:2px;width:18px;height:18px;background:var(--cream);border-radius:50%;transition:transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.publish-toggle input:checked + .publish-track{background:var(--leaf);}
+.publish-toggle input:checked + .publish-track .publish-knob{transform:translateX(16px);}
+.publish-label{font-size:13px;font-weight:800;color:var(--ink-soft);letter-spacing:.02em;}
+.btn-ghost.danger{color:var(--terra-deep);border-color:rgba(184,85,46,.35);}
+.btn-ghost.danger:hover{background:rgba(212,117,78,.12);border-color:var(--terra-deep);}
+.seller-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px;}
+.stat-card{background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--radius);padding:16px 18px;}
+.stat-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);font-weight:800;}
+.stat-value{display:block;font-family:var(--serif);font-size:clamp(24px,2.8vw,32px);font-weight:600;margin:4px 0 2px;color:var(--ink);}
+.stat-foot{font-size:12.5px;color:var(--ink-mute);}
+.seller-products-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:6px 0 14px;}
+.seller-products-head h4{font-family:var(--serif);font-size:22px;margin:0;}
+.seller-foot-note{font-size:12.5px;color:var(--ink-mute);margin-top:14px;text-align:center;}
+.seller-foot-note code{background:var(--paper);padding:2px 6px;border-radius:5px;font-size:12px;}
+
+.dash-product{display:flex;align-items:center;gap:14px;padding:12px 14px;background:var(--paper);border-radius:10px;border:1px solid var(--line-soft);}
+.dash-product .grow{flex:1;min-width:0;}
+.dash-product strong{display:block;font-size:14px;color:var(--ink);}
+.dash-product .meta{font-size:12.5px;color:var(--ink-mute);}
+.dash-product .price{font-weight:800;color:var(--terra-deep);white-space:nowrap;}
+.dash-product .icon-btn{height:34px;width:34px;display:grid;place-items:center;background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--ink-soft);cursor:pointer;}
+.dash-product .icon-btn:hover{background:var(--paper-2);color:var(--ink);}
+.dash-product .icon-btn.danger{color:var(--terra-deep);border-color:rgba(184,85,46,.35);}
+.dash-product .icon-btn.danger:hover{background:rgba(212,117,78,.12);}
+.dash-product-empty{padding:18px;text-align:center;color:var(--ink-mute);background:var(--paper);border:1px dashed var(--line);border-radius:10px;}
+
+@media (max-width:780px){
+  .seller-stats{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .seller-summary{padding:20px;}
+  .seller-summary-head{display:block;}
+  .seller-actions{margin-top:14px;}
+  .seller-products-head{display:block;}
+  .seller-products-head .btn{margin-top:10px;}
+}
+@media (max-width:480px){
+  .seller-stats{grid-template-columns:1fr;}
+  .seller-empty-card{padding:24px 18px;}
+}
+
+/* ---------- catalog ---------- */
+.catalog-toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:6px 0 22px;}
+.catalog-tabs{display:inline-flex;gap:4px;background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:5px;}
+.catalog-tab{border:0;background:transparent;font:inherit;color:var(--ink-soft);padding:8px 14px;border-radius:999px;cursor:pointer;font-weight:700;font-size:13px;line-height:1;}
+.catalog-tab:hover{color:var(--ink);}
+.catalog-tab.is-active{background:var(--ink);color:var(--cream);}
+.catalog-search{flex:1;min-width:220px;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:10px 16px;font:inherit;color:var(--ink);}
+.catalog-search:focus{border-color:var(--gold-deep);outline:2px solid rgba(232,168,60,.25);}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.catalog-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:8px;transition:transform .15s ease,box-shadow .15s ease;}
+.catalog-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+.catalog-card h3{font-family:var(--serif);font-size:22px;margin:2px 0 0;line-height:1.15;}
+.catalog-card .city{font-size:12.5px;color:var(--ink-mute);}
+.catalog-card .price{color:var(--terra-deep);font-weight:800;white-space:nowrap;}
+.catalog-card .badge-row{display:flex;gap:6px;align-items:center;}
+.catalog-card .badge-row .demo-badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-deep);background:rgba(232,168,60,.16);border:1px solid rgba(232,168,60,.4);border-radius:999px;padding:3px 8px;font-weight:800;}
+.catalog-empty{padding:24px;text-align:center;color:var(--ink-mute);background:var(--paper);border:1px dashed var(--line);border-radius:var(--radius);font-size:14px;}
+.catalog-empty a{color:var(--terra-deep);font-weight:700;}
+
+/* ---------- seller local identity ---------- */
+.seller-id-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 18px;padding:12px 16px;background:var(--paper);border:1px solid var(--line-soft);border-radius:12px;font-size:13.5px;}
+.seller-id-row .creator-kicker{margin:0;}
+.seller-id-row code{background:var(--cream);padding:2px 6px;border-radius:5px;font-size:12px;}
+.seller-id-row .grow{flex:1;min-width:0;color:var(--ink-soft);}
+
+@media (max-width:780px){
+  .catalog-toolbar{display:block;}
+  .catalog-tabs{flex-wrap:wrap;justify-content:center;}
+  .catalog-search{width:100%;margin-top:10px;}
+}
+
+/* Bandeau permanent de transparence pour la démonstration */
+.demo-banner{position:sticky;top:0;z-index:1000;background:var(--terra-deep);color:var(--cream);padding:10px 18px;text-align:center;font-size:13px;font-weight:700;letter-spacing:.01em;box-shadow:0 3px 12px rgba(27,27,47,.18);}
+.local-warning{margin:0 0 18px;padding:14px 16px;background:rgba(232,168,60,.2);border:2px solid var(--gold-deep);border-radius:12px;color:var(--ink);font-weight:750;}
+.local-only-badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:none;color:var(--leaf);background:rgba(31,138,95,.12);border:1px solid rgba(31,138,95,.4);border-radius:999px;padding:3px 8px;font-weight:800;}
+
+/* ---------- local authentication ---------- */
+.auth-nav{display:flex;align-items:center;gap:10px;position:relative;}
+.auth-btn{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:9px 15px;font-weight:700;font-size:13px;transition:background .2s,color .2s,transform .2s;}
+.auth-btn:hover{background:var(--ink);color:var(--cream);transform:translateY(-1px);}
+.auth-user{display:inline-flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--ink);font-weight:700;padding:4px;cursor:pointer;}
+.auth-avatar{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--ink);font-family:var(--serif);font-size:18px;}
+.auth-caret{font-size:11px;color:var(--ink-mute);}
+.auth-dropdown{position:absolute;right:0;top:calc(100% + 10px);z-index:210;min-width:190px;padding:8px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-lg);}
+.auth-dropdown[hidden]{display:none;}
+.auth-dropdown button{display:block;width:100%;border:0;background:none;text-align:left;padding:10px 12px;border-radius:8px;color:var(--ink);font:inherit;font-size:14px;}
+.auth-dropdown button:hover{background:var(--paper-2);}
+.auth-dropdown .auth-logout{color:var(--terra-deep);}
+.auth-backdrop{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;background:rgba(27,27,47,.66);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;}
+.auth-backdrop.is-open{opacity:1;visibility:visible;}
+.auth-modal{width:min(100%,470px);max-height:min(720px,calc(100vh - 40px));overflow:auto;background:var(--cream);border:1px solid var(--line-on-ink);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:28px;}
+.auth-modal-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;margin-bottom:18px;}
+.auth-kicker{display:block;color:var(--terra-deep);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;margin-bottom:6px;}
+.auth-modal h2{font-size:clamp(28px,5vw,38px);}
+.auth-close{border:0;background:transparent;color:var(--ink-soft);font-size:30px;line-height:1;padding:0 4px;}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--paper-2);padding:4px;border-radius:10px;margin-bottom:22px;}
+.auth-tab{border:0;background:transparent;color:var(--ink-soft);font-weight:800;padding:10px;border-radius:7px;font:inherit;}
+.auth-tab.is-active{background:var(--paper);color:var(--ink);box-shadow:var(--shadow-sm);}
+.auth-pane[hidden]{display:none;}
+.auth-field{margin-bottom:14px;}
+.auth-field label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;}
+.auth-field input{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--paper);padding:11px 12px;color:var(--ink);font:inherit;}
+.auth-field input:focus{border-color:var(--gold-deep);outline:2px solid rgba(232,168,60,.25);}
+.auth-error{min-height:18px;color:var(--terra-deep);font-size:12px;margin-top:4px;}
+.auth-submit{width:100%;margin-top:6px;}
+.auth-forgot{display:block;margin:14px 0 0;text-align:center;color:var(--terra-deep);font-size:13px;font-weight:700;text-decoration:underline;background:none;border:0;width:100%;}
+.auth-profile{padding:18px 0 4px;}
+.auth-profile p{margin:6px 0;color:var(--ink-soft);}
+.auth-toast{position:fixed;right:18px;bottom:18px;z-index:400;max-width:min(360px,calc(100vw - 36px));padding:13px 16px;border-radius:10px;background:var(--ink);color:var(--cream);box-shadow:var(--shadow-lg);font-size:14px;transform:translateY(20px);opacity:0;transition:.25s;}
+.auth-toast.is-visible{transform:translateY(0);opacity:1;}
+.auth-toast.is-error{background:var(--terra-deep);}
+@media(max-width:760px){.nav-actions .auth-nav{order:-1}.auth-user .auth-user-name{display:none}.auth-modal{padding:22px;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<div class="demo-banner" role="status">🌍 Version bêta — rejoignez la liste d’attente et construisons ensemble le marché de demain.</div>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+<a class="skip" href="#main">Aller au contenu principal</a>
+
+
+
+<!-- ====== header ====== -->
+<header class="site-header" role="banner">
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="#home" class="brand" aria-label="ÉtalAfrique — retour à l'accueil">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-text">ÉtalAfrique<small>commerce de confiance</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="#advantages"  class="nav-link" data-nav="advantages">Avantages</a>
+      <a href="#features"    class="nav-link" data-nav="features">Fonctionnalités</a>
+      <a href="#how"         class="nav-link" data-nav="how">Comment ça marche</a>
+      <a href="#pricing"     class="nav-link" data-nav="pricing">Commission</a>
+      <a href="#faq"         class="nav-link" data-nav="faq">FAQ</a>
+      <a href="#catalog"     class="nav-link" data-nav="catalog">Catalogue</a>
+      <a href="#seller-space" class="nav-link" data-nav="seller-space">Espace vendeur</a>
+      <a href="#contact"     class="nav-link" data-nav="contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#contact" class="btn btn-ghost">Parler à l'équipe</a>
+      <a href="#create-stall" data-open-creator class="btn btn-primary">Ouvrir mon étal</a>
+      <div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile">Mon profil</button><button type="button" class="auth-logout" id="authLogout">Déconnexion</button></div></div>
+      <button class="menu-toggle" id="menuToggle"
+              aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
+        <svg class="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div class="menu-scrim" id="menuScrim" aria-hidden="true"></div>
+  <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Menu principal">
+    <div class="mobile-menu-head"><span class="menu-kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" aria-label="Fermer le menu">×</button></div>
+    <nav class="mobile-menu-links" aria-label="Menu principal">
+      <a href="#" class="nav-link" data-section="home" data-nav="home">Accueil</a>
+      <a href="#" class="nav-link" data-section="catalog" data-nav="catalog">Explorer le catalogue</a>
+      <a href="#" class="nav-link" data-section="create-stall" data-open-creator data-nav="create-stall">Vendre sur ÉtalAfrique</a>
+      <a href="#" class="nav-link" data-section="how" data-nav="how">Comment ça marche</a>
+      <a href="#" class="nav-link" data-section="contact" data-nav="contact">Contact</a>
+    </nav>
+    <div class="language-switcher" aria-label="Sélecteur de langue"><span class="language-label">Langue</span><button type="button" class="lang-btn is-active" aria-pressed="true">FR</button><button type="button" class="lang-btn" aria-pressed="false">EN</button></div>
+  </aside>
+</header>
+
+<main id="main">
+
+<!-- ====== HERO ====== -->
+<section id="home" data-tab="home" class="hero" aria-labelledby="hero-h">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="reveal" data-delay="1">
+        <span class="eyebrow">Marché numérique · zéro boutique requise</span>
+        <h1 id="hero-h">Ton étal,<br><em>dans la poche</em> de tout le monde.</h1>
+        <p class="lede">
+          ÉtalAfrique transforme un simple téléphone en boutique en ligne.
+          Publie tes produits en 60 secondes, reçois des commandes, encaisse en
+          <strong>Mobile Money</strong> — sans local, sans stock immobilisé, sans intermédiaire.
+        </p>
+        <div class="hero-ctas">
+          <a href="#create-stall" data-open-creator class="btn btn-gold">Ouvrir mon étal — gratuit</a>
+          <a href="#how" class="btn btn-ghost">Voir comment ça marche →</a>
+          <a href="#" data-section="catalog" class="btn btn-catalog-outline">Explorer le catalogue</a>
+        </div>
+        <div class="hero-trust">
+          <div class="avatars" aria-hidden="true">
+            <span>A</span><span>F</span><span>I</span><span>M</span>
+          </div>
+          <div>
+            <strong>2 840+ vendeurs</strong> actifs dans 10 pays
+            <div style="margin-top:2px;font-size:12.5px;">
+              <span style="color:var(--gold);" aria-label="Note 4,8 sur 5">★★★★★</span>
+              4,8/5 · 1 240 avis vérifiés
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" data-delay="3">
+        <span class="hero-decor d1" aria-hidden="true"></span>
+        <span class="hero-decor d2" aria-hidden="true"></span>
+        <div class="phone" role="img" aria-label="Aperçu de l'application mobile ÉtalAfrique montrant des produits en vente">
+          <div class="phone-screen">
+            <div class="phone-bar">
+              <span>9:41</span><span>●</span><span>5G · 87%</span>
+            </div>
+            <div class="phone-hero">
+              <div class="sub">Bonjour Awa 👋</div>
+              <h3>Ton étal · Dakar</h3>
+              <div class="stat">
+                <span>Ventes du jour</span>
+                <b>+ 18 400 FCFA</b>
+              </div>
+            </div>
+            <div class="phone-list">
+              <div class="phone-card">
+                <div class="thumb" aria-hidden="true"></div>
+                <div class="meta">
+                  <div class="name">Pagne wax Ankara</div>
+                  <div class="price">12 500 FCFA · 3 commandes</div>
+                  <div class="city">📍 Médina, Dakar</div>
+                </div>
+                <span class="badge">LIVE</span>
+              </div>
+              <div class="phone-card">
+                <div class="thumb b" aria-hidden="true"></div>
+                <div class="meta">
+                  <div class="name">Miel de brousse · 500g</div>
+                  <div class="price">4 800 FCFA · 7 commandes</div>
+                  <div class="city">📍 Casamance</div>
+                </div>
+              </div>
+              <div class="phone-card">
+                <div class="thumb c" aria-hidden="true"></div>
+                <div class="meta">
+                  <div class="name">Beurre de karité brut</div>
+                  <div class="price">2 200 FCFA · 12 commandes</div>
+                  <div class="city">📍 Bamako</div>
+                </div>
+                <span class="badge">TOP</span>
+              </div>
+            </div>
+            <div class="phone-cta">Publier un produit · ⏱ 60 s</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpis reveal" data-delay="4" aria-label="Indicateurs clés">
+      <div class="kpi"><strong>3%</strong><span>commission transparente <span class="accent">par vente</span></span></div>
+      <div class="kpi"><strong>48h</strong><span>escrow de protection <span class="accent">acheteur & vendeur</span></span></div>
+      <div class="kpi"><strong>10</strong><span>pays connectés <span class="accent">de Dakar à Tananarive</span></span></div>
+      <div class="kpi"><strong>2 840</strong><span>vendeurs actifs <span class="accent">au quotidien</span></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ADVANTAGES ====== -->
+<section id="advantages" data-tab="advantages" class="advantages reveal" aria-labelledby="adv-h">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow on-dark">Avantages clés</span>
+      <h2 id="adv-h" class="section-title" style="color:var(--cream);">Le marché, <em>réinventé</em> pour l'Afrique.</h2>
+      <p class="section-lede" style="color:rgba(245,240,232,.72);">Tout ce qu'il faut pour vendre avec confiance, même quand la boutique est ton téléphone.</p>
+    </div>
+    <div class="grid">
+      <article class="adv reveal" data-delay="1"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></div><span class="num">01 — VISIBILITÉ</span><h3>Ton savoir-faire se voit</h3><p>Une vitrine claire, partageable sur WhatsApp, pour toucher des clients bien au-delà de ton quartier.</p></article>
+      <article class="adv reveal" data-delay="2"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div><span class="num">02 — SIMPLICITÉ</span><h3>Vendre sans mode d'emploi</h3><p>Publie un produit en 60 secondes, même avec une connexion fragile. L'expérience parle ton langage.</p></article>
+      <article class="adv reveal" data-delay="3"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div><span class="num">03 — CONFIANCE</span><h3>L'argent, protégé pour tous</h3><p>Chaque paiement reste en escrow 48h : l'acheteur reçoit, le vendeur est payé. Sans tension, sans promesse floue.</p></article>
+      <article class="adv reveal" data-delay="4"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><span class="num">04 — CROISSANCE</span><h3>Grandir à ton rythme</h3><p>Des outils de suivi, de fidélité et d'avance de trésorerie pour transformer une activité en vraie entreprise.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FEATURES ====== -->
+<section id="features" data-tab="features" aria-labelledby="features-h">
+  <div class="wrap">
+    <div class="section-head split reveal">
+      <div><span class="eyebrow">La boîte à outils</span><h2 id="features-h" class="section-title">Tout ce qu'il faut.<br><em>Rien de superflu.</em></h2></div>
+      <p class="section-lede">Une plateforme pensée pour les réalités du commerce africain : Mobile Money, livraison de proximité, langues locales et confiance de pair à pair.</p>
+    </div>
+    <div class="features-grid">
+      <article class="feature reveal" data-delay="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5"/></svg></div><h3>Vitrine en 60 secondes</h3><p>Une photo, un prix, une quantité. Ton produit est en ligne, prêt à être partagé avec tes clients.</p><span class="tag">Publier · simplement</span></article>
+      <article class="feature reveal" data-delay="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg></div><h3>Mobile Money natif</h3><p>Orange Money, Wave, MTN ou Moov. Tes clients paient comme ils ont l'habitude, toi aussi.</p><span class="tag">Payer · sans friction</span></article>
+      <article class="feature reveal" data-delay="3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h11v10H3zM14 10h4l3 3v4h-7zM7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg></div><h3>Livraison de quartier</h3><p>Des partenaires locaux et un suivi simple pour que chaque commande arrive au bon endroit.</p><span class="tag">Livrer · à proximité</span></article>
+      <article class="feature reveal" data-delay="4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3z"/></svg></div><h3>10 pays, une communauté</h3><p>Découvre des créations du Sénégal, du Mali, de Côte d'Ivoire, du Bénin, du Cameroun et plus.</p><span class="tag">Explorer · l'Afrique</span></article>
+      <article class="feature reveal" data-delay="5"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5M4 19h16"/><path d="m7 15 3-4 3 2 5-7"/></svg></div><h3>Tableau de bord vendeur</h3><p>Ventes, stock, clients, commissions : vois ce qui marche et décide avec de vraies données.</p><span class="tag">Piloter · ton activité</span></article>
+      <article class="feature reveal" data-delay="6"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 4 7v5c0 4 3 7 8 9 5-2 8-5 8-9V7l-8-4z"/><path d="M8 12h8M12 8v8"/></svg></div><h3>Confiance vérifiée</h3><p>Profils vendeurs, avis après achat, détection des annonces douteuses : la confiance n'est pas optionnelle.</p><span class="tag">Rassurer · durablement</span></article>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HOW IT WORKS ====== -->
+<section id="how" data-tab="how" aria-labelledby="how-h" style="background:var(--paper);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head split reveal"><div><span class="eyebrow">Le parcours</span><h2 id="how-h" class="section-title">Trois étapes.<br><em>Aucune boutique.</em></h2></div><p class="section-lede">Tu n'as besoin que de ton téléphone et de quelque chose à vendre. Le reste, on s'en occupe.</p></div>
+    <div class="steps">
+      <div class="step-connector" aria-hidden="true"></div>
+      <article class="step reveal" data-delay="1"><span class="num">01</span><span class="label">En quelques secondes</span><h3>Crée ton étal</h3><p>Choisis ton nom, ta ville et ajoute tes premiers produits. Pas de dossier compliqué, pas de frais d'entrée.</p><div class="visual" aria-hidden="true"><svg viewBox="0 0 240 100" fill="none"><rect x="72" y="10" width="96" height="80" rx="10" stroke="#1B1B2F" stroke-width="3"/><path d="M89 28h62M89 42h38M89 59h62M89 73h27" stroke="#D4754E" stroke-width="5" stroke-linecap="round"/><circle cx="155" cy="73" r="7" fill="#E8A83C"/></svg></div></article>
+      <article class="step reveal" data-delay="2"><span class="num">02</span><span class="label">Partage & rencontre</span><h3>Reçois une commande</h3><p>Partage ton lien sur WhatsApp, Instagram ou autour de toi. Un client choisit, paie et reçoit une confirmation.</p><div class="visual" aria-hidden="true"><svg viewBox="0 0 240 100" fill="none"><circle cx="60" cy="50" r="25" fill="#E8A83C" fill-opacity=".35" stroke="#1B1B2F" stroke-width="2"/><circle cx="180" cy="50" r="25" fill="#D4754E" fill-opacity=".35" stroke="#1B1B2F" stroke-width="2"/><path d="M93 50h54" stroke="#1B1B2F" stroke-width="3" stroke-dasharray="7 6"/><path d="m138 43 9 7-9 7" stroke="#1B1B2F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="48" y="55" fill="#1B1B2F" font-size="12" font-family="sans-serif">Toi</text><text x="163" y="55" fill="#1B1B2F" font-size="12" font-family="sans-serif">Client</text></svg></div></article>
+      <article class="step reveal" data-delay="3"><span class="num">03</span><span class="label">Tu es payé·e</span><h3>Encaisse en confiance</h3><p>L'argent est sécurisé pendant la livraison. Après 48h ou confirmation du client, il arrive sur ton Mobile Money.</p><div class="visual" aria-hidden="true"><svg viewBox="0 0 240 100" fill="none"><rect x="82" y="13" width="76" height="74" rx="10" fill="#1B1B2F"/><rect x="91" y="25" width="58" height="37" rx="4" fill="#F5F0E8"/><path d="M100 74h40" stroke="#E8A83C" stroke-width="6" stroke-linecap="round"/><path d="M110 44h20" stroke="#1F8A5F" stroke-width="4" stroke-linecap="round"/><path d="m112 45 5 5 11-12" stroke="#1F8A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TESTIMONIALS ====== -->
+<section id="testimonials" data-tab="how" aria-labelledby="test-h">
+  <div class="wrap">
+    <div class="section-head split reveal"><div><span class="eyebrow">Paroles de terrain</span><h2 id="test-h" class="section-title">Ce que ça change,<br><em>au quotidien.</em></h2></div><p class="section-lede">Des vendeuses, des artisans, des producteurs et des clients qui font grandir le marché avec nous.</p></div>
+    <div class="testimonial-stage reveal" data-delay="1" aria-roledescription="carousel" aria-label="Témoignages de vendeurs ÉtalAfrique">
+      <div class="testimonial-track" id="testimonialTrack">
+        <article class="testimonial-slide is-active" data-slide="0" role="group" aria-label="Témoignage 1 sur 4"><div><div class="testimonial-portrait tone-a" aria-hidden="true">FA</div></div><div class="testimonial-body"><blockquote>Avant, mes clientes devaient venir jusqu'à ma maison. Aujourd'hui, je reçois des commandes de Thiès et je sais exactement quand je serai payée.</blockquote><div class="testimonial-meta"><span class="who">Fatoumata A.</span><span class="role">Pagne & mode · Dakar</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
+        <article class="testimonial-slide" data-slide="1" role="group" aria-label="Témoignage 2 sur 4"><div><div class="testimonial-portrait tone-b" aria-hidden="true">IB</div></div><div class="testimonial-body"><blockquote>La commission de 3% est claire. Je préfère ça à un intermédiaire qui prend plus et ne m'aide pas à vendre.</blockquote><div class="testimonial-meta"><span class="who">Ibrahim K.</span><span class="role">Miel & produits bruts · Bamako</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
+        <article class="testimonial-slide" data-slide="2" role="group" aria-label="Témoignage 3 sur 4"><div><div class="testimonial-portrait tone-c" aria-hidden="true">AN</div></div><div class="testimonial-body"><blockquote>J'ai commencé avec trois savons. En quatre mois, j'ai une vraie liste de clientes et je prépare mes stocks avec le tableau de bord.</blockquote><div class="testimonial-meta"><span class="who">Aïssatou N.</span><span class="role">Cosmétiques · Abidjan</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
+        <article class="testimonial-slide" data-slide="3" role="group" aria-label="Témoignage 4 sur 4"><div><div class="testimonial-portrait tone-d" aria-hidden="true">JM</div></div><div class="testimonial-body"><blockquote>J'achète les yeux fermés : profil de démonstration, paiement simulé et suivi de démo. C'est le marché de mon quartier, en mieux.</blockquote><div class="testimonial-meta"><span class="who">Jean-Marc D.</span><span class="role">Acheteur · Cotonou</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
+      </div>
+      <div class="slider-controls"><div class="slider-dots" role="tablist" aria-label="Choisir un témoignage"><button class="is-active" type="button" role="tab" aria-selected="true" aria-label="Témoignage 1"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 2"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 3"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 4"></button></div><div class="slider-buttons"><button id="prevTestimonial" type="button" aria-label="Témoignage précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><button id="nextTestimonial" type="button" aria-label="Témoignage suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== PRICING ====== -->
+<section id="pricing" data-tab="pricing" aria-labelledby="pricing-h" style="padding-top:24px;">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Un modèle juste</span><h2 id="pricing-h" class="section-title">Tu ne paies que<br>quand tu <em>vends.</em></h2><p class="section-lede">Pas d'abonnement caché, pas de mise en avant payante pour exister. L'étal est gratuit à ouvrir, la commission est la même pour tout le monde.</p></div>
+    <div class="pricing-card reveal" data-delay="1">
+      <div><span class="pricing-eyebrow">Plan unique · sans surprise</span><h2>Une vente réussie.<br>Un partage équitable.</h2><div class="price"><span class="big">3%</span><span class="small">par vente<br>confirmée</span></div><p>Tu gardes 97% de chaque commande. L'inscription, la vitrine, le support et les mises à jour restent gratuits.</p><div class="cta-row"><a class="btn btn-gold" href="#create-stall" data-open-creator>Commencer gratuitement</a><a class="btn btn-outline-light" href="#faq">Questions fréquentes</a></div></div>
+      <div class="compare"><h3>Ce qui est inclus, dès aujourd'hui</h3><div class="compare-row"><span class="label">Ouvrir une boutique</span><span class="ours">✓ Gratuit</span><span class="theirs">Payant</span></div><div class="compare-row"><span class="label">Publier ses produits</span><span class="ours">✓ Illimité</span><span class="theirs">Limité</span></div><div class="compare-row"><span class="label">Paiements Mobile Money</span><span class="ours">✓ Inclus</span><span class="theirs">Variable</span></div><div class="compare-row"><span class="label">Protection escrow</span><span class="ours">✓ 48h</span><span class="theirs">Rarement</span></div><div class="compare-row"><span class="label">Support humain</span><span class="ours">✓ 7j/7</span><span class="theirs">À la carte</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== TRUST / CREDENTIALS ====== -->
+<section id="trust" data-tab="pricing" aria-labelledby="trust-h" style="background:var(--paper);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);">
+  <div class="wrap">
+    <div class="section-head split reveal"><div><span class="eyebrow">Bâtir avec confiance</span><h2 id="trust-h" class="section-title">Une plateforme<br><em>qui rend des comptes.</em></h2></div><p class="section-lede">Tes données, ton argent, tes clients : nous construisons les fondations pour un commerce qui dure.</p></div>
+    <div class="trust-row">
+      <div class="trust-badge reveal" data-delay="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/></svg></div><div class="name">Escrow 48h</div><div class="meta">argent protégé</div></div>
+      <div class="trust-badge reveal" data-delay="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></svg></div><div class="name">Profil de démonstration</div><div class="meta">aucune vérification réelle</div></div>
+      <div class="trust-badge reveal" data-delay="3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="9"/></svg></div><div class="name">Données locales</div><div class="meta">confidentialité d'abord</div></div>
+      <div class="trust-badge reveal" data-delay="4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div><div class="name">Mobile Money</div><div class="meta">paiement sécurisé</div></div>
+      <div class="trust-badge reveal" data-delay="5"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7L21 9.6l-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div><div class="name">Avis de démonstration</div><div class="meta">contenu fictif</div></div>
+      <div class="trust-badge reveal" data-delay="6"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></div><div class="name">Support humain</div><div class="meta">en français & local</div></div>
+    </div>
+    <div class="creds"><div class="cred reveal" data-delay="1"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Transparence</strong>commission affichée</div></div><div class="cred reveal" data-delay="2"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Sans exclusivité</strong>tu restes libre</div></div><div class="cred reveal" data-delay="3"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Conçu en Afrique</strong>pour nos usages</div></div><div class="cred reveal" data-delay="4"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Accessible</strong>même hors ligne</div></div></div>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section id="faq" data-tab="faq" aria-labelledby="faq-h">
+  <div class="wrap" style="max-width:900px;">
+    <div class="section-head reveal"><span class="eyebrow">On répond franchement</span><h2 id="faq-h" class="section-title">Les questions qu'on<br>nous pose <em>souvent.</em></h2></div>
+    <div class="faq-list reveal" data-delay="1">
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment fonctionne la protection escrow de 48h ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">Quand l'acheteur paie, l'argent est mis de côté. Le vendeur expédie la commande et l'acheteur confirme la réception. Si tout va bien, l'argent est libéré sous 48h. En cas de problème, notre équipe intervient pour trouver une solution équitable.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CREATOR ====== -->
+<section id="create-stall" data-tab="create-stall" class="creator-section" aria-labelledby="creator-h">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Ton espace vendeur</span><h2 id="creator-h" class="section-title">Crée ton étal<br><em>en quelques clics.</em></h2><p class="section-lede">Un crée ton compte Supabase, renseigne ton activité, ajoute tes produits et visualise immédiatement ta vitrine.</p></div>
+    <div class="created-stall" id="createdStall" aria-live="polite"><div class="created-stall-head"><div><span class="creator-kicker">Étal enregistré sur cet appareil</span><h3 id="createdStallTitle">Ton étal</h3><p id="createdStallMeta"></p></div><button type="button" class="btn btn-ghost" id="editStall">Modifier mon étal</button></div><div class="stall-card"><p class="stall-description" id="createdStallDescription"></p><div class="stall-products" id="createdStallProducts"></div></div></div>
+  </div>
+</section>
+
+<div class="creator-modal" id="creatorModal" role="dialog" aria-modal="true" aria-labelledby="creatorModalTitle" aria-describedby="creatorModalDescription" aria-hidden="true">
+  <div class="creator-dialog">
+    <div class="creator-head"><div><span class="creator-kicker" style="color:var(--gold-soft);">Prototype vendeur · sauvegarde locale</span><h2 id="creatorModalTitle">Ouvrir mon étal</h2><p id="creatorModalDescription">Les informations restent dans ton navigateur. Rien n'est envoyé.</p></div><button class="creator-close" id="closeCreator" type="button" aria-label="Fermer la création d'étal">×</button></div>
+    <div class="creator-body">
+      <form class="creator-form" id="stallForm" novalidate>
+        <div class="local-warning" role="note">🔐 Ton étal est sécurisé et synchronisé dans Supabase après connexion.</div>
+        <span class="creator-kicker">01 · Ton identité de vendeur</span><h3 class="creator-section-title">Présente ton activité</h3>
+        <div class="creator-fields">
+          <div class="creator-field"><label for="sellerName">Ton nom *</label><input id="sellerName" name="sellerName" required placeholder="Awa Ndiaye" autocomplete="name"></div>
+          <div class="creator-field"><label for="stallName">Nom de l'étal *</label><input id="stallName" name="stallName" required placeholder="Les trésors d'Awa"></div>
+          <div class="creator-field"><label for="stallCity">Ville / quartier *</label><input id="stallCity" name="stallCity" required placeholder="Dakar · Médina"></div>
+          <div class="creator-field"><label for="stallCategory">Catégorie</label><select id="stallCategory" name="stallCategory"><option>Mode & textile</option><option>Alimentation</option><option>Beauté & bien-être</option><option>Artisanat</option><option>Services</option><option>Autre</option></select></div>
+          <div class="creator-field full"><label for="stallDescription">Une phrase sur ton étal</label><textarea id="stallDescription" name="stallDescription" placeholder="Des créations et produits choisis avec soin..."></textarea></div>
+        </div>
+        <div class="product-builder"><span class="creator-kicker">02 · Tes produits</span><h3 class="creator-section-title">Ajoute ce que tu vends</h3><div id="productRows"></div><button class="btn btn-ghost" type="button" id="addProduct">+ Ajouter un produit</button></div>
+        <div class="creator-error" id="stallError" role="alert" aria-live="polite"></div><div class="creator-actions"><button class="btn btn-primary" type="submit">Publier mon étal <span aria-hidden="true">→</span></button><button class="btn btn-ghost" type="button" id="saveDraft">Sauvegarder le brouillon</button></div><p class="creator-note">* Champs obligatoires. Version bêta : connexion Supabase requise. Aucun paiement réel.</p>
+      </form>
+      <aside class="creator-preview" aria-label="Aperçu de l'étal"><span class="creator-kicker">03 · Aperçu en direct</span><h3 class="creator-section-title">Voilà à quoi il ressemble</h3><div class="stall-card"><h3 id="previewTitle">Ton étal</h3><p class="stall-meta" id="previewMeta">Ville · catégorie</p><p class="stall-description" id="previewDescription">Ajoute une description pour donner envie de découvrir ton univers.</p><div class="stall-products" id="previewProducts"><div class="stall-product"><strong>Tes produits apparaîtront ici</strong><span>—</span></div></div></div></aside>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CATALOGUE ====== -->
+<section id="catalog" data-tab="catalog" class="catalog-section" aria-labelledby="catalog-h">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits disponibles et les boutiques publiées. Les exemples ci-dessous sont intégrés à la démo ; tes boutiques publiées localement apparaissent ici automatiquement.</p></div>
+    <div class="catalog-toolbar" role="search" aria-label="Rechercher dans le catalogue">
+      <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall">Boutiques</button></div>
+      <input id="catalogSearch" class="catalog-search" type="search" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
+    </div>
+    <div id="catalogGrid" class="catalog-grid" aria-live="polite"></div>
+    <div id="catalogEmpty" class="catalog-empty" hidden>Aucun résultat dans le catalogue. <a href="#create-stall" data-open-creator>Ouvrir mon étal</a></div>
+  </div>
+</section>
+
+<!-- ====== SELLER SPACE (dashboard) ====== -->
+<section id="seller-space" data-tab="seller-space" class="seller-space" aria-labelledby="seller-space-h">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Ton tableau de bord</span><h2 id="seller-space-h" class="section-title">Espace vendeur<br><em>en local, en clair.</em></h2><p class="section-lede">Tout ce que tu as enregistré sur cet appareil : identité, étal, produits, brouillons. Tu peux modifier, republier ou repartir à zéro.</p></div>
+
+    <!-- Empty state -->
+    <div class="seller-empty" id="sellerEmpty" hidden>
+      <div class="seller-id-row" role="status" aria-live="polite">
+        <span class="creator-kicker">Connexion Supabase</span>
+        <span class="grow">Session active sur cet appareil — vendeuse anonyme · <code>Supabase</code> <span id="sellerIdKeyEmpty">synchronisation Supabase</span></span>
+        <button type="button" class="btn btn-ghost" id="sellerLogoutEmpty" aria-label="Fermer la session locale">Déconnexion</button>
+      </div>
+      <div class="seller-empty-card">
+        <span class="creator-kicker">Pas encore d'étal</span>
+        <h3>Ouvre ton étal en moins de deux minutes.</h3>
+        <p>Trois informations suffisent : ton nom, le nom de l'étal, ta ville. Tu pourras ajouter tes produits juste après.</p>
+        <div class="cta-row">
+          <button type="button" class="btn btn-primary" id="sellerEmptyCreate">Ouvrir mon étal <span aria-hidden="true">→</span></button>
+          <a href="#how" class="btn btn-ghost">Voir comment ça marche</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="seller-dashboard" id="sellerDashboard" hidden>
+      <div class="seller-id-row" role="status" aria-live="polite">
+        <span class="creator-kicker">Connexion Supabase</span>
+        <span class="grow">Session active sur cet appareil — <span id="sellerIdName">vendeuse anonyme</span> · <code>Supabase</code> <span id="sellerIdKey">synchronisation Supabase</span></span>
+        <button type="button" class="btn btn-ghost" id="sellerLogout" aria-label="Fermer la session locale">Déconnexion</button>
+      </div>
+      <div class="seller-summary">
+        <div class="seller-summary-head">
+          <div>
+            <span class="creator-kicker">Étal en ligne sur cet appareil</span>
+            <h3 id="dashStallName">—</h3>
+            <p id="dashStallMeta" class="stall-meta">—</p>
+          </div>
+          <div class="seller-actions">
+            <label class="publish-toggle">
+              <input type="checkbox" id="publishToggle">
+              <span class="publish-track"><span class="publish-knob"></span></span>
+              <span class="publish-label" id="publishLabel">Brouillon</span>
+            </label>
+            <button type="button" class="btn btn-ghost" id="dashEdit">Modifier l'étal</button>
+            <button type="button" class="btn btn-ghost" id="dashExport">Exporter (.json)</button>
+            <button type="button" class="btn btn-ghost danger" id="dashReset">Réinitialiser</button>
+          </div>
+        </div>
+
+        <div class="seller-stats">
+          <div class="stat-card">
+            <span class="stat-eyebrow">Produits</span>
+            <span class="stat-value" id="statProducts">0</span>
+            <span class="stat-foot">référencés dans ton étal</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-eyebrow">Stock total</span>
+            <span class="stat-value" id="statStock">0</span>
+            <span class="stat-foot">unités disponibles</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-eyebrow">Valeur catalogue</span>
+            <span class="stat-value" id="statValue">0 FCFA</span>
+            <span class="stat-foot">prix × stock</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-eyebrow">Statut</span>
+            <span class="stat-value" id="statStatus">Brouillon</span>
+            <span class="stat-foot" id="statSavedAt">jamais enregistré</span>
+          </div>
+        </div>
+
+        <div class="seller-products">
+          <div class="seller-products-head">
+            <h4>Tes produits</h4>
+            <button type="button" class="btn btn-primary" id="dashAddProduct">+ Ajouter un produit</button>
+          </div>
+          <div class="stall-products" id="dashProducts"></div>
+        </div>
+
+        <p class="seller-foot-note">Données sauvegardées uniquement dans ce navigateur via <code>Supabase</code>. Aucune information n'est envoyée à un serveur.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CONTACT ====== -->
+<section id="contact" data-tab="contact" aria-labelledby="contact-h" style="padding-top:24px;">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">On commence ensemble</span><h2 id="contact-h" class="section-title">Ton prochain client<br>est peut-être <em>déjà là.</em></h2><p class="section-lede">Laisse-nous tes coordonnées. Un membre de l'équipe ÉtalAfrique te répond sous 24h pour ouvrir ton étal ou répondre à tes questions.</p></div>
+    <div class="contact-grid">
+      <aside class="contact-info reveal" data-delay="1"><h3>Parlons de ton activité.</h3><p>Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.</p><ul class="contact-list"><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 9h8M8 13h5"/></svg></span><span><span class="label">Réponse rapide</span><br><span class="v">Sous 24h, du lundi au samedi</span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg></span><span><span class="label">Email</span><br><span class="v"><a href="/cdn-cgi/l/email-protection#afcdc0c1c5c0daddefcadbcec3cec9ddc6dedaca81dbcadcdb"><span class="__cf_email__" data-cfemail="debcb1b0b4b1abac9ebbaabfb2bfb8acb7afabbbf0aabbadaa">[email&#160;protected]</span></a></span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2 2c1 2 2 3 4 4l2-2 5 2v4c-7 2-15-5-15-15z"/></svg></span><span><span class="label">WhatsApp</span><br><span class="v">[REMPLACER PAR VOTRE NUMERO WHATSAPP]</span></span></li></ul></aside>
+      <form class="contact-form reveal" data-delay="2" id="contactForm" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="contact"><input type="hidden" name="bot-field">
+        <div class="field" id="fieldName"><label for="name">Ton nom <span class="req" aria-hidden="true">*</span></label><input id="name" name="name" type="text" aria-describedby="name-error" aria-invalid="false" autocomplete="name" placeholder="Awa Ndiaye" required><div class="err" id="name-error" role="alert">Indique ton nom pour qu'on puisse te répondre.</div></div>
+        <div class="field" id="fieldEmail"><label for="email">Ton email <span class="req" aria-hidden="true">*</span></label><input id="email" name="email" type="email" aria-describedby="email-error" aria-invalid="false" autocomplete="email" placeholder="awa@exemple.com" required><div class="err" id="email-error" role="alert">Entre une adresse email valide.</div></div>
+        <div class="field"><label for="topic">Je veux...</label><select id="topic" name="topic"><option value="seller">Ouvrir mon étal</option><option value="buyer">Acheter sur ÉtalAfrique</option><option value="partnership">Proposer un partenariat</option><option value="support">Parler au support</option></select></div>
+        <div class="field" id="fieldMessage"><label for="message">Ton message <span class="req" aria-hidden="true">*</span></label><textarea id="message" name="message" aria-describedby="message-error" aria-invalid="false" placeholder="Dis-nous ce que tu aimerais vendre ou ce dont tu as besoin..." required></textarea><div class="err" id="message-error" role="alert">Ajoute un court message (10 caractères minimum).</div></div>
+        <button class="btn btn-primary" type="submit">Envoyer ma demande <span aria-hidden="true">→</span></button>
+        <div class="form-success" id="formSuccess" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg><span>Merci ! Ta demande est bien partie. On revient vers toi sous 24h.</span></div>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ====== footer ====== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand footer-col"><a href="#home" class="brand" aria-label="ÉtalAfrique — retour à l'accueil"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text" style="color:var(--cream);">ÉtalAfrique<small>commerce de confiance</small></span></a><p>Le marché de tout le monde, dans la poche de tout le monde. Né en Afrique, pensé pour l'Afrique.</p></div>
+      <div class="footer-col"><h4>Découvrir</h4><ul><li><a href="#advantages">Nos avantages</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#how">Comment ça marche</a></li><li><a href="#testimonials">Témoignages</a></li></ul></div>
+      <div class="footer-col"><h4>Ressources</h4><ul><li><a href="#pricing">Commission & tarifs</a></li><li><a href="#faq">Questions fréquentes</a></li><li><a href="#contact">Centre d'aide</a></li><li><a href="#trust">Confiance & sécurité</a></li></ul></div>
+      <div class="footer-col"><h4>Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</p><form class="footer-newsletter" id="newsletterForm" name="newsletter" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="newsletter"><label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" aria-label="S'inscrire à la newsletter">→</button></form></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
+  </div>
+<div class="auth-backdrop" id="authBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-hidden="true"><div class="auth-modal-head"><div><span class="auth-kicker">ÉtalAfrique · compte local</span><h2 id="authTitle">Bienvenue au marché.</h2></div><button type="button" class="auth-close" id="authClose" aria-label="Fermer">×</button></div><div class="auth-tabs" role="tablist"><button type="button" class="auth-tab is-active" id="authTabLogin" role="tab" aria-selected="true">Connexion</button><button type="button" class="auth-tab" id="authTabRegister" role="tab" aria-selected="false">Créer un compte</button></div><div class="auth-pane" id="authPaneLogin"><form id="authLoginForm" novalidate><div class="auth-field"><label for="authLoginEmail">Adresse email</label><input id="authLoginEmail" type="email" autocomplete="email" required><div class="auth-error" id="authLoginEmailError" role="alert"></div></div><div class="auth-field"><label for="authLoginPassword">Mot de passe</label><input id="authLoginPassword" type="password" autocomplete="current-password" required><div class="auth-error" id="authLoginPasswordError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Se connecter</button><button class="auth-forgot" id="authForgot" type="button">Mot de passe oublié ?</button></form></div><div class="auth-pane" id="authPaneRegister" hidden><form id="authRegisterForm" novalidate><div class="auth-field"><label for="authName">Nom complet</label><input id="authName" type="text" autocomplete="name" required><div class="auth-error" id="authNameError" role="alert"></div></div><div class="auth-field"><label for="authEmail">Adresse email</label><input id="authEmail" type="email" autocomplete="email" required><div class="auth-error" id="authEmailError" role="alert"></div></div><div class="auth-field"><label for="authPassword">Mot de passe</label><input id="authPassword" type="password" autocomplete="new-password" required><div class="auth-error" id="authPasswordError" role="alert"></div></div><div class="auth-field"><label for="authConfirm">Confirmer le mot de passe</label><input id="authConfirm" type="password" autocomplete="new-password" required><div class="auth-error" id="authConfirmError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Créer mon compte</button></form></div></section></div><div class="auth-backdrop" id="authProfileBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authProfileTitle"><div class="auth-modal-head"><div><span class="auth-kicker">Mon espace</span><h2 id="authProfileTitle">Mon profil</h2></div><button type="button" class="auth-close" id="authProfileClose" aria-label="Fermer">×</button></div><div class="auth-profile"><p><strong>Nom :</strong> <span id="authProfileName"></span></p><p><strong>Email :</strong> <span id="authProfileEmail"></span></p><p style="font-size:12px">Compte conservé uniquement dans ce navigateur.</p></div></section></div><div class="auth-toast" id="authToast" role="status" aria-live="polite"></div>
+</footer>
+
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ÉtalAfrique — Supabase Auth + stalls (remplacer impérativement les placeholders) */
+(function(){
+'use strict';
+const SUPABASE_URL='SUPABASE_URL';
+const SUPABASE_ANON_KEY='SUPABASE_ANON_KEY';
+const configured=SUPABASE_URL!=='SUPABASE_URL' && SUPABASE_ANON_KEY!=='SUPABASE_ANON_KEY';
+const client=window.supabase && configured ? window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY) : null;
+window.etalafriqueSupabase=client;
+const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const toast=(m,error=false)=>{const e=$('authToast');if(!e)return;e.textContent=m;e.className='auth-toast is-visible'+(error?' is-error':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('is-visible'),3500)};
+let session=null, focusBefore=null, activeStall=null;
+function authReady(){if(!client){toast('Remplace SUPABASE_URL et SUPABASE_ANON_KEY pour activer Supabase.',true);return false}return true}
+function showAuth(tab='login',msg){$('authBackdrop').classList.add('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';switchTab(tab);if(msg)toast(msg,true)}
+function closeAuth(){ $('authBackdrop').classList.remove('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','true');document.body.style.overflow='';if(focusBefore)focusBefore.focus() }
+function switchTab(tab){const l=tab==='login';$('authPaneLogin').hidden=!l;$('authPaneRegister').hidden=l;$('authTabLogin').classList.toggle('is-active',l);$('authTabRegister').classList.toggle('is-active',!l)}
+function renderAuth(){const u=session?.user,meta=u?.user_metadata||{};$('authOpen').hidden=!!u;$('authUser').hidden=!u;if(u){$('authAvatar').textContent=(meta.name||u.email||'?')[0].toUpperCase();$('authUserName').textContent=meta.name||u.email}}
+async function requireSession(){if(!session){showAuth('login','Connecte-toi pour ouvrir ton espace vendeur.');return false}return true}
+async function loadStalls(){if(!client)return[];const {data,error}=await client.from('stalls').select('*').order('created_at',{ascending:false});if(error){console.warn(error);return[]}return data||[]}
+function normalize(s){return {id:s.id,sellerName:s.user_id===session?.user?.id?(session.user.user_metadata?.name||session.user.email):'vendeur ÉtalAfrique',stallName:s.name,stallCity:s.city,stallCategory:s.category,stallDescription:s.description||'',products:Array.isArray(s.products)?s.products:[],published:true,savedAt:s.created_at}}
+async function saveStall(d){if(!client||!session)return {error:{message:'Connexion Supabase requise'}};const payload={user_id:session.user.id,name:d.stallName,city:d.stallCity,category:d.stallCategory,products:d.products,description:d.stallDescription||''};const q=d.id?client.from('stalls').update(payload).eq('id',d.id).select().single():client.from('stalls').insert(payload).select().single();return await q}
+async function renderDashboard(){const all=await loadStalls(), mine=all.filter(x=>x.user_id===session?.user?.id), raw=mine[0]&&normalize(mine[0]);$('sellerEmpty').hidden=!!raw;$('sellerDashboard').hidden=!raw;if(!raw)return;activeStall=raw;$('dashStallName').textContent=raw.stallName;$('dashStallMeta').textContent=[raw.sellerName,raw.stallCity,raw.stallCategory].filter(Boolean).join(' · ');const ps=raw.products.filter(p=>p.name),stock=ps.reduce((a,p)=>a+(+p.stock||0),0),value=ps.reduce((a,p)=>a+(+p.price||0)*(+p.stock||0),0);$('statProducts').textContent=ps.length;$('statStock').textContent=stock;$('statValue').textContent=value.toLocaleString('fr-FR')+' FCFA';$('statStatus').textContent='Publié';$('statSavedAt').textContent='synchronisé '+new Date(raw.savedAt).toLocaleString('fr-FR');$('publishToggle').checked=true;$('publishLabel').textContent='Publié';$('dashProducts').innerHTML=ps.map((p,i)=>`<div class="dash-product"><div class="grow"><strong>${esc(p.name)}</strong><div class="meta">${esc(p.stock||0)} en stock</div></div><span class="price">${esc(p.price||'Prix à définir')} FCFA</span><button class="icon-btn danger" type="button" data-action="delete" data-idx="${i}">×</button></div>`).join('');}
+async function renderCreated(){const all=await loadStalls(),mine=all.filter(x=>x.user_id===session?.user?.id),s=mine[0]&&normalize(mine[0]);if(!s){$('createdStall').classList.remove('is-shown');return}s.id=mine[0].id;activeStall=s;$('createdStall').classList.add('is-shown');$('createdStallTitle').textContent=s.stallName;$('createdStallMeta').textContent=[s.sellerName,s.stallCity,s.stallCategory].join(' · ');$('createdStallDescription').textContent=s.stallDescription||'Une vitrine ÉtalAfrique synchronisée.';$('createdStallProducts').innerHTML=s.products.map(p=>`<div class="stall-product"><strong>${esc(p.name)}</strong><span>${esc(p.price||'Prix à définir')} FCFA</span></div>`).join('')}
+async function renderCatalog(){const all=await loadStalls(),items=[];all.forEach(s=>{const n=normalize(s);n.products.filter(p=>p.name).forEach(p=>items.push({type:'product',name:p.name,stall:n.stallName,city:n.stallCity,price:p.price,stock:p.stock,tag:n.stallCategory,isDemo:false}));items.push({type:'stall',name:n.stallName,seller:n.sellerName,city:n.stallCity,category:n.stallCategory,description:n.stallDescription,products:n.products.length,isDemo:false})});const demo=[['Pagne wax Ankara','Les trésors d’Awa','Dakar · Médina',12500],['Miel de brousse · 500g','Soleil de Casamance','Ziguinchor',4800],['Beurre de karité brut','Karité & Traditions','Bamako',2200]].map(x=>({type:'product',name:x[0],stall:x[1],city:x[2],price:x[3],tag:'Démonstration',isDemo:true}));items.push(...demo);const q=($('#catalogSearch')?.value||'').toLowerCase(),f=document.querySelector('.catalog-tab.is-active')?.dataset.catalogFilter||'all';let list=items.filter(i=>(f==='all'||i.type===f)&&(!q||JSON.stringify(i).toLowerCase().includes(q)));$('catalogGrid').innerHTML=list.map(i=>i.type==='product'?`<article class="catalog-card"><div class="badge-row"><span class="demo-badge">${esc(i.tag||'Produit')}</span>${i.isDemo?'<span class="local-only-badge">Exemple de démonstration</span>':''}</div><h3>${esc(i.name)}</h3><div class="city">📍 ${esc(i.city)} · ${esc(i.stall)}</div><div class="price">${Number(i.price||0).toLocaleString('fr-FR')} FCFA</div></article>`:`<article class="catalog-card"><div class="badge-row"><span class="demo-badge">${esc(i.category)}</span>${i.isDemo?'<span class="local-only-badge">Exemple de démonstration</span>':''}</div><h3>${esc(i.name)}</h3><div class="city">📍 ${esc(i.city)}</div><p>${esc(i.description||'Boutique ÉtalAfrique')}</p></article>`).join('');$('catalogEmpty').hidden=!!list.length}
+$('authOpen').addEventListener('click',()=>{focusBefore=document.activeElement;showAuth()});$('authClose').addEventListener('click',closeAuth);$('authTabLogin').addEventListener('click',()=>switchTab('login'));$('authTabRegister').addEventListener('click',()=>switchTab('register'));$('authForgot').addEventListener('click',()=>toast('Utilise la récupération de mot de passe Supabase depuis ton projet.',true));$('authBackdrop').addEventListener('click',e=>{if(e.target.id==='authBackdrop')closeAuth()});
+$('authRegisterForm').addEventListener('submit',async e=>{e.preventDefault();if(!authReady())return;const name=$('authName').value.trim(),email=$('authEmail').value.trim(),password=$('authPassword').value;if(password!==$('authConfirm').value||password.length<8){toast('Mot de passe : 8 caractères minimum et confirmation identique.',true);return}const {error}=await client.auth.signUp({email,password,options:{data:{name}}});if(error)toast(error.message,true);else{toast('Compte créé. Vérifie ton email si Supabase le demande.');closeAuth()}});
+$('authLoginForm').addEventListener('submit',async e=>{e.preventDefault();if(!authReady())return;const {data,error}=await client.auth.signInWithPassword({email:$('authLoginEmail').value.trim(),password:$('authLoginPassword').value});if(error)toast(error.message,true);else{session=data.session;renderAuth();closeAuth();await renderDashboard();await renderCreated();toast('Connexion réussie.')}});
+$('authLogout').addEventListener('click',async()=>{if(client)await client.auth.signOut();session=null;renderAuth();$('authDropdown').hidden=true;toast('Déconnexion réussie.')});$('authUser').addEventListener('click',()=>{$('authDropdown').hidden=!$('authDropdown').hidden});
+document.addEventListener('click',async e=>{const t=e.target.closest('[data-open-creator]');if(t&&!await requireSession()){e.preventDefault();e.stopImmediatePropagation()}if(e.target.closest('#sellerLogout,#sellerLogoutEmpty')){if(client)await client.auth.signOut();session=null;renderAuth();renderDashboard()}} ,true);
+const modal=$('creatorModal'),form=$('stallForm'),rows=$('productRows');function fields(){return {sellerName:$('sellerName').value.trim(),stallName:$('stallName').value.trim(),stallCity:$('stallCity').value.trim(),stallCategory:$('stallCategory').value,stallDescription:$('stallDescription').value.trim(),products:[...rows.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.p-name')?.value.trim(),price:r.querySelector('.p-price')?.value,stock:r.querySelector('.p-stock')?.value})).filter(p=>p.name)}}function setForm(d){$('sellerName').value=d.sellerName||session?.user?.user_metadata?.name||'';$('stallName').value=d.stallName||'';$('stallCity').value=d.stallCity||'';$('stallCategory').value=d.stallCategory||'Mode & textile';$('stallDescription').value=d.stallDescription||'';rows.innerHTML='';(d.products?.length?d.products:[{}]).forEach(addProduct)}function addProduct(p={}){const r=document.createElement('div');r.className='product-row';r.innerHTML=`<div><label>Produit *</label><input class="p-name" value="${esc(p.name||'')}" required></div><div><label>Prix FCFA</label><input class="p-price" type="number" value="${esc(p.price||'')}"></div><div><label>Stock</label><input class="p-stock" type="number" value="${esc(p.stock||'')}"></div><button class="remove-product" type="button">×</button>`;rows.appendChild(r);r.querySelector('.remove-product').onclick=()=>r.remove()}
+$('addProduct').onclick=()=>addProduct();$('closeCreator').onclick=()=>modal.classList.remove('is-open');$('editStall').onclick=async()=>{if(activeStall){setForm(activeStall);modal.classList.add('is-open')}};$('dashEdit').onclick=()=>{$('editStall').click()};$('dashAddProduct').onclick=()=>{$('editStall').click();setTimeout(()=>addProduct(),50)};
+form.addEventListener('submit',async e=>{e.preventDefault();const d=fields();if(!d.stallName||!d.stallCity||!d.products.length){$('stallError').textContent='Complète les champs obligatoires et ajoute un produit.';return}const r=await saveStall({...d,id:activeStall?.id});if(r.error){$('stallError').textContent=r.error.message;return}toast('Étal enregistré dans Supabase.');modal.classList.remove('is-open');await renderDashboard();await renderCreated();await renderCatalog()});
+$('dashReset').onclick=async()=>{if(activeStall&&confirm('Supprimer cet étal ?')){await client.from('stalls').delete().eq('id',activeStall.id);activeStall=null;await renderDashboard();await renderCreated();await renderCatalog()}};$('catalogSearch')?.addEventListener('input',renderCatalog);document.addEventListener('click',e=>{const b=e.target.closest('[data-catalog-filter]');if(b){document.querySelectorAll('.catalog-tab').forEach(x=>{x.classList.toggle('is-active',x===b)});renderCatalog()}});
+async function init(){if(client){const r=await client.auth.getSession();session=r.data.session;client.auth.onAuthStateChange((_e,s)=>{session=s;renderAuth();renderDashboard();renderCreated();renderCatalog()})}renderAuth();await renderDashboard();await renderCreated();await renderCatalog()}init();
+})();
+</script>
+
+
+<script>
+(function(){
+  'use strict';
+  document.documentElement.classList.add('js');
+  const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
+  // Menu toggle is implemented once in the dedicated navigation controller below.
+  // Scroll progress, throttled to one update per animation frame.
+  const progress=$('#scrollProgress'); let ticking=false;
+  const updateProgress=()=>{if(!progress)return;const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(max>0?(window.scrollY/max)*100:0)+'%';ticking=false;};
+  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(updateProgress);}}, {passive:true}); updateProgress();
+  const revealEls=$$('.reveal');
+  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});revealEls.forEach(el=>observer.observe(el));}else revealEls.forEach(el=>el.classList.add('is-visible'));
+  // Nav-link active state is now driven by the tab controller (see the navigation script below), not scroll position.
+  // Testimonials: one owned interval only; reduced motion disables autoplay.
+  const slides=$$('.testimonial-slide'),dots=$$('.slider-dots button'),stage=$('.testimonial-stage');let currentSlide=0,autoSlide=null;
+  const showSlide=index=>{if(!slides.length)return;currentSlide=(index+slides.length)%slides.length;slides.forEach((slide,i)=>{const active=i===currentSlide;slide.classList.toggle('is-active',active);slide.setAttribute('aria-hidden',String(!active));});dots.forEach((dot,i)=>{const active=i===currentSlide;dot.classList.toggle('is-active',active);dot.setAttribute('aria-selected',String(active));});};
+  const stopAuto=()=>{if(autoSlide!==null){clearInterval(autoSlide);autoSlide=null;}};
+  const startAuto=()=>{stopAuto();if(stage&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)autoSlide=setInterval(()=>showSlide(currentSlide+1),6500);};
+  $('#prevTestimonial')?.addEventListener('click',()=>{showSlide(currentSlide-1);startAuto();});$('#nextTestimonial')?.addEventListener('click',()=>{showSlide(currentSlide+1);startAuto();});dots.forEach((dot,i)=>dot.addEventListener('click',()=>{showSlide(i);startAuto();}));stage?.addEventListener('mouseenter',stopAuto);stage?.addEventListener('mouseleave',startAuto);stage?.addEventListener('focusin',stopAuto);stage?.addEventListener('focusout',e=>{if(!stage.contains(e.relatedTarget))startAuto();});showSlide(0);startAuto();
+  // FAQ accordion.
+  $$('.faq-q').forEach(button=>button.addEventListener('click',()=>{const answer=document.getElementById(button.getAttribute('aria-controls')),open=button.getAttribute('aria-expanded')==='true';$$('.faq-q').forEach(other=>{other.setAttribute('aria-expanded','false');const panel=document.getElementById(other.getAttribute('aria-controls'));if(panel)panel.style.maxHeight=null;});if(!open){button.setAttribute('aria-expanded','true');answer.style.maxHeight=answer.scrollHeight+'px';}}));
+  // Accessible local contact validation.
+  const form=$('#contactForm');
+  const validate=(field,input,valid)=>{field.classList.toggle('is-invalid',!valid);input.setAttribute('aria-invalid',String(!valid));return valid;};
+  form?.addEventListener('submit',e=>{const name=$('#name'),email=$('#email'),message=$('#message');const okName=validate($('#fieldName'),name,name.value.trim().length>=2),okEmail=validate($('#fieldEmail'),email,/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())),okMessage=validate($('#fieldMessage'),message,message.value.trim().length>=10);if(okName&&okEmail&&okMessage){$('#formSuccess').classList.add('is-shown');form.querySelectorAll('input,select,textarea,button[type="submit"]').forEach(el=>el.disabled=true);}else (form.querySelector('.is-invalid input,.is-invalid textarea'))?.focus();});
+  [['name','#fieldName'],['email','#fieldEmail'],['message','#fieldMessage']].forEach(([id,field])=>$('#'+id)?.addEventListener('input',()=>{const input=$('#'+id);if(input.value.trim()){ $(field).classList.remove('is-invalid');input.setAttribute('aria-invalid','false');}}));
+  $('#newsletterForm')?.addEventListener('submit',e=>{if(!$('#newsletterEmail').checkValidity()){$('#newsletterEmail').focus();e.preventDefault();}});
+})();
+</script>
+
+
+<script>
+(function(){
+  'use strict';
+  const menu=document.getElementById('mobileMenu'), toggle=document.getElementById('menuToggle'), closeBtn=document.getElementById('menuClose'), scrim=document.getElementById('menuScrim');
+  const focusable=()=>Array.from(menu.querySelectorAll('a[href],button:not([disabled])')).filter(el=>el.offsetParent!==null);
+  let lastFocus=null;
+  const mainEl=document.getElementById('main');
+  function closeMenu(restore=true){menu.classList.remove('is-open');scrim.classList.remove('is-open');menu.setAttribute('aria-hidden','true');scrim.setAttribute('aria-hidden','true');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Ouvrir le menu');document.body.style.overflow='';if(mainEl)mainEl.removeAttribute('inert');if(restore&&lastFocus)lastFocus.focus();}
+  function openMenu(){lastFocus=document.activeElement;menu.classList.add('is-open');scrim.classList.add('is-open');menu.setAttribute('aria-hidden','false');scrim.setAttribute('aria-hidden','false');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Fermer le menu');document.body.style.overflow='hidden';if(mainEl)mainEl.setAttribute('inert','');setTimeout(()=>{(focusable()[0]||closeBtn).focus()},20);}
+  toggle.addEventListener('click',()=>menu.classList.contains('is-open')?closeMenu():openMenu());closeBtn.addEventListener('click',()=>closeMenu());scrim.addEventListener('click',()=>closeMenu());
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('is-open')){e.preventDefault();closeMenu();}if(e.key==='Tab'&&menu.classList.contains('is-open')){const f=focusable();if(!f.length)return;if(e.shiftKey&&document.activeElement===f[0]){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&document.activeElement===f[f.length-1]){e.preventDefault();f[0].focus();}}});
+
+  /* ---------------------------------------------------------------
+     Tab controller: each major part of the site (Accueil, Avantages,
+     Fonctionnalités, Comment ça marche, Commission, FAQ, Créer mon
+     étal, Catalogue, Espace vendeur, Contact) is its own independent
+     view — only one is visible at a time, none of them mixed with
+     the homepage. Anchors that used to jump to a subsection now map
+     to the tab that owns that content.
+     --------------------------------------------------------------- */
+  const TAB_PANELS = Array.from(document.querySelectorAll('main>[data-tab]'));
+  const TAB_IDS = Array.from(new Set(TAB_PANELS.map(el=>el.dataset.tab)));
+  const SECTION_TO_TAB = {home:'home',advantages:'advantages',features:'features',how:'how',testimonials:'how',pricing:'pricing',trust:'pricing',faq:'faq','create-stall':'create-stall',catalog:'catalog','seller-space':'seller-space',contact:'contact'};
+  const TAB_TITLES = {
+    home:'ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde',
+    advantages:'Nos avantages — ÉtalAfrique', features:'Fonctionnalités — ÉtalAfrique',
+    how:'Comment ça marche — ÉtalAfrique', pricing:'Commission & tarifs — ÉtalAfrique',
+    faq:'Questions fréquentes — ÉtalAfrique', 'create-stall':'Créer mon étal — ÉtalAfrique',
+    catalog:'Catalogue — ÉtalAfrique', 'seller-space':'Espace vendeur — ÉtalAfrique', contact:'Contact — ÉtalAfrique'
+  };
+  const DEFAULT_TITLE = document.title;
+
+  function setActiveNav(id){
+    document.querySelectorAll('[data-nav]').forEach(link=>{
+      const match=link.dataset.nav===id;
+      link.classList.toggle('is-active',match);
+      if(match) link.setAttribute('aria-current','page'); else link.removeAttribute('aria-current');
+    });
+  }
+  function showTab(id){
+    TAB_PANELS.forEach(el=>el.classList.toggle('is-active-tab', el.dataset.tab===id));
+    setActiveNav(id);
+    document.title = TAB_TITLES[id] || DEFAULT_TITLE;
+  }
+  function goToTab(id, {push=true, instant=false}={}){
+    if(!TAB_IDS.includes(id)) id='home';
+    showTab(id);
+    const hash = id==='home' ? '#' : '#'+id;
+    if(push && location.hash!==hash) history.pushState({tab:id}, '', hash);
+    window.scrollTo({top:0, behavior: instant||window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  }
+  function tabFromHash(){
+    const raw=(location.hash||'').slice(1);
+    if(raw==='') return 'home';
+    return SECTION_TO_TAB[raw] || null;
+  }
+
+  // Initial view: honour a deep link (e.g. …#pricing) without animating on load.
+  showTab(tabFromHash() || 'home');
+  window.addEventListener('popstate', ()=>showTab(tabFromHash() || 'home'));
+
+  // Single delegated handler covers desktop nav, mobile menu links, footer links and CTAs.
+  document.addEventListener('click', e=>{
+    const el=e.target.closest('[data-section], a[href^="#"]');
+    if(!el) return;
+    const raw = el.dataset.section || el.getAttribute('href').slice(1);
+    if(!raw || !(raw in SECTION_TO_TAB)) return;
+    e.preventDefault();
+    goToTab(SECTION_TO_TAB[raw]);
+    if(menu.contains(el)) closeMenu(false);
+  });
+
+  const translations={fr:{'nav.catalog':'Catalogue','nav.contact':'Contact','hero.cta':'Ouvrir mon étal — gratuit'},en:{'nav.catalog':'Catalog','nav.contact':'Contact','hero.cta':'Open my stall — free'}}; function switchLanguage(lang){document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.trim().toLowerCase()===lang;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});document.querySelector('[data-nav="catalog"]')?.replaceChildren(translations[lang]['nav.catalog']);document.querySelector('[data-nav="contact"]')?.replaceChildren(translations[lang]['nav.contact']);} document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>switchLanguage(btn.textContent.trim().toLowerCase())));
+})();
+</script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
