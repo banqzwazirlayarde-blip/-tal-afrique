@@ -1039,6 +1039,16 @@ section{padding:96px 0;position:relative;}
 @media(max-width:760px){.nav-actions .auth-nav{order:-1}.auth-user .auth-user-name{display:none}.auth-modal{padding:22px;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Configuration publique Supabase : la clé publishable peut être exposée dans le navigateur.
+  // Ne jamais remplacer cette clé par une clé privée.
+  const SUPABASE_URL = 'https://ojpngoxcpjeruntxbdhg.supabase.co';
+  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_lByOLOhEhhE7KPBdzAFAwQ_tzveyXfl';
+
+  // Client Supabase partagé par les fonctionnalités d'authentification et de vitrine.
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+  window.etalafriqueSupabase = supabase;
+</script>
 </head>
 <body>
 <div class="demo-banner" role="status">🌍 Version bêta — rejoignez la liste d’attente et construisons ensemble le marché de demain.</div>
@@ -1453,18 +1463,15 @@ section{padding:96px 0;position:relative;}
 
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ÉtalAfrique — Supabase Auth + stalls (remplacer impérativement les placeholders) */
+/* ÉtalAfrique — Authentification et gestion des étals avec Supabase. */
 (function(){
 'use strict';
-const SUPABASE_URL='SUPABASE_URL';
-const SUPABASE_ANON_KEY='SUPABASE_ANON_KEY';
-const configured=SUPABASE_URL!=='SUPABASE_URL' && SUPABASE_ANON_KEY!=='SUPABASE_ANON_KEY';
-const client=window.supabase && configured ? window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY) : null;
-window.etalafriqueSupabase=client;
+// Le client est initialisé une seule fois dans le <head>, après le chargement du SDK CDN.
+const client=window.etalafriqueSupabase;
 const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
 const toast=(m,error=false)=>{const e=$('authToast');if(!e)return;e.textContent=m;e.className='auth-toast is-visible'+(error?' is-error':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('is-visible'),3500)};
 let session=null, focusBefore=null, activeStall=null;
-function authReady(){if(!client){toast('Remplace SUPABASE_URL et SUPABASE_ANON_KEY pour activer Supabase.',true);return false}return true}
+function authReady(){if(!client){toast('La connexion Supabase n’est pas disponible.',true);return false}return true}
 function showAuth(tab='login',msg){$('authBackdrop').classList.add('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';switchTab(tab);if(msg)toast(msg,true)}
 function closeAuth(){ $('authBackdrop').classList.remove('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','true');document.body.style.overflow='';if(focusBefore)focusBefore.focus() }
 function switchTab(tab){const l=tab==='login';$('authPaneLogin').hidden=!l;$('authPaneRegister').hidden=l;$('authTabLogin').classList.toggle('is-active',l);$('authTabRegister').classList.toggle('is-active',!l)}
@@ -1597,6 +1604,7 @@ async function init(){if(client){const r=await client.auth.getSession();session=
 })();
 </script>
 
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
