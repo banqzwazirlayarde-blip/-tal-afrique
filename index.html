@@ -4,24 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde</title>
-<meta name="description" content="Prototype/démonstration d’une marketplace : explore une vitrine et teste la création d’un étal. Connexion et données synchronisées via Supabase ; aucun paiement réel.">
+<meta name="description" content="ÉtalAfrique : la marketplace qui transforme un téléphone en boutique en ligne pour les vendeurs d’Afrique de l’Ouest. Ouvre ton étal, publie tes produits, vends en Mobile Money.">
 <meta name="theme-color" content="#1B1B2F">
 <meta name="color-scheme" content="light">
-<!-- Repasser en "index, follow" une fois le catalogue de démo retiré et le site prêt à être référencé. -->
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <meta name="author" content="ÉtalAfrique">
 <meta property="og:title" content="ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde">
-<meta property="og:description" content="Prototype/démonstration d’une marketplace mobile — aucune vente, commande ou commission réelle.">
+<meta property="og:description" content="La marketplace des vendeurs informels d’Afrique de l’Ouest : ouvre ton étal, publie tes produits, vends en Mobile Money.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="ÉtalAfrique">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ÉtalAfrique — Le marché de tout le monde">
-<meta name="twitter:description" content="Prototype/démonstration ÉtalAfrique — fonctionnalités simulées, sans transaction réelle. Compte et données réels via Supabase.">
+<meta name="twitter:description" content="Ouvre ton étal, publie tes produits, vends en Mobile Money — gratuit, 3% par vente confirmée.">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://ojpngoxcpjeruntxbdhg.supabase.co" crossorigin>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8A83C'/%3E%3Cpath d='M14 38c4-6 8-6 12 0s8 6 12 0 8-6 12 0' fill='none' stroke='%231B1B2F' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='32' cy='18' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='42' cy='22' r='4' fill='%231B1B2F'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E8A83C'/%3E%3Cpath d='M14 38c4-6 8-6 12 0s8 6 12 0 8-6 12 0' fill='none' stroke='%231B1B2F' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='22' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='32' cy='18' r='4' fill='%231B1B2F'/%3E%3Ccircle cx='42' cy='22' r='4' fill='%231B1B2F'/%3E%3C/svg%3E">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebApplication","name":"ÉtalAfrique","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","description":"Prototype de marketplace : démonstration sans paiement réel. Compte et données synchronisés via Supabase.","isAccessibleForFree":true}
+{"@context":"https://schema.org","@type":"WebApplication","name":"ÉtalAfrique","applicationCategory":"BusinessApplication","operatingSystem":"Web, iOS, Android","description":"Marketplace pour vendeurs informels d’Afrique de l’Ouest : création d’étal, catalogue de produits et compte vendeur.","isAccessibleForFree":true}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","inLanguage":"fr","mainEntity":[
+{"@type":"Question","name":"Est-ce vraiment gratuit pour ouvrir mon étal ?","acceptedAnswer":{"@type":"Answer","text":"Oui. La création de l'étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. La commission de 3 % ne s'applique qu'aux ventes confirmées."}},
+{"@type":"Question","name":"Comment se passe le paiement ?","acceptedAnswer":{"@type":"Answer","text":"La commande se prépare sur ÉtalAfrique, puis acheteur et vendeur finalisent le paiement directement (Mobile Money, espèces à la livraison), via WhatsApp."}},
+{"@type":"Question","name":"Quels moyens de paiement sont prévus ?","acceptedAnswer":{"@type":"Answer","text":"Les portefeuilles Mobile Money du pays du vendeur et de l'acheteur : Orange Money, Wave, MTN Mobile Money, Moov Money."}},
+{"@type":"Question","name":"Faut-il avoir une entreprise déclarée pour vendre ?","acceptedAnswer":{"@type":"Answer","text":"Non, on peut commencer comme vendeur indépendant. Les obligations fiscales varient selon les pays."}},
+{"@type":"Question","name":"Dans quels pays ÉtalAfrique est-il prévu ?","acceptedAnswer":{"@type":"Answer","text":"Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar."}}]}
 </script>
 <style>
 /* =========================================================
@@ -1037,43 +1046,664 @@ section{padding:96px 0;position:relative;}
 .auth-toast.is-visible{transform:translateY(0);opacity:1;}
 .auth-toast.is-error{background:var(--terra-deep);}
 @media(max-width:760px){.nav-actions .auth-nav{order:-1}.auth-user .auth-user-name{display:none}.auth-modal{padding:22px;}}
-</style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.etalafriqueSupabaseLoadFailed=true"></script>
-<script>
-  // Configuration publique Supabase : la clé publishable peut être exposée dans le navigateur.
-  // Ne jamais remplacer cette clé par une clé privée.
-  const SUPABASE_URL = 'https://ojpngoxcpjeruntxbdhg.supabase.co';
-  const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_lByOLOhEhhE7KPBdzAFAwQ_tzveyXfl';
 
-  // Client Supabase partagé par les fonctionnalités d'authentification et de vitrine.
-  // Si la librairie n'a pas pu se charger (bloqueur de pub, réseau qui filtre le CDN,
-  // connexion coupée...), on l'affiche clairement plutôt que de laisser échouer
-  // silencieusement au moment où quelqu'un essaie de se connecter.
-  try{
-    if(window.supabase && typeof window.supabase.createClient==='function'){
-      window.etalafriqueSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-    } else {
-      window.etalafriqueSupabaseLoadFailed = true;
-    }
-  }catch(err){
-    console.error('Échec de l’initialisation Supabase :', err);
-    window.etalafriqueSupabaseLoadFailed = true;
-  }
-  document.addEventListener('DOMContentLoaded', ()=>{
-    if(!window.etalafriqueSupabaseLoadFailed) return;
-    const bar=document.createElement('div');
-    bar.setAttribute('role','alert');
-    bar.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:500;background:#B8552E;color:#FBF7EE;padding:12px 16px;text-align:center;font-size:13.5px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;';
-    bar.textContent="Le service de compte n'a pas pu se charger (réseau ou bloqueur de publicité). Vérifie ta connexion, désactive un éventuel bloqueur pour ce site, puis recharge la page.";
-    document.body.appendChild(bar);
-  });
-</script>
+/* ============================================================
+   Pinterest-inspired overlay (additive layer over ÉtalAfrique).
+   Conventions only — no Pinterest proprietary assets used.
+   ============================================================ */
+
+/* ---------- pinned top bar (sticky, brand + search + actions) ---------- */
+.pin-bar{
+  position:sticky; top:0; z-index:95;
+  background:rgba(245,240,232,.92);
+  backdrop-filter:blur(10px) saturate(1.2);
+  -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  border-bottom:1px solid var(--line-soft);
+}
+.pin-bar-inner{
+  max-width:var(--max); margin:0 auto;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:14px; align-items:center;
+  padding:10px 18px;
+}
+.pin-brand{
+  display:inline-flex; align-items:center; gap:10px;
+  text-decoration:none; color:inherit;
+}
+.pin-brand-mark{
+  width:34px; height:34px; border-radius:50%;
+  background:var(--gold); display:grid; place-items:center;
+  color:var(--ink); font-family:var(--serif); font-weight:800;
+  font-size:18px; box-shadow:inset 0 -3px 0 rgba(27,27,47,.18);
+}
+.pin-brand-text{
+  display:flex; flex-direction:column; line-height:1.1;
+}
+.pin-brand-text b{
+  font-family:var(--serif); font-size:18px; letter-spacing:-.01em;
+  color:var(--ink);
+}
+.pin-brand-text small{
+  font-family:var(--mono); font-size:10px; text-transform:uppercase;
+  letter-spacing:.18em; color:var(--terra); font-weight:700;
+}
+
+.pin-search{
+  position:relative; max-width:760px; width:100%;
+  margin:0 auto;
+}
+.pin-search input{
+  width:100%;
+  font:inherit; font-size:14.5px;
+  padding:10px 14px 10px 40px;
+  border-radius:999px;
+  background:var(--paper); border:1px solid var(--line);
+  color:var(--ink);
+}
+.pin-search input:focus{
+  outline:none;
+  border-color:var(--gold-deep);
+  box-shadow:0 0 0 4px rgba(232,168,60,.18);
+  background:var(--cream);
+}
+.pin-search .pin-search-ic{
+  position:absolute; left:14px; top:50%; transform:translateY(-50%);
+  width:18px; height:18px; color:var(--ink-mute); pointer-events:none;
+}
+.pin-search .pin-search-clear{
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  width:24px; height:24px; border-radius:50%;
+  background:transparent; border:0; color:var(--ink-mute);
+  display:none; align-items:center; justify-content:center;
+}
+.pin-search.has-value .pin-search-clear{display:inline-flex;}
+.pin-search .pin-search-clear:hover{background:var(--paper-2);color:var(--ink);}
+
+.pin-actions{display:flex; align-items:center; gap:8px;}
+.pin-icon-btn{
+  width:40px; height:40px; border-radius:50%;
+  display:grid; place-items:center; border:0;
+  background:transparent; color:var(--ink-soft);
+  transition:background .2s, color .2s, transform .2s;
+  position:relative;
+}
+.pin-icon-btn:hover{background:var(--paper);color:var(--ink);transform:translateY(-1px);}
+.pin-icon-btn svg{width:20px; height:20px;}
+.pin-icon-btn .pin-badge{
+  position:absolute; top:4px; right:4px;
+  min-width:16px; height:16px; padding:0 4px;
+  border-radius:999px; background:var(--terra-deep);
+  color:var(--cream); font-size:10.5px; font-weight:800;
+  display:inline-grid; place-items:center;
+  font-family:var(--mono); letter-spacing:0;
+}
+
+.pin-cta{
+  padding:9px 16px; border-radius:999px;
+  background:var(--ink); color:var(--cream);
+  font-weight:700; font-size:14px; border:0;
+  text-decoration:none; transition:background .2s, transform .2s;
+}
+.pin-cta:hover{background:#252544; transform:translateY(-1px);}
+
+/* ---------- pinned category rail (horizontally scrollable) ---------- */
+.pin-rail{
+  position:sticky; top:62px; z-index:90;
+  background:rgba(245,240,232,.86);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line-soft);
+}
+.pin-rail-inner{
+  max-width:var(--max); margin:0 auto;
+  padding:10px 18px;
+  display:flex; gap:8px; align-items:center;
+  overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.pin-rail-inner::-webkit-scrollbar{display:none;}
+.pin-pill{
+  flex:0 0 auto; scroll-snap-align:start;
+  border:1px solid var(--line);
+  background:var(--paper);
+  color:var(--ink-soft);
+  padding:8px 14px; border-radius:999px;
+  font:inherit; font-weight:700; font-size:13px;
+  cursor:pointer; transition:background .2s, color .2s, border-color .2s, transform .2s;
+  white-space:nowrap;
+}
+.pin-pill:hover{background:var(--paper-2);color:var(--ink);}
+.pin-pill.is-active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+.pin-pill .dot{
+  width:8px; height:8px; border-radius:50%; display:inline-block;
+  background:var(--gold); margin-right:6px; vertical-align:1px;
+}
+.pin-pill.is-active .dot{background:var(--gold-soft);}
+
+/* ---------- catalog: true masonry via CSS columns ---------- */
+.catalog-grid.is-masonry{
+  display:block; /* override the auto-fill grid */
+  column-count:4; column-gap:16px;
+}
+.catalog-grid.is-masonry .catalog-card{
+  break-inside:avoid; -webkit-column-break-inside:avoid;
+  page-break-inside:avoid;
+  display:inline-block; width:100%;
+  margin:0 0 16px; overflow:hidden;
+  position:relative; cursor:pointer;
+  background:var(--paper); border:1px solid var(--line-soft);
+  border-radius:var(--radius-lg);
+  transition:transform .25s ease, box-shadow .25s ease, border-color .2s ease;
+  will-change:transform;
+}
+.catalog-grid.is-masonry .catalog-card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--gold-soft);
+}
+.catalog-grid.is-masonry .catalog-card .pin-cover{
+  position:relative; aspect-ratio:auto; overflow:hidden;
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  background:var(--cream);
+}
+.catalog-grid.is-masonry .catalog-card .pin-cover-art{
+  display:block; width:100%; height:auto;
+}
+.catalog-grid.is-masonry .catalog-card .pin-meta{
+  padding:12px 14px 14px;
+}
+.catalog-grid.is-masonry .catalog-card .pin-row{
+  display:flex; justify-content:space-between; align-items:center;
+  gap:8px; margin-top:8px;
+}
+
+@media (min-width:1180px){ .catalog-grid.is-masonry{column-count:4;} }
+@media (min-width:880px) and (max-width:1179.98px){ .catalog-grid.is-masonry{column-count:3;} }
+@media (min-width:600px) and (max-width:879.98px){ .catalog-grid.is-masonry{column-count:2;} }
+@media (max-width:599.98px){ .catalog-grid.is-masonry{column-count:2;} }
+
+/* ---------- card overlay (save + actions on hover/focus) ---------- */
+.pin-overlay{
+  position:absolute; inset:0;
+  pointer-events:none;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:10px;
+  opacity:0; transition:opacity .18s ease;
+}
+.catalog-grid.is-masonry .catalog-card:hover .pin-overlay,
+.catalog-grid.is-masonry .catalog-card:focus-within .pin-overlay{
+  opacity:1; pointer-events:auto;
+}
+.pin-overlay-top{display:flex; gap:6px;}
+.pin-overlay-bot{display:flex; gap:6px; align-items:center;}
+.pin-save{
+  background:var(--terra-deep); color:var(--cream);
+  border:0; border-radius:999px;
+  padding:8px 14px; font:inherit; font-weight:800; font-size:13px;
+  display:inline-flex; gap:6px; align-items:center;
+  transition:background .2s, transform .2s;
+}
+.pin-save:hover{background:#9c4525; transform:translateY(-1px);}
+.pin-save[aria-pressed="true"]{background:var(--ink);}
+.pin-save svg{width:14px; height:14px;}
+.pin-icon-tile{
+  width:34px; height:34px; border-radius:50%;
+  background:rgba(245,240,232,.92); color:var(--ink);
+  border:0; display:grid; place-items:center;
+  transition:background .2s, color .2s, transform .2s;
+  backdrop-filter:blur(4px);
+}
+.pin-icon-tile:hover{background:var(--cream);color:var(--terra-deep); transform:translateY(-1px);}
+.pin-icon-tile svg{width:16px; height:16px;}
+.pin-icon-tile .pin-menu-list{
+  position:absolute; right:0; top:calc(100% + 6px);
+  min-width:180px; padding:6px; background:var(--paper);
+  border:1px solid var(--line); border-radius:12px;
+  box-shadow:var(--shadow-md);
+  display:none; flex-direction:column;
+  z-index:6; text-align:left;
+}
+.pin-icon-tile.is-open .pin-menu-list{display:flex;}
+.pin-icon-tile{position:relative;}
+.pin-menu-list button{
+  border:0; background:transparent;
+  font:inherit; font-size:13.5px; color:var(--ink);
+  padding:9px 10px; border-radius:8px; text-align:left;
+  width:100%; cursor:pointer;
+}
+.pin-menu-list button:hover{background:var(--paper-2);}
+.pin-menu-list button.danger{color:var(--terra-deep);}
+
+/* ---------- bottom-right meta footer on card ---------- */
+.pin-meta-foot{
+  display:flex; align-items:center; gap:8px;
+  padding:8px 14px 12px;
+  color:var(--ink-mute); font-size:12.5px;
+}
+.pin-meta-foot .pin-avatar{
+  width:26px; height:26px; border-radius:50%;
+  background:var(--gold); color:var(--ink);
+  display:grid; place-items:center; font-weight:800;
+  font-family:var(--serif); font-size:13px;
+}
+.pin-meta-foot .pin-meta-name{font-weight:700; color:var(--ink);}
+.pin-meta-foot .pin-meta-dot{margin:0 4px;}
+
+/* ---------- progressive image placeholder ---------- */
+.pin-lazy-img{
+  display:block; width:100%; height:auto;
+  background:linear-gradient(135deg, var(--cream), var(--paper-2));
+  min-height:120px;
+  transition:filter .4s ease, opacity .4s ease;
+}
+.pin-lazy-img.is-loaded{filter:none; opacity:1;}
+.pin-lazy-img.is-loading{filter:blur(6px); opacity:.55;}
+.pin-skeleton{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent),
+    linear-gradient(135deg, var(--cream), var(--paper-2));
+  background-size:200% 100%, 100% 100%;
+  animation:pinShimmer 1.4s ease-in-out infinite;
+}
+@keyframes pinShimmer{
+  0%{background-position:-100% 0, 0 0;}
+  100%{background-position:200% 0, 0 0;}
+}
+
+/* ---------- detail modal (à la lightbox) ---------- */
+.pin-modal{
+  position:fixed; inset:0; z-index:260;
+  background:rgba(27,27,47,.74);
+  display:none; align-items:center; justify-content:center;
+  padding:20px;
+}
+.pin-modal.is-open{display:flex;}
+.pin-modal-card{
+  width:min(940px, 100%); max-height:calc(100vh - 40px);
+  background:var(--cream); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);
+  display:grid; grid-template-columns:1.05fr 1fr;
+  overflow:hidden; position:relative;
+}
+.pin-modal-img{
+  background:var(--paper); display:flex; align-items:center; justify-content:center;
+  padding:30px; position:relative;
+}
+.pin-modal-img .pin-cover-art{max-height:60vh; width:auto;}
+.pin-modal-body{padding:28px 28px 24px; display:flex; flex-direction:column; gap:12px; overflow:auto;}
+.pin-modal-body h2{
+  font-family:var(--serif); font-size:28px; margin:2px 0 0; line-height:1.1;
+}
+.pin-modal-body .pin-modal-price{
+  color:var(--terra-deep); font-weight:800; font-size:22px;
+}
+.pin-modal-body .pin-modal-tags{display:flex; gap:6px; flex-wrap:wrap;}
+.pin-modal-body .pin-modal-meta{color:var(--ink-mute); font-size:13.5px;}
+.pin-modal-body .pin-modal-actions{display:flex; gap:10px; margin-top:auto; padding-top:14px;}
+.pin-modal-close{
+  position:absolute; top:14px; right:14px; z-index:2;
+  width:38px; height:38px; border-radius:50%;
+  background:rgba(245,240,232,.92); color:var(--ink);
+  border:0; display:grid; place-items:center;
+  transition:background .2s, transform .2s;
+}
+.pin-modal-close:hover{background:var(--cream); transform:rotate(90deg);}
+.pin-modal-close svg{width:18px; height:18px;}
+
+@media (max-width:780px){
+  .pin-modal-card{grid-template-columns:1fr;}
+  .pin-modal-img{padding:18px;}
+  .pin-modal-body{padding:20px;}
+}
+
+/* ---------- floating action button ---------- */
+.pin-fab{
+  position:fixed; right:22px; bottom:22px;
+  width:54px; height:54px; border-radius:50%;
+  background:var(--ink); color:var(--cream);
+  display:none; align-items:center; justify-content:center;
+  border:0; box-shadow:var(--shadow-lg);
+  z-index:120;
+  transition:transform .2s, background .2s;
+}
+.pin-fab:hover{background:#252544; transform:translateY(-2px);}
+.pin-fab.is-shown{display:inline-flex;}
+.pin-fab svg{width:22px; height:22px;}
+@media (max-width:520px){.pin-fab{right:14px; bottom:14px; width:48px; height:48px;}}
+
+/* ---------- focus rings (a11y) ---------- */
+.pin-pill:focus-visible, .pin-cta:focus-visible, .pin-icon-btn:focus-visible,
+.pin-save:focus-visible, .pin-icon-tile:focus-visible, .pin-modal-close:focus-visible,
+.catalog-card:focus-visible{
+  outline:3px solid rgba(232,168,60,.55); outline-offset:2px;
+  box-shadow:none;
+}
+.catalog-card:focus-visible{
+  border-color:var(--gold-deep);
+}
+
+/* ---------- responsive refinements ---------- */
+@media (max-width:880px){
+  .pin-bar-inner{grid-template-columns:auto auto; gap:10px;}
+  .pin-search{order:3; grid-column:1 / -1; max-width:none;}
+  .pin-cta{display:none;}
+  .pin-rail{top:116px;}
+}
+@media (max-width:520px){
+  .pin-brand-text small{display:none;}
+  .pin-brand-text b{font-size:16px;}
+  .pin-actions .pin-icon-btn[data-pin-action="favs"] .pin-badge{display:none;}
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  .pin-skeleton{animation:none;}
+  .pin-lazy-img{transition:none;}
+  .pin-modal-close{transition:none;}
+}
+
+/* ---------- live region for toasts inside pin-modal ---------- */
+.pin-toast{
+  position:fixed; left:50%; bottom:24px; transform:translate(-50%, 20px);
+  background:var(--ink); color:var(--cream);
+  padding:10px 16px; border-radius:999px;
+  font-size:13.5px; font-weight:700;
+  box-shadow:var(--shadow-md);
+  opacity:0; transition:opacity .2s, transform .2s;
+  z-index:280; pointer-events:none;
+}
+.pin-toast.is-shown{opacity:1; transform:translate(-50%, 0);}
+
+</style>
+<style id="shopify-inspired-css">
+/* ===== Shopify-inspired additions (header cart, sidebar, product cards, preview, trust, a11y) ===== */
+.shop-cart-btn{position:relative;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--gold,#E8A83C);color:var(--ink,#1B1B2F);border:none;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;box-shadow:0 1px 0 rgba(0,0,0,.04);}
+.shop-cart-btn:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(27,27,47,.12);}
+.shop-cart-btn:focus-visible{outline:2px solid var(--ink,#1B1B2F);outline-offset:3px;}
+.shop-cart-btn svg{width:18px;height:18px;}
+.shop-cart-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--ink,#1B1B2F);color:var(--gold,#E8A83C);font-size:11px;font-weight:800;line-height:1;}
+.shop-cart-badge[data-count="0"]{display:none;}
+
+.cart-backdrop{position:fixed;inset:0;background:rgba(27,27,47,.55);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:90;}
+.cart-backdrop.is-open{opacity:1;pointer-events:auto;}
+.cart-sidebar{position:fixed;top:0;right:0;bottom:0;width:min(420px,100vw);background:var(--cream,#F5F0E8);z-index:91;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column;box-shadow:-8px 0 24px rgba(27,27,47,.18);}
+.cart-sidebar.is-open{transform:translateX(0);}
+.cart-sidebar-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(27,27,47,.12);background:#fff;}
+.cart-sidebar-head h2{margin:0;font-family:var(--serif,Georgia,serif);font-size:20px;color:var(--ink,#1B1B2F);}
+.cart-close{background:none;border:none;cursor:pointer;font-size:26px;line-height:1;color:var(--ink,#1B1B2F);padding:4px 8px;border-radius:8px;}
+.cart-close:focus-visible{outline:2px solid var(--gold,#E8A83C);outline-offset:2px;}
+.cart-list{flex:1;overflow:auto;padding:12px 20px;list-style:none;margin:0;}
+.cart-list li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(27,27,47,.08);}
+.cart-list .ci-thumb{width:56px;height:56px;border-radius:10px;background:var(--paper,#FAF7F1);display:flex;align-items:center;justify-content:center;font-size:22px;flex:none;border:1px solid rgba(27,27,47,.08);}
+.cart-list .ci-info{flex:1;min-width:0;}
+.cart-list .ci-name{font-weight:700;color:var(--ink,#1B1B2F);font-size:14px;line-height:1.25;margin:0 0 2px;}
+.cart-list .ci-meta{font-size:12px;color:var(--ink-mute,#5a5a72);}
+.cart-list .ci-price{font-weight:800;color:var(--terra-deep,#a14a2c);font-size:14px;margin-top:4px;}
+.cart-list .ci-qty{display:inline-flex;align-items:center;gap:6px;margin-top:6px;}
+.cart-list .ci-qty button{width:26px;height:26px;border-radius:8px;border:1px solid rgba(27,27,47,.15);background:#fff;color:var(--ink,#1B1B2F);cursor:pointer;font-weight:700;}
+.cart-list .ci-qty button:focus-visible{outline:2px solid var(--gold,#E8A83C);outline-offset:2px;}
+.cart-list .ci-qty span{min-width:18px;text-align:center;font-weight:700;}
+.cart-list .ci-remove{background:none;border:none;color:var(--ink-mute,#5a5a72);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
+.cart-list .ci-remove:focus-visible{outline:2px solid var(--gold,#E8A83C);outline-offset:2px;}
+.cart-empty{padding:40px 20px;text-align:center;color:var(--ink-mute,#5a5a72);}
+.cart-empty strong{display:block;color:var(--ink,#1B1B2F);margin-bottom:6px;font-size:16px;}
+.cart-sidebar-foot{padding:16px 20px;border-top:1px solid rgba(27,27,47,.12);background:#fff;}
+.cart-totals{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;font-weight:700;color:var(--ink,#1B1B2F);font-size:15px;}
+.cart-totals b{font-size:20px;}
+.cart-checkout{display:block;width:100%;padding:14px;border:none;border-radius:12px;background:var(--ink,#1B1B2F);color:var(--cream,#F5F0E8);font-weight:800;font-size:15px;cursor:pointer;font-family:inherit;letter-spacing:.01em;}
+.cart-checkout:focus-visible{outline:2px solid var(--gold,#E8A83C);outline-offset:2px;}
+.cart-checkout:hover{background:#272746;}
+.cart-demo-note{font-size:11px;color:var(--ink-mute,#5a5a72);text-align:center;margin-top:8px;line-height:1.4;}
+.shop-cta-row{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap;}
+.shop-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border:none;border-radius:10px;background:var(--gold,#E8A83C);color:var(--ink,#1B1B2F);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit;flex:1;min-width:0;line-height:1.1;}
+.shop-cta:hover{background:#f0b647;}
+.shop-cta:focus-visible{outline:2px solid var(--ink,#1B1B2F);outline-offset:2px;}
+.shop-cta-secondary{background:transparent;color:var(--ink,#1B1B2F);border:1px solid rgba(27,27,47,.2);}
+.shop-cta-secondary:hover{background:rgba(27,27,47,.06);}
+.shop-preview-thumb{position:relative;}
+.shop-preview-thumb .price{position:absolute;left:10px;bottom:10px;background:rgba(255,255,255,.94);padding:4px 8px;border-radius:8px;font-size:12px;}
+.catalog-card .ci-thumb-emoji{font-size:22px;}
+.shop-sort-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:14px 0 18px;}
+.shop-sort-bar label{font-size:13px;color:var(--ink-mute,#5a5a72);font-weight:600;}
+.shop-sort-bar select{padding:8px 12px;border-radius:10px;border:1px solid rgba(27,27,47,.15);background:#fff;font-family:inherit;color:var(--ink,#1B1B2F);font-size:14px;cursor:pointer;}
+.shop-sort-bar select:focus-visible{outline:2px solid var(--gold,#E8A83C);outline-offset:2px;}
+.trust-bar{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;padding:16px 0;border-top:1px solid var(--line-soft,rgba(27,27,47,.08));border-bottom:1px solid var(--line-soft,rgba(27,27,47,.08));background:var(--paper,#FAF7F1);margin-top:24px;}
+.trust-bar .tb-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-mute,#5a5a72);}
+.trust-bar .tb-item svg{width:18px;height:18px;color:var(--leaf,#3a8a5b);flex:none;}
+.trust-bar .tb-item strong{color:var(--ink,#1B1B2F);}
+.shop-preview-modal{position:fixed;inset:0;background:rgba(27,27,47,.7);display:none;align-items:center;justify-content:center;z-index:95;padding:20px;}
+.shop-preview-modal.is-open{display:flex;}
+.shop-preview-panel{background:var(--cream,#F5F0E8);border-radius:16px;max-width:520px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative;}
+.shop-preview-panel .sp-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid rgba(27,27,47,.1);background:#fff;border-radius:16px 16px 0 0;}
+.shop-preview-panel .sp-head h3{margin:0;font-family:var(--serif,Georgia,serif);color:var(--ink,#1B1B2F);}
+.shop-preview-panel .sp-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--ink,#1B1B2F);padding:4px 8px;border-radius:8px;}
+.shop-preview-panel .sp-body{padding:20px;}
+.shop-preview-panel .sp-img{width:100%;aspect-ratio:1.4/1;background:var(--paper,#FAF7F1);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:64px;margin-bottom:16px;border:1px solid rgba(27,27,47,.08);}
+.shop-preview-panel .sp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.shop-preview-panel .sp-tag{font-size:11px;padding:3px 8px;border-radius:999px;background:rgba(232,168,60,.16);color:#7a5410;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.shop-preview-panel .sp-price{font-size:24px;font-weight:800;color:var(--terra-deep,#a14a2c);margin-bottom:12px;}
+.shop-preview-panel .sp-desc{font-size:14px;line-height:1.55;color:var(--ink-mute,#5a5a72);margin-bottom:16px;}
+.shop-preview-panel .sp-meta{display:flex;gap:14px;font-size:12.5px;color:var(--ink-mute,#5a5a72);margin-bottom:18px;flex-wrap:wrap;}
+.shop-preview-panel .sp-actions{display:flex;gap:10px;}
+.shop-preview-panel .sp-actions .shop-cta{flex:1;padding:12px;font-size:14px;}
+@media (max-width:760px){
+.shop-cart-btn .shop-cart-label{display:none;}
+.shop-cart-btn{padding:9px 12px;}
+.shop-preview-panel .sp-img{font-size:48px;}
+.cart-sidebar{width:100vw;}
+.trust-bar{gap:12px;font-size:12px;}
+}
+@media (prefers-reduced-motion:reduce){
+.cart-sidebar,.cart-backdrop,.shop-cart-btn{transition:none;}
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+</style>
+<style id="etalafrique-patch-css">
+/* =============================================================================
+   Correctifs et ajouts — chargés après les feuilles d'origine.
+   ============================================================================= */
+
+/* ---- 1. Fond : background-attachment:fixed provoquait des saccades sur mobile
+        (repaint du dégradé à chaque frame de scroll sur iOS et Android). ---- */
+body{ background-attachment:scroll; }
+@media (min-width:1025px){ body{ background-attachment:fixed; } }
+
+/* Le verrou de défilement fige <body> : on neutralise l'ancrage du fond. */
+body[style*="position: fixed"]{ background-attachment:scroll; }
+
+/* ---- 2. Barre de navigation : le panier était accroché sous la nav dans un
+        bloc flottant pleine largeur. Il fait maintenant partie des actions. ---- */
+.nav-actions{ gap:8px; flex-wrap:nowrap; }
+.nav-actions .shop-cart-btn,
+.nav-actions .saved-btn{ flex:none; }
+.saved-btn{
+  position:relative; display:inline-flex; align-items:center; gap:7px;
+  padding:9px 13px; border-radius:999px;
+  border:1px solid var(--line); background:transparent; color:var(--ink);
+  font:inherit; font-weight:700; font-size:13px; line-height:1;
+  transition:background .2s, color .2s, border-color .2s;
+}
+.saved-btn svg{ width:16px; height:16px; }
+.saved-btn:hover{ background:var(--paper-2); }
+.saved-btn.is-active,
+.saved-btn[aria-pressed="true"]{ background:var(--ink); color:var(--cream); border-color:var(--ink); }
+.saved-btn .count-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:19px; height:19px; padding:0 5px; border-radius:999px;
+  background:var(--terra-deep); color:var(--cream); font-size:11px; font-weight:800;
+}
+.saved-btn .count-badge[hidden]{ display:none; }
+
+/* ---- Recherche repliable dans l'en-tête : un bouton icône ouvre un tiroir
+        pleine largeur sous la nav, au lieu d'un champ toujours ouvert qui
+        prenait ~300px en permanence dans la ligne de navigation. Cette seule
+        modification règle le débordement qui forçait "Comment ça marche" sur
+        trois lignes et coupait les boutons de droite autour de 1366px, sans
+        avoir à cacher les liens de navigation plus tôt qu'il ne faut. ---- */
+.icon-toggle{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:50%; flex:none;
+  border:1px solid var(--line); background:transparent; color:var(--ink);
+  transition:background .2s, border-color .2s;
+}
+.icon-toggle svg{ width:18px; height:18px; }
+.icon-toggle:hover{ background:var(--paper-2); }
+.icon-toggle[aria-expanded="true"]{ background:var(--ink); color:var(--cream); border-color:var(--ink); }
+
+.header-search-bar{
+  max-height:0; overflow:hidden;
+  border-bottom:1px solid transparent;
+  transition:max-height .22s ease, border-color .22s ease;
+  background:var(--cream);
+}
+.header-search-bar.is-open{
+  max-height:88px;
+  border-bottom-color:var(--line-soft);
+}
+.header-search-bar .pin-search{ padding:14px 24px; max-width:var(--max); }
+.header-search-bar .pin-search input{ padding-top:12px; padding-bottom:12px; }
+
+/* Le conteneur de la nav est plafonné à var(--max) = 1240px comme le reste du
+   site. Or les 8 liens + les actions (recherche, 2 boutons, panier, enregistrés,
+   compte) ont besoin d'environ 1900px pour tenir sur une seule ligne : ça ne
+   rentre à AUCUNE largeur d'écran tant que le conteneur reste capé à 1240px.
+   Élargir seulement l'enveloppe de l'en-tête (pas celle du contenu, pour ne
+   pas désaligner le reste des sections) et resserrer un peu les liens comble
+   une bonne partie de l'écart ; le reste est réglé en cachant les liens sous
+   1680px, largeur mesurée pour que plus rien ne déborde ni ne passe à la ligne. */
+/* Mesuré : le nav complet (8 liens + recherche + actions) a besoin d'environ
+   1990px pour tenir sur une seule ligne sans qu'aucun lien ne repasse à la
+   ligne. Le cap est donc mis assez haut pour ne jamais être le facteur
+   limitant (la largeur réelle de l'écran l'est) et le seuil ci-dessous est
+   calé sur cette mesure, avec une marge de sécurité. En pratique, la nav
+   complète ne s'affiche que sur les très grands écrans (~2020px+) ; tout le
+   reste (y compris les portables 1920×1080, très courants) bascule sur le
+   menu hamburger — c'est voulu : mieux vaut un menu propre qu'une nav qui
+   déborde ou dont les liens repassent à la ligne. */
+.nav{ max-width:2200px; }
+.nav-links{ gap:2px; margin-left:4px; flex-shrink:0; }
+.nav-link{ padding:9px 10px; font-size:13.5px; white-space:nowrap; flex-shrink:0; }
+.brand{ flex-shrink:0; }
+
+@media (max-width:2020px){
+  .nav-links{ display:none; }
+  .menu-toggle{ display:grid; }
+  .nav{ gap:16px; }
+}
+@media (max-width:1500px){
+  .nav-actions .btn-ghost{ display:none; }
+}
+@media (max-width:880px){
+  .nav{ flex-wrap:wrap; row-gap:10px; padding:12px 16px; }
+  .nav-actions{ flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+  .nav-actions .auth-nav{ order:0; }
+  .nav-actions .btn-primary{ display:none; }
+  .saved-btn .saved-label{ display:none; }
+  .saved-btn{ padding:9px 11px; }
+  .menu-toggle{ flex:none; }
+}
+@media (max-width:420px){
+  .auth-btn{ padding:9px 12px; font-size:12.5px; }
+}
+
+/* Bandeau « service de compte indisponible » : refermable, et il ne doit pas
+   masquer en permanence le bas de page. */
+.sb-offline{
+  position:fixed; left:0; right:0; bottom:0; z-index:500;
+  display:flex; align-items:center; gap:12px;
+  padding:12px 16px; padding-bottom:calc(12px + env(safe-area-inset-bottom,0px));
+  background:var(--terra-deep); color:var(--paper);
+  font-size:13.5px; line-height:1.45;
+}
+.sb-offline p{ flex:1; margin:0; }
+.sb-offline button{
+  flex:none; border:1px solid rgba(251,247,238,.5); background:transparent;
+  color:inherit; border-radius:999px; padding:6px 12px;
+  font:inherit; font-weight:700; font-size:12.5px; cursor:pointer;
+}
+.sb-offline button:hover{ background:rgba(251,247,238,.16); }
+
+/* ---- 3. Catalogue : état de chargement, compteur, squelettes ---- */
+.catalog-status{
+  margin:0 0 14px; font-size:13.5px; color:var(--ink-mute); font-weight:600;
+  min-height:20px;
+}
+.catalog-card.is-skeleton{ cursor:default; pointer-events:none; }
+.catalog-card.is-skeleton:hover{ transform:none; box-shadow:none; border-color:var(--line-soft); }
+.catalog-card.is-skeleton .pin-cover{ position:relative; }
+.catalog-card.is-skeleton .sk-line{
+  height:13px; border-radius:6px; margin:10px 0;
+  background:linear-gradient(135deg,var(--cream),var(--paper-2));
+}
+.catalog-card.is-skeleton .sk-line.short{ width:55%; }
+
+/* Les actions vivent maintenant dans la carte, sous le prix. */
+.catalog-grid.is-masonry .catalog-card .shop-cta-row{ margin-top:10px; }
+.catalog-grid.is-masonry .catalog-card .city{ margin-top:6px; }
+.catalog-grid.is-masonry .catalog-card .pin-row{ flex-wrap:wrap; }
+.catalog-card .badge-row{ flex-wrap:wrap; gap:5px; }
+
+/* Le menu contextuel dépassait sous la carte (overflow:hidden). */
+.catalog-grid.is-masonry .catalog-card{ overflow:visible; }
+.catalog-grid.is-masonry .catalog-card .pin-cover{ overflow:hidden; }
+
+/* Sur écran tactile, l'overlay au survol n'existe pas : on l'affiche toujours. */
+@media (hover:none){
+  .pin-overlay{ opacity:1; pointer-events:auto; }
+  .pin-save{ padding:7px 11px; font-size:12px; }
+}
+
+/* ---- 4. Panier ---- */
+.cart-empty[hidden]{ display:none; }
+.cart-checkout:disabled{ opacity:.45; cursor:not-allowed; }
+.cart-sidebar{ padding-bottom:env(safe-area-inset-bottom,0); }
+
+/* ---- 5. Notifications : un seul composant, avec une variante d'erreur ---- */
+.pin-toast{ max-width:min(520px,calc(100vw - 32px)); text-align:center; line-height:1.4; }
+.pin-toast.is-error{ background:var(--terra-deep); }
+
+/* ---- 6. Modale de détail : trois actions au lieu de deux ---- */
+.pin-modal-body .pin-modal-actions{ flex-wrap:wrap; }
+.pin-modal-body .pin-modal-actions .btn{ flex:1 1 150px; justify-content:center; }
+.pin-modal-img svg{ width:100%; height:auto; max-height:60vh; border-radius:12px; }
+
+/* ---- 7. Bandeau de garanties, sorti du <footer> où il était imbriqué ---- */
+.trust-bar{ margin-top:0; padding-left:20px; padding-right:20px; }
+
+/* ---- 8. Formulaire de contact ---- */
+.contact-whatsapp{
+  display:inline-flex; align-items:center; gap:8px; margin-top:12px;
+  padding:11px 16px; border-radius:999px;
+  background:var(--leaf); color:var(--cream);
+  font-weight:800; font-size:14px; text-decoration:none;
+}
+.contact-whatsapp:hover{ filter:brightness(1.08); }
+.contact-whatsapp[hidden]{ display:none; }
+
+/* ---- 9. Divers ---- */
+.product-row .remove-product{ align-self:end; }
+.dash-product .icon-btn.danger{ cursor:pointer; }
+[hidden]{ display:none !important; }
+
+/* Sans JavaScript, tout reste lisible : le message le dit. */
+.nojs-note{
+  margin:0; padding:12px 18px; text-align:center;
+  background:var(--gold); color:var(--ink); font-size:13.5px; font-weight:700;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .catalog-card.is-skeleton .pin-skeleton{ animation:none; }
+}
+
+</style>
 </head>
 <body>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <a class="skip" href="#main">Aller au contenu principal</a>
-
-
+<noscript><p class="nojs-note">JavaScript est désactivé : la page reste lisible d’un bloc, mais le catalogue, le panier et la création d’étal ne fonctionnent pas.</p></noscript>
 
 <!-- ====== header ====== -->
 <header class="site-header" role="banner">
@@ -1093,9 +1723,19 @@ section{padding:96px 0;position:relative;}
       <a href="#contact"     class="nav-link" data-nav="contact">Contact</a>
     </div>
     <div class="nav-actions">
+      <button type="button" class="icon-toggle" id="searchToggle" aria-expanded="false" aria-controls="headerSearchBar" aria-label="Rechercher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+        </svg>
+      </button>
       <a href="#contact" class="btn btn-ghost">Parler à l'équipe</a>
       <a href="#create-stall" data-open-creator class="btn btn-primary">Ouvrir mon étal</a>
-      <div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile">Mon profil</button><button type="button" class="auth-logout" id="authLogout">Déconnexion</button></div></div>
+      <button type="button" class="saved-btn" id="savedBtn" aria-pressed="false" aria-label="Voir mes produits enregistrés"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-7-4-7 4z"/></svg><span class="saved-label">Enregistrés</span><span class="count-badge" data-save-count hidden></span></button>
+      <button type="button" class="shop-cart-btn" id="shopCartBtn" aria-label="Ouvrir le panier" aria-haspopup="dialog" aria-controls="shopCartSidebar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.5 12h11L21 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+    <span class="shop-cart-label">Panier</span>
+    <span class="shop-cart-badge" id="shopCartBadge" data-count="0" aria-label="articles">0</span>
+  </button><div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile">Mon profil</button><button type="button" class="auth-logout" id="authLogout">Déconnexion</button></div></div>
       <button class="menu-toggle" id="menuToggle"
               aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
         <svg class="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -1103,19 +1743,37 @@ section{padding:96px 0;position:relative;}
       </button>
     </div>
   </nav>
+  <div class="header-search-bar" id="headerSearchBar" aria-hidden="true">
+    <div class="pin-search" role="search" aria-label="Recherche rapide">
+      <svg class="pin-search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+      </svg>
+      <input type="search" id="pinSearch" placeholder="Rechercher un produit, une boutique, une ville…" aria-label="Recherche sur le site" autocomplete="off">
+      <button type="button" class="pin-search-clear" id="pinSearchClear" aria-label="Effacer la recherche">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </div>
   <div class="menu-scrim" id="menuScrim" aria-hidden="true"></div>
   <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Menu principal">
     <div class="mobile-menu-head"><span class="menu-kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" aria-label="Fermer le menu">×</button></div>
     <nav class="mobile-menu-links" aria-label="Menu principal">
       <a href="#" class="nav-link" data-section="home" data-nav="home">Accueil</a>
       <a href="#" class="nav-link" data-section="catalog" data-nav="catalog">Explorer le catalogue</a>
-      <a href="#" class="nav-link" data-section="create-stall" data-open-creator data-nav="create-stall">Vendre sur ÉtalAfrique</a>
+      <a href="#" class="nav-link" data-section="advantages" data-nav="advantages">Avantages</a>
+      <a href="#" class="nav-link" data-section="features" data-nav="features">Fonctionnalités</a>
       <a href="#" class="nav-link" data-section="how" data-nav="how">Comment ça marche</a>
+      <a href="#" class="nav-link" data-section="pricing" data-nav="pricing">Commission</a>
+      <a href="#" class="nav-link" data-section="faq" data-nav="faq">FAQ</a>
+      <a href="#" class="nav-link" data-section="seller-space" data-nav="seller-space">Espace vendeur</a>
+      <a href="#" class="nav-link" data-section="create-stall" data-nav="create-stall">Vendre sur ÉtalAfrique</a>
       <a href="#" class="nav-link" data-section="contact" data-nav="contact">Contact</a>
     </nav>
-    <div class="language-switcher" aria-label="Sélecteur de langue"><span class="language-label">Langue</span><button type="button" class="lang-btn is-active" aria-pressed="true">FR</button><button type="button" class="lang-btn" aria-pressed="false">EN</button></div>
+    
   </aside>
 </header>
+
 
 <main id="main">
 
@@ -1141,10 +1799,9 @@ section{padding:96px 0;position:relative;}
             <span>A</span><span>F</span><span>I</span><span>M</span>
           </div>
           <div>
-            <strong>2 840+ vendeurs</strong> actifs dans 10 pays
+            <strong>Nouveau sur ÉtalAfrique</strong>
             <div style="margin-top:2px;font-size:12.5px;">
-              <span style="color:var(--gold);" aria-label="Note 4,8 sur 5">★★★★★</span>
-              4,8/5 · 1 240 avis vérifiés
+              Les premiers étals sont en train de s'ouvrir — sois parmi les premiers vendeurs.
             </div>
           </div>
         </div>
@@ -1201,11 +1858,11 @@ section{padding:96px 0;position:relative;}
     </div>
 
     <!-- KPIs -->
-    <div class="kpis reveal" data-delay="4" aria-label="Indicateurs clés">
-      <div class="kpi"><strong>3%</strong><span>commission transparente <span class="accent">par vente</span></span></div>
-      <div class="kpi"><strong>48h</strong><span>escrow de protection <span class="accent">acheteur & vendeur</span></span></div>
-      <div class="kpi"><strong>10</strong><span>pays connectés <span class="accent">de Dakar à Tananarive</span></span></div>
-      <div class="kpi"><strong>2 840</strong><span>vendeurs actifs <span class="accent">au quotidien</span></span></div>
+    <div class="kpis reveal" data-delay="4" aria-label="Le modèle">
+      <div class="kpi"><strong>3%</strong><span>commission <span class="accent">par vente confirmée</span></span></div>
+      <div class="kpi"><strong>0</strong><span>frais fixe <span class="accent">à l'ouverture de l'étal</span></span></div>
+      <div class="kpi"><strong>10</strong><span>pays visés <span class="accent">de Dakar à Tananarive</span></span></div>
+      <div class="kpi"><strong>60 s</strong><span>pour publier <span class="accent">un premier produit</span></span></div>
     </div>
   </div>
 </section>
@@ -1221,7 +1878,7 @@ section{padding:96px 0;position:relative;}
     <div class="grid">
       <article class="adv reveal" data-delay="1"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></div><span class="num">01 — VISIBILITÉ</span><h3>Ton savoir-faire se voit</h3><p>Une vitrine claire, partageable sur WhatsApp, pour toucher des clients bien au-delà de ton quartier.</p></article>
       <article class="adv reveal" data-delay="2"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div><span class="num">02 — SIMPLICITÉ</span><h3>Vendre sans mode d'emploi</h3><p>Publie un produit en 60 secondes, même avec une connexion fragile. L'expérience parle ton langage.</p></article>
-      <article class="adv reveal" data-delay="3"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div><span class="num">03 — CONFIANCE</span><h3>L'argent, protégé pour tous</h3><p>Chaque paiement reste en escrow 48h : l'acheteur reçoit, le vendeur est payé. Sans tension, sans promesse floue.</p></article>
+      <article class="adv reveal" data-delay="3"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/><path d="m8 12 2.5 2.5L16 9"/></svg></div><span class="num">03 — CONFIANCE</span><h3>Un paiement qui reste simple</h3><p>Acheteur et vendeur se mettent d'accord sur le mode de règlement (Mobile Money, espèces) et finalisent directement, sans intermédiaire caché.</p></article>
       <article class="adv reveal" data-delay="4"><div class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><span class="num">04 — CROISSANCE</span><h3>Grandir à ton rythme</h3><p>Des outils de suivi, de fidélité et d'avance de trésorerie pour transformer une activité en vraie entreprise.</p></article>
     </div>
   </div>
@@ -1258,21 +1915,13 @@ section{padding:96px 0;position:relative;}
   </div>
 </section>
 
-<!-- ====== TESTIMONIALS ====== -->
-<section id="testimonials" data-tab="how" aria-labelledby="test-h">
-  <div class="wrap">
-    <div class="section-head split reveal"><div><span class="eyebrow">Paroles de terrain</span><h2 id="test-h" class="section-title">Ce que ça change,<br><em>au quotidien.</em></h2></div><p class="section-lede">Des vendeuses, des artisans, des producteurs et des clients qui font grandir le marché avec nous.</p></div>
-    <div class="testimonial-stage reveal" data-delay="1" aria-roledescription="carousel" aria-label="Témoignages de vendeurs ÉtalAfrique">
-      <div class="testimonial-track" id="testimonialTrack">
-        <article class="testimonial-slide is-active" data-slide="0" role="group" aria-label="Témoignage 1 sur 4"><div><div class="testimonial-portrait tone-a" aria-hidden="true">FA</div></div><div class="testimonial-body"><blockquote>Avant, mes clientes devaient venir jusqu'à ma maison. Aujourd'hui, je reçois des commandes de Thiès et je sais exactement quand je serai payée.</blockquote><div class="testimonial-meta"><span class="who">Fatoumata A.</span><span class="role">Pagne & mode · Dakar</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
-        <article class="testimonial-slide" data-slide="1" role="group" aria-label="Témoignage 2 sur 4"><div><div class="testimonial-portrait tone-b" aria-hidden="true">IB</div></div><div class="testimonial-body"><blockquote>La commission de 3% est claire. Je préfère ça à un intermédiaire qui prend plus et ne m'aide pas à vendre.</blockquote><div class="testimonial-meta"><span class="who">Ibrahim K.</span><span class="role">Miel & produits bruts · Bamako</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
-        <article class="testimonial-slide" data-slide="2" role="group" aria-label="Témoignage 3 sur 4"><div><div class="testimonial-portrait tone-c" aria-hidden="true">AN</div></div><div class="testimonial-body"><blockquote>J'ai commencé avec trois savons. En quatre mois, j'ai une vraie liste de clientes et je prépare mes stocks avec le tableau de bord.</blockquote><div class="testimonial-meta"><span class="who">Aïssatou N.</span><span class="role">Cosmétiques · Abidjan</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
-        <article class="testimonial-slide" data-slide="3" role="group" aria-label="Témoignage 4 sur 4"><div><div class="testimonial-portrait tone-d" aria-hidden="true">JM</div></div><div class="testimonial-body"><blockquote>J'achète les yeux fermés : profil de démonstration, paiement simulé et suivi de démo. C'est le marché de mon quartier, en mieux.</blockquote><div class="testimonial-meta"><span class="who">Jean-Marc D.</span><span class="role">Acheteur · Cotonou</span><span class="stars" aria-label="5 étoiles">★★★★★</span></div></div></article>
-      </div>
-      <div class="slider-controls"><div class="slider-dots" role="tablist" aria-label="Choisir un témoignage"><button class="is-active" type="button" role="tab" aria-selected="true" aria-label="Témoignage 1"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 2"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 3"></button><button type="button" role="tab" aria-selected="false" aria-label="Témoignage 4"></button></div><div class="slider-buttons"><button id="prevTestimonial" type="button" aria-label="Témoignage précédent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></button><button id="nextTestimonial" type="button" aria-label="Témoignage suivant"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button></div></div>
-    </div>
-  </div>
-</section>
+<!-- ====== TESTIMONIALS (placeholder retiré) ======
+     Les 4 témoignages fournis avec le gabarit d'origine étaient inventés
+     (texte de démonstration, faux noms). Les présenter comme des avis
+     clients réels sur un site en ligne serait trompeur : la section est
+     retirée jusqu'à ce que de vrais retours existent. Remets-la en la
+     remplissant avec des citations authentiques, ou supprime totalement
+     le lien "Témoignages" du pied de page si tu ne comptes pas la garder. -->
 
 <!-- ====== PRICING ====== -->
 <section id="pricing" data-tab="pricing" aria-labelledby="pricing-h" style="padding-top:24px;">
@@ -1280,7 +1929,7 @@ section{padding:96px 0;position:relative;}
     <div class="section-head reveal"><span class="eyebrow">Un modèle juste</span><h2 id="pricing-h" class="section-title">Tu ne paies que<br>quand tu <em>vends.</em></h2><p class="section-lede">Pas d'abonnement caché, pas de mise en avant payante pour exister. L'étal est gratuit à ouvrir, la commission est la même pour tout le monde.</p></div>
     <div class="pricing-card reveal" data-delay="1">
       <div><span class="pricing-eyebrow">Plan unique · sans surprise</span><h2>Une vente réussie.<br>Un partage équitable.</h2><div class="price"><span class="big">3%</span><span class="small">par vente<br>confirmée</span></div><p>Tu gardes 97% de chaque commande. L'inscription, la vitrine, le support et les mises à jour restent gratuits.</p><div class="cta-row"><a class="btn btn-gold" href="#create-stall" data-open-creator>Commencer gratuitement</a><a class="btn btn-outline-light" href="#faq">Questions fréquentes</a></div></div>
-      <div class="compare"><h3>Ce qui est inclus, dès aujourd'hui</h3><div class="compare-row"><span class="label">Ouvrir une boutique</span><span class="ours">✓ Gratuit</span><span class="theirs">Payant</span></div><div class="compare-row"><span class="label">Publier ses produits</span><span class="ours">✓ Illimité</span><span class="theirs">Limité</span></div><div class="compare-row"><span class="label">Paiements Mobile Money</span><span class="ours">✓ Inclus</span><span class="theirs">Variable</span></div><div class="compare-row"><span class="label">Protection escrow</span><span class="ours">✓ 48h</span><span class="theirs">Rarement</span></div><div class="compare-row"><span class="label">Support humain</span><span class="ours">✓ 7j/7</span><span class="theirs">À la carte</span></div></div>
+      <div class="compare"><h3>Ce qui est inclus, dès aujourd'hui</h3><div class="compare-row"><span class="label">Ouvrir une boutique</span><span class="ours">✓ Gratuit</span><span class="theirs">Payant</span></div><div class="compare-row"><span class="label">Publier ses produits</span><span class="ours">✓ Illimité</span><span class="theirs">Limité</span></div><div class="compare-row"><span class="label">Paiements Mobile Money</span><span class="ours">✓ Inclus</span><span class="theirs">Variable</span></div><div class="compare-row"><span class="label">Paiement Mobile Money</span><span class="ours">✓ Direct</span><span class="theirs">Variable</span></div><div class="compare-row"><span class="label">Support humain</span><span class="ours">✓ 7j/7</span><span class="theirs">À la carte</span></div></div>
     </div>
   </div>
 </section>
@@ -1290,11 +1939,11 @@ section{padding:96px 0;position:relative;}
   <div class="wrap">
     <div class="section-head split reveal"><div><span class="eyebrow">Bâtir avec confiance</span><h2 id="trust-h" class="section-title">Une plateforme<br><em>qui rend des comptes.</em></h2></div><p class="section-lede">Tes données, ton argent, tes clients : nous construisons les fondations pour un commerce qui dure.</p></div>
     <div class="trust-row">
-      <div class="trust-badge reveal" data-delay="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/></svg></div><div class="name">Escrow 48h</div><div class="meta">argent protégé</div></div>
-      <div class="trust-badge reveal" data-delay="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></svg></div><div class="name">Profil de démonstration</div><div class="meta">aucune vérification réelle</div></div>
+      <div class="trust-badge reveal" data-delay="1"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 4v5c0 4.5-3.4 7.5-8 9-4.6-1.5-8-4.5-8-9V7l8-4z"/></svg></div><div class="name">Commission claire</div><div class="meta">3% affichés, rien de caché</div></div>
+      <div class="trust-badge reveal" data-delay="2"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 13h5"/></svg></div><div class="name">Sans engagement</div><div class="meta">aucun abonnement, aucun frais caché</div></div>
       <div class="trust-badge reveal" data-delay="3"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="9"/></svg></div><div class="name">Données locales</div><div class="meta">confidentialité d'abord</div></div>
       <div class="trust-badge reveal" data-delay="4"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div><div class="name">Mobile Money</div><div class="meta">paiement sécurisé</div></div>
-      <div class="trust-badge reveal" data-delay="5"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7L21 9.6l-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div><div class="name">Avis de démonstration</div><div class="meta">contenu fictif</div></div>
+      <div class="trust-badge reveal" data-delay="5"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 2.8 5.7L21 9.6l-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3z"/></svg></div><div class="name">Étal gratuit</div><div class="meta">ouverture en moins de 2 minutes</div></div>
       <div class="trust-badge reveal" data-delay="6"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v14H4zM8 9h8M8 13h5"/></svg></div><div class="name">Support humain</div><div class="meta">en français & local</div></div>
     </div>
     <div class="creds"><div class="cred reveal" data-delay="1"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Transparence</strong>commission affichée</div></div><div class="cred reveal" data-delay="2"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Sans exclusivité</strong>tu restes libre</div></div><div class="cred reveal" data-delay="3"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Conçu en Afrique</strong>pour nos usages</div></div><div class="cred reveal" data-delay="4"><div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg></div><div class="t"><strong>Accessible</strong>même hors ligne</div></div></div>
@@ -1307,7 +1956,7 @@ section{padding:96px 0;position:relative;}
     <div class="section-head reveal"><span class="eyebrow">On répond franchement</span><h2 id="faq-h" class="section-title">Les questions qu'on<br>nous pose <em>souvent.</em></h2></div>
     <div class="faq-list reveal" data-delay="1">
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment fonctionne la protection escrow de 48h ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">Quand l'acheteur paie, l'argent est mis de côté. Le vendeur expédie la commande et l'acheteur confirme la réception. Si tout va bien, l'argent est libéré sous 48h. En cas de problème, notre équipe intervient pour trouver une solution équitable.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
@@ -1325,10 +1974,10 @@ section{padding:96px 0;position:relative;}
 
 <div class="creator-modal" id="creatorModal" role="dialog" aria-modal="true" aria-labelledby="creatorModalTitle" aria-describedby="creatorModalDescription" aria-hidden="true">
   <div class="creator-dialog">
-    <div class="creator-head"><div><span class="creator-kicker" style="color:var(--gold-soft);">Prototype vendeur · compte Supabase</span><h2 id="creatorModalTitle">Ouvrir mon étal</h2><p id="creatorModalDescription">Tes informations sont synchronisées sur ton compte Supabase, accessible depuis n'importe quel appareil.</p></div><button class="creator-close" id="closeCreator" type="button" aria-label="Fermer la création d'étal">×</button></div>
+    <div class="creator-head"><div><span class="creator-kicker" style="color:var(--gold-soft);">Espace vendeur · compte sécurisé</span><h2 id="creatorModalTitle">Ouvrir mon étal</h2><p id="creatorModalDescription">Tes informations sont synchronisées sur ton compte Supabase, accessible depuis n'importe quel appareil.</p></div><button class="creator-close" id="closeCreator" type="button" aria-label="Fermer la création d'étal">×</button></div>
     <div class="creator-body">
       <form class="creator-form" id="stallForm" novalidate>
-        <div class="local-warning" role="note">🔐 Ton étal est sécurisé et synchronisé dans Supabase après connexion.</div>
+        <div class="local-warning" role="note">Ton étal est enregistré sur ton compte : tu le retrouves depuis n’importe quel appareil après connexion.</div>
         <span class="creator-kicker">01 · Ton identité de vendeur</span><h3 class="creator-section-title">Présente ton activité</h3>
         <div class="creator-fields">
           <div class="creator-field"><label for="sellerName">Ton nom *</label><input id="sellerName" name="sellerName" required placeholder="Awa Ndiaye" autocomplete="name"></div>
@@ -1338,7 +1987,7 @@ section{padding:96px 0;position:relative;}
           <div class="creator-field full"><label for="stallDescription">Une phrase sur ton étal</label><textarea id="stallDescription" name="stallDescription" placeholder="Des créations et produits choisis avec soin..."></textarea></div>
         </div>
         <div class="product-builder"><span class="creator-kicker">02 · Tes produits</span><h3 class="creator-section-title">Ajoute ce que tu vends</h3><div id="productRows"></div><button class="btn btn-ghost" type="button" id="addProduct">+ Ajouter un produit</button></div>
-        <div class="creator-error" id="stallError" role="alert" aria-live="polite"></div><div class="creator-actions"><button class="btn btn-primary" type="submit">Publier mon étal <span aria-hidden="true">→</span></button><button class="btn btn-ghost" type="button" id="saveDraft">Sauvegarder le brouillon</button></div><p class="creator-note">* Champs obligatoires. Version bêta : connexion Supabase requise. Aucun paiement réel.</p>
+        <div class="creator-error" id="stallError" role="alert" aria-live="polite"></div><div class="creator-actions"><button class="btn btn-primary" type="submit">Publier mon étal <span aria-hidden="true">→</span></button><button class="btn btn-ghost" type="button" id="saveDraft">Sauvegarder le brouillon</button></div><p class="creator-note">* Champs obligatoires. Le paiement se règle pour l’instant directement avec l’acheteur ; ÉtalAfrique ne traite pas encore les paiements en ligne.</p>
       </form>
       <aside class="creator-preview" aria-label="Aperçu de l'étal"><span class="creator-kicker">03 · Aperçu en direct</span><h3 class="creator-section-title">Voilà à quoi il ressemble</h3><div class="stall-card"><h3 id="previewTitle">Ton étal</h3><p class="stall-meta" id="previewMeta">Ville · catégorie</p><p class="stall-description" id="previewDescription">Ajoute une description pour donner envie de découvrir ton univers.</p><div class="stall-products" id="previewProducts"><div class="stall-product"><strong>Tes produits apparaîtront ici</strong><span>—</span></div></div></div></aside>
     </div>
@@ -1348,12 +1997,39 @@ section{padding:96px 0;position:relative;}
 <!-- ====== CATALOGUE ====== -->
 <section id="catalog" data-tab="catalog" class="catalog-section" aria-labelledby="catalog-h">
   <div class="wrap">
-    <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits disponibles et les boutiques publiées. Les exemples ci-dessous sont intégrés à la démo ; tes boutiques publiées localement apparaissent ici automatiquement.</p></div>
+    <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.</p></div>
     <div class="catalog-toolbar" role="search" aria-label="Rechercher dans le catalogue">
       <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall">Boutiques</button></div>
       <input id="catalogSearch" class="catalog-search" type="search" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
     </div>
-    <div id="catalogGrid" class="catalog-grid" aria-live="polite"></div>
+    
+    <div class="pin-rail-inner" role="tablist" aria-label="Catégories du marché" id="pinRail">
+      <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span>Tout</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span>Textile</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span>Beauté & soin</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span>Agroalimentaire</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span>Artisanat</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span>Décoration</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span>Mode</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span>Tech & maison</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span>Enfants</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span>Services</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span>Boutiques locales</button>
+    </div>
+    
+<div class="shop-sort-bar" aria-label="Tri du catalogue">
+  <label for="shopSort">Trier&nbsp;:</label>
+  <select id="shopSort" aria-label="Trier les résultats">
+    <option value="default">Pertinence</option>
+    <option value="price-asc">Prix croissant</option>
+    <option value="price-desc">Prix décroissant</option>
+    <option value="name-asc">Nom (A → Z)</option>
+    <option value="name-desc">Nom (Z → A)</option>
+    <option value="city-asc">Ville (A → Z)</option>
+  </select>
+</div>
+<p class="catalog-status" id="catalogStatus" role="status" aria-live="polite"></p>
+<div id="catalogGrid" class="catalog-grid is-masonry"></div>
     <div id="catalogEmpty" class="catalog-empty" hidden>Aucun résultat dans le catalogue. <a href="#create-stall" data-open-creator>Ouvrir mon étal</a></div>
   </div>
 </section>
@@ -1367,8 +2043,8 @@ section{padding:96px 0;position:relative;}
     <div class="seller-empty" id="sellerEmpty" hidden>
       <div class="seller-id-row" role="status" aria-live="polite">
         <span class="creator-kicker">Connexion Supabase</span>
-        <span class="grow">Session active sur cet appareil — vendeuse anonyme · <code>Supabase</code> <span id="sellerIdKeyEmpty">synchronisation Supabase</span></span>
-        <button type="button" class="btn btn-ghost" id="sellerLogoutEmpty" aria-label="Fermer la session locale">Déconnexion</button>
+        <span class="grow"><span id="sellerIdKeyEmpty">Aucune session — connecte-toi pour retrouver ton étal sur tous tes appareils.</span></span>
+        <button type="button" class="btn btn-ghost" id="sellerLogoutEmpty" aria-label="Fermer la session">Déconnexion</button>
       </div>
       <div class="seller-empty-card">
         <span class="creator-kicker">Pas encore d'étal</span>
@@ -1385,8 +2061,8 @@ section{padding:96px 0;position:relative;}
     <div class="seller-dashboard" id="sellerDashboard" hidden>
       <div class="seller-id-row" role="status" aria-live="polite">
         <span class="creator-kicker">Connexion Supabase</span>
-        <span class="grow">Session active sur cet appareil — <span id="sellerIdName">vendeuse anonyme</span> · <code>Supabase</code> <span id="sellerIdKey">synchronisation Supabase</span></span>
-        <button type="button" class="btn btn-ghost" id="sellerLogout" aria-label="Fermer la session locale">Déconnexion</button>
+        <span class="grow">Connecté·e en tant que <span id="sellerIdName">—</span> · <span id="sellerIdKey">synchronisé via Supabase</span></span>
+        <button type="button" class="btn btn-ghost" id="sellerLogout" aria-label="Fermer la session">Déconnexion</button>
       </div>
       <div class="seller-summary">
         <div class="seller-summary-head">
@@ -1449,178 +2125,1741 @@ section{padding:96px 0;position:relative;}
   <div class="wrap">
     <div class="section-head reveal"><span class="eyebrow">On commence ensemble</span><h2 id="contact-h" class="section-title">Ton prochain client<br>est peut-être <em>déjà là.</em></h2><p class="section-lede">Laisse-nous tes coordonnées. Un membre de l'équipe ÉtalAfrique te répond sous 24h pour ouvrir ton étal ou répondre à tes questions.</p></div>
     <div class="contact-grid">
-      <aside class="contact-info reveal" data-delay="1"><h3>Parlons de ton activité.</h3><p>Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.</p><ul class="contact-list"><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 9h8M8 13h5"/></svg></span><span><span class="label">Réponse rapide</span><br><span class="v">Sous 24h, du lundi au samedi</span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg></span><span><span class="label">Email</span><br><span class="v"><a href="mailto:banqzwazirlayarde@gmail.com">banqzwazirlayarde@gmail.com</a></span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2 2c1 2 2 3 4 4l2-2 5 2v4c-7 2-15-5-15-15z"/></svg></span><span><span class="label">WhatsApp</span><br><span class="v"><a href="https://wa.me/2290166584697" target="_blank" rel="noopener">+229 01 66 58 46 97</a></span></span></li></ul></aside>
-      <form class="contact-form reveal" data-delay="2" id="contactForm" name="contact">
+      <aside class="contact-info reveal" data-delay="1"><h3>Parlons de ton activité.</h3><p>Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.</p><ul class="contact-list"><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4zM8 9h8M8 13h5"/></svg></span><span><span class="label">Réponse rapide</span><br><span class="v">Sous 24h, du lundi au samedi</span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m4 6 8 6 8-6"/></svg></span><span><span class="label">Email</span><br><span class="v"><a id="contactMail" href="#contact" data-user="banqzwazirlayarde" data-dom="gmail.com">écrire à l’équipe</a></span></span></li><li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2 2c1 2 2 3 4 4l2-2 5 2v4c-7 2-15-5-15-15z"/></svg></span><span><span class="label">WhatsApp</span><br><span class="v"><a href="https://wa.me/2290166584697" target="_blank" rel="noopener">+229 01 66 58 46 97</a></span></span></li></ul></aside>
+      <form class="contact-form reveal" data-delay="2" id="contactForm" name="contact" novalidate>
         <div class="field" id="fieldName"><label for="name">Ton nom <span class="req" aria-hidden="true">*</span></label><input id="name" name="name" type="text" aria-describedby="name-error" aria-invalid="false" autocomplete="name" placeholder="Awa Ndiaye" required><div class="err" id="name-error" role="alert">Indique ton nom pour qu'on puisse te répondre.</div></div>
         <div class="field" id="fieldEmail"><label for="email">Ton email <span class="req" aria-hidden="true">*</span></label><input id="email" name="email" type="email" aria-describedby="email-error" aria-invalid="false" autocomplete="email" placeholder="awa@exemple.com" required><div class="err" id="email-error" role="alert">Entre une adresse email valide.</div></div>
         <div class="field"><label for="topic">Je veux...</label><select id="topic" name="topic"><option value="seller">Ouvrir mon étal</option><option value="buyer">Acheter sur ÉtalAfrique</option><option value="partnership">Proposer un partenariat</option><option value="support">Parler au support</option></select></div>
         <div class="field" id="fieldMessage"><label for="message">Ton message <span class="req" aria-hidden="true">*</span></label><textarea id="message" name="message" aria-describedby="message-error" aria-invalid="false" placeholder="Dis-nous ce que tu aimerais vendre ou ce dont tu as besoin..." required></textarea><div class="err" id="message-error" role="alert">Ajoute un court message (10 caractères minimum).</div></div>
         <button class="btn btn-primary" type="submit">Envoyer ma demande <span aria-hidden="true">→</span></button>
-        <div class="form-success" id="formSuccess" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg><span>Merci ! Ta demande est bien partie. On revient vers toi sous 24h.</span></div>
+        <div class="form-success" id="formSuccess" role="status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 4 4L19 6"/></svg><span>Merci ! Ta demande est enregistrée. On revient vers toi sous 24h.</span></div>
+        <a class="contact-whatsapp" id="contactWhatsapp" href="#" target="_blank" rel="noopener" hidden>Envoyer aussi sur WhatsApp</a>
       </form>
     </div>
   </div>
 </section>
 </main>
 
+<div class="trust-bar" aria-label="Garanties de la boutique">
+  <div class="tb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 9-8 10-4.5-1-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg><span><strong>Commande par WhatsApp</strong> — paiement réglé avec le vendeur</span></div>
+  <div class="tb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg><span><strong>Catalogue réel</strong> — les étals publiés apparaissent ici</span></div>
+  <div class="tb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><span><strong>Profil vendeur</strong> — nom, ville et catalogue visibles</span></div>
+  <div class="tb-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 11.5a8 8 0 1 1-15 4l-3 1 1-3a8 8 0 0 1 17-2z"/></svg><span><strong>Réponse sous 24 h</strong> — par email ou WhatsApp</span></div>
+</div>
+
 <!-- ====== footer ====== -->
 <footer class="site-footer" role="contentinfo">
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand footer-col"><a href="#home" class="brand" aria-label="ÉtalAfrique — retour à l'accueil"><span class="brand-mark" aria-hidden="true"></span><span class="brand-text" style="color:var(--cream);">ÉtalAfrique<small>commerce de confiance</small></span></a><p>Le marché de tout le monde, dans la poche de tout le monde. Né en Afrique, pensé pour l'Afrique.</p></div>
-      <div class="footer-col"><h4>Découvrir</h4><ul><li><a href="#advantages">Nos avantages</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#how">Comment ça marche</a></li><li><a href="#testimonials">Témoignages</a></li></ul></div>
+      <div class="footer-col"><h4>Découvrir</h4><ul><li><a href="#advantages">Nos avantages</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#how">Comment ça marche</a></li></ul></div>
       <div class="footer-col"><h4>Ressources</h4><ul><li><a href="#pricing">Commission & tarifs</a></li><li><a href="#faq">Questions fréquentes</a></li><li><a href="#contact">Centre d'aide</a></li><li><a href="#trust">Confiance & sécurité</a></li></ul></div>
-      <div class="footer-col"><h4>Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</p><form class="footer-newsletter" id="newsletterForm" name="newsletter">
+      <div class="footer-col"><h4>Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</p><form class="footer-newsletter" id="newsletterForm" name="newsletter" novalidate>
           <label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" aria-label="S'inscrire à la newsletter">→</button></form></div>
     </div>
     <div class="footer-bottom"><span>© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
   </div>
-<div class="auth-backdrop" id="authBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-hidden="true"><div class="auth-modal-head"><div><span class="auth-kicker">ÉtalAfrique · compte local</span><h2 id="authTitle">Bienvenue au marché.</h2></div><button type="button" class="auth-close" id="authClose" aria-label="Fermer">×</button></div><div class="auth-tabs" role="tablist"><button type="button" class="auth-tab is-active" id="authTabLogin" role="tab" aria-selected="true">Connexion</button><button type="button" class="auth-tab" id="authTabRegister" role="tab" aria-selected="false">Créer un compte</button></div><div class="auth-pane" id="authPaneLogin"><form id="authLoginForm" novalidate><div class="auth-field"><label for="authLoginEmail">Adresse email</label><input id="authLoginEmail" type="email" placeholder="ton@email.com" autocomplete="email" required><div class="auth-error" id="authLoginEmailError" role="alert"></div></div><div class="auth-field"><label for="authLoginPassword">Mot de passe</label><input id="authLoginPassword" type="password" placeholder="Ton mot de passe" autocomplete="current-password" required><div class="auth-error" id="authLoginPasswordError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Se connecter</button><button class="auth-forgot" id="authForgot" type="button">Mot de passe oublié ?</button></form></div><div class="auth-pane" id="authPaneRegister" hidden><form id="authRegisterForm" novalidate><div class="auth-field"><label for="authName">Nom complet</label><input id="authName" type="text" placeholder="Awa Ndiaye" autocomplete="name" required><div class="auth-error" id="authNameError" role="alert"></div></div><div class="auth-field"><label for="authEmail">Adresse email</label><input id="authEmail" type="email" placeholder="ton@email.com" autocomplete="email" required><div class="auth-error" id="authEmailError" role="alert"></div></div><div class="auth-field"><label for="authPassword">Mot de passe (8 caractères min.)</label><input id="authPassword" type="password" placeholder="8 caractères minimum" autocomplete="new-password" minlength="8" required><div class="auth-error" id="authPasswordError" role="alert"></div></div><div class="auth-field"><label for="authConfirm">Confirmer le mot de passe</label><input id="authConfirm" type="password" placeholder="Retape le même mot de passe" autocomplete="new-password" required><div class="auth-error" id="authConfirmError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Créer mon compte</button></form></div></section></div><div class="auth-backdrop" id="authProfileBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authProfileTitle"><div class="auth-modal-head"><div><span class="auth-kicker">Mon espace</span><h2 id="authProfileTitle">Mon profil</h2></div><button type="button" class="auth-close" id="authProfileClose" aria-label="Fermer">×</button></div><div class="auth-profile"><p><strong>Nom :</strong> <span id="authProfileName"></span></p><p><strong>Email :</strong> <span id="authProfileEmail"></span></p><p style="font-size:12px">Compte conservé uniquement dans ce navigateur.</p></div></section></div><div class="auth-toast" id="authToast" role="status" aria-live="polite"></div>
 </footer>
 
+<!-- ====== boîtes de dialogue (hors flux du document) ====== -->
+<div class="auth-backdrop" id="authBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle" aria-hidden="true"><div class="auth-modal-head"><div><span class="auth-kicker">ÉtalAfrique · compte local</span><h2 id="authTitle">Bienvenue au marché.</h2></div><button type="button" class="auth-close" id="authClose" aria-label="Fermer">×</button></div><div class="auth-tabs" role="tablist"><button type="button" class="auth-tab is-active" id="authTabLogin" role="tab" aria-selected="true">Connexion</button><button type="button" class="auth-tab" id="authTabRegister" role="tab" aria-selected="false">Créer un compte</button></div><div class="auth-pane" id="authPaneLogin"><form id="authLoginForm" novalidate><div class="auth-field"><label for="authLoginEmail">Adresse email</label><input id="authLoginEmail" type="email" placeholder="ton@email.com" autocomplete="email" required><div class="auth-error" id="authLoginEmailError" role="alert"></div></div><div class="auth-field"><label for="authLoginPassword">Mot de passe</label><input id="authLoginPassword" type="password" placeholder="Ton mot de passe" autocomplete="current-password" required><div class="auth-error" id="authLoginPasswordError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Se connecter</button><button class="auth-forgot" id="authForgot" type="button">Mot de passe oublié ?</button></form></div><div class="auth-pane" id="authPaneRegister" hidden><form id="authRegisterForm" novalidate><div class="auth-field"><label for="authName">Nom complet</label><input id="authName" type="text" placeholder="Awa Ndiaye" autocomplete="name" required><div class="auth-error" id="authNameError" role="alert"></div></div><div class="auth-field"><label for="authEmail">Adresse email</label><input id="authEmail" type="email" placeholder="ton@email.com" autocomplete="email" required><div class="auth-error" id="authEmailError" role="alert"></div></div><div class="auth-field"><label for="authPassword">Mot de passe (8 caractères min.)</label><input id="authPassword" type="password" placeholder="8 caractères minimum" autocomplete="new-password" minlength="8" required><div class="auth-error" id="authPasswordError" role="alert"></div></div><div class="auth-field"><label for="authConfirm">Confirmer le mot de passe</label><input id="authConfirm" type="password" placeholder="Retape le même mot de passe" autocomplete="new-password" required><div class="auth-error" id="authConfirmError" role="alert"></div></div><button class="btn btn-primary auth-submit" type="submit">Créer mon compte</button></form></div></section></div><div class="auth-backdrop" id="authProfileBackdrop" role="presentation"><section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authProfileTitle"><div class="auth-modal-head"><div><span class="auth-kicker">Mon espace</span><h2 id="authProfileTitle">Mon profil</h2></div><button type="button" class="auth-close" id="authProfileClose" aria-label="Fermer">×</button></div><div class="auth-profile"><p><strong>Nom :</strong> <span id="authProfileName"></span></p><p><strong>Email :</strong> <span id="authProfileEmail"></span></p><p style="font-size:12px">Compte conservé uniquement dans ce navigateur.</p></div></section></div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ÉtalAfrique — Authentification et gestion des étals avec Supabase. */
-(function(){
-'use strict';
-// Le client est initialisé une seule fois dans le <head>, après le chargement du SDK CDN.
-const client=window.etalafriqueSupabase;
-const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
-const toast=(m,error=false)=>{const e=$('authToast');if(!e)return;e.textContent=m;e.className='auth-toast is-visible'+(error?' is-error':'');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('is-visible'),3500)};
-let session=null, focusBefore=null, activeStall=null;
-function authReady(){if(!client){toast('Service de compte indisponible — vérifie ta connexion ou ton bloqueur de pub, puis recharge la page.',true);return false}return true}
-function showAuth(tab='login',msg){$('authBackdrop').classList.add('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden';switchTab(tab);if(msg)toast(msg,true)}
-function closeAuth(){ $('authBackdrop').classList.remove('is-open');$('authBackdrop').querySelector('.auth-modal').setAttribute('aria-hidden','true');document.body.style.overflow='';if(focusBefore)focusBefore.focus() }
-function switchTab(tab){const l=tab==='login';$('authPaneLogin').hidden=!l;$('authPaneRegister').hidden=l;$('authTabLogin').classList.toggle('is-active',l);$('authTabRegister').classList.toggle('is-active',!l)}
-function renderAuth(){const u=session?.user,meta=u?.user_metadata||{};$('authOpen').hidden=!!u;$('authUser').hidden=!u;if(u){$('authAvatar').textContent=(meta.name||u.email||'?')[0].toUpperCase();$('authUserName').textContent=meta.name||u.email}}
-async function requireSession(){if(!session){showAuth('login','Connecte-toi pour ouvrir ton espace vendeur.');return false}return true}
-async function loadStalls(){if(!client)return[];const {data,error}=await client.from('stalls').select('*').order('created_at',{ascending:false});if(error){console.warn(error);return[]}return data||[]}
-function normalize(s){return {id:s.id,sellerName:s.owner_id===session?.user?.id?(session.user.user_metadata?.name||session.user.email):'vendeur ÉtalAfrique',stallName:s.name,stallCity:s.city,stallCategory:s.category,stallDescription:s.description||'',products:Array.isArray(s.products)?s.products:[],published:true,savedAt:s.created_at}}
-async function saveStall(d){if(!client||!session)return {error:{message:'Connexion Supabase requise'}};const payload={owner_id:session.user.id,name:d.stallName,city:d.stallCity,category:d.stallCategory,products:d.products,description:d.stallDescription||''};const q=d.id?client.from('stalls').update(payload).eq('id',d.id).select().single():client.from('stalls').insert(payload).select().single();return await q}
-async function renderDashboard(){const all=await loadStalls(), mine=all.filter(x=>x.owner_id===session?.user?.id), raw=mine[0]&&normalize(mine[0]);$('sellerEmpty').hidden=!!raw;$('sellerDashboard').hidden=!raw;if(!raw)return;activeStall=raw;$('dashStallName').textContent=raw.stallName;$('dashStallMeta').textContent=[raw.sellerName,raw.stallCity,raw.stallCategory].filter(Boolean).join(' · ');const ps=raw.products.filter(p=>p.name),stock=ps.reduce((a,p)=>a+(+p.stock||0),0),value=ps.reduce((a,p)=>a+(+p.price||0)*(+p.stock||0),0);$('statProducts').textContent=ps.length;$('statStock').textContent=stock;$('statValue').textContent=value.toLocaleString('fr-FR')+' FCFA';$('statStatus').textContent='Publié';$('statSavedAt').textContent='synchronisé '+new Date(raw.savedAt).toLocaleString('fr-FR');$('publishToggle').checked=true;$('publishLabel').textContent='Publié';$('dashProducts').innerHTML=ps.map((p,i)=>`<div class="dash-product"><div class="grow"><strong>${esc(p.name)}</strong><div class="meta">${esc(p.stock||0)} en stock</div></div><span class="price">${esc(p.price||'Prix à définir')} FCFA</span><button class="icon-btn danger" type="button" data-action="delete" data-idx="${i}">×</button></div>`).join('');}
-async function renderCreated(){const all=await loadStalls(),mine=all.filter(x=>x.owner_id===session?.user?.id),s=mine[0]&&normalize(mine[0]);if(!s){$('createdStall').classList.remove('is-shown');return}s.id=mine[0].id;activeStall=s;$('createdStall').classList.add('is-shown');$('createdStallTitle').textContent=s.stallName;$('createdStallMeta').textContent=[s.sellerName,s.stallCity,s.stallCategory].join(' · ');$('createdStallDescription').textContent=s.stallDescription||'Une vitrine ÉtalAfrique synchronisée.';$('createdStallProducts').innerHTML=s.products.map(p=>`<div class="stall-product"><strong>${esc(p.name)}</strong><span>${esc(p.price||'Prix à définir')} FCFA</span></div>`).join('')}
-async function renderCatalog(){const all=await loadStalls(),items=[];all.forEach(s=>{const n=normalize(s);n.products.filter(p=>p.name).forEach(p=>items.push({type:'product',name:p.name,stall:n.stallName,city:n.stallCity,price:p.price,stock:p.stock,tag:n.stallCategory,isDemo:false}));items.push({type:'stall',name:n.stallName,seller:n.sellerName,city:n.stallCity,category:n.stallCategory,description:n.stallDescription,products:n.products.length,isDemo:false})});const q=($('catalogSearch')?.value||'').toLowerCase(),f=document.querySelector('.catalog-tab.is-active')?.dataset.catalogFilter||'all';let list=items.filter(i=>(f==='all'||i.type===f)&&(!q||JSON.stringify(i).toLowerCase().includes(q)));$('catalogGrid').innerHTML=list.map(i=>i.type==='product'?`<article class="catalog-card"><div class="badge-row"><span class="demo-badge">${esc(i.tag||'Produit')}</span>${i.isDemo?'<span class="local-only-badge">Exemple de démonstration</span>':''}</div><h3>${esc(i.name)}</h3><div class="city">📍 ${esc(i.city)} · ${esc(i.stall)}</div><div class="price">${Number(i.price||0).toLocaleString('fr-FR')} FCFA</div></article>`:`<article class="catalog-card"><div class="badge-row"><span class="demo-badge">${esc(i.category)}</span>${i.isDemo?'<span class="local-only-badge">Exemple de démonstration</span>':''}</div><h3>${esc(i.name)}</h3><div class="city">📍 ${esc(i.city)}</div><p>${esc(i.description||'Boutique ÉtalAfrique')}</p></article>`).join('');$('catalogEmpty').hidden=!!list.length}
-$('authOpen').addEventListener('click',()=>{focusBefore=document.activeElement;showAuth()});$('authClose').addEventListener('click',closeAuth);$('authTabLogin').addEventListener('click',()=>switchTab('login'));$('authTabRegister').addEventListener('click',()=>switchTab('register'));$('authForgot').addEventListener('click',async()=>{if(!authReady())return;const email=$('authLoginEmail').value.trim();if(!email){toast('Entre ton email ci-dessus, puis clique à nouveau.',true);$('authLoginEmail').focus();return}const{error}=await client.auth.resetPasswordForEmail(email);if(error)toast(error.message,true);else toast('Email de réinitialisation envoyé si ce compte existe.')});$('authBackdrop').addEventListener('click',e=>{if(e.target.id==='authBackdrop')closeAuth()});
-$('authRegisterForm').addEventListener('submit',async e=>{e.preventDefault();if(!authReady())return;const name=$('authName').value.trim(),email=$('authEmail').value.trim(),password=$('authPassword').value;if(password!==$('authConfirm').value||password.length<8){toast('Mot de passe : 8 caractères minimum et confirmation identique.',true);return}const {error}=await client.auth.signUp({email,password,options:{data:{name}}});if(error)toast(error.message,true);else{toast('Compte créé ! Regarde ta boîte mail (et tes spams) et clique sur le lien de confirmation avant de te connecter.');switchTab('login');$('authLoginEmail').value=email}});
-$('authLoginForm').addEventListener('submit',async e=>{e.preventDefault();if(!authReady())return;const email=$('authLoginEmail').value.trim();const {data,error}=await client.auth.signInWithPassword({email,password:$('authLoginPassword').value});if(error){if(/email.*not.*confirmed/i.test(error.message)){const{error:resendErr}=await client.auth.resend({type:'signup',email});toast(resendErr?'Email pas encore confirmé. Clique sur le lien reçu par mail (vérifie aussi les spams).':'Email pas encore confirmé — un nouveau lien de confirmation vient d’être envoyé, vérifie ta boîte mail (et tes spams).',true)}else toast(error.message,true)}else{session=data.session;renderAuth();closeAuth();await renderDashboard();await renderCreated();toast('Connexion réussie.')}});
-$('authLogout').addEventListener('click',async()=>{if(client)await client.auth.signOut();session=null;renderAuth();$('authDropdown').hidden=true;toast('Déconnexion réussie.')});$('authUser').addEventListener('click',()=>{$('authDropdown').hidden=!$('authDropdown').hidden});
-document.addEventListener('click',async e=>{const t=e.target.closest('[data-open-creator]');if(t&&!await requireSession()){e.preventDefault();e.stopImmediatePropagation()}if(e.target.closest('#sellerLogout,#sellerLogoutEmpty')){if(client)await client.auth.signOut();session=null;renderAuth();renderDashboard()}} ,true);
-const modal=$('creatorModal'),form=$('stallForm'),rows=$('productRows');function fields(){return {sellerName:$('sellerName').value.trim(),stallName:$('stallName').value.trim(),stallCity:$('stallCity').value.trim(),stallCategory:$('stallCategory').value,stallDescription:$('stallDescription').value.trim(),products:[...rows.querySelectorAll('.product-row')].map(r=>({name:r.querySelector('.p-name')?.value.trim(),price:r.querySelector('.p-price')?.value,stock:r.querySelector('.p-stock')?.value})).filter(p=>p.name)}}function setForm(d){$('sellerName').value=d.sellerName||session?.user?.user_metadata?.name||'';$('stallName').value=d.stallName||'';$('stallCity').value=d.stallCity||'';$('stallCategory').value=d.stallCategory||'Mode & textile';$('stallDescription').value=d.stallDescription||'';rows.innerHTML='';(d.products?.length?d.products:[{}]).forEach(addProduct)}function addProduct(p={}){const r=document.createElement('div');r.className='product-row';r.innerHTML=`<div><label>Produit *</label><input class="p-name" value="${esc(p.name||'')}" required></div><div><label>Prix FCFA</label><input class="p-price" type="number" value="${esc(p.price||'')}"></div><div><label>Stock</label><input class="p-stock" type="number" value="${esc(p.stock||'')}"></div><button class="remove-product" type="button">×</button>`;rows.appendChild(r);r.querySelector('.remove-product').onclick=()=>r.remove()}
-$('addProduct').onclick=()=>addProduct();$('closeCreator').onclick=()=>modal.classList.remove('is-open');$('editStall').onclick=async()=>{if(activeStall){setForm(activeStall);modal.classList.add('is-open')}};$('dashEdit').onclick=()=>{$('editStall').click()};$('dashAddProduct').onclick=()=>{$('editStall').click();setTimeout(()=>addProduct(),50)};
-form.addEventListener('submit',async e=>{e.preventDefault();const d=fields();if(!d.stallName||!d.stallCity||!d.products.length){$('stallError').textContent='Complète les champs obligatoires et ajoute un produit.';return}const r=await saveStall({...d,id:activeStall?.id});if(r.error){$('stallError').textContent=r.error.message;return}toast('Étal enregistré dans Supabase.');modal.classList.remove('is-open');await renderDashboard();await renderCreated();await renderCatalog()});
-$('dashReset').onclick=async()=>{if(activeStall&&confirm('Supprimer cet étal ?')){await client.from('stalls').delete().eq('id',activeStall.id);activeStall=null;await renderDashboard();await renderCreated();await renderCatalog()}};$('catalogSearch')?.addEventListener('input',renderCatalog);document.addEventListener('click',e=>{const b=e.target.closest('[data-catalog-filter]');if(b){document.querySelectorAll('.catalog-tab').forEach(x=>{x.classList.toggle('is-active',x===b)});renderCatalog()}});
-async function init(){if(client){const r=await client.auth.getSession();session=r.data.session;client.auth.onAuthStateChange((_e,s)=>{session=s;renderAuth();renderDashboard();renderCreated();renderCatalog()})}renderAuth();await renderDashboard();await renderCreated();await renderCatalog()}init();
-})();
-</script>
+<!-- ====== modale de détail produit ====== -->
+<div class="pin-modal" id="pinModal" role="dialog" aria-modal="true"
+     aria-labelledby="pinModalTitle" aria-hidden="true">
+  <div class="pin-modal-card" role="document">
+    <button type="button" class="pin-modal-close" id="pinModalClose"
+            aria-label="Fermer l’aperçu détaillé">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="pin-modal-img" id="pinModalImg"></div>
+    <div class="pin-modal-body">
+      <div class="pin-modal-meta" id="pinModalMeta">—</div>
+      <h2 id="pinModalTitle">—</h2>
+      <div class="pin-modal-price" id="pinModalPrice">—</div>
+      <div class="pin-modal-tags" id="pinModalTags"></div>
+      <p id="pinModalDesc" style="color:var(--ink-soft); line-height:1.55;"></p>
+      <div class="pin-modal-actions">
+        <button type="button" class="btn btn-gold" id="pinModalAdd" hidden>Ajouter au panier</button>
+        <button type="button" class="btn btn-primary" id="pinModalSave">Enregistrer</button>
+        <button type="button" class="btn btn-ghost" id="pinModalContact">
+          Contacter la boutique
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- ====== Floating action button (back to top + quick action) ====== -->
+<button type="button" class="pin-fab" id="pinFab" aria-label="Retour en haut"
+        title="Retour en haut">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
 
+<!-- ====== Toast ====== -->
+<div class="pin-toast" id="pinToast" role="status" aria-live="polite"></div>
+
+<!-- ====== Pinterest-inspired enhancements (additive) ====== -->
+
+<!-- ====== Cart sidebar (Shopify-inspired) ====== -->
+<div class="cart-backdrop" id="cartBackdrop" aria-hidden="true"></div>
+<aside class="cart-sidebar" id="shopCartSidebar" role="dialog" aria-modal="true" aria-labelledby="shopCartTitle" aria-hidden="true">
+  <div class="cart-sidebar-head">
+    <h2 id="shopCartTitle">Ton panier</h2>
+    <button type="button" class="cart-close" id="shopCartClose" aria-label="Fermer le panier">×</button>
+  </div>
+  <ul class="cart-list" id="shopCartList" aria-live="polite"></ul>
+  <div class="cart-empty" id="shopCartEmpty">
+    <strong>Ton panier est vide.</strong>
+    <span>Ajoute des produits depuis le catalogue pour les retrouver ici.</span>
+  </div>
+  <div class="cart-sidebar-foot">
+    <div class="cart-totals"><span>Total</span><b id="shopCartTotal">0 FCFA</b></div>
+    <button type="button" class="cart-checkout" id="shopCheckoutBtn">Commander via WhatsApp</button>
+    <p class="cart-demo-note">Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.</p>
+  </div>
+</aside>
+
+<!-- =============================================================================
+     Scripts — chargés en fin de document pour ne pas bloquer le premier rendu.
+     Ordre imposé : SDK Supabase → client partagé → moteur de la page.
+     ============================================================================= -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.etalafriqueSupabaseLoadFailed=true"></script>
 <script>
-(function(){
-  'use strict';
-  document.documentElement.classList.add('js');
-  const $=(s,root=document)=>root.querySelector(s), $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
-  // Menu toggle is implemented once in the dedicated navigation controller below.
-  // Scroll progress, throttled to one update per animation frame.
-  const progress=$('#scrollProgress'); let ticking=false;
-  const updateProgress=()=>{if(!progress)return;const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(max>0?(window.scrollY/max)*100:0)+'%';ticking=false;};
-  window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(updateProgress);}}, {passive:true}); updateProgress();
-  const revealEls=$$('.reveal');
-  if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}}),{threshold:.12,rootMargin:'0px 0px -40px 0px'});revealEls.forEach(el=>observer.observe(el));}else revealEls.forEach(el=>el.classList.add('is-visible'));
-  // Nav-link active state is now driven by the tab controller (see the navigation script below), not scroll position.
-  // Testimonials: one owned interval only; reduced motion disables autoplay.
-  const slides=$$('.testimonial-slide'),dots=$$('.slider-dots button'),stage=$('.testimonial-stage');let currentSlide=0,autoSlide=null;
-  const showSlide=index=>{if(!slides.length)return;currentSlide=(index+slides.length)%slides.length;slides.forEach((slide,i)=>{const active=i===currentSlide;slide.classList.toggle('is-active',active);slide.setAttribute('aria-hidden',String(!active));});dots.forEach((dot,i)=>{const active=i===currentSlide;dot.classList.toggle('is-active',active);dot.setAttribute('aria-selected',String(active));});};
-  const stopAuto=()=>{if(autoSlide!==null){clearInterval(autoSlide);autoSlide=null;}};
-  const startAuto=()=>{stopAuto();if(stage&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches)autoSlide=setInterval(()=>showSlide(currentSlide+1),6500);};
-  $('#prevTestimonial')?.addEventListener('click',()=>{showSlide(currentSlide-1);startAuto();});$('#nextTestimonial')?.addEventListener('click',()=>{showSlide(currentSlide+1);startAuto();});dots.forEach((dot,i)=>dot.addEventListener('click',()=>{showSlide(i);startAuto();}));stage?.addEventListener('mouseenter',stopAuto);stage?.addEventListener('mouseleave',startAuto);stage?.addEventListener('focusin',stopAuto);stage?.addEventListener('focusout',e=>{if(!stage.contains(e.relatedTarget))startAuto();});showSlide(0);startAuto();
-  // FAQ accordion.
-  $$('.faq-q').forEach(button=>button.addEventListener('click',()=>{const answer=document.getElementById(button.getAttribute('aria-controls')),open=button.getAttribute('aria-expanded')==='true';$$('.faq-q').forEach(other=>{other.setAttribute('aria-expanded','false');const panel=document.getElementById(other.getAttribute('aria-controls'));if(panel)panel.style.maxHeight=null;});if(!open){button.setAttribute('aria-expanded','true');answer.style.maxHeight=answer.scrollHeight+'px';}}));
-  // Accessible local contact validation.
-  const form=$('#contactForm');
-  const validate=(field,input,valid)=>{field.classList.toggle('is-invalid',!valid);input.setAttribute('aria-invalid',String(!valid));return valid;};
-  form?.addEventListener('submit',e=>{e.preventDefault();const name=$('#name'),email=$('#email'),message=$('#message');const okName=validate($('#fieldName'),name,name.value.trim().length>=2),okEmail=validate($('#fieldEmail'),email,/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())),okMessage=validate($('#fieldMessage'),message,message.value.trim().length>=10);if(okName&&okEmail&&okMessage){$('#formSuccess').classList.add('is-shown');form.querySelectorAll('input,select,textarea,button[type="submit"]').forEach(el=>el.disabled=true);}else (form.querySelector('.is-invalid input,.is-invalid textarea'))?.focus();});
-  [['name','#fieldName'],['email','#fieldEmail'],['message','#fieldMessage']].forEach(([id,field])=>$('#'+id)?.addEventListener('input',()=>{const input=$('#'+id);if(input.value.trim()){ $(field).classList.remove('is-invalid');input.setAttribute('aria-invalid','false');}}));
-  $('#newsletterForm')?.addEventListener('submit',e=>{e.preventDefault();const input=$('#newsletterEmail');if(!input.checkValidity()){input.focus();return;}input.value='';input.placeholder='Merci, à bientôt !';});
-})();
+  /* Clé « publishable » : conçue pour être publique. Ne jamais mettre ici la clé
+     service_role. La sécurité repose sur les règles RLS de la table stalls. */
+  (function () {
+    var SUPABASE_URL = 'https://ojpngoxcpjeruntxbdhg.supabase.co';
+    var SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_lByOLOhEhhE7KPBdzAFAwQ_tzveyXfl';
+    try {
+      if (window.supabase && typeof window.supabase.createClient === 'function') {
+        window.etalafriqueSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+      } else {
+        window.etalafriqueSupabaseLoadFailed = true;
+      }
+    } catch (err) {
+      console.error('Initialisation Supabase :', err);
+      window.etalafriqueSupabaseLoadFailed = true;
+    }
+    if (window.etalafriqueSupabaseLoadFailed) {
+      document.addEventListener('DOMContentLoaded', function () {
+        var bar = document.createElement('div');
+        bar.className = 'sb-offline';
+        bar.setAttribute('role', 'alert');
+        bar.innerHTML = '<p>Le service de compte n\u2019a pas pu se charger (réseau ou bloqueur de publicité). ' +
+          'Le catalogue reste consultable ; la connexion et la création d\u2019étal sont indisponibles.</p>' +
+          '<button type="button">Fermer</button>';
+        bar.querySelector('button').addEventListener('click', function () { bar.remove(); });
+        document.body.appendChild(bar);
+      });
+    }
+  })();
 </script>
-
-
 <script>
-(function(){
+/* =============================================================================
+   ÉtalAfrique — moteur unique de la page.
+   Remplace les 4 scripts concurrents de la version précédente (auth, UI,
+   navigation, "pinterest", "shopify") qui se marchaient dessus : deux
+   observateurs sur la même grille, deux modales produit, cinq modules qui
+   remettaient document.body.style.overflow à zéro les uns après les autres.
+   Ordre : utilitaires → état → données → rendu → interactions.
+   ============================================================================= */
+(function () {
   'use strict';
-  const menu=document.getElementById('mobileMenu'), toggle=document.getElementById('menuToggle'), closeBtn=document.getElementById('menuClose'), scrim=document.getElementById('menuScrim');
-  const focusable=()=>Array.from(menu.querySelectorAll('a[href],button:not([disabled])')).filter(el=>el.offsetParent!==null);
-  let lastFocus=null;
-  const mainEl=document.getElementById('main');
-  function closeMenu(restore=true){menu.classList.remove('is-open');scrim.classList.remove('is-open');menu.setAttribute('aria-hidden','true');scrim.setAttribute('aria-hidden','true');toggle.setAttribute('aria-expanded','false');toggle.setAttribute('aria-label','Ouvrir le menu');document.body.style.overflow='';if(mainEl)mainEl.removeAttribute('inert');if(restore&&lastFocus)lastFocus.focus();}
-  function openMenu(){lastFocus=document.activeElement;menu.classList.add('is-open');scrim.classList.add('is-open');menu.setAttribute('aria-hidden','false');scrim.setAttribute('aria-hidden','false');toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label','Fermer le menu');document.body.style.overflow='hidden';if(mainEl)mainEl.setAttribute('inert','');setTimeout(()=>{(focusable()[0]||closeBtn).focus()},20);}
-  toggle.addEventListener('click',()=>menu.classList.contains('is-open')?closeMenu():openMenu());closeBtn.addEventListener('click',()=>closeMenu());scrim.addEventListener('click',()=>closeMenu());
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('is-open')){e.preventDefault();closeMenu();}if(e.key==='Tab'&&menu.classList.contains('is-open')){const f=focusable();if(!f.length)return;if(e.shiftKey&&document.activeElement===f[0]){e.preventDefault();f[f.length-1].focus();}else if(!e.shiftKey&&document.activeElement===f[f.length-1]){e.preventDefault();f[0].focus();}}});
 
-  /* ---------------------------------------------------------------
-     Tab controller: each major part of the site (Accueil, Avantages,
-     Fonctionnalités, Comment ça marche, Commission, FAQ, Créer mon
-     étal, Catalogue, Espace vendeur, Contact) is its own independent
-     view — only one is visible at a time, none of them mixed with
-     the homepage. Anchors that used to jump to a subsection now map
-     to the tab that owns that content.
-     --------------------------------------------------------------- */
-  const TAB_PANELS = Array.from(document.querySelectorAll('main>[data-tab]'));
-  const TAB_IDS = Array.from(new Set(TAB_PANELS.map(el=>el.dataset.tab)));
-  const SECTION_TO_TAB = {home:'home',advantages:'advantages',features:'features',how:'how',testimonials:'how',pricing:'pricing',trust:'pricing',faq:'faq','create-stall':'create-stall',catalog:'catalog','seller-space':'seller-space',contact:'contact'};
-  const TAB_TITLES = {
-    home:'ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde',
-    advantages:'Nos avantages — ÉtalAfrique', features:'Fonctionnalités — ÉtalAfrique',
-    how:'Comment ça marche — ÉtalAfrique', pricing:'Commission & tarifs — ÉtalAfrique',
-    faq:'Questions fréquentes — ÉtalAfrique', 'create-stall':'Créer mon étal — ÉtalAfrique',
-    catalog:'Catalogue — ÉtalAfrique', 'seller-space':'Espace vendeur — ÉtalAfrique', contact:'Contact — ÉtalAfrique'
-  };
-  const DEFAULT_TITLE = document.title;
+  var doc = document;
+  var root = doc.documentElement;
+  root.classList.add('js');
 
-  function setActiveNav(id){
-    document.querySelectorAll('[data-nav]').forEach(link=>{
-      const match=link.dataset.nav===id;
-      link.classList.toggle('is-active',match);
-      if(match) link.setAttribute('aria-current','page'); else link.removeAttribute('aria-current');
+  /* ==========================================================================
+     1. Utilitaires
+     ========================================================================== */
+  function $(sel, ctx) { return (ctx || doc).querySelector(sel); }
+  function $$(sel, ctx) { return Array.prototype.slice.call((ctx || doc).querySelectorAll(sel)); }
+  function byId(id) { return doc.getElementById(id); }
+
+  var ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  function esc(v) { return String(v == null ? '' : v).replace(/[&<>"']/g, function (c) { return ESC_MAP[c]; }); }
+
+  function fcfa(n) {
+    var v = Number(n);
+    if (!isFinite(v) || v <= 0) return 'Prix sur demande';
+    return v.toLocaleString('fr-FR') + ' FCFA';
+  }
+
+  function slug(s) {
+    return String(s || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'x';
+  }
+
+  function fold(s) {
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  function debounce(fn, wait) {
+    var t;
+    return function () {
+      var args = arguments, self = this;
+      clearTimeout(t);
+      t = setTimeout(function () { fn.apply(self, args); }, wait);
+    };
+  }
+
+  var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function scrollBehavior() { return REDUCED.matches ? 'auto' : 'smooth'; }
+
+  /* Stockage local tolérant : mode privé, quota plein, cookies bloqués. */
+  var store = (function () {
+    var ok = true;
+    try { localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); }
+    catch (e) { ok = false; }
+    return {
+      get: function (key, fallback) {
+        if (!ok) return fallback;
+        try {
+          var raw = localStorage.getItem(key);
+          return raw == null ? fallback : JSON.parse(raw);
+        } catch (e) { return fallback; }
+      },
+      set: function (key, value) {
+        if (!ok) return false;
+        try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+        catch (e) { return false; }
+      }
+    };
+  })();
+
+  /* ==========================================================================
+     2. Verrou de défilement partagé (compteur, plus de conflit entre modales)
+     ========================================================================== */
+  var ScrollLock = (function () {
+    var depth = 0, savedY = 0;
+    return {
+      lock: function () {
+        if (depth++ > 0) return;
+        savedY = window.scrollY;
+        var sbw = window.innerWidth - root.clientWidth;
+        doc.body.style.position = 'fixed';
+        doc.body.style.top = -savedY + 'px';
+        doc.body.style.width = '100%';
+        if (sbw > 0) doc.body.style.paddingRight = sbw + 'px';
+      },
+      unlock: function () {
+        if (depth === 0) return;
+        if (--depth > 0) return;
+        doc.body.style.position = '';
+        doc.body.style.top = '';
+        doc.body.style.width = '';
+        doc.body.style.paddingRight = '';
+        window.scrollTo(0, savedY);
+      }
+    };
+  })();
+
+  /* ==========================================================================
+     3. Boîtes de dialogue : ouverture, fermeture, piège à focus, Échap
+     ========================================================================== */
+  var openDialogs = [];
+  var FOCUSABLE = 'a[href],area[href],button:not([disabled]),input:not([disabled]):not([type="hidden"]),' +
+                  'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+  function focusables(el) {
+    return $$(FOCUSABLE, el).filter(function (n) {
+      return n.offsetWidth || n.offsetHeight || n.getClientRects().length;
     });
   }
-  function showTab(id){
-    TAB_PANELS.forEach(el=>el.classList.toggle('is-active-tab', el.dataset.tab===id));
-    setActiveNav(id);
-    document.title = TAB_TITLES[id] || DEFAULT_TITLE;
-  }
-  function goToTab(id, {push=true, instant=false}={}){
-    if(!TAB_IDS.includes(id)) id='home';
-    showTab(id);
-    const hash = id==='home' ? '#' : '#'+id;
-    if(push && location.hash!==hash) history.pushState({tab:id}, '', hash);
-    window.scrollTo({top:0, behavior: instant||window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-  }
-  function tabFromHash(){
-    const raw=(location.hash||'').slice(1);
-    if(raw==='') return 'home';
-    return SECTION_TO_TAB[raw] || null;
+
+  function Dialog(el, options) {
+    options = options || {};
+    var self = {
+      el: el,
+      isOpen: function () { return el.classList.contains(options.openClass || 'is-open'); },
+      open: function () {
+        if (!el || self.isOpen()) return;
+        self._last = doc.activeElement;
+        el.classList.add(options.openClass || 'is-open');
+        el.setAttribute('aria-hidden', 'false');
+        if (options.panel) options.panel.setAttribute('aria-hidden', 'false');
+        ScrollLock.lock();
+        openDialogs.push(self);
+        if (options.onOpen) options.onOpen();
+        setTimeout(function () {
+          var target = (options.initialFocus && options.initialFocus()) || focusables(el)[0];
+          if (target) target.focus();
+        }, 30);
+      },
+      close: function () {
+        if (!el || !self.isOpen()) return;
+        el.classList.remove(options.openClass || 'is-open');
+        el.setAttribute('aria-hidden', 'true');
+        if (options.panel) options.panel.setAttribute('aria-hidden', 'true');
+        ScrollLock.unlock();
+        openDialogs = openDialogs.filter(function (d) { return d !== self; });
+        if (options.onClose) options.onClose();
+        if (self._last && self._last.focus) self._last.focus();
+      },
+      toggle: function () { self.isOpen() ? self.close() : self.open(); }
+    };
+
+    if (el) {
+      /* Clic sur le fond = fermeture. */
+      el.addEventListener('mousedown', function (e) {
+        if (e.target === el && options.lightDismiss !== false) self.close();
+      });
+    }
+    return self;
   }
 
-  // Initial view: honour a deep link (e.g. …#pricing) without animating on load.
-  showTab(tabFromHash() || 'home');
-  window.addEventListener('popstate', ()=>showTab(tabFromHash() || 'home'));
-
-  // Single delegated handler covers desktop nav, mobile menu links, footer links and CTAs.
-  document.addEventListener('click', e=>{
-    const el=e.target.closest('[data-section], a[href^="#"]');
-    if(!el) return;
-    const raw = el.dataset.section || el.getAttribute('href').slice(1);
-    if(!raw || !(raw in SECTION_TO_TAB)) return;
-    e.preventDefault();
-    goToTab(SECTION_TO_TAB[raw]);
-    if(menu.contains(el)) closeMenu(false);
+  /* Échap ferme la boîte la plus récente ; Tab reste piégé dedans. */
+  doc.addEventListener('keydown', function (e) {
+    if (!openDialogs.length) return;
+    var top = openDialogs[openDialogs.length - 1];
+    if (e.key === 'Escape') { e.preventDefault(); top.close(); return; }
+    if (e.key !== 'Tab') return;
+    var list = focusables(top.el);
+    if (!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && (doc.activeElement === first || !top.el.contains(doc.activeElement))) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && doc.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
   });
 
-  const translations={fr:{'nav.catalog':'Catalogue','nav.contact':'Contact','hero.cta':'Ouvrir mon étal — gratuit'},en:{'nav.catalog':'Catalog','nav.contact':'Contact','hero.cta':'Open my stall — free'}}; function switchLanguage(lang){document.documentElement.lang=lang;document.querySelectorAll('.lang-btn').forEach(b=>{const on=b.textContent.trim().toLowerCase()===lang;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',String(on));});document.querySelector('[data-nav="catalog"]')?.replaceChildren(translations[lang]['nav.catalog']);document.querySelector('[data-nav="contact"]')?.replaceChildren(translations[lang]['nav.contact']);} document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>switchLanguage(btn.textContent.trim().toLowerCase())));
-})();
-</script>
+  /* ==========================================================================
+     4. Notifications (une seule file, plus deux systèmes concurrents)
+     ========================================================================== */
+  var toastEl = byId('pinToast');
+  var toastTimer = null;
+  function toast(message, kind) {
+    if (!toastEl) return;
+    toastEl.textContent = message;
+    toastEl.className = 'pin-toast is-shown' + (kind === 'error' ? ' is-error' : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('is-shown'); }, kind === 'error' ? 5200 : 2600);
+  }
 
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
+  /* ==========================================================================
+     5. Catégories du catalogue
+     ========================================================================== */
+  var CAT_LABEL = {
+    textile: 'Textile', beaute: 'Beauté & soin', agro: 'Agroalimentaire', artisanat: 'Artisanat',
+    decoration: 'Décoration', mode: 'Mode', tech: 'Tech & maison', enfants: 'Enfants', services: 'Services'
+  };
+
+  /* Rattache une catégorie du rail à un produit publié depuis Supabase. */
+  var CAT_KEYWORDS = {
+    textile: ['tissu', 'wax', 'bogolan', 'pagne', 'textile', 'coton', 'kente'],
+    beaute: ['karite', 'savon', 'huile', 'beurre', 'baume', 'soin', 'creme', 'parfum'],
+    agro: ['riz', 'mil', 'cereale', 'miel', 'the', 'cafe', 'epice', 'attieke', 'jus'],
+    artisanat: ['panier', 'vannerie', 'masque', 'sculpture', 'poterie', 'calebasse', 'bois'],
+    decoration: ['lampe', 'coussin', 'tenture', 'decor', 'tapis', 'vase'],
+    mode: ['sac', 'bijou', 'chemise', 'robe', 'chaussure', 'bracelet', 'collier', 'cuir'],
+    tech: ['telephone', 'chargeur', 'kit', 'batterie', 'solaire', 'ecouteur'],
+    enfants: ['enfant', 'bebe', 'jouet', 'poupee'],
+    services: ['service', 'cours', 'livraison', 'reparation', 'coiffure', 'atelier']
+  };
+
+  function guessCategory(text) {
+    var hay = fold(text);
+    for (var key in CAT_KEYWORDS) {
+      var words = CAT_KEYWORDS[key];
+      for (var i = 0; i < words.length; i++) {
+        if (hay.indexOf(words[i]) !== -1) return key;
+      }
+    }
+    return 'artisanat';
+  }
+
+  /* ==========================================================================
+     6. Visuel de carte généré (aucune image externe à charger)
+     ========================================================================== */
+  var PALETTES = [
+    ['#E8A83C', '#C48A24', '#1B1B2F'], ['#D4754E', '#B8552E', '#F5F0E8'],
+    ['#1F8A5F', '#136B47', '#F2C57A'], ['#3D3A56', '#1B1B2F', '#E8A83C'],
+    ['#E8A892', '#D4754E', '#1B1B2F'], ['#F2C57A', '#E8A83C', '#B8552E']
+  ];
+
+  function hashOf(str) {
+    var h = 0;
+    for (var i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) | 0; }
+    return Math.abs(h);
+  }
+
+  /* Motif géométrique déterministe : même produit = même visuel à chaque rendu. */
+  function coverArt(item) {
+    var h = hashOf(item.id);
+    var pal = PALETTES[h % PALETTES.length];
+    var height = [180, 210, 240, 270][h % 4];
+    var variant = h % 3;
+    var shapes = '';
+    var i, x, y;
+
+    if (variant === 0) {
+      for (i = 0; i < 6; i++) {
+        x = (i % 3) * 100 + 50; y = Math.floor(i / 3) * 90 + 55;
+        shapes += '<circle cx="' + x + '" cy="' + y + '" r="' + (18 + ((h >> i) % 22)) + '" fill="' + pal[i % 2] + '" opacity="' + (0.35 + (i % 3) * 0.18).toFixed(2) + '"/>';
+      }
+    } else if (variant === 1) {
+      for (i = 0; i < 7; i++) {
+        y = i * 26 + 10;
+        shapes += '<path d="M0 ' + y + ' Q 75 ' + (y - 18 - (h % 14)) + ' 150 ' + y + ' T 300 ' + y + '" fill="none" stroke="' + pal[i % 2] + '" stroke-width="' + (3 + (i % 3) * 2) + '" opacity="0.55"/>';
+      }
+    } else {
+      for (i = 0; i < 9; i++) {
+        x = (i % 3) * 100; y = Math.floor(i / 3) * 70 + 10;
+        shapes += '<rect x="' + (x + 12) + '" y="' + y + '" width="' + (60 + (h >> i) % 24) + '" height="' + (44 + (h >> (i + 2)) % 18) + '" rx="8" fill="' + pal[i % 2] + '" opacity="' + (0.25 + (i % 4) * 0.15).toFixed(2) + '"/>';
+      }
+    }
+
+    var svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 220" width="300" height="220" ' +
+      'class="pin-cover-art" role="img" aria-label="Illustration décorative" ' +
+      'preserveAspectRatio="xMidYMid slice" style="height:' + height + 'px">' +
+      '<rect width="300" height="220" fill="' + pal[2] + '" opacity="0.08"/>' + shapes +
+      '<text x="150" y="132" text-anchor="middle" font-size="64">' + (item.emoji || '\uD83D\uDECD\uFE0F') + '</text>' +
+      '</svg>';
+    return svg;
+  }
+
+  /* ==========================================================================
+     7. Panier et enregistrements
+     ========================================================================== */
+  var CART_KEY = 'etalafrique.cart.v2';
+  var SAVES_KEY = 'etalafrique.saves.v2';
+
+  var cart = store.get(CART_KEY, []);
+  if (!Array.isArray(cart)) cart = [];
+  var saves = store.get(SAVES_KEY, {});
+  if (!saves || typeof saves !== 'object') saves = {};
+
+  function cartCount() { return cart.reduce(function (n, it) { return n + Number(it.qty || 0); }, 0); }
+  function cartTotal() { return cart.reduce(function (n, it) { return n + Number(it.price || 0) * Number(it.qty || 0); }, 0); }
+  function isSaved(id) { return !!saves[id]; }
+
+  function persistCart() { store.set(CART_KEY, cart); renderCartBadge(); renderCart(); }
+  function persistSaves() { store.set(SAVES_KEY, saves); renderSaveBadge(); }
+
+  function renderCartBadge() {
+    var badge = byId('shopCartBadge');
+    if (!badge) return;
+    var c = cartCount();
+    badge.textContent = c > 99 ? '99+' : String(c);
+    badge.setAttribute('data-count', String(c));
+    badge.setAttribute('aria-label', c + ' article' + (c > 1 ? 's' : '') + ' dans le panier');
+  }
+
+  function renderSaveBadge() {
+    var n = Object.keys(saves).length;
+    $$('[data-save-count]').forEach(function (el) {
+      el.textContent = n ? String(n) : '';
+      el.hidden = n === 0;
+    });
+    $$('.pin-save').forEach(function (btn) {
+      var card = btn.closest('.catalog-card');
+      if (!card) return;
+      syncSaveButton(btn, isSaved(card.dataset.id));
+    });
+  }
+
+  function toggleSave(item) {
+    if (saves[item.id]) delete saves[item.id];
+    else saves[item.id] = { id: item.id, name: item.name, price: item.price, at: Date.now() };
+    persistSaves();
+    return isSaved(item.id);
+  }
+
+  function syncSaveButton(btn, saved) {
+    btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+    btn.innerHTML =
+      '<svg viewBox="0 0 24 24" fill="' + (saved ? 'currentColor' : 'none') + '" stroke="currentColor" ' +
+      'stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M5 4h14v17l-7-4-7 4z"/></svg>' + (saved ? 'Enregistré' : 'Enregistrer');
+  }
+
+  function addToCart(item) {
+    if (!item || item.type !== 'product') return;
+    var existing = cart.filter(function (x) { return x.id === item.id; })[0];
+    if (existing) existing.qty += 1;
+    else cart.push({ id: item.id, name: item.name, price: Number(item.price) || 0, stall: item.stall, city: item.city, emoji: item.emoji || '\uD83D\uDECD\uFE0F', qty: 1 });
+    persistCart();
+    toast(item.name + ' ajouté au panier');
+  }
+
+  /* ---- Tiroir panier ---- */
+  var cartSidebar = byId('shopCartSidebar');
+  var cartBackdrop = byId('cartBackdrop');
+  var cartDialog = Dialog(cartSidebar, {
+    onOpen: function () {
+      if (cartBackdrop) { cartBackdrop.classList.add('is-open'); cartBackdrop.setAttribute('aria-hidden', 'false'); }
+      var btn = byId('shopCartBtn'); if (btn) btn.setAttribute('aria-expanded', 'true');
+    },
+    onClose: function () {
+      if (cartBackdrop) { cartBackdrop.classList.remove('is-open'); cartBackdrop.setAttribute('aria-hidden', 'true'); }
+      var btn = byId('shopCartBtn'); if (btn) btn.setAttribute('aria-expanded', 'false');
+    },
+    initialFocus: function () { return byId('shopCartClose'); }
+  });
+  if (cartBackdrop) cartBackdrop.addEventListener('click', function () { cartDialog.close(); });
+
+  function renderCart() {
+    var list = byId('shopCartList'), empty = byId('shopCartEmpty'), total = byId('shopCartTotal');
+    if (!list) return;
+    if (!cart.length) {
+      list.innerHTML = '';
+      if (empty) empty.hidden = false;
+      if (total) total.textContent = '0 FCFA';
+      var chk = byId('shopCheckoutBtn'); if (chk) chk.disabled = true;
+      return;
+    }
+    if (empty) empty.hidden = true;
+    var chk2 = byId('shopCheckoutBtn'); if (chk2) chk2.disabled = false;
+    list.innerHTML = cart.map(function (it) {
+      return '<li data-cart-id="' + esc(it.id) + '">' +
+        '<div class="ci-thumb" aria-hidden="true">' + esc(it.emoji) + '</div>' +
+        '<div class="ci-info">' +
+          '<p class="ci-name">' + esc(it.name) + '</p>' +
+          '<div class="ci-meta">' + esc(it.stall || '') + (it.city ? ' · ' + esc(it.city) : '') + '</div>' +
+          '<div class="ci-price">' + esc(fcfa(it.price)) + '</div>' +
+          '<div class="ci-qty" role="group" aria-label="Quantité pour ' + esc(it.name) + '">' +
+            '<button type="button" data-qty="dec" aria-label="Retirer un exemplaire">\u2212</button>' +
+            '<span>' + it.qty + '</span>' +
+            '<button type="button" data-qty="inc" aria-label="Ajouter un exemplaire">+</button>' +
+          '</div>' +
+        '</div>' +
+        '<button type="button" class="ci-remove" data-remove aria-label="Retirer ' + esc(it.name) + ' du panier">\u00d7</button>' +
+      '</li>';
+    }).join('');
+    if (total) total.textContent = fcfa(cartTotal());
+  }
+
+  var cartBtn = byId('shopCartBtn');
+  if (cartBtn) cartBtn.addEventListener('click', function () { cartDialog.open(); });
+  var cartClose = byId('shopCartClose');
+  if (cartClose) cartClose.addEventListener('click', function () { cartDialog.close(); });
+
+  var cartList = byId('shopCartList');
+  if (cartList) {
+    cartList.addEventListener('click', function (e) {
+      var li = e.target.closest('li[data-cart-id]');
+      if (!li) return;
+      var id = li.getAttribute('data-cart-id');
+      var idx = cart.map(function (x) { return x.id; }).indexOf(id);
+      if (idx < 0) return;
+      if (e.target.closest('[data-remove]')) cart.splice(idx, 1);
+      else if (e.target.closest('[data-qty="inc"]')) cart[idx].qty += 1;
+      else if (e.target.closest('[data-qty="dec"]')) {
+        cart[idx].qty -= 1;
+        if (cart[idx].qty <= 0) cart.splice(idx, 1);
+      } else return;
+      persistCart();
+    });
+  }
+
+  var checkoutBtn = byId('shopCheckoutBtn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function () {
+      if (!cart.length) return;
+      /* Pas de passerelle de paiement en ligne pour l'instant : on prépare un message
+         WhatsApp pré-rempli avec le détail de la commande, envoyé à l'équipe ÉtalAfrique
+         qui met en relation avec le ou les vendeurs concernés. */
+      var lines = cart.map(function (it) {
+        return '\u2022 ' + it.qty + ' \u00d7 ' + it.name + ' (' + fcfa(it.price) + ') \u2014 ' + (it.stall || 'ÉtalAfrique');
+      });
+      var text = 'Bonjour ÉtalAfrique, je souhaite commander :\n' + lines.join('\n') +
+        '\n\nTotal : ' + fcfa(cartTotal());
+      window.open('https://wa.me/2290166584697?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    });
+  }
+
+  /* ==========================================================================
+     8. Catalogue : un seul rendu, un seul état
+     ========================================================================== */
+  var catalogState = { type: 'all', cat: 'all', query: '', sort: 'default', savedOnly: false };
+  var remoteItems = [];      // produits et boutiques venant de Supabase
+  var catalogLoading = false;
+
+  function demoItems() {
+    var items = [];
+    DEMO_PRODUCTS.forEach(function (p) {
+      items.push({
+        type: 'product', demo: true,
+        id: 'demo-p-' + slug(p.name),
+        name: p.name, price: p.price, city: p.city, stall: p.stall, seller: p.seller,
+        cat: p.cat, emoji: p.emoji, stock: p.stock, desc: p.desc
+      });
+    });
+    DEMO_STALLS.forEach(function (s) {
+      items.push({
+        type: 'stall', demo: true,
+        id: 'demo-s-' + slug(s.name),
+        name: s.name, city: s.city, seller: s.seller, cat: guessCategory(s.cat + ' ' + s.desc),
+        catLabel: s.cat, desc: s.desc, count: s.count, emoji: '\uD83C\uDFEA'
+      });
+    });
+    return items;
+  }
+
+  function allItems() { return remoteItems; }
+
+  function matches(item) {
+    if (catalogState.savedOnly && !isSaved(item.id)) return false;
+    if (catalogState.type !== 'all' && item.type !== catalogState.type) return false;
+    if (catalogState.cat === 'local-only') { if (item.type !== 'stall') return false; }
+    else if (catalogState.cat !== 'all' && item.cat !== catalogState.cat) return false;
+    if (catalogState.query) {
+      var hay = fold([item.name, item.city, item.stall, item.seller, item.desc, CAT_LABEL[item.cat], item.catLabel].join(' '));
+      var terms = fold(catalogState.query).split(/\s+/).filter(Boolean);
+      for (var i = 0; i < terms.length; i++) if (hay.indexOf(terms[i]) === -1) return false;
+    }
+    return true;
+  }
+
+  function sortItems(list) {
+    var mode = catalogState.sort;
+    var sorted = list.slice();
+    /* Les boutiques n'ont pas de prix : elles vont en fin de liste plutôt qu'en tête. */
+    function priceOf(x, empty) { return x.type === 'product' && x.price > 0 ? x.price : empty; }
+    if (mode === 'price-asc') sorted.sort(function (a, b) { return priceOf(a, Infinity) - priceOf(b, Infinity); });
+    else if (mode === 'price-desc') sorted.sort(function (a, b) { return priceOf(b, -Infinity) - priceOf(a, -Infinity); });
+    else if (mode === 'name-asc') sorted.sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
+    else if (mode === 'name-desc') sorted.sort(function (a, b) { return b.name.localeCompare(a.name, 'fr'); });
+    else if (mode === 'city-asc') sorted.sort(function (a, b) { return String(a.city).localeCompare(String(b.city), 'fr'); });
+    return sorted;
+  }
+
+  var itemIndex = {};   // id -> item, pour les modales et le panier
+
+  function cardHTML(item) {
+    var badge = item.type === 'product'
+      ? (CAT_LABEL[item.cat] || 'Produit')
+      : (item.catLabel || 'Boutique');
+    var priceLine = item.type === 'product'
+      ? '<span class="price">' + esc(fcfa(item.price)) + '</span>'
+      : '<span class="price">' + esc(item.count || 0) + ' produit' + ((item.count || 0) > 1 ? 's' : '') + '</span>';
+    var actions = item.type === 'product'
+      ? '<button type="button" class="shop-cta" data-act="add">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="width:14px;height:14px"><path d="M12 5v14M5 12h14"/></svg>' +
+          'Ajouter</button>' +
+        '<button type="button" class="shop-cta shop-cta-secondary" data-act="detail">Aperçu</button>'
+      : '<button type="button" class="shop-cta shop-cta-secondary" data-act="detail">Voir la boutique</button>';
+
+    return '<article class="catalog-card" data-id="' + esc(item.id) + '" data-type="' + esc(item.type) + '">' +
+      '<div class="pin-cover">' + coverArt(item) +
+        '<div class="pin-overlay">' +
+          '<div class="pin-overlay-top">' +
+            '<button type="button" class="pin-save" data-act="save" aria-pressed="' + (isSaved(item.id) ? 'true' : 'false') + '" aria-label="Enregistrer ' + esc(item.name) + '"></button>' +
+          '</div>' +
+          '<div class="pin-overlay-bot">' +
+            '<div class="pin-icon-tile" data-menu>' +
+              '<button type="button" data-act="menu" aria-haspopup="true" aria-expanded="false" aria-label="Plus d\u2019actions sur ' + esc(item.name) + '">' +
+                '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="6" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>' +
+              '</button>' +
+              '<div class="pin-menu-list" role="menu">' +
+                '<button type="button" role="menuitem" data-act="detail">Ouvrir le détail</button>' +
+                '<button type="button" role="menuitem" data-act="share">Copier le lien</button>' +
+                '<button type="button" role="menuitem" data-act="save">Enregistrer</button>' +
+                '<button type="button" role="menuitem" data-act="contact">Contacter la boutique</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pin-meta">' +
+        '<h3>' + esc(item.name) + '</h3>' +
+        '<div class="pin-row">' + priceLine +
+          '<div class="badge-row"><span class="demo-badge">' + esc(badge) + '</span></div>' +
+        '</div>' +
+        '<div class="city">\uD83D\uDCCD ' + esc(item.city || '—') + (item.type === 'product' && item.stall ? ' · ' + esc(item.stall) : '') + '</div>' +
+        '<div class="shop-cta-row">' + actions + '</div>' +
+      '</div>' +
+      '<div class="pin-meta-foot">' +
+        '<span class="pin-avatar" aria-hidden="true">' + esc((item.seller || 'E').trim().charAt(0).toUpperCase()) + '</span>' +
+        '<span class="pin-meta-name">' + esc(item.seller || 'vendeur ÉtalAfrique') + '</span>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function skeletonHTML(n) {
+    var out = '';
+    for (var i = 0; i < n; i++) {
+      out += '<article class="catalog-card is-skeleton" aria-hidden="true">' +
+        '<div class="pin-cover" style="height:' + (170 + (i % 4) * 30) + 'px"><div class="pin-skeleton"></div></div>' +
+        '<div class="pin-meta"><div class="sk-line"></div><div class="sk-line short"></div></div>' +
+      '</article>';
+    }
+    return out;
+  }
+
+  function renderCatalog() {
+    var grid = byId('catalogGrid');
+    var status = byId('catalogStatus');
+    var empty = byId('catalogEmpty');
+    if (!grid) return;
+
+    if (catalogLoading && !remoteItems.length) {
+      grid.innerHTML = skeletonHTML(8);
+      if (status) status.textContent = 'Chargement du catalogue…';
+      if (empty) empty.hidden = true;
+      return;
+    }
+
+    var list = sortItems(allItems().filter(matches));
+    itemIndex = {};
+    list.forEach(function (it) { itemIndex[it.id] = it; });
+
+    grid.innerHTML = list.map(cardHTML).join('');
+    $$('.pin-save', grid).forEach(function (btn) {
+      var card = btn.closest('.catalog-card');
+      syncSaveButton(btn, isSaved(card.dataset.id));
+    });
+
+    if (empty) empty.hidden = list.length > 0;
+    if (status) {
+      status.textContent = list.length
+        ? list.length + ' résultat' + (list.length > 1 ? 's' : '') +
+          (catalogState.query ? ' pour « ' + catalogState.query + ' »' : '')
+        : (catalogState.savedOnly ? 'Aucun enregistrement pour l\u2019instant.' : 'Aucun résultat.');
+    }
+  }
+
+  /* ---- Actions déléguées sur les cartes ---- */
+  var grid = byId('catalogGrid');
+  if (grid) {
+    grid.addEventListener('click', function (e) {
+      var card = e.target.closest('.catalog-card');
+      if (!card || card.classList.contains('is-skeleton')) return;
+      var item = itemIndex[card.dataset.id];
+      if (!item) return;
+      var trigger = e.target.closest('[data-act]');
+      var act = trigger ? trigger.dataset.act : 'detail';
+
+      if (act === 'menu') {
+        var tile = trigger.closest('[data-menu]');
+        var wasOpen = tile.classList.contains('is-open');
+        closeAllMenus();
+        if (!wasOpen) { tile.classList.add('is-open'); trigger.setAttribute('aria-expanded', 'true'); }
+        return;
+      }
+      closeAllMenus();
+
+      if (act === 'save') {
+        var saved = toggleSave(item);
+        var btn = card.querySelector('.pin-save');
+        if (btn) syncSaveButton(btn, saved);
+        toast(saved ? 'Ajouté à tes enregistrements' : 'Retiré de tes enregistrements');
+      } else if (act === 'add') {
+        addToCart(item);
+      } else if (act === 'share') {
+        var url = location.href.split('#')[0] + '#catalog';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(
+            function () { toast('Lien copié'); },
+            function () { toast('Lien : ' + url); }
+          );
+        } else toast('Lien : ' + url);
+      } else if (act === 'contact') {
+        toast('Démonstration : la messagerie boutique n\u2019est pas encore branchée.');
+      } else {
+        openDetail(item);
+      }
+    });
+  }
+
+  function closeAllMenus() {
+    $$('[data-menu].is-open').forEach(function (tile) {
+      tile.classList.remove('is-open');
+      var b = tile.querySelector('[data-act="menu"]');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+  doc.addEventListener('click', function (e) {
+    if (!e.target.closest('[data-menu]')) closeAllMenus();
+  });
+
+  /* ---- Barre d'outils du catalogue ---- */
+  $$('[data-catalog-filter]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      catalogState.type = btn.dataset.catalogFilter;
+      $$('[data-catalog-filter]').forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      renderCatalog();
+    });
+  });
+
+  $$('[data-pin-cat]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      catalogState.cat = btn.dataset.pinCat;
+      $$('[data-pin-cat]').forEach(function (b) {
+        var on = b === btn;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      renderCatalog();
+    });
+  });
+
+  var rail = byId('pinRail');
+  if (rail) {
+    rail.addEventListener('wheel', function (e) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { rail.scrollLeft += e.deltaY; e.preventDefault(); }
+    }, { passive: false });
+  }
+
+  var sortSelect = byId('shopSort');
+  if (sortSelect) {
+    sortSelect.addEventListener('change', function () {
+      catalogState.sort = sortSelect.value;
+      renderCatalog();
+    });
+  }
+
+  var savedBtn = byId('savedBtn');
+  if (savedBtn) savedBtn.addEventListener('click', function () {
+    catalogState.savedOnly = !catalogState.savedOnly;
+    savedBtn.setAttribute('aria-pressed', String(catalogState.savedOnly));
+    savedBtn.classList.toggle('is-active', catalogState.savedOnly);
+    if (currentTab !== 'catalog') goToTab('catalog'); else renderCatalog();
+  });
+
+  var catalogSearch = byId('catalogSearch');
+  var headerSearch = byId('pinSearch');
+  var searchWrap = headerSearch ? headerSearch.closest('.pin-search') : null;
+
+  var applySearch = debounce(function () { renderCatalog(); }, 180);
+
+  function setQuery(value, from) {
+    catalogState.query = value;
+    if (catalogSearch && from !== 'catalog') catalogSearch.value = value;
+    if (headerSearch && from !== 'header') headerSearch.value = value;
+    if (searchWrap) searchWrap.classList.toggle('has-value', value.length > 0);
+    applySearch();
+  }
+
+  if (catalogSearch) catalogSearch.addEventListener('input', function () { setQuery(catalogSearch.value, 'catalog'); });
+  if (headerSearch) {
+    headerSearch.addEventListener('input', function () {
+      setQuery(headerSearch.value, 'header');
+      if (headerSearch.value && currentTab !== 'catalog') goToTab('catalog');
+    });
+    headerSearch.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { setQuery('', 'none'); headerSearch.blur(); }
+      if (e.key === 'Enter') { e.preventDefault(); goToTab('catalog'); }
+    });
+  }
+  var searchClear = byId('pinSearchClear');
+  if (searchClear) searchClear.addEventListener('click', function () {
+    setQuery('', 'none');
+    if (headerSearch) headerSearch.focus();
+  });
+
+  /* ---- Tiroir de recherche de l'en-tête : icône qui déplie/replie la barre. ---- */
+  var searchToggle = byId('searchToggle');
+  var searchBar = byId('headerSearchBar');
+  if (searchToggle && searchBar) {
+    var closeSearchBar = function (restoreFocus) {
+      searchBar.classList.remove('is-open');
+      searchBar.setAttribute('aria-hidden', 'true');
+      searchToggle.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) searchToggle.focus();
+    };
+    var openSearchBar = function () {
+      searchBar.classList.add('is-open');
+      searchBar.setAttribute('aria-hidden', 'false');
+      searchToggle.setAttribute('aria-expanded', 'true');
+      setTimeout(function () { if (headerSearch) headerSearch.focus(); }, 220);
+    };
+    searchToggle.addEventListener('click', function () {
+      searchBar.classList.contains('is-open') ? closeSearchBar(false) : openSearchBar();
+    });
+    doc.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && searchBar.classList.contains('is-open')) closeSearchBar(true);
+    });
+    doc.addEventListener('click', function (e) {
+      if (searchBar.classList.contains('is-open') &&
+          !e.target.closest('#headerSearchBar') && !e.target.closest('#searchToggle')) {
+        closeSearchBar(false);
+      }
+    });
+    /* Naviguer vers le catalogue referme le tiroir, sans quoi il reste ouvert
+       au-dessus du contenu sur les autres onglets. */
+    var origGoToTab = goToTab;
+    goToTab = function (id, opts) {
+      if (id !== 'catalog') closeSearchBar(false);
+      return origGoToTab(id, opts);
+    };
+  }
+
+  /* ==========================================================================
+     9. Modale de détail (une seule, l'autre a été supprimée)
+     ========================================================================== */
+  var detailDialog = Dialog(byId('pinModal'), { initialFocus: function () { return byId('pinModalClose'); } });
+  var detailItem = null;
+
+  function openDetail(item) {
+    var modal = byId('pinModal');
+    if (!modal || !item) return;
+    detailItem = item;
+    byId('pinModalTitle').textContent = item.name;
+    byId('pinModalPrice').textContent = item.type === 'product'
+      ? fcfa(item.price)
+      : (item.count || 0) + ' produit' + ((item.count || 0) > 1 ? 's' : '') + ' en vitrine';
+    byId('pinModalMeta').textContent = [item.seller, item.city, item.stall].filter(Boolean).join(' · ');
+    byId('pinModalDesc').textContent = item.desc ||
+      (item.type === 'product'
+        ? 'Produit publié sur ÉtalAfrique. Contacte la boutique pour les détails de livraison.'
+        : 'Boutique publiée sur ÉtalAfrique.');
+    byId('pinModalImg').innerHTML = coverArt(item);
+
+    var tags = byId('pinModalTags');
+    tags.innerHTML = '';
+    [CAT_LABEL[item.cat] || item.catLabel,
+     item.type === 'product' && item.stock ? item.stock + ' en stock' : null]
+      .filter(Boolean).forEach(function (t) {
+        var s = doc.createElement('span');
+        s.className = 'demo-badge';
+        s.textContent = t;
+        tags.appendChild(s);
+      });
+
+    var saveBtn = byId('pinModalSave');
+    saveBtn.textContent = isSaved(item.id) ? 'Retirer des enregistrements' : 'Enregistrer';
+    saveBtn.setAttribute('aria-pressed', isSaved(item.id) ? 'true' : 'false');
+
+    var addBtn = byId('pinModalAdd');
+    if (addBtn) addBtn.hidden = item.type !== 'product';
+
+    detailDialog.open();
+  }
+
+  var pinClose = byId('pinModalClose');
+  if (pinClose) pinClose.addEventListener('click', function () { detailDialog.close(); });
+
+  var pinSave = byId('pinModalSave');
+  if (pinSave) pinSave.addEventListener('click', function () {
+    if (!detailItem) return;
+    var saved = toggleSave(detailItem);
+    pinSave.textContent = saved ? 'Retirer des enregistrements' : 'Enregistrer';
+    pinSave.setAttribute('aria-pressed', saved ? 'true' : 'false');
+    $$('.catalog-card', grid || doc).forEach(function (c) {
+      if (c.dataset.id === detailItem.id) {
+        var b = c.querySelector('.pin-save');
+        if (b) syncSaveButton(b, saved);
+      }
+    });
+  });
+
+  var pinAdd = byId('pinModalAdd');
+  if (pinAdd) pinAdd.addEventListener('click', function () {
+    if (!detailItem) return;
+    addToCart(detailItem);
+    detailDialog.close();
+    cartDialog.open();
+  });
+
+  var pinContact = byId('pinModalContact');
+  if (pinContact) pinContact.addEventListener('click', function () {
+    detailDialog.close();
+    goToTab('contact');
+  });
+
+  /* ==========================================================================
+     10. Supabase : authentification, étals, tableau de bord
+     ========================================================================== */
+  var sb = window.etalafriqueSupabase || null;
+  var session = null;
+  var myStall = null;
+  var stallsCache = null;
+  var stallsInflight = null;
+
+  function supabaseReady() {
+    if (sb) return true;
+    toast('Le service de compte n\u2019a pas pu se charger. Vérifie ta connexion ou ton bloqueur de publicité, puis recharge la page.', 'error');
+    return false;
+  }
+
+  function fetchStalls(force) {
+    if (!sb) return Promise.resolve([]);
+    if (!force && stallsCache) return Promise.resolve(stallsCache);
+    if (stallsInflight) return stallsInflight;
+    stallsInflight = sb.from('stalls').select('*').order('created_at', { ascending: false })
+      .then(function (res) {
+        stallsInflight = null;
+        if (res.error) { console.warn('Supabase stalls:', res.error.message); return stallsCache || []; }
+        stallsCache = res.data || [];
+        return stallsCache;
+      })
+      .catch(function (err) {
+        stallsInflight = null;
+        console.warn('Supabase stalls:', err);
+        return stallsCache || [];
+      });
+    return stallsInflight;
+  }
+
+  function normalizeStall(row) {
+    return {
+      id: row.id,
+      ownerId: row.owner_id,
+      stallName: row.name || 'Étal sans nom',
+      stallCity: row.city || '',
+      stallCategory: row.category || '',
+      stallDescription: row.description || '',
+      products: Array.isArray(row.products) ? row.products : [],
+      published: row.published !== false,
+      sellerName: row.owner_id === (session && session.user && session.user.id)
+        ? ((session.user.user_metadata && session.user.user_metadata.name) || session.user.email)
+        : 'vendeur ÉtalAfrique',
+      savedAt: row.created_at
+    };
+  }
+
+  function rowsToItems(rows) {
+    var items = [];
+    rows.forEach(function (row) {
+      var s = normalizeStall(row);
+      if (!s.published) return;
+      s.products.filter(function (p) { return p && p.name; }).forEach(function (p, i) {
+        items.push({
+          type: 'product',
+          id: 'sb-' + s.id + '-' + i,
+          name: p.name, price: Number(p.price) || 0, stock: Number(p.stock) || 0,
+          city: s.stallCity, stall: s.stallName, seller: s.sellerName,
+          cat: guessCategory(p.name + ' ' + s.stallCategory), emoji: '\uD83D\uDECD\uFE0F',
+          desc: s.stallDescription
+        });
+      });
+      items.push({
+        type: 'stall',
+        id: 'sb-s-' + s.id,
+        name: s.stallName, city: s.stallCity, seller: s.sellerName,
+        cat: guessCategory(s.stallCategory + ' ' + s.stallDescription),
+        catLabel: s.stallCategory, desc: s.stallDescription,
+        count: s.products.filter(function (p) { return p && p.name; }).length,
+        emoji: '\uD83C\uDFEA'
+      });
+    });
+    return items;
+  }
+
+  function refreshCatalogData(force) {
+    catalogLoading = true;
+    renderCatalog();
+    return fetchStalls(force).then(function (rows) {
+      remoteItems = rowsToItems(rows);
+      catalogLoading = false;
+      renderCatalog();
+      return rows;
+    });
+  }
+
+  /* ---- Modales de compte ---- */
+  var authDialog = Dialog(byId('authBackdrop'), {
+    panel: byId('authBackdrop') && byId('authBackdrop').querySelector('.auth-modal'),
+    initialFocus: function () { return byId('authLoginEmail'); }
+  });
+  var profileDialog = Dialog(byId('authProfileBackdrop'), {
+    panel: byId('authProfileBackdrop') && byId('authProfileBackdrop').querySelector('.auth-modal'),
+    initialFocus: function () { return byId('authProfileClose'); }
+  });
+
+  function switchAuthTab(tab) {
+    var login = tab !== 'register';
+    byId('authPaneLogin').hidden = !login;
+    byId('authPaneRegister').hidden = login;
+    byId('authTabLogin').classList.toggle('is-active', login);
+    byId('authTabLogin').setAttribute('aria-selected', String(login));
+    byId('authTabRegister').classList.toggle('is-active', !login);
+    byId('authTabRegister').setAttribute('aria-selected', String(!login));
+  }
+
+  function openAuth(tab, message) {
+    switchAuthTab(tab || 'login');
+    authDialog.open();
+    if (message) toast(message, 'error');
+  }
+
+  function renderAccount() {
+    var user = session && session.user;
+    var meta = (user && user.user_metadata) || {};
+    var openBtn = byId('authOpen'), userBtn = byId('authUser');
+    if (openBtn) openBtn.hidden = !!user;
+    if (userBtn) userBtn.hidden = !user;
+    if (user) {
+      byId('authAvatar').textContent = String(meta.name || user.email || '?').charAt(0).toUpperCase();
+      byId('authUserName').textContent = meta.name || user.email;
+      byId('authProfileName').textContent = meta.name || '—';
+      byId('authProfileEmail').textContent = user.email || '—';
+    }
+    var dropdown = byId('authDropdown');
+    if (dropdown) dropdown.hidden = true;
+    if (userBtn) userBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function requireSession() {
+    if (session) return true;
+    openAuth('login', 'Connecte-toi pour ouvrir ton espace vendeur.');
+    return false;
+  }
+
+  byId('authOpen') && byId('authOpen').addEventListener('click', function () { openAuth('login'); });
+  byId('authClose') && byId('authClose').addEventListener('click', function () { authDialog.close(); });
+  byId('authProfileClose') && byId('authProfileClose').addEventListener('click', function () { profileDialog.close(); });
+  byId('authTabLogin') && byId('authTabLogin').addEventListener('click', function () { switchAuthTab('login'); });
+  byId('authTabRegister') && byId('authTabRegister').addEventListener('click', function () { switchAuthTab('register'); });
+
+  byId('authUser') && byId('authUser').addEventListener('click', function (e) {
+    e.stopPropagation();
+    var dd = byId('authDropdown');
+    dd.hidden = !dd.hidden;
+    this.setAttribute('aria-expanded', String(!dd.hidden));
+  });
+  doc.addEventListener('click', function (e) {
+    var dd = byId('authDropdown');
+    if (dd && !dd.hidden && !e.target.closest('#authNav')) {
+      dd.hidden = true;
+      var ub = byId('authUser'); if (ub) ub.setAttribute('aria-expanded', 'false');
+    }
+  });
+  byId('authProfile') && byId('authProfile').addEventListener('click', function () {
+    byId('authDropdown').hidden = true;
+    profileDialog.open();
+  });
+
+  function setBusy(form, busy, label) {
+    var btn = form.querySelector('button[type="submit"]');
+    if (!btn) return;
+    if (busy) { btn.dataset.label = btn.textContent; btn.textContent = label || 'Un instant…'; btn.disabled = true; }
+    else { btn.textContent = btn.dataset.label || btn.textContent; btn.disabled = false; }
+  }
+
+  var registerForm = byId('authRegisterForm');
+  if (registerForm) registerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!supabaseReady()) return;
+    var name = byId('authName').value.trim();
+    var email = byId('authEmail').value.trim();
+    var password = byId('authPassword').value;
+    if (!name) { toast('Indique ton nom.', 'error'); byId('authName').focus(); return; }
+    if (password.length < 8) { toast('Mot de passe : 8 caractères minimum.', 'error'); byId('authPassword').focus(); return; }
+    if (password !== byId('authConfirm').value) { toast('Les deux mots de passe ne correspondent pas.', 'error'); byId('authConfirm').focus(); return; }
+    setBusy(registerForm, true, 'Création…');
+    sb.auth.signUp({ email: email, password: password, options: { data: { name: name } } })
+      .then(function (res) {
+        setBusy(registerForm, false);
+        if (res.error) { toast(res.error.message, 'error'); return; }
+        toast('Compte créé. Ouvre le lien de confirmation reçu par email (pense aux spams).');
+        switchAuthTab('login');
+        byId('authLoginEmail').value = email;
+      });
+  });
+
+  var loginForm = byId('authLoginForm');
+  if (loginForm) loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!supabaseReady()) return;
+    var email = byId('authLoginEmail').value.trim();
+    var password = byId('authLoginPassword').value;
+    setBusy(loginForm, true, 'Connexion…');
+    sb.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
+      setBusy(loginForm, false);
+      if (res.error) {
+        if (/email.*not.*confirmed/i.test(res.error.message)) {
+          sb.auth.resend({ type: 'signup', email: email }).then(function (r2) {
+            toast(r2.error
+              ? 'Email pas encore confirmé. Ouvre le lien reçu par mail.'
+              : 'Email pas encore confirmé — un nouveau lien vient d\u2019être envoyé.', 'error');
+          });
+        } else toast(res.error.message, 'error');
+        return;
+      }
+      session = res.data.session;
+      renderAccount();
+      authDialog.close();
+      toast('Connexion réussie.');
+      refreshAll(true);
+    });
+  });
+
+  byId('authForgot') && byId('authForgot').addEventListener('click', function () {
+    if (!supabaseReady()) return;
+    var email = byId('authLoginEmail').value.trim();
+    if (!email) { toast('Entre ton email ci-dessus, puis réessaie.', 'error'); byId('authLoginEmail').focus(); return; }
+    sb.auth.resetPasswordForEmail(email).then(function (res) {
+      toast(res.error ? res.error.message : 'Email de réinitialisation envoyé si ce compte existe.', res.error ? 'error' : null);
+    });
+  });
+
+  function signOut() {
+    var done = sb ? sb.auth.signOut() : Promise.resolve();
+    return done.then(function () {
+      session = null;
+      myStall = null;
+      renderAccount();
+      refreshAll(true);
+      toast('Déconnexion effectuée.');
+    });
+  }
+  byId('authLogout') && byId('authLogout').addEventListener('click', signOut);
+  byId('sellerLogout') && byId('sellerLogout').addEventListener('click', signOut);
+  byId('sellerLogoutEmpty') && byId('sellerLogoutEmpty').addEventListener('click', signOut);
+
+  /* ---- Créateur d'étal ---- */
+  var creatorEl = byId('creatorModal');
+  var creatorDialog = Dialog(creatorEl, { initialFocus: function () { return byId('sellerName'); } });
+  var productRows = byId('productRows');
+
+  function readForm() {
+    return {
+      sellerName: byId('sellerName').value.trim(),
+      stallName: byId('stallName').value.trim(),
+      stallCity: byId('stallCity').value.trim(),
+      stallCategory: byId('stallCategory').value,
+      stallDescription: byId('stallDescription').value.trim(),
+      products: $$('.product-row', productRows).map(function (row) {
+        return {
+          name: (row.querySelector('.p-name') || {}).value ? row.querySelector('.p-name').value.trim() : '',
+          price: Number((row.querySelector('.p-price') || {}).value) || 0,
+          stock: Number((row.querySelector('.p-stock') || {}).value) || 0
+        };
+      }).filter(function (p) { return p.name; })
+    };
+  }
+
+  function addProductRow(p) {
+    p = p || {};
+    var row = doc.createElement('div');
+    row.className = 'product-row';
+    row.innerHTML =
+      '<div><label>Produit *</label><input class="p-name" value="' + esc(p.name || '') + '" placeholder="Pagne wax 6 yards"></div>' +
+      '<div><label>Prix FCFA</label><input class="p-price" type="number" min="0" step="50" value="' + esc(p.price || '') + '"></div>' +
+      '<div><label>Stock</label><input class="p-stock" type="number" min="0" step="1" value="' + esc(p.stock || '') + '"></div>' +
+      '<button class="remove-product" type="button" aria-label="Retirer cette ligne">\u00d7</button>';
+    productRows.appendChild(row);
+    row.querySelector('.remove-product').addEventListener('click', function () {
+      row.remove();
+      if (!productRows.children.length) addProductRow();
+    });
+    return row;
+  }
+
+  function fillForm(data) {
+    data = data || {};
+    var meta = (session && session.user && session.user.user_metadata) || {};
+    byId('sellerName').value = data.sellerName || meta.name || '';
+    byId('stallName').value = data.stallName || '';
+    byId('stallCity').value = data.stallCity || '';
+    byId('stallCategory').value = data.stallCategory || 'Mode & textile';
+    byId('stallDescription').value = data.stallDescription || '';
+    productRows.innerHTML = '';
+    var list = (data.products && data.products.length) ? data.products : [{}];
+    list.forEach(addProductRow);
+  }
+
+  function openCreator(data) {
+    if (!requireSession()) return;
+    fillForm(data || myStall || {});
+    byId('stallError').textContent = '';
+    creatorDialog.open();
+  }
+
+  byId('addProduct') && byId('addProduct').addEventListener('click', function () { addProductRow().querySelector('.p-name').focus(); });
+  byId('closeCreator') && byId('closeCreator').addEventListener('click', function () { creatorDialog.close(); });
+  byId('editStall') && byId('editStall').addEventListener('click', function () { openCreator(myStall); });
+  byId('dashEdit') && byId('dashEdit').addEventListener('click', function () { openCreator(myStall); });
+  byId('sellerEmptyCreate') && byId('sellerEmptyCreate').addEventListener('click', function () { openCreator({}); });
+  byId('dashAddProduct') && byId('dashAddProduct').addEventListener('click', function () {
+    openCreator(myStall);
+    setTimeout(function () { addProductRow().querySelector('.p-name').focus(); }, 80);
+  });
+
+  /* Tous les boutons « ouvrir mon étal » de la page passent par ici. */
+  doc.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-open-creator]');
+    if (!trigger) return;
+    e.preventDefault();
+    openCreator(myStall);
+  });
+
+  var stallForm = byId('stallForm');
+  if (stallForm) stallForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!supabaseReady() || !requireSession()) return;
+    var data = readForm();
+    var errors = [];
+    if (!data.stallName) errors.push('le nom de l\u2019étal');
+    if (!data.stallCity) errors.push('la ville');
+    if (!data.products.length) errors.push('au moins un produit');
+    if (errors.length) {
+      byId('stallError').textContent = 'Il manque ' + errors.join(', ') + '.';
+      return;
+    }
+    byId('stallError').textContent = '';
+    setBusy(stallForm, true, 'Publication…');
+
+    var payload = {
+      owner_id: session.user.id,
+      name: data.stallName,
+      city: data.stallCity,
+      category: data.stallCategory,
+      description: data.stallDescription,
+      products: data.products
+    };
+    var query = myStall && myStall.id
+      ? sb.from('stalls').update(payload).eq('id', myStall.id).select().single()
+      : sb.from('stalls').insert(payload).select().single();
+
+    query.then(function (res) {
+      setBusy(stallForm, false);
+      if (res.error) { byId('stallError').textContent = res.error.message; return; }
+      toast('Étal enregistré.');
+      creatorDialog.close();
+      refreshAll(true);
+    });
+  });
+
+  /* ---- Tableau de bord ---- */
+  function renderDashboard(rows) {
+    var uid = session && session.user && session.user.id;
+    var mine = uid ? rows.filter(function (r) { return r.owner_id === uid; }) : [];
+    myStall = mine.length ? normalizeStall(mine[0]) : null;
+
+    var emptyBox = byId('sellerEmpty'), dash = byId('sellerDashboard');
+    if (emptyBox) emptyBox.hidden = !!myStall;
+    if (dash) dash.hidden = !myStall;
+
+    var idName = byId('sellerIdName');
+    if (idName) idName.textContent = uid
+      ? ((session.user.user_metadata && session.user.user_metadata.name) || session.user.email)
+      : '—';
+    var idEmpty = byId('sellerIdKeyEmpty');
+    if (idEmpty) idEmpty.textContent = uid
+      ? 'Connecté·e — ton étal sera synchronisé sur tous tes appareils.'
+      : 'Aucune session — connecte-toi pour retrouver ton étal sur tous tes appareils.';
+    $$('#sellerLogout, #sellerLogoutEmpty').forEach(function (b) { b.hidden = !uid; });
+
+    /* Vitrine publique côté « Créer mon étal ». */
+    var created = byId('createdStall');
+    if (created) {
+      created.classList.toggle('is-shown', !!myStall);
+      if (myStall) {
+        byId('createdStallTitle').textContent = myStall.stallName;
+        byId('createdStallMeta').textContent = [myStall.sellerName, myStall.stallCity, myStall.stallCategory].filter(Boolean).join(' · ');
+        byId('createdStallDescription').textContent = myStall.stallDescription || 'Une vitrine ÉtalAfrique.';
+        byId('createdStallProducts').innerHTML = myStall.products.map(function (p) {
+          return '<div class="stall-product"><strong>' + esc(p.name) + '</strong><span>' + esc(fcfa(p.price)) + '</span></div>';
+        }).join('');
+      }
+    }
+
+    if (!myStall) return;
+
+    var products = myStall.products.filter(function (p) { return p && p.name; });
+    var stock = products.reduce(function (a, p) { return a + (Number(p.stock) || 0); }, 0);
+    var value = products.reduce(function (a, p) { return a + (Number(p.price) || 0) * (Number(p.stock) || 0); }, 0);
+
+    byId('dashStallName').textContent = myStall.stallName;
+    byId('dashStallMeta').textContent = [myStall.sellerName, myStall.stallCity, myStall.stallCategory].filter(Boolean).join(' · ');
+    byId('statProducts').textContent = products.length;
+    byId('statStock').textContent = stock;
+    byId('statValue').textContent = value.toLocaleString('fr-FR') + ' FCFA';
+    byId('statStatus').textContent = myStall.published ? 'Publié' : 'Brouillon';
+    byId('statSavedAt').textContent = myStall.savedAt
+      ? 'enregistré le ' + new Date(myStall.savedAt).toLocaleDateString('fr-FR')
+      : 'jamais enregistré';
+
+    var toggle = byId('publishToggle');
+    if (toggle) {
+      toggle.checked = myStall.published;
+      byId('publishLabel').textContent = myStall.published ? 'Publié' : 'Brouillon';
+    }
+
+    byId('dashProducts').innerHTML = products.map(function (p, i) {
+      return '<div class="dash-product"><div class="grow"><strong>' + esc(p.name) + '</strong>' +
+        '<div class="meta">' + esc(Number(p.stock) || 0) + ' en stock</div></div>' +
+        '<span class="price">' + esc(fcfa(p.price)) + '</span>' +
+        '<button class="icon-btn danger" type="button" data-remove-product="' + i + '" ' +
+        'aria-label="Retirer ' + esc(p.name) + '">\u00d7</button></div>';
+    }).join('');
+  }
+
+  var dashProducts = byId('dashProducts');
+  if (dashProducts) dashProducts.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-remove-product]');
+    if (!btn || !myStall || !supabaseReady()) return;
+    var index = Number(btn.dataset.removeProduct);
+    var next = myStall.products.filter(function (p) { return p && p.name; });
+    var removed = next.splice(index, 1)[0];
+    if (!removed) return;
+    if (!window.confirm('Retirer « ' + removed.name + ' » de ton étal ?')) return;
+    sb.from('stalls').update({ products: next }).eq('id', myStall.id).select().single().then(function (res) {
+      if (res.error) { toast(res.error.message, 'error'); return; }
+      toast('Produit retiré.');
+      refreshAll(true);
+    });
+  });
+
+  var publishToggle = byId('publishToggle');
+  if (publishToggle) publishToggle.addEventListener('change', function () {
+    if (!myStall || !supabaseReady()) { publishToggle.checked = !publishToggle.checked; return; }
+    var value = publishToggle.checked;
+    sb.from('stalls').update({ published: value }).eq('id', myStall.id).select().single().then(function (res) {
+      if (res.error) {
+        publishToggle.checked = !value;
+        /* 42703 = colonne absente : le schéma n'a pas encore la colonne published. */
+        toast(/column .*published/i.test(res.error.message) || res.error.code === '42703'
+          ? 'Ajoute la colonne « published » (boolean, défaut true) à la table stalls pour activer ce réglage.'
+          : res.error.message, 'error');
+        return;
+      }
+      byId('publishLabel').textContent = value ? 'Publié' : 'Brouillon';
+      toast(value ? 'Étal visible dans le catalogue.' : 'Étal repassé en brouillon.');
+      refreshAll(true);
+    });
+  });
+
+  byId('dashExport') && byId('dashExport').addEventListener('click', function () {
+    if (!myStall) return;
+    var blob = new Blob([JSON.stringify(myStall, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = doc.createElement('a');
+    a.href = url;
+    a.download = 'etal-' + slug(myStall.stallName) + '.json';
+    doc.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  });
+
+  byId('dashReset') && byId('dashReset').addEventListener('click', function () {
+    if (!myStall || !supabaseReady()) return;
+    if (!window.confirm('Supprimer définitivement « ' + myStall.stallName + ' » et tous ses produits ?')) return;
+    sb.from('stalls').delete().eq('id', myStall.id).then(function (res) {
+      if (res.error) { toast(res.error.message, 'error'); return; }
+      myStall = null;
+      toast('Étal supprimé.');
+      refreshAll(true);
+    });
+  });
+
+  function refreshAll(force) {
+    return refreshCatalogData(force).then(function (rows) { renderDashboard(rows); });
+  }
+
+  /* ==========================================================================
+     11. Navigation : onglets + menu mobile
+     ========================================================================== */
+  var panels = $$('main > [data-tab]');
+  var tabIds = panels.map(function (el) { return el.dataset.tab; }).filter(function (v, i, a) { return a.indexOf(v) === i; });
+  var SECTION_TO_TAB = {
+    home: 'home', advantages: 'advantages', features: 'features', how: 'how', testimonials: 'how',
+    pricing: 'pricing', trust: 'pricing', faq: 'faq', 'create-stall': 'create-stall',
+    catalog: 'catalog', 'seller-space': 'seller-space', contact: 'contact'
+  };
+  var TAB_TITLES = {
+    home: 'ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde',
+    advantages: 'Nos avantages — ÉtalAfrique',
+    features: 'Fonctionnalités — ÉtalAfrique',
+    how: 'Comment ça marche — ÉtalAfrique',
+    pricing: 'Commission & tarifs — ÉtalAfrique',
+    faq: 'Questions fréquentes — ÉtalAfrique',
+    'create-stall': 'Créer mon étal — ÉtalAfrique',
+    catalog: 'Catalogue — ÉtalAfrique',
+    'seller-space': 'Espace vendeur — ÉtalAfrique',
+    contact: 'Contact — ÉtalAfrique'
+  };
+  var DEFAULT_TITLE = doc.title;
+  var currentTab = 'home';
+
+  function showTab(id, opts) {
+    opts = opts || {};
+    if (tabIds.indexOf(id) === -1) id = 'home';
+    currentTab = id;
+    panels.forEach(function (el) { el.classList.toggle('is-active-tab', el.dataset.tab === id); });
+    $$('[data-nav]').forEach(function (link) {
+      var on = link.dataset.nav === id;
+      link.classList.toggle('is-active', on);
+      if (on) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
+    });
+    doc.title = TAB_TITLES[id] || DEFAULT_TITLE;
+    /* Les sections cachées n'ont jamais croisé l'observateur : on révèle à l'affichage. */
+    var active = panels.filter(function (el) { return el.dataset.tab === id; });
+    active.forEach(function (el) { $$('.reveal', el).forEach(function (r) { r.classList.add('is-visible'); }); });
+    if (id === 'catalog') renderCatalog();
+    if (!opts.keepScroll) window.scrollTo({ top: 0, behavior: opts.instant ? 'auto' : scrollBehavior() });
+  }
+
+  function goToTab(id, opts) {
+    opts = opts || {};
+    var hash = id === 'home' ? '#' : '#' + id;
+    if (location.hash !== hash) history.pushState({ tab: id }, '', hash);
+    showTab(id, opts);
+  }
+
+  function tabFromHash() {
+    var raw = (location.hash || '').slice(1);
+    if (!raw) return 'home';
+    return SECTION_TO_TAB[raw] || 'home';
+  }
+
+  doc.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-section], a[href^="#"]');
+    if (!el || el.hasAttribute('data-open-creator')) return;
+    var raw = el.dataset.section || el.getAttribute('href').slice(1);
+    if (!raw || !(raw in SECTION_TO_TAB)) return;
+    e.preventDefault();
+    goToTab(SECTION_TO_TAB[raw]);
+    if (mobileMenu && mobileMenu.contains(el)) closeMenu(false);
+  });
+
+  window.addEventListener('popstate', function () { showTab(tabFromHash(), { instant: true }); });
+
+  /* ---- Menu mobile ---- */
+  var mobileMenu = byId('mobileMenu');
+  var menuToggle = byId('menuToggle');
+  var menuScrim = byId('menuScrim');
+  var menuClose = byId('menuClose');
+  var mainEl = byId('main');
+  var menuLastFocus = null;
+
+  function openMenu() {
+    if (!mobileMenu) return;
+    menuLastFocus = doc.activeElement;
+    mobileMenu.classList.add('is-open');
+    menuScrim.classList.add('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    menuScrim.setAttribute('aria-hidden', 'false');
+    menuToggle.setAttribute('aria-expanded', 'true');
+    menuToggle.setAttribute('aria-label', 'Fermer le menu');
+    ScrollLock.lock();
+    if (mainEl) mainEl.setAttribute('inert', '');
+    openDialogs.push(menuDialogShim);
+    setTimeout(function () { (focusables(mobileMenu)[0] || menuClose).focus(); }, 20);
+  }
+  function closeMenu(restoreFocus) {
+    if (!mobileMenu || !mobileMenu.classList.contains('is-open')) return;
+    mobileMenu.classList.remove('is-open');
+    menuScrim.classList.remove('is-open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    menuScrim.setAttribute('aria-hidden', 'true');
+    menuToggle.setAttribute('aria-expanded', 'false');
+    menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
+    ScrollLock.unlock();
+    if (mainEl) mainEl.removeAttribute('inert');
+    openDialogs = openDialogs.filter(function (d) { return d !== menuDialogShim; });
+    if (restoreFocus !== false && menuLastFocus && menuLastFocus.focus) menuLastFocus.focus();
+  }
+  var menuDialogShim = { el: mobileMenu, close: function () { closeMenu(true); }, isOpen: function () { return mobileMenu.classList.contains('is-open'); } };
+
+  if (menuToggle) menuToggle.addEventListener('click', function () {
+    mobileMenu.classList.contains('is-open') ? closeMenu(true) : openMenu();
+  });
+  if (menuClose) menuClose.addEventListener('click', function () { closeMenu(true); });
+  if (menuScrim) menuScrim.addEventListener('click', function () { closeMenu(true); });
+
+  /* ==========================================================================
+     12. Éléments de page : FAQ, témoignages, formulaires, décor
+     ========================================================================== */
+  /* FAQ — accordéon, un seul panneau ouvert. */
+  $$('.faq-q').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = byId(btn.getAttribute('aria-controls'));
+      var isOpen = btn.getAttribute('aria-expanded') === 'true';
+      $$('.faq-q').forEach(function (other) {
+        other.setAttribute('aria-expanded', 'false');
+        var p = byId(other.getAttribute('aria-controls'));
+        if (p) p.style.maxHeight = null;
+      });
+      if (!isOpen && panel) {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* Témoignages — défilement automatique, mis en pause au survol et au focus. */
+  (function () {
+    var slides = $$('.testimonial-slide');
+    var dots = $$('.slider-dots button');
+    var stage = $('.testimonial-stage');
+    if (!slides.length) return;
+    var index = 0, timer = null;
+
+    function show(i) {
+      index = (i + slides.length) % slides.length;
+      slides.forEach(function (s, n) {
+        var on = n === index;
+        s.classList.toggle('is-active', on);
+        s.setAttribute('aria-hidden', String(!on));
+      });
+      dots.forEach(function (d, n) {
+        var on = n === index;
+        d.classList.toggle('is-active', on);
+        d.setAttribute('aria-selected', String(on));
+      });
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function start() { stop(); if (!REDUCED.matches) timer = setInterval(function () { show(index + 1); }, 6500); }
+
+    byId('prevTestimonial') && byId('prevTestimonial').addEventListener('click', function () { show(index - 1); start(); });
+    byId('nextTestimonial') && byId('nextTestimonial').addEventListener('click', function () { show(index + 1); start(); });
+    dots.forEach(function (d, i) { d.addEventListener('click', function () { show(i); start(); }); });
+    if (stage) {
+      stage.addEventListener('mouseenter', stop);
+      stage.addEventListener('mouseleave', start);
+      stage.addEventListener('focusin', stop);
+      stage.addEventListener('focusout', function (e) { if (!stage.contains(e.relatedTarget)) start(); });
+    }
+    doc.addEventListener('visibilitychange', function () { doc.hidden ? stop() : start(); });
+    show(0); start();
+  })();
+
+  /* Formulaire de contact. */
+  (function () {
+    var form = byId('contactForm');
+    if (!form) return;
+    function check(fieldId, inputId, ok) {
+      var field = byId(fieldId), input = byId(inputId);
+      field.classList.toggle('is-invalid', !ok);
+      input.setAttribute('aria-invalid', String(!ok));
+      return ok;
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = byId('name'), email = byId('email'), message = byId('message');
+      var okName = check('fieldName', 'name', name.value.trim().length >= 2);
+      var okMail = check('fieldEmail', 'email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()));
+      var okMsg = check('fieldMessage', 'message', message.value.trim().length >= 10);
+      if (!(okName && okMail && okMsg)) {
+        var firstBad = form.querySelector('.is-invalid input, .is-invalid textarea');
+        if (firstBad) firstBad.focus();
+        return;
+      }
+      byId('formSuccess').classList.add('is-shown');
+      var wa = byId('contactWhatsapp');
+      if (wa) {
+        wa.hidden = false;
+        wa.href = 'https://wa.me/2290166584697?text=' + encodeURIComponent(
+          'Bonjour ÉtalAfrique, je suis ' + name.value.trim() + ' (' + email.value.trim() + '). ' + message.value.trim()
+        );
+      }
+      form.querySelectorAll('input, select, textarea, button[type="submit"]').forEach(function (el) { el.disabled = true; });
+      setTimeout(function () {
+        form.querySelectorAll('input, select, textarea, button[type="submit"]').forEach(function (el) { el.disabled = false; });
+        form.reset();
+        byId('formSuccess').classList.remove('is-shown');
+      }, 9000);
+    });
+    ['name', 'email', 'message'].forEach(function (id) {
+      var input = byId(id);
+      if (!input) return;
+      input.addEventListener('input', function () {
+        if (!input.value.trim()) return;
+        var field = input.closest('.field');
+        if (field) field.classList.remove('is-invalid');
+        input.setAttribute('aria-invalid', 'false');
+      });
+    });
+  })();
+
+  /* Newsletter (locale, sans envoi réel). */
+  var news = byId('newsletterForm');
+  if (news) news.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = byId('newsletterEmail');
+    if (!input.checkValidity()) { input.focus(); return; }
+    input.value = '';
+    input.placeholder = 'Merci, à bientôt !';
+    toast('Inscription enregistrée.');
+  });
+
+  /* Adresse email reconstituée côté client, pour éviter la récolte automatique. */
+  var mail = byId('contactMail');
+  if (mail && mail.dataset.user) {
+    var address = mail.dataset.user + '@' + mail.dataset.dom;
+    mail.href = 'mailto:' + address;
+    mail.textContent = address;
+  }
+
+  /* Barre de progression de lecture. */
+  (function () {
+    var bar = byId('scrollProgress');
+    if (!bar) return;
+    var ticking = false;
+    function update() {
+      var max = root.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  })();
+
+  /* Bouton retour en haut. */
+  (function () {
+    var fab = byId('pinFab');
+    if (!fab) return;
+    function onScroll() { fab.classList.toggle('is-shown', window.scrollY > 600); }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    fab.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: scrollBehavior() }); });
+    onScroll();
+  })();
+
+  /* Apparition progressive des blocs. */
+  (function () {
+    var els = $$('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+
+  /* ==========================================================================
+     13. Démarrage
+     ========================================================================== */
+  renderCartBadge();
+  renderCart();
+  renderSaveBadge();
+  showTab(tabFromHash(), { instant: true, keepScroll: true });
+
+  if (sb) {
+    sb.auth.getSession().then(function (res) {
+      session = res.data.session;
+      renderAccount();
+      refreshAll(true);
+    });
+    sb.auth.onAuthStateChange(function (event, newSession) {
+      /* Éviter un rechargement complet sur chaque rafraîchissement de jeton. */
+      var sameUser = (session && session.user && session.user.id) === (newSession && newSession.user && newSession.user.id);
+      session = newSession;
+      renderAccount();
+      if (!sameUser) refreshAll(true);
+    });
+  } else {
+    renderAccount();
+    renderCatalog();
+    renderDashboard([]);
+  }
+})();
+
+</script>
 </body>
 </html>
