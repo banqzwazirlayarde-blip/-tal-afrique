@@ -1872,9 +1872,352 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 @media (max-width:880px){.lang-switcher{margin-right:0}}
 </style>
 
+<style id="marketplace-additions-css">
+/* =========================================================
+   AJOUTS MARKETPLACE — facettes, notes, comparateur, offres,
+   vue liste, récemment consultés, panier enrichi.
+   Motifs empruntés aux grandes marketplaces, redessinés dans
+   la palette maison (encre / or / terre / crème).
+   ========================================================= */
+
+/* ---------- 1. Bandeau d'annonce ---------- */
+.promo-bar{
+  position:relative;z-index:60;background:var(--ink);color:var(--cream);
+  font-size:13px;overflow:hidden;
+  border-bottom:1px solid rgba(245,240,232,0.14);
+}
+.promo-bar[hidden]{display:none;}
+.promo-bar-track{display:flex;align-items:center;gap:36px;white-space:nowrap;
+  padding:9px 56px 9px 24px;animation:promo-slide 34s linear infinite;}
+.promo-bar-track span{display:inline-flex;align-items:center;gap:8px;opacity:.92;}
+.promo-bar-track b{color:var(--gold);font-weight:800;}
+@keyframes promo-slide{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+@media (prefers-reduced-motion:reduce){
+  .promo-bar-track{animation:none;flex-wrap:wrap;white-space:normal;justify-content:center;gap:18px;}
+}
+.promo-bar-close{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:transparent;border:0;color:var(--cream);opacity:.6;
+  font-size:19px;line-height:1;padding:4px 8px;border-radius:8px;
+}
+.promo-bar-close:hover{opacity:1;background:rgba(245,240,232,.12);}
+
+/* ---------- 2. Offres du jour ---------- */
+.deals-strip{
+  margin:0 0 26px;padding:18px 20px;border-radius:var(--radius-lg);
+  background:linear-gradient(135deg,rgba(212,117,78,.12),rgba(232,168,60,.14));
+  border:1px solid rgba(212,117,78,.28);
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+}
+.deals-strip .deals-text{min-width:230px;flex:1;}
+.deals-strip .deals-kicker{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--terra-deep);font-weight:800;display:block;margin-bottom:4px;
+}
+.deals-strip h3{font-size:21px;margin:0 0 3px;}
+.deals-strip p{font-size:13px;color:var(--ink-soft);}
+.countdown{display:flex;gap:8px;align-items:center;}
+.countdown-cell{
+  background:var(--ink);color:var(--cream);border-radius:10px;
+  min-width:52px;padding:8px 6px;text-align:center;box-shadow:var(--shadow-sm);
+}
+.countdown-cell b{display:block;font-family:var(--mono);font-size:20px;line-height:1;font-weight:800;}
+.countdown-cell span{display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;opacity:.65;margin-top:4px;}
+.countdown-sep{font-weight:800;color:var(--terra-deep);}
+
+/* ---------- 3. Mise en page catalogue à deux colonnes ---------- */
+.catalog-layout{display:grid;grid-template-columns:266px minmax(0,1fr);gap:28px;align-items:start;}
+@media (max-width:980px){ .catalog-layout{grid-template-columns:1fr;} }
+
+.facets{
+  position:sticky;top:88px;background:var(--paper);border:1px solid var(--line);
+  border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-sm);
+  max-height:calc(100vh - 120px);overflow:auto;
+}
+.facets-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;}
+.facets-head h3{font-size:18px;}
+.facets-reset{
+  background:transparent;border:0;color:var(--terra-deep);font-size:12.5px;
+  font-weight:700;text-decoration:underline;padding:2px 4px;border-radius:6px;
+}
+.facets-reset[disabled]{opacity:.35;text-decoration:none;cursor:default;}
+.facet{border-top:1px solid var(--line-soft);padding:14px 0 4px;}
+.facet:first-of-type{border-top:0;}
+.facet > h4{
+  font-family:var(--sans);font-size:11px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:800;margin:0 0 9px;
+}
+.facet label{
+  display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink-soft);
+  padding:5px 6px;border-radius:8px;cursor:pointer;line-height:1.3;
+}
+.facet label:hover{background:rgba(27,27,47,.05);color:var(--ink);}
+.facet input[type=checkbox],.facet input[type=radio]{
+  width:15px;height:15px;accent-color:var(--terra-deep);flex:none;margin:0;cursor:pointer;
+}
+.facet .facet-count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink-mute);}
+.facet-scroll{max-height:186px;overflow:auto;margin-right:-6px;padding-right:6px;}
+.facet-price-range{display:flex;gap:8px;align-items:center;margin:8px 6px 4px;}
+.facet-price-range input{
+  width:100%;min-width:0;padding:7px 9px;border:1px solid var(--line);border-radius:9px;
+  font-family:var(--mono);font-size:12.5px;background:var(--cream);color:var(--ink);
+}
+.facet-price-range span{color:var(--ink-mute);font-size:12px;}
+.facet-apply{
+  width:100%;margin:8px 0 2px;padding:8px;border:1px solid var(--line);border-radius:9px;
+  background:var(--cream);font-size:12.5px;font-weight:700;color:var(--ink);
+}
+.facet-apply:hover{background:var(--paper-2);}
+
+.facets-toggle{
+  display:none;width:100%;margin-bottom:16px;padding:12px;border-radius:12px;
+  border:1px solid var(--line);background:var(--paper);font-weight:700;font-size:14px;color:var(--ink);
+  align-items:center;justify-content:center;gap:9px;
+}
+.facets-toggle .fcount{
+  background:var(--terra-deep);color:var(--cream);border-radius:999px;
+  font-family:var(--mono);font-size:11px;padding:1px 7px;font-weight:800;
+}
+@media (max-width:980px){
+  .facets-toggle{display:flex;}
+  .facets{position:static;max-height:none;margin-bottom:18px;}
+  .facets[hidden]{display:none;}
+}
+
+/* ---------- 4. Barre de résultats ---------- */
+.results-bar{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  padding:12px 0 14px;border-bottom:1px solid var(--line-soft);margin-bottom:18px;
+}
+.results-count{font-size:13.5px;color:var(--ink-soft);}
+.results-count b{color:var(--ink);font-weight:800;}
+.results-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.view-switch{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--cream);}
+.view-switch button{
+  border:0;background:transparent;padding:7px 11px;display:inline-flex;align-items:center;
+  color:var(--ink-mute);
+}
+.view-switch button svg{width:16px;height:16px;}
+.view-switch button[aria-pressed="true"]{background:var(--ink);color:var(--cream);}
+.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-mute);margin:0 0 6px;}
+.crumbs a{color:var(--terra-deep);text-decoration:none;font-weight:600;}
+.crumbs a:hover{text-decoration:underline;}
+.crumbs .sep{opacity:.5;}
+.crumbs b{color:var(--ink);font-weight:700;}
+
+.chips-row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px;}
+.chip-filter{
+  display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;
+  background:var(--paper-2);border:1px solid rgba(196,138,36,.35);color:var(--ink);
+  border-radius:999px;padding:5px 7px 5px 12px;
+}
+.chip-filter button{
+  border:0;background:rgba(27,27,47,.1);color:var(--ink);border-radius:999px;
+  width:18px;height:18px;line-height:1;font-size:13px;display:inline-flex;
+  align-items:center;justify-content:center;padding:0;
+}
+.chip-filter button:hover{background:var(--terra-deep);color:var(--cream);}
+
+/* ---------- 5. Étoiles et notes ---------- */
+.stars{display:inline-flex;align-items:center;gap:2px;vertical-align:middle;}
+.stars svg{width:13px;height:13px;flex:none;}
+.stars .s-on{color:var(--gold-deep);}
+.stars .s-off{color:rgba(27,27,47,.22);}
+.rating-line{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-mute);flex-wrap:wrap;}
+.rating-line .rv{color:var(--terra-deep);font-weight:700;}
+.rating-note{font-size:11px;color:var(--ink-mute);font-style:italic;}
+
+/* ---------- 6. Carte produit enrichie ---------- */
+.pin-flags{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:5px;z-index:2;align-items:flex-start;}
+.flag{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:800;padding:3px 8px;border-radius:999px;box-shadow:var(--shadow-sm);
+}
+.flag-deal{background:var(--terra-deep);color:var(--cream);}
+.flag-choice{background:var(--ink);color:var(--gold);}
+.flag-new{background:var(--leaf);color:#fff;}
+.flag-low{background:var(--cream);color:var(--terra-deep);border:1px solid var(--terra);}
+
+.price-block{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;}
+.price-was{font-size:12px;color:var(--ink-mute);text-decoration:line-through;}
+.price-off{
+  font-size:11px;font-weight:800;color:var(--cream);background:var(--terra-deep);
+  border-radius:6px;padding:1px 6px;font-family:var(--mono);
+}
+.ship-line{font-size:11.5px;color:var(--leaf);font-weight:700;display:flex;align-items:center;gap:5px;}
+.ship-line svg{width:13px;height:13px;flex:none;}
+.ship-line.is-slow{color:var(--ink-mute);font-weight:600;}
+.stock-line{font-size:11.5px;color:var(--terra-deep);font-weight:700;}
+.stock-bar{height:4px;border-radius:999px;background:rgba(27,27,47,.1);overflow:hidden;margin-top:4px;}
+.stock-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--terra),var(--gold));}
+
+.compare-box{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--ink-mute);padding-top:2px;}
+.compare-box input{width:14px;height:14px;accent-color:var(--ink);margin:0;cursor:pointer;}
+.compare-box label{cursor:pointer;}
+
+.shop-cta-row .shop-cta.buy-now{background:var(--gold);color:var(--ink);border-color:var(--gold-deep);font-weight:800;}
+.shop-cta-row .shop-cta.buy-now:hover{background:var(--gold-deep);color:var(--cream);}
+
+/* ---------- 7. Vue liste ---------- */
+.catalog-grid.is-list{display:flex;flex-direction:column;gap:14px;column-count:auto;}
+.catalog-grid.is-list .catalog-card{
+  display:grid;grid-template-columns:210px minmax(0,1fr);gap:18px;width:100%;
+  padding:14px;align-items:start;
+}
+.catalog-grid.is-list .catalog-card .pin-cover{margin:0;border-radius:12px;overflow:hidden;height:auto;}
+.catalog-grid.is-list .catalog-card .pin-cover-art{height:180px !important;width:100%;}
+.catalog-grid.is-list .catalog-card h3{font-size:20px;}
+.catalog-grid.is-list .pin-overlay{opacity:1;}
+.catalog-grid.is-list .pin-meta-foot{grid-column:2;}
+@media (max-width:640px){
+  .catalog-grid.is-list .catalog-card{grid-template-columns:1fr;}
+  .catalog-grid.is-list .pin-meta-foot{grid-column:1;}
+}
+
+/* ---------- 8. Barre de comparaison ---------- */
+.compare-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;transform:translateY(110%);
+  transition:transform .25s ease;background:var(--ink);color:var(--cream);
+  box-shadow:0 -14px 40px rgba(27,27,47,.3);
+  padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));
+}
+.compare-bar.is-open{transform:translateY(0);}
+.compare-inner{
+  max-width:var(--max);margin:0 auto;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+}
+.compare-slots{display:flex;gap:9px;flex:1;flex-wrap:wrap;min-width:0;}
+.compare-slot{
+  display:flex;align-items:center;gap:8px;background:rgba(245,240,232,.1);
+  border:1px solid rgba(245,240,232,.2);border-radius:10px;padding:6px 8px 6px 10px;
+  font-size:12.5px;max-width:230px;
+}
+.compare-slot span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.compare-slot button{
+  border:0;background:transparent;color:var(--gold);font-size:15px;line-height:1;padding:0 3px;
+}
+.compare-slot.is-empty{opacity:.35;font-style:italic;}
+.compare-actions{display:flex;gap:9px;align-items:center;}
+.compare-actions .btn{white-space:nowrap;}
+.compare-clear{background:transparent;border:0;color:var(--cream);opacity:.7;font-size:12.5px;text-decoration:underline;}
+
+.compare-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table.compare-table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px;}
+table.compare-table th,table.compare-table td{
+  border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;
+}
+table.compare-table thead th{background:var(--paper-2);font-family:var(--serif);font-size:15px;}
+table.compare-table tbody th{
+  background:var(--paper);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-mute);font-weight:800;white-space:nowrap;width:150px;
+}
+table.compare-table .best{color:var(--leaf);font-weight:800;}
+
+/* ---------- 9. Récemment consultés ---------- */
+.recent-rail{margin:34px 0 0;}
+.recent-rail[hidden]{display:none;}
+.recent-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
+.recent-head h3{font-size:20px;}
+.recent-head button{background:transparent;border:0;color:var(--terra-deep);font-size:12.5px;font-weight:700;text-decoration:underline;}
+.recent-track{
+  display:flex;gap:12px;overflow-x:auto;padding:4px 2px 12px;scroll-snap-type:x proximity;
+}
+.recent-card{
+  flex:0 0 156px;scroll-snap-align:start;background:var(--cream);border:1px solid var(--line);
+  border-radius:12px;padding:10px;text-align:left;box-shadow:var(--shadow-sm);
+}
+.recent-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.recent-card .rc-emoji{font-size:30px;line-height:1;margin-bottom:7px;display:block;}
+.recent-card .rc-name{font-size:12.5px;font-weight:700;line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.recent-card .rc-price{font-size:12.5px;color:var(--terra-deep);font-weight:800;margin-top:5px;}
+
+/* ---------- 10. Bandeau de confiance ---------- */
+.assurance-row{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:14px;
+  margin:34px 0 0;padding:20px;background:var(--paper);border:1px solid var(--line-soft);
+  border-radius:var(--radius-lg);
+}
+.assurance-item{display:flex;gap:11px;align-items:flex-start;}
+.assurance-item svg{width:22px;height:22px;flex:none;color:var(--terra-deep);margin-top:1px;}
+.assurance-item b{display:block;font-size:13.5px;margin-bottom:2px;}
+.assurance-item span{font-size:12px;color:var(--ink-mute);line-height:1.45;}
+
+/* ---------- 11. Panier enrichi ---------- */
+.cart-progress{padding:14px 18px 4px;border-bottom:1px solid var(--line-soft);}
+.cart-progress p{font-size:12.5px;color:var(--ink-soft);margin-bottom:7px;}
+.cart-progress p b{color:var(--terra-deep);}
+.cart-progress .cp-track{height:7px;border-radius:999px;background:rgba(27,27,47,.1);overflow:hidden;}
+.cart-progress .cp-fill{display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--terra),var(--gold));transition:width .3s ease;}
+.cart-progress.is-done .cp-fill{background:var(--leaf);}
+.cart-lines{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;font-size:13px;}
+.cart-lines div{display:flex;justify-content:space-between;gap:12px;color:var(--ink-soft);}
+.cart-lines .cl-save{color:var(--leaf);font-weight:700;}
+.cart-promo{display:flex;gap:7px;margin-bottom:10px;}
+.cart-promo input{
+  flex:1;min-width:0;padding:9px 11px;border:1px solid var(--line);border-radius:9px;
+  background:var(--cream);font-family:var(--mono);font-size:12.5px;text-transform:uppercase;color:var(--ink);
+}
+.cart-promo button{
+  padding:9px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--cream);
+  border-radius:9px;font-size:12.5px;font-weight:700;
+}
+.cart-promo button:hover{background:var(--ink-soft);}
+.cart-promo-msg{font-size:12px;margin:-5px 0 10px;}
+.cart-promo-msg.ok{color:var(--leaf);font-weight:700;}
+.cart-promo-msg.no{color:var(--terra-deep);}
+.cart-xsell{padding:14px 18px;border-top:1px solid var(--line-soft);background:var(--paper);}
+.cart-xsell h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:10px;font-family:var(--sans);}
+.cart-xsell ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.cart-xsell li{display:flex;gap:10px;align-items:center;font-size:12.5px;}
+.cart-xsell .cx-emoji{font-size:21px;flex:none;}
+.cart-xsell .cx-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cart-xsell .cx-add{
+  border:1px solid var(--line);background:var(--cream);border-radius:8px;
+  padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--ink);flex:none;
+}
+.cart-xsell .cx-add:hover{background:var(--gold);border-color:var(--gold-deep);}
+
+/* ---------- 12. Avis dans la fiche produit ---------- */
+.detail-reviews{margin-top:18px;border-top:1px solid var(--line-soft);padding-top:16px;}
+.detail-reviews h3{font-size:17px;margin-bottom:10px;}
+.rev-summary{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.rev-score{font-family:var(--serif);font-size:38px;line-height:1;font-weight:700;}
+.rev-bars{flex:1;min-width:190px;display:flex;flex-direction:column;gap:4px;}
+.rev-bar{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink-mute);}
+.rev-bar .rb-track{flex:1;height:7px;border-radius:999px;background:rgba(27,27,47,.1);overflow:hidden;}
+.rev-bar .rb-fill{display:block;height:100%;background:var(--gold);}
+.rev-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;}
+.rev-item{background:var(--paper);border:1px solid var(--line-soft);border-radius:12px;padding:12px 14px;}
+.rev-item .rv-head{display:flex;gap:9px;align-items:center;margin-bottom:5px;flex-wrap:wrap;}
+.rev-item .rv-who{font-weight:700;font-size:13px;}
+.rev-item .rv-when{font-size:11.5px;color:var(--ink-mute);margin-left:auto;}
+.rev-item .rv-verified{font-size:10.5px;color:var(--leaf);font-weight:800;text-transform:uppercase;letter-spacing:.08em;}
+.rev-item p{font-size:13px;color:var(--ink-soft);line-height:1.5;}
+
+.detail-qty{display:flex;align-items:center;gap:10px;margin:12px 0;}
+.detail-qty label{font-size:12.5px;font-weight:700;color:var(--ink-mute);}
+.detail-qty .dq-box{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--cream);}
+.detail-qty .dq-box button{border:0;background:transparent;padding:7px 12px;font-size:15px;color:var(--ink);}
+.detail-qty .dq-box button:hover{background:var(--paper-2);}
+.detail-qty .dq-box span{min-width:34px;text-align:center;font-family:var(--mono);font-weight:700;}
+</style>
 </head>
 
 <body>
+<div class="promo-bar" id="promoBar" role="region" aria-label="Annonces ÉtalAfrique">
+  <div class="promo-bar-track">
+    <span><b>Ouverture gratuite</b> · l’étal ne coûte rien, 3 % par vente confirmée</span>
+    <span><b>Livraison de quartier offerte</b> dès 25 000 FCFA de panier</span>
+    <span><b>10 pays</b> · Sénégal, Mali, Côte d’Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina, Niger, Madagascar</span>
+    <span><b>Support sous 24 h</b> · par email ou WhatsApp</span>
+    <span aria-hidden="true"><b>Ouverture gratuite</b> · l’étal ne coûte rien, 3 % par vente confirmée</span>
+    <span aria-hidden="true"><b>Livraison de quartier offerte</b> dès 25 000 FCFA de panier</span>
+    <span aria-hidden="true"><b>10 pays</b> · Sénégal, Mali, Côte d’Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina, Niger, Madagascar</span>
+    <span aria-hidden="true"><b>Support sous 24 h</b> · par email ou WhatsApp</span>
+  </div>
+  <button type="button" class="promo-bar-close" id="promoBarClose" aria-label="Masquer le bandeau d’annonces">×</button>
+</div>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <a class="skip" href="#main">Aller au contenu principal</a>
 <noscript><p class="nojs-note">JavaScript est désactivé : la page reste lisible d’un bloc, mais le catalogue, le panier et la création d’étal ne fonctionnent pas.</p></noscript>
@@ -2287,40 +2630,163 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 <!-- ====== CATALOGUE ====== -->
 <section id="catalog" data-tab="catalog" class="catalog-section" aria-labelledby="catalog-h">
   <div class="wrap">
-    <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.</p></div>
+    <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits &amp; boutiques.</em></h2><p class="section-lede">Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.</p></div>
+
+    <nav class="crumbs" id="catalogCrumbs" aria-label="Fil d’Ariane"></nav>
+
+    <!-- ====== Offres du jour ====== -->
+    <div class="deals-strip">
+      <div class="deals-text">
+        <span class="deals-kicker">Offres du jour</span>
+        <h3>Les promotions des étals</h3>
+        <p>Les vendeurs qui baissent leurs prix aujourd’hui, jusqu’à minuit.</p>
+      </div>
+      <div class="countdown" id="dealsCountdown" role="timer" aria-label="Temps restant avant la fin des offres">
+        <span class="countdown-cell"><b data-cd="h">00</b><span>heures</span></span>
+        <span class="countdown-sep" aria-hidden="true">:</span>
+        <span class="countdown-cell"><b data-cd="m">00</b><span>min</span></span>
+        <span class="countdown-sep" aria-hidden="true">:</span>
+        <span class="countdown-cell"><b data-cd="s">00</b><span>sec</span></span>
+      </div>
+      <button type="button" class="btn btn-primary" id="dealsCta">Voir les promotions</button>
+    </div>
+
     <div class="catalog-toolbar" role="search" aria-label="Rechercher dans le catalogue">
       <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall">Boutiques</button></div>
       <input id="catalogSearch" class="catalog-search" type="search" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
     </div>
-    
+
     <div class="pin-rail-inner" role="tablist" aria-label="Catégories du marché" id="pinRail">
       <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span>Tout</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span>Textile</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span>Beauté & soin</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span>Beauté &amp; soin</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span>Agroalimentaire</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span>Artisanat</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span>Décoration</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span>Mode</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span>Tech & maison</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span>Tech &amp; maison</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span>Enfants</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span>Services</button>
       <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span>Boutiques locales</button>
     </div>
-    
-<div class="shop-sort-bar" aria-label="Tri du catalogue">
-  <label for="shopSort">Trier&nbsp;:</label>
-  <select id="shopSort" aria-label="Trier les résultats">
-    <option value="default">Pertinence</option>
-    <option value="price-asc">Prix croissant</option>
-    <option value="price-desc">Prix décroissant</option>
-    <option value="name-asc">Nom (A → Z)</option>
-    <option value="name-desc">Nom (Z → A)</option>
-    <option value="city-asc">Ville (A → Z)</option>
-  </select>
-</div>
-<p class="catalog-status" id="catalogStatus" role="status" aria-live="polite"></p>
-<div id="catalogGrid" class="catalog-grid is-masonry"></div>
-    <div id="catalogEmpty" class="catalog-empty" hidden>Aucun résultat dans le catalogue. <a href="#create-stall" data-open-creator>Ouvrir mon étal</a></div>
+
+    <button type="button" class="facets-toggle" id="facetsToggle" aria-expanded="false" aria-controls="catalogFacets">
+      Filtres du catalogue <span class="fcount" id="facetsToggleCount" hidden></span>
+    </button>
+
+    <div class="catalog-layout">
+      <!-- ====== Colonne de facettes ====== -->
+      <aside class="facets" id="catalogFacets" aria-label="Affiner les résultats">
+        <div class="facets-head">
+          <h3>Affiner</h3>
+          <button type="button" class="facets-reset" id="facetsReset" disabled>Tout effacer</button>
+        </div>
+
+        <div class="facet">
+          <h4>Prix</h4>
+          <label><input type="radio" name="priceBand" data-facet-band value="0-0" checked><span>Tous les prix</span></label>
+          <label><input type="radio" name="priceBand" data-facet-band value="0-2000"><span>Moins de 2 000 FCFA</span></label>
+          <label><input type="radio" name="priceBand" data-facet-band value="2000-5000"><span>2 000 – 5 000 FCFA</span></label>
+          <label><input type="radio" name="priceBand" data-facet-band value="5000-15000"><span>5 000 – 15 000 FCFA</span></label>
+          <label><input type="radio" name="priceBand" data-facet-band value="15000-0"><span>Plus de 15 000 FCFA</span></label>
+          <div class="facet-price-range">
+            <input type="number" id="facetPriceMin" min="0" step="500" placeholder="Min" aria-label="Prix minimum en FCFA">
+            <span aria-hidden="true">—</span>
+            <input type="number" id="facetPriceMax" min="0" step="500" placeholder="Max" aria-label="Prix maximum en FCFA">
+          </div>
+          <button type="button" class="facet-apply" id="facetPriceApply">Appliquer la fourchette</button>
+        </div>
+
+        <div class="facet">
+          <h4>Note des acheteurs</h4>
+          <label><input type="radio" name="facetRating" id="facetRatingAny" data-facet-rating value="0" checked><span>Toutes les notes</span></label>
+          <label><input type="radio" name="facetRating" data-facet-rating value="4.5"><span>4,5 ★ et plus</span></label>
+          <label><input type="radio" name="facetRating" data-facet-rating value="4"><span>4 ★ et plus</span></label>
+          <label><input type="radio" name="facetRating" data-facet-rating value="3.5"><span>3,5 ★ et plus</span></label>
+        </div>
+
+        <div class="facet">
+          <h4>Ville</h4>
+          <div class="facet-scroll" id="facetCityList"></div>
+        </div>
+
+        <div class="facet">
+          <h4>Disponibilité</h4>
+          <label><input type="checkbox" id="facetInStock"><span>En stock uniquement</span></label>
+          <label><input type="checkbox" id="facetFastShip"><span>Livraison en 2 jours</span></label>
+          <label><input type="checkbox" id="facetDeals"><span>En promotion</span></label>
+        </div>
+
+        <p class="rating-note" style="padding:12px 6px 0;border-top:1px solid var(--line-soft);">
+          Notes, remises et délais sont des valeurs d’aperçu dérivées de la fiche produit, pas encore des données de la base.
+        </p>
+      </aside>
+
+      <!-- ====== Colonne de résultats ====== -->
+      <div>
+        <div class="results-bar">
+          <p class="results-count" id="catalogResultsCount"></p>
+          <div class="results-tools">
+            <div class="shop-sort-bar" aria-label="Tri du catalogue" style="margin:0">
+              <label for="shopSort">Trier&nbsp;:</label>
+              <select id="shopSort" aria-label="Trier les résultats">
+                <option value="default">Pertinence</option>
+                <option value="rating-desc">Meilleures notes</option>
+                <option value="popular">Les plus commentés</option>
+                <option value="discount-desc">Plus forte remise</option>
+                <option value="price-asc">Prix croissant</option>
+                <option value="price-desc">Prix décroissant</option>
+                <option value="name-asc">Nom (A → Z)</option>
+                <option value="name-desc">Nom (Z → A)</option>
+                <option value="city-asc">Ville (A → Z)</option>
+              </select>
+            </div>
+            <div class="view-switch" id="catalogView" role="group" aria-label="Affichage des résultats">
+              <button type="button" data-view="grid" aria-pressed="true" aria-label="Affichage en grille">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </button>
+              <button type="button" data-view="list" aria-pressed="false" aria-label="Affichage en liste">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="4" width="18" height="3" rx="1.5"/><rect x="3" y="10.5" width="18" height="3" rx="1.5"/><rect x="3" y="17" width="18" height="3" rx="1.5"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="chips-row" id="catalogChips" hidden></div>
+        <p class="catalog-status sr-only" id="catalogStatus" role="status" aria-live="polite"></p>
+        <div id="catalogGrid" class="catalog-grid is-masonry"></div>
+        <div id="catalogEmpty" class="catalog-empty" hidden>Aucun résultat dans le catalogue. <a href="#create-stall" data-open-creator>Ouvrir mon étal</a></div>
+      </div>
+    </div>
+
+    <!-- ====== Récemment consultés ====== -->
+    <section class="recent-rail" id="recentRail" aria-labelledby="recent-h" hidden>
+      <div class="recent-head">
+        <h3 id="recent-h">Récemment consultés</h3>
+        <button type="button" id="recentClear">Effacer l’historique</button>
+      </div>
+      <div class="recent-track" id="recentTrack"></div>
+    </section>
+
+    <!-- ====== Bandeau de confiance ====== -->
+    <div class="assurance-row">
+      <div class="assurance-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.6-3.2 7.8-8 9-4.8-1.2-8-4.4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div><b>Profils vendeurs vérifiés</b><span>Chaque étal est rattaché à un compte et à une ville.</span></div>
+      </div>
+      <div class="assurance-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10h3l3 3v5h-6z"/><circle cx="7" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg>
+        <div><b>Livraison de quartier</b><span>Des partenaires locaux, un suivi simple, un point de retrait.</span></div>
+      </div>
+      <div class="assurance-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>
+        <div><b>Mobile Money natif</b><span>Orange Money, Wave, MTN, Moov selon le pays.</span></div>
+      </div>
+      <div class="assurance-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <div><b>Support humain sous 24 h</b><span>Par email ou WhatsApp, du lundi au samedi.</span></div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2478,6 +2944,14 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <div class="pin-modal-price" id="pinModalPrice">—</div>
       <div class="pin-modal-tags" id="pinModalTags"></div>
       <p id="pinModalDesc" style="color:var(--ink-soft); line-height:1.55;"></p>
+      <div class="detail-qty" id="pinModalQty" hidden>
+        <label id="pinQtyLabel">Quantité</label>
+        <span class="dq-box" role="group" aria-labelledby="pinQtyLabel">
+          <button type="button" data-qty-step="-1" aria-label="Retirer un exemplaire">−</button>
+          <span id="pinQtyValue">1</span>
+          <button type="button" data-qty-step="1" aria-label="Ajouter un exemplaire">+</button>
+        </span>
+      </div>
       <div class="pin-modal-actions">
         <button type="button" class="btn btn-gold" id="pinModalAdd" hidden>Ajouter au panier</button>
         <button type="button" class="btn btn-primary" id="pinModalSave">Enregistrer</button>
@@ -2485,6 +2959,30 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           Contacter la boutique
         </button>
       </div>
+      <section class="detail-reviews" id="pinModalReviews" hidden></section>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Comparateur de produits ====== -->
+<div class="compare-bar" id="compareBar" role="region" aria-label="Comparateur de produits">
+  <div class="compare-inner">
+    <div class="compare-slots" id="compareSlots"></div>
+    <div class="compare-actions">
+      <button type="button" class="btn btn-gold" id="compareOpen" disabled>Comparer</button>
+      <button type="button" class="compare-clear" id="compareClear">Vider</button>
+    </div>
+  </div>
+</div>
+
+<div class="pin-modal" id="compareModal" role="dialog" aria-modal="true" aria-labelledby="compareModalTitle" aria-hidden="true">
+  <div class="pin-modal-card" role="document" style="max-width:940px">
+    <button type="button" class="pin-modal-close" id="compareModalClose" aria-label="Fermer le comparateur">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="pin-modal-body" style="grid-column:1 / -1">
+      <h2 id="compareModalTitle">Comparer les produits</h2>
+      <div id="compareBody"></div>
     </div>
   </div>
 </div>
@@ -2509,12 +3007,24 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
     <h2 id="shopCartTitle">Ton panier</h2>
     <button type="button" class="cart-close" id="shopCartClose" aria-label="Fermer le panier">×</button>
   </div>
+  <div class="cart-progress" id="cartProgress" hidden>
+    <p class="cp-msg"></p>
+    <span class="cp-track"><i class="cp-fill" style="width:0%"></i></span>
+  </div>
   <ul class="cart-list" id="shopCartList" aria-live="polite"></ul>
+  <div class="cart-xsell" id="cartXsell" hidden></div>
   <div class="cart-empty" id="shopCartEmpty">
     <strong>Ton panier est vide.</strong>
     <span>Ajoute des produits depuis le catalogue pour les retrouver ici.</span>
   </div>
   <div class="cart-sidebar-foot">
+    <div class="cart-lines" id="cartLines" hidden></div>
+    <div class="cart-promo" id="cartPromo" hidden>
+      <label class="sr-only" for="cartPromoInput">Code promo</label>
+      <input id="cartPromoInput" type="text" placeholder="Code promo" autocomplete="off" spellcheck="false">
+      <button type="button" id="cartPromoApply">Appliquer</button>
+    </div>
+    <p class="cart-promo-msg" id="cartPromoMsg" role="status" aria-live="polite"></p>
     <div class="cart-totals"><span>Total</span><b id="shopCartTotal">0 FCFA</b></div>
     <button type="button" class="cart-checkout" id="shopCheckoutBtn">Commander via WhatsApp</button>
     <p class="cart-demo-note">Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.</p>
@@ -2525,6 +3035,8 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
      Scripts — chargés en fin de document pour ne pas bloquer le premier rendu.
      Ordre imposé : SDK Supabase → client partagé → moteur de la page.
      ============================================================================= -->
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" onerror="window.etalafriqueSupabaseLoadFailed=true"></script>
 <script>
   /* Clé « publishable » : conçue pour être publique. Ne jamais mettre ici la clé
@@ -2912,6 +3424,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       if (empty) empty.hidden = false;
       if (total) total.textContent = '0 FCFA';
       var chk = byId('shopCheckoutBtn'); if (chk) chk.disabled = true;
+      renderCartExtras();
       return;
     }
     if (empty) empty.hidden = true;
@@ -2933,6 +3446,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       '</li>';
     }).join('');
     if (total) total.textContent = fcfa(cartTotal());
+    renderCartExtras();
   }
 
   var cartBtn = byId('shopCartBtn');
@@ -2977,7 +3491,13 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   /* ==========================================================================
      8. Catalogue : un seul rendu, un seul état
      ========================================================================== */
-  var catalogState = { type: 'all', cat: 'all', query: '', sort: 'default', savedOnly: false };
+  var catalogState = {
+    type: 'all', cat: 'all', query: '', sort: 'default', savedOnly: false,
+    /* Facettes ajoutées par la couche marketplace (section 12 bis). */
+    priceMin: 0, priceMax: 0, minRating: 0,
+    inStock: false, fastShip: false, dealsOnly: false,
+    cityFilters: [], view: (store.get('etalafrique.view', 'grid') === 'list' ? 'list' : 'grid')
+  };
   var remoteItems = [];      // produits et boutiques venant de Supabase
   var catalogLoading = false;
 
@@ -3006,6 +3526,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 
   function matches(item) {
     if (catalogState.savedOnly && !isSaved(item.id)) return false;
+    if (!facetPass(item)) return false;
     if (catalogState.type !== 'all' && item.type !== catalogState.type) return false;
     if (catalogState.cat === 'local-only') { if (item.type !== 'stall') return false; }
     else if (catalogState.cat !== 'all' && item.cat !== catalogState.cat) return false;
@@ -3022,7 +3543,10 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
     var sorted = list.slice();
     /* Les boutiques n'ont pas de prix : elles vont en fin de liste plutôt qu'en tête. */
     function priceOf(x, empty) { return x.type === 'product' && x.price > 0 ? x.price : empty; }
-    if (mode === 'price-asc') sorted.sort(function (a, b) { return priceOf(a, Infinity) - priceOf(b, Infinity); });
+    if (mode === 'rating-desc') sorted.sort(function (a, b) { return commerceMeta(b).rating - commerceMeta(a).rating; });
+    else if (mode === 'popular') sorted.sort(function (a, b) { return commerceMeta(b).reviews - commerceMeta(a).reviews; });
+    else if (mode === 'discount-desc') sorted.sort(function (a, b) { return commerceMeta(b).off - commerceMeta(a).off; });
+    else if (mode === 'price-asc') sorted.sort(function (a, b) { return priceOf(a, Infinity) - priceOf(b, Infinity); });
     else if (mode === 'price-desc') sorted.sort(function (a, b) { return priceOf(b, -Infinity) - priceOf(a, -Infinity); });
     else if (mode === 'name-asc') sorted.sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
     else if (mode === 'name-desc') sorted.sort(function (a, b) { return b.name.localeCompare(a.name, 'fr'); });
@@ -3033,21 +3557,66 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   var itemIndex = {};   // id -> item, pour les modales et le panier
 
   function cardHTML(item) {
+    var meta = commerceMeta(item);
     var badge = item.type === 'product'
       ? (CAT_LABEL[item.cat] || 'Produit')
       : (item.catLabel || 'Boutique');
-    var priceLine = item.type === 'product'
-      ? '<span class="price">' + esc(fcfa(item.price)) + '</span>'
-      : '<span class="price">' + esc(item.count || 0) + ' produit' + ((item.count || 0) > 1 ? 's' : '') + '</span>';
+
+    /* Bandeaux d'angle : promotion, choix de la rédaction, nouveauté, stock bas. */
+    var flags = '';
+    if (item.type === 'product') {
+      if (meta.off) flags += '<span class="flag flag-deal">\u2212' + meta.off + ' %</span>';
+      if (meta.choice) flags += '<span class="flag flag-choice">Choix ÉtalAfrique</span>';
+      else if (meta.fresh) flags += '<span class="flag flag-new">Nouveau</span>';
+      if (meta.low) flags += '<span class="flag flag-low">Bientôt épuisé</span>';
+    }
+
+    var priceLine;
+    if (item.type === 'product') {
+      priceLine = '<span class="price-block"><span class="price">' + esc(fcfa(item.price)) + '</span>' +
+        (meta.was ? '<span class="price-was">' + esc(fcfa(meta.was)) + '</span>' +
+                    '<span class="price-off">\u2212' + meta.off + ' %</span>' : '') +
+        '</span>';
+    } else {
+      priceLine = '<span class="price">' + esc(item.count || 0) + ' produit' + ((item.count || 0) > 1 ? 's' : '') + '</span>';
+    }
+
+    var ratingLine = '<div class="rating-line">' + starsHTML(meta.rating) +
+      '<span class="rv">' + String(meta.rating).replace('.', ',') + '</span>' +
+      '<span>(' + meta.reviews + ')</span></div>';
+
+    var shipHTML = item.type === 'product'
+      ? '<div class="ship-line' + (meta.fast ? '' : ' is-slow') + '">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+          '<rect x="2" y="6" width="13" height="11" rx="2"/><path d="M15 10h3l3 3v4h-6z"/><circle cx="6.5" cy="18" r="1.5"/><circle cx="17.5" cy="18" r="1.5"/></svg>' +
+          esc(shipLabel(meta)) + '</div>'
+      : '';
+
+    var stockHTML = '';
+    if (item.type === 'product' && meta.stock != null && meta.stock > 0) {
+      var pct = Math.max(6, Math.min(100, Math.round(meta.stock / 20 * 100)));
+      stockHTML = '<div class="stock-line">' + (meta.low ? 'Plus que ' + meta.stock + ' en stock' : meta.stock + ' unités disponibles') +
+        '<span class="stock-bar"><i style="width:' + pct + '%"></i></span></div>';
+    } else if (meta.out) {
+      stockHTML = '<div class="stock-line">Épuisé pour le moment</div>';
+    }
+
+    var compareHTML = item.type === 'product'
+      ? '<div class="compare-box"><input type="checkbox" data-act="compare" id="cmp-' + esc(item.id) + '">' +
+        '<label for="cmp-' + esc(item.id) + '">Comparer</label></div>'
+      : '';
+
     var actions = item.type === 'product'
       ? '<button type="button" class="shop-cta" data-act="add">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="width:14px;height:14px"><path d="M12 5v14M5 12h14"/></svg>' +
           'Ajouter</button>' +
+        '<button type="button" class="shop-cta buy-now" data-act="buy">Acheter</button>' +
         '<button type="button" class="shop-cta shop-cta-secondary" data-act="detail">Aperçu</button>'
       : '<button type="button" class="shop-cta shop-cta-secondary" data-act="detail">Voir la boutique</button>';
 
     return '<article class="catalog-card" data-id="' + esc(item.id) + '" data-type="' + esc(item.type) + '">' +
       '<div class="pin-cover">' + coverArt(item) +
+        (flags ? '<div class="pin-flags">' + flags + '</div>' : '') +
         '<div class="pin-overlay">' +
           '<div class="pin-overlay-top">' +
             '<button type="button" class="pin-save" data-act="save" aria-pressed="' + (isSaved(item.id) ? 'true' : 'false') + '" aria-label="Enregistrer ' + esc(item.name) + '"></button>' +
@@ -3069,11 +3638,14 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       '</div>' +
       '<div class="pin-meta">' +
         '<h3>' + esc(item.name) + '</h3>' +
+        ratingLine +
         '<div class="pin-row">' + priceLine +
           '<div class="badge-row"><span class="demo-badge">' + esc(badge) + '</span></div>' +
         '</div>' +
+        shipHTML + stockHTML +
         '<div class="city">\uD83D\uDCCD ' + esc(item.city || '—') + (item.type === 'product' && item.stall ? ' · ' + esc(item.stall) : '') + '</div>' +
         '<div class="shop-cta-row">' + actions + '</div>' +
+        compareHTML +
       '</div>' +
       '<div class="pin-meta-foot">' +
         '<span class="pin-avatar" aria-hidden="true">' + esc((item.seller || 'E').trim().charAt(0).toUpperCase()) + '</span>' +
@@ -3108,8 +3680,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 
     var list = sortItems(allItems().filter(matches));
     itemIndex = {};
-    list.forEach(function (it) { itemIndex[it.id] = it; });
+    list.forEach(function (it) { itemIndex[it.id] = it; META_ITEMS[it.id] = it; });
 
+    grid.className = 'catalog-grid ' + (catalogState.view === 'list' ? 'is-list' : 'is-masonry');
     grid.innerHTML = list.map(cardHTML).join('');
     $$('.pin-save', grid).forEach(function (btn) {
       var card = btn.closest('.catalog-card');
@@ -3123,6 +3696,24 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           (catalogState.query ? ' pour « ' + catalogState.query + ' »' : '')
         : (catalogState.savedOnly ? 'Aucun enregistrement pour l\u2019instant.' : 'Aucun résultat.');
     }
+
+    /* Couche marketplace : compteur, fil d'Ariane, pastilles, comparateur. */
+    var count = byId('catalogResultsCount');
+    if (count) {
+      var total = allItems().length;
+      count.innerHTML = list.length
+        ? '<b>' + list.length + '</b> résultat' + (list.length > 1 ? 's' : '') +
+          (total > list.length ? ' sur ' + total : '') +
+          (catalogState.query ? ' pour « <b>' + esc(catalogState.query) + '</b> »' : '')
+        : 'Aucun résultat pour cette combinaison de filtres.';
+    }
+    $$('[data-view]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-view') === catalogState.view ? 'true' : 'false');
+    });
+    renderCrumbs();
+    renderFilterChips();
+    renderCompareBar();
+    syncFacetControls();
   }
 
   /* ---- Actions déléguées sur les cartes ---- */
@@ -3152,6 +3743,13 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
         toast(saved ? 'Ajouté à tes enregistrements' : 'Retiré de tes enregistrements');
       } else if (act === 'add') {
         addToCart(item);
+      } else if (act === 'buy') {
+        addToCart(item);
+        cartDialog.open();
+      } else if (act === 'compare') {
+        var cb = trigger;
+        var on = toggleCompare(item);
+        cb.checked = on;
       } else if (act === 'share') {
         var url = location.href.split('#')[0] + '#catalog';
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -3334,6 +3932,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
     var addBtn = byId('pinModalAdd');
     if (addBtn) addBtn.hidden = item.type !== 'product';
 
+    pushRecent(item);
+    renderDetailExtras(item);
+
     detailDialog.open();
   }
 
@@ -3448,6 +4049,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   }
 
   function refreshCatalogData(force) {
+    /* La liste des villes dépend des données chargées : on la rebâtit à chaque
+       rafraîchissement plutôt que de la figer dans le HTML. */
+    setTimeout(buildCityFacet, 0);
     catalogLoading = true;
     renderCatalog();
     return fetchStalls(force).then(function (rows) {
@@ -4131,11 +4735,745 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   })();
 
   /* ==========================================================================
+     12 bis. Couche marketplace : facettes, notes, comparateur, offres,
+     vue liste, récemment consultés, panier enrichi.
+
+     Note importante : le modèle de données (table `stalls`) ne porte encore ni
+     notes, ni avis, ni remises. Tout ce qui suit est DÉRIVÉ de façon
+     déterministe de l'identifiant de l'article — même article, même note à
+     chaque rendu, sur tous les appareils. C'est un aperçu d'interface, pas une
+     donnée réelle : l'UI le signale explicitement. Quand les colonnes
+     existeront côté base, il suffira de remplacer commerceMeta().
+     ========================================================================== */
+
+  var META_CACHE = {};
+  var PROMO_CODES = { MARCHE10: 10, DAKAR5: 5, PREMIER15: 15 };
+  var FREE_SHIP_TARGET = 25000;
+
+  function commerceMeta(item) {
+    if (!item) return null;
+    if (META_CACHE[item.id]) return META_CACHE[item.id];
+    var key = String(item.id);
+    var hr = hashOf(key + '|note');
+    var hv = hashOf(key + '|avis');
+    var hd = hashOf(key + '|remise');
+    var hs = hashOf(key + '|livraison');
+    var hn = hashOf(key + '|nouveau');
+
+    var rating = Math.round((3.4 + (hr % 17) / 10) * 10) / 10;   // 3.4 → 5.0
+    var reviews = 4 + (hv % 487);
+    var offPct = [0, 0, 0, 5, 10, 15, 20, 25, 30][hd % 9];
+    var price = Number(item.price) || 0;
+    var wasPrice = offPct && price > 0 ? Math.round(price / (1 - offPct / 100) / 50) * 50 : 0;
+    var shipDays = [1, 1, 2, 2, 3, 4, 7][hs % 7];
+    var stock = item.type === 'product' ? (item.stock == null ? null : Number(item.stock)) : null;
+
+    var meta = {
+      rating: rating,
+      reviews: reviews,
+      off: offPct,
+      was: wasPrice,
+      saves: wasPrice ? wasPrice - price : 0,
+      deal: offPct >= 15,
+      choice: rating >= 4.6 && reviews >= 120,
+      fresh: (hn % 7) === 0,
+      shipDays: shipDays,
+      fast: shipDays <= 2,
+      stock: stock,
+      low: stock != null && stock > 0 && stock <= 5,
+      out: stock != null && stock === 0
+    };
+    META_CACHE[item.id] = meta;
+    return meta;
+  }
+
+  function starsHTML(rating) {
+    var out = '<span class="stars" role="img" aria-label="Note : ' + rating + ' sur 5">';
+    for (var i = 1; i <= 5; i++) {
+      var on = rating >= i - 0.25;
+      out += '<svg class="' + (on ? 's-on' : 's-off') + '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.6 9.4l6.5-.9z"/></svg>';
+    }
+    return out + '</span>';
+  }
+
+  function shipLabel(meta) {
+    if (meta.shipDays === 1) return 'Livraison quartier dès demain';
+    if (meta.shipDays <= 2) return 'Livraison en 2 jours';
+    return 'Livraison sous ' + meta.shipDays + ' jours';
+  }
+
+  /* ---- Facettes : lecture de l'état ---- */
+  function facetPass(item) {
+    var st = catalogState;
+    var meta = commerceMeta(item);
+    var productOnlyFacet = st.priceMin > 0 || st.priceMax > 0 || st.minRating > 0 ||
+                           st.inStock || st.fastShip || st.dealsOnly;
+
+    if (productOnlyFacet && item.type !== 'product') return false;
+
+    if (st.cityFilters && st.cityFilters.length) {
+      if (st.cityFilters.indexOf(String(item.city || '')) === -1) return false;
+    }
+    if (item.type === 'product') {
+      var price = Number(item.price) || 0;
+      if (st.priceMin > 0 && price < st.priceMin) return false;
+      if (st.priceMax > 0 && price > st.priceMax) return false;
+      if (st.minRating > 0 && meta.rating < st.minRating) return false;
+      if (st.inStock && meta.out) return false;
+      if (st.fastShip && !meta.fast) return false;
+      if (st.dealsOnly && !meta.deal) return false;
+    }
+    return true;
+  }
+
+  function activeFacetCount() {
+    var st = catalogState, n = 0;
+    if (st.priceMin > 0 || st.priceMax > 0) n++;
+    if (st.minRating > 0) n++;
+    if (st.inStock) n++;
+    if (st.fastShip) n++;
+    if (st.dealsOnly) n++;
+    n += (st.cityFilters || []).length;
+    return n;
+  }
+
+  function resetFacets() {
+    catalogState.priceMin = 0;
+    catalogState.priceMax = 0;
+    catalogState.minRating = 0;
+    catalogState.inStock = false;
+    catalogState.fastShip = false;
+    catalogState.dealsOnly = false;
+    catalogState.cityFilters = [];
+    syncFacetControls();
+    renderCatalog();
+  }
+
+  function syncFacetControls() {
+    var st = catalogState;
+    var minEl = byId('facetPriceMin'), maxEl = byId('facetPriceMax');
+    if (minEl) minEl.value = st.priceMin || '';
+    if (maxEl) maxEl.value = st.priceMax || '';
+    $$('[data-facet-rating]').forEach(function (el) {
+      el.checked = Number(el.value) === st.minRating;
+    });
+    var ratingAny = byId('facetRatingAny');
+    if (ratingAny) ratingAny.checked = !st.minRating;
+    var s;
+    if ((s = byId('facetInStock'))) s.checked = st.inStock;
+    if ((s = byId('facetFastShip'))) s.checked = st.fastShip;
+    if ((s = byId('facetDeals'))) s.checked = st.dealsOnly;
+    $$('[data-facet-city]').forEach(function (el) {
+      el.checked = (st.cityFilters || []).indexOf(el.value) !== -1;
+    });
+    var reset = byId('facetsReset');
+    if (reset) reset.disabled = activeFacetCount() === 0;
+    var badge = byId('facetsToggleCount');
+    if (badge) {
+      var n = activeFacetCount();
+      badge.textContent = n ? String(n) : '';
+      badge.hidden = n === 0;
+    }
+  }
+
+  /* Liste des villes reconstruite à partir des données réellement chargées,
+     avec le nombre d'articles — comme un rayon de marketplace. */
+  function buildCityFacet() {
+    var box = byId('facetCityList');
+    if (!box) return;
+    var counts = {};
+    allItems().forEach(function (it) {
+      var c = String(it.city || '').trim();
+      if (!c) return;
+      counts[c] = (counts[c] || 0) + 1;
+    });
+    var cities = Object.keys(counts).sort(function (a, b) {
+      return counts[b] - counts[a] || a.localeCompare(b, 'fr');
+    });
+    if (!cities.length) {
+      box.innerHTML = '<p style="font-size:12.5px;color:var(--ink-mute);padding:4px 6px;">Aucune ville pour l\u2019instant.</p>';
+      return;
+    }
+    box.innerHTML = cities.map(function (c) {
+      return '<label><input type="checkbox" data-facet-city value="' + esc(c) + '">' +
+        '<span>' + esc(c) + '</span><span class="facet-count">' + counts[c] + '</span></label>';
+    }).join('');
+    syncFacetControls();
+  }
+
+  /* ---- Pastilles de filtres actifs ---- */
+  function renderFilterChips() {
+    var row = byId('catalogChips');
+    if (!row) return;
+    var st = catalogState, chips = [];
+    function chip(label, kind, value) {
+      chips.push('<span class="chip-filter">' + esc(label) +
+        '<button type="button" data-chip-kind="' + kind + '" data-chip-value="' + esc(value || '') +
+        '" aria-label="Retirer le filtre ' + esc(label) + '">\u00d7</button></span>');
+    }
+    if (st.query) chip('« ' + st.query + ' »', 'query');
+    if (st.cat && st.cat !== 'all') chip(CAT_LABEL[st.cat] || st.cat, 'cat');
+    if (st.type && st.type !== 'all') chip(st.type === 'product' ? 'Produits' : 'Boutiques', 'type');
+    (st.cityFilters || []).forEach(function (c) { chip(c, 'city', c); });
+    if (st.priceMin > 0 || st.priceMax > 0) {
+      chip((st.priceMin ? fcfa(st.priceMin) : '0 FCFA') + ' – ' + (st.priceMax ? fcfa(st.priceMax) : '∞'), 'price');
+    }
+    if (st.minRating > 0) chip(st.minRating + '★ et plus', 'rating');
+    if (st.inStock) chip('En stock', 'stock');
+    if (st.fastShip) chip('Livraison rapide', 'ship');
+    if (st.dealsOnly) chip('En promotion', 'deals');
+    if (st.savedOnly) chip('Enregistrés', 'saved');
+
+    row.innerHTML = chips.join('');
+    row.hidden = chips.length === 0;
+  }
+
+  var chipsRow = byId('catalogChips');
+  if (chipsRow) {
+    chipsRow.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-chip-kind]');
+      if (!btn) return;
+      var kind = btn.getAttribute('data-chip-kind');
+      var value = btn.getAttribute('data-chip-value');
+      if (kind === 'query') { setQuery('', 'chip'); return; }
+      if (kind === 'cat') {
+        catalogState.cat = 'all';
+        $$('[data-pin-cat]').forEach(function (p) {
+          var on = p.getAttribute('data-pin-cat') === 'all';
+          p.classList.toggle('is-active', on);
+          p.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      } else if (kind === 'type') {
+        catalogState.type = 'all';
+        $$('[data-catalog-filter]').forEach(function (p) {
+          var on = p.getAttribute('data-catalog-filter') === 'all';
+          p.classList.toggle('is-active', on);
+          p.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+      } else if (kind === 'city') {
+        catalogState.cityFilters = (catalogState.cityFilters || []).filter(function (c) { return c !== value; });
+      } else if (kind === 'price') { catalogState.priceMin = 0; catalogState.priceMax = 0; }
+      else if (kind === 'rating') catalogState.minRating = 0;
+      else if (kind === 'stock') catalogState.inStock = false;
+      else if (kind === 'ship') catalogState.fastShip = false;
+      else if (kind === 'deals') catalogState.dealsOnly = false;
+      else if (kind === 'saved') catalogState.savedOnly = false;
+      syncFacetControls();
+      renderCatalog();
+    });
+  }
+
+  /* ---- Branchement des contrôles de facettes ---- */
+  var facetsPanel = byId('catalogFacets');
+  if (facetsPanel) {
+    facetsPanel.addEventListener('change', function (e) {
+      var el = e.target;
+      if (el.hasAttribute('data-facet-city')) {
+        var list = catalogState.cityFilters || (catalogState.cityFilters = []);
+        var i = list.indexOf(el.value);
+        if (el.checked && i === -1) list.push(el.value);
+        else if (!el.checked && i !== -1) list.splice(i, 1);
+      } else if (el.hasAttribute('data-facet-rating')) {
+        catalogState.minRating = Number(el.value) || 0;
+      } else if (el.id === 'facetInStock') catalogState.inStock = el.checked;
+      else if (el.id === 'facetFastShip') catalogState.fastShip = el.checked;
+      else if (el.id === 'facetDeals') catalogState.dealsOnly = el.checked;
+      else if (el.hasAttribute('data-facet-band')) {
+        var band = el.value.split('-');
+        catalogState.priceMin = Number(band[0]) || 0;
+        catalogState.priceMax = Number(band[1]) || 0;
+      } else return;
+      syncFacetControls();
+      renderCatalog();
+    });
+    var applyBtn = byId('facetPriceApply');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', function () {
+        catalogState.priceMin = Math.max(0, Number(byId('facetPriceMin').value) || 0);
+        catalogState.priceMax = Math.max(0, Number(byId('facetPriceMax').value) || 0);
+        if (catalogState.priceMax && catalogState.priceMax < catalogState.priceMin) {
+          var t = catalogState.priceMax; catalogState.priceMax = catalogState.priceMin; catalogState.priceMin = t;
+        }
+        syncFacetControls();
+        renderCatalog();
+      });
+    }
+    var resetBtn = byId('facetsReset');
+    if (resetBtn) resetBtn.addEventListener('click', resetFacets);
+  }
+
+  var facetsToggle = byId('facetsToggle');
+  if (facetsToggle && facetsPanel) {
+    function syncFacetsVisibility() {
+      var narrow = window.matchMedia('(max-width:980px)').matches;
+      facetsPanel.hidden = narrow ? facetsToggle.getAttribute('aria-expanded') !== 'true' : false;
+    }
+    facetsToggle.addEventListener('click', function () {
+      var open = facetsToggle.getAttribute('aria-expanded') === 'true';
+      facetsToggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+      syncFacetsVisibility();
+    });
+    window.addEventListener('resize', debounce(syncFacetsVisibility, 150));
+    syncFacetsVisibility();
+  }
+
+  /* ---- Bascule grille / liste ---- */
+  var viewSwitch = byId('catalogView');
+  if (viewSwitch) {
+    viewSwitch.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-view]');
+      if (!btn) return;
+      catalogState.view = btn.getAttribute('data-view');
+      store.set('etalafrique.view', catalogState.view);
+      renderCatalog();
+    });
+  }
+
+  /* ---- Fil d'Ariane ---- */
+  function renderCrumbs() {
+    var box = byId('catalogCrumbs');
+    if (!box) return;
+    var parts = ['<a href="#home" data-crumb-home>Accueil</a>', '<span class="sep">/</span>',
+                 '<a href="#catalog" data-crumb-all>Catalogue</a>'];
+    if (catalogState.type !== 'all') {
+      parts.push('<span class="sep">/</span><b>' + (catalogState.type === 'product' ? 'Produits' : 'Boutiques') + '</b>');
+    }
+    if (catalogState.cat && catalogState.cat !== 'all') {
+      parts.push('<span class="sep">/</span><b>' + esc(CAT_LABEL[catalogState.cat] || catalogState.cat) + '</b>');
+    }
+    box.innerHTML = parts.join('');
+  }
+
+  /* ---- Comparateur ---- */
+  var compareIds = [];
+  var COMPARE_MAX = 4;
+
+  function toggleCompare(item) {
+    var i = compareIds.indexOf(item.id);
+    if (i !== -1) compareIds.splice(i, 1);
+    else {
+      if (compareIds.length >= COMPARE_MAX) {
+        toast('Comparaison limitée à ' + COMPARE_MAX + ' produits.', 'error');
+        return false;
+      }
+      compareIds.push(item.id);
+    }
+    renderCompareBar();
+    return compareIds.indexOf(item.id) !== -1;
+  }
+
+  function compareItems() {
+    return compareIds.map(function (id) { return itemIndex[id] || META_ITEMS[id]; }).filter(Boolean);
+  }
+  var META_ITEMS = {};   // mémoire des articles comparés même s'ils sortent du filtre
+
+  function renderCompareBar() {
+    var bar = byId('compareBar');
+    if (!bar) return;
+    var slots = byId('compareSlots');
+    var items = compareItems();
+    var html = '';
+    for (var i = 0; i < COMPARE_MAX; i++) {
+      var it = items[i];
+      html += it
+        ? '<span class="compare-slot"><span>' + esc(it.name) + '</span>' +
+          '<button type="button" data-compare-drop="' + esc(it.id) + '" aria-label="Retirer ' + esc(it.name) + ' de la comparaison">\u00d7</button></span>'
+        : '<span class="compare-slot is-empty">emplacement libre</span>';
+    }
+    if (slots) slots.innerHTML = html;
+    bar.classList.toggle('is-open', items.length > 0);
+    var open = byId('compareOpen');
+    if (open) open.disabled = items.length < 2;
+    $$('.catalog-card [data-act="compare"]').forEach(function (cb) {
+      var card = cb.closest('.catalog-card');
+      if (card) cb.checked = compareIds.indexOf(card.dataset.id) !== -1;
+    });
+  }
+
+  var compareBar = byId('compareBar');
+  if (compareBar) {
+    compareBar.addEventListener('click', function (e) {
+      var drop = e.target.closest('[data-compare-drop]');
+      if (drop) {
+        var id = drop.getAttribute('data-compare-drop');
+        compareIds = compareIds.filter(function (x) { return x !== id; });
+        renderCompareBar();
+        return;
+      }
+      if (e.target.closest('#compareClear')) { compareIds = []; renderCompareBar(); }
+      if (e.target.closest('#compareOpen')) openCompare();
+    });
+  }
+
+  function openCompare() {
+    var items = compareItems();
+    if (items.length < 2) return;
+    var modal = byId('compareModal');
+    var body = byId('compareBody');
+    if (!modal || !body) return;
+
+    var prices = items.map(function (it) { return Number(it.price) || Infinity; });
+    var bestPrice = Math.min.apply(null, prices);
+    var ratings = items.map(function (it) { return commerceMeta(it).rating; });
+    var bestRating = Math.max.apply(null, ratings);
+    var ships = items.map(function (it) { return commerceMeta(it).shipDays; });
+    var bestShip = Math.min.apply(null, ships);
+
+    function row(label, cells) {
+      return '<tr><th scope="row">' + label + '</th>' + cells.join('') + '</tr>';
+    }
+    var html = '<div class="compare-table-wrap"><table class="compare-table">' +
+      '<thead><tr><th scope="col"><span class="sr-only">Critère</span></th>' +
+      items.map(function (it) { return '<th scope="col">' + esc(it.name) + '</th>'; }).join('') +
+      '</tr></thead><tbody>' +
+      row('Prix', items.map(function (it) {
+        var p = Number(it.price) || 0;
+        return '<td class="' + (p === bestPrice ? 'best' : '') + '">' + esc(fcfa(p)) + '</td>';
+      })) +
+      row('Note', items.map(function (it) {
+        var m = commerceMeta(it);
+        return '<td class="' + (m.rating === bestRating ? 'best' : '') + '">' + m.rating + ' / 5 <span style="color:var(--ink-mute);font-size:12px">(' + m.reviews + ' avis)</span></td>';
+      })) +
+      row('Livraison', items.map(function (it) {
+        var m = commerceMeta(it);
+        return '<td class="' + (m.shipDays === bestShip ? 'best' : '') + '">' + esc(shipLabel(m)) + '</td>';
+      })) +
+      row('Remise', items.map(function (it) {
+        var m = commerceMeta(it);
+        return '<td>' + (m.off ? '\u2212' + m.off + ' %' : '—') + '</td>';
+      })) +
+      row('Stock', items.map(function (it) {
+        var m = commerceMeta(it);
+        return '<td>' + (m.stock == null ? 'Non précisé' : (m.stock > 0 ? m.stock + ' unités' : 'Épuisé')) + '</td>';
+      })) +
+      row('Boutique', items.map(function (it) { return '<td>' + esc(it.stall || it.seller || '—') + '</td>'; })) +
+      row('Ville', items.map(function (it) { return '<td>' + esc(it.city || '—') + '</td>'; })) +
+      row('Catégorie', items.map(function (it) { return '<td>' + esc(CAT_LABEL[it.cat] || it.catLabel || '—') + '</td>'; })) +
+      row('', items.map(function (it) {
+        return '<td><button type="button" class="shop-cta" data-compare-add="' + esc(it.id) + '">Ajouter au panier</button></td>';
+      })) +
+      '</tbody></table></div>' +
+      '<p class="rating-note" style="margin-top:10px">Notes, avis, remises et délais sont des valeurs d\u2019aperçu générées à partir de la fiche produit, pas encore des données de la base.</p>';
+
+    body.innerHTML = html;
+    compareDialog.open();
+  }
+
+  var compareDialog = Dialog(byId('compareModal'), {
+    initialFocus: function () { return byId('compareModalClose'); }
+  });
+  var compareClose = byId('compareModalClose');
+  if (compareClose) compareClose.addEventListener('click', function () { compareDialog.close(); });
+  var compareBody = byId('compareBody');
+  if (compareBody) {
+    compareBody.addEventListener('click', function (e) {
+      var add = e.target.closest('[data-compare-add]');
+      if (!add) return;
+      var it = itemIndex[add.getAttribute('data-compare-add')] || META_ITEMS[add.getAttribute('data-compare-add')];
+      if (it) addToCart(it);
+    });
+  }
+  var compareBackdrop = byId('compareBackdrop');
+  if (compareBackdrop) compareBackdrop.addEventListener('click', function () { compareDialog.close(); });
+
+  /* ---- Récemment consultés ---- */
+  var RECENT_KEY = 'etalafrique.recent.v1';
+  var recent = store.get(RECENT_KEY, []);
+  if (!Array.isArray(recent)) recent = [];
+
+  function pushRecent(item) {
+    if (!item) return;
+    recent = recent.filter(function (r) { return r.id !== item.id; });
+    recent.unshift({
+      id: item.id, name: item.name, price: item.price, type: item.type,
+      emoji: item.emoji || '\uD83D\uDECD\uFE0F', at: Date.now()
+    });
+    if (recent.length > 12) recent.length = 12;
+    store.set(RECENT_KEY, recent);
+    renderRecent();
+  }
+
+  function renderRecent() {
+    var rail = byId('recentRail');
+    var track = byId('recentTrack');
+    if (!rail || !track) return;
+    if (!recent.length) { rail.hidden = true; return; }
+    rail.hidden = false;
+    track.innerHTML = recent.map(function (r) {
+      return '<button type="button" class="recent-card" data-recent-id="' + esc(r.id) + '">' +
+        '<span class="rc-emoji" aria-hidden="true">' + esc(r.emoji) + '</span>' +
+        '<span class="rc-name">' + esc(r.name) + '</span>' +
+        '<span class="rc-price">' + (r.type === 'product' ? esc(fcfa(r.price)) : 'Boutique') + '</span>' +
+        '</button>';
+    }).join('');
+  }
+
+  var recentTrack = byId('recentTrack');
+  if (recentTrack) {
+    recentTrack.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-recent-id]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-recent-id');
+      var it = itemIndex[id] || META_ITEMS[id];
+      if (it) openDetail(it);
+      else { goToTab('catalog'); toast('Cet article n\u2019est plus dans le catalogue filtré.'); }
+    });
+  }
+  var recentClear = byId('recentClear');
+  if (recentClear) {
+    recentClear.addEventListener('click', function () {
+      recent = [];
+      store.set(RECENT_KEY, recent);
+      renderRecent();
+      toast('Historique effacé');
+    });
+  }
+
+  /* ---- Compte à rebours des offres ---- */
+  (function () {
+    var box = byId('dealsCountdown');
+    if (!box) return;
+    var cells = {
+      h: box.querySelector('[data-cd="h"]'),
+      m: box.querySelector('[data-cd="m"]'),
+      s: box.querySelector('[data-cd="s"]')
+    };
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function tick() {
+      var now = new Date();
+      var end = new Date(now);
+      end.setHours(24, 0, 0, 0);            // minuit local
+      var left = Math.max(0, Math.floor((end - now) / 1000));
+      if (cells.h) cells.h.textContent = pad(Math.floor(left / 3600));
+      if (cells.m) cells.m.textContent = pad(Math.floor(left / 60) % 60);
+      if (cells.s) cells.s.textContent = pad(left % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+    var dealsBtn = byId('dealsCta');
+    if (dealsBtn) {
+      dealsBtn.addEventListener('click', function () {
+        catalogState.dealsOnly = true;
+        catalogState.type = 'product';
+        $$('[data-catalog-filter]').forEach(function (p) {
+          var on = p.getAttribute('data-catalog-filter') === 'product';
+          p.classList.toggle('is-active', on);
+          p.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        syncFacetControls();
+        renderCatalog();
+        goToTab('catalog');
+      });
+    }
+  })();
+
+  /* ---- Bandeau d'annonce ---- */
+  (function () {
+    var bar = byId('promoBar');
+    if (!bar) return;
+    if (store.get('etalafrique.promoDismissed', false) === true) { bar.hidden = true; return; }
+    var close = byId('promoBarClose');
+    if (close) {
+      close.addEventListener('click', function () {
+        bar.hidden = true;
+        store.set('etalafrique.promoDismissed', true);
+      });
+    }
+  })();
+
+  /* ---- Panier : progression, économies, code promo, suggestions ---- */
+  var promoApplied = null;
+
+  function renderCartExtras() {
+    var total = cartTotal();
+
+    var prog = byId('cartProgress');
+    if (prog) {
+      var pct = Math.min(100, Math.round((total / FREE_SHIP_TARGET) * 100));
+      var fill = prog.querySelector('.cp-fill');
+      var msg = prog.querySelector('.cp-msg');
+      if (fill) fill.style.width = pct + '%';
+      prog.classList.toggle('is-done', total >= FREE_SHIP_TARGET);
+      if (msg) {
+        msg.innerHTML = total >= FREE_SHIP_TARGET
+          ? 'Livraison de quartier <b>offerte</b> sur cette commande.'
+          : 'Plus que <b>' + esc(fcfa(FREE_SHIP_TARGET - total)) + '</b> pour la livraison de quartier offerte.';
+      }
+      prog.hidden = cart.length === 0;
+    }
+
+    var saved = cart.reduce(function (n, it) {
+      var m = META_CACHE[it.id];
+      return n + (m && m.saves > 0 ? m.saves * it.qty : 0);
+    }, 0);
+    var discount = promoApplied ? Math.round(total * PROMO_CODES[promoApplied] / 100) : 0;
+
+    var lines = byId('cartLines');
+    if (lines) {
+      lines.hidden = cart.length === 0;
+      lines.innerHTML =
+        '<div><span>Sous-total (' + cartCount() + ' article' + (cartCount() > 1 ? 's' : '') + ')</span><b>' + esc(fcfa(total)) + '</b></div>' +
+        (saved > 0 ? '<div class="cl-save"><span>Économies estimées</span><b>\u2212 ' + esc(fcfa(saved)) + '</b></div>' : '') +
+        (discount > 0 ? '<div class="cl-save"><span>Code ' + esc(promoApplied) + '</span><b>\u2212 ' + esc(fcfa(discount)) + '</b></div>' : '') +
+        '<div><span>Livraison</span><b>' + (total >= FREE_SHIP_TARGET ? 'Offerte' : 'À convenir') + '</b></div>';
+    }
+
+    var totalEl = byId('shopCartTotal');
+    if (totalEl && cart.length) totalEl.textContent = fcfa(Math.max(0, total - discount));
+
+    var promoBox = byId('cartPromo');
+    if (promoBox) promoBox.hidden = cart.length === 0;
+
+    /* Suggestions : produits de la même catégorie que le panier, hors panier. */
+    var xsell = byId('cartXsell');
+    if (xsell) {
+      var inCart = {};
+      cart.forEach(function (it) { inCart[it.id] = true; });
+      var cats = {};
+      cart.forEach(function (it) {
+        var src = itemIndex[it.id] || META_ITEMS[it.id];
+        if (src && src.cat) cats[src.cat] = true;
+      });
+      var pool = allItems().filter(function (it) {
+        return it.type === 'product' && !inCart[it.id] && (!Object.keys(cats).length || cats[it.cat]);
+      }).slice(0, 3);
+      if (!pool.length || !cart.length) { xsell.hidden = true; }
+      else {
+        xsell.hidden = false;
+        xsell.innerHTML = '<h4>Souvent pris ensemble</h4><ul>' + pool.map(function (it) {
+          return '<li><span class="cx-emoji" aria-hidden="true">' + esc(it.emoji || '\uD83D\uDECD\uFE0F') + '</span>' +
+            '<span class="cx-name">' + esc(it.name) + '</span>' +
+            '<span style="color:var(--terra-deep);font-weight:800">' + esc(fcfa(it.price)) + '</span>' +
+            '<button type="button" class="cx-add" data-xsell="' + esc(it.id) + '">Ajouter</button></li>';
+        }).join('') + '</ul>';
+      }
+    }
+  }
+
+  var cartXsell = byId('cartXsell');
+  if (cartXsell) {
+    cartXsell.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-xsell]');
+      if (!btn) return;
+      var it = allItems().filter(function (x) { return x.id === btn.getAttribute('data-xsell'); })[0];
+      if (it) addToCart(it);
+    });
+  }
+
+  var promoForm = byId('cartPromo');
+  if (promoForm) {
+    var promoBtn = byId('cartPromoApply');
+    var promoInput = byId('cartPromoInput');
+    var promoMsg = byId('cartPromoMsg');
+    if (promoBtn && promoInput) {
+      promoBtn.addEventListener('click', function () {
+        var code = promoInput.value.trim().toUpperCase();
+        if (!code) return;
+        if (PROMO_CODES[code]) {
+          promoApplied = code;
+          if (promoMsg) { promoMsg.className = 'cart-promo-msg ok'; promoMsg.textContent = 'Code appliqué : \u2212' + PROMO_CODES[code] + ' % sur le sous-total.'; }
+        } else {
+          promoApplied = null;
+          if (promoMsg) { promoMsg.className = 'cart-promo-msg no'; promoMsg.textContent = 'Ce code n\u2019est pas reconnu.'; }
+        }
+        renderCartExtras();
+      });
+      promoInput.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); promoBtn.click(); }
+      });
+    }
+  }
+
+  /* ---- Avis et quantité dans la fiche produit ---- */
+  var detailQty = 1;
+
+  function renderDetailExtras(item) {
+    var box = byId('pinModalReviews');
+    var qtyBox = byId('pinModalQty');
+    if (!box) return;
+    if (item.type !== 'product') {
+      box.hidden = true;
+      if (qtyBox) qtyBox.hidden = true;
+      return;
+    }
+    box.hidden = false;
+    if (qtyBox) { qtyBox.hidden = false; detailQty = 1; var q = byId('pinQtyValue'); if (q) q.textContent = '1'; }
+
+    var m = commerceMeta(item);
+    var h = hashOf(item.id + '|hist');
+    var dist = [];
+    var weights = [0.04, 0.04, 0.09, 0.25, 0.58];
+    for (var i = 0; i < 5; i++) {
+      dist[i] = Math.max(1, Math.round(m.reviews * weights[i] * (0.7 + ((h >> i) % 7) / 10)));
+    }
+    var sum = dist.reduce(function (a, b) { return a + b; }, 0);
+
+    var names = ['Awa N.', 'Ibrahim D.', 'Fatou S.', 'Koffi A.', 'Mariam T.', 'Serge B.', 'Aïcha K.', 'Moussa L.'];
+    var bodies = [
+      'Produit conforme à la description, échange très simple avec la boutique par WhatsApp.',
+      'Bonne qualité pour le prix. La livraison dans le quartier a pris un peu plus longtemps que prévu.',
+      'Je recommande : finition soignée et vendeur qui répond vite aux questions.',
+      'Commande reçue en bon état, paiement Mobile Money sans accroc.'
+    ];
+    var revs = '';
+    for (var k = 0; k < 3; k++) {
+      var hk = hashOf(item.id + '|avis' + k);
+      var note = 3 + (hk % 3);
+      revs += '<li class="rev-item"><div class="rv-head">' +
+        '<span class="rv-who">' + esc(names[(hk + k) % names.length]) + '</span>' +
+        starsHTML(note) +
+        '<span class="rv-verified">Achat vérifié</span>' +
+        '<span class="rv-when">il y a ' + (1 + (hk % 11)) + ' semaines</span>' +
+        '</div><p>' + esc(bodies[hk % bodies.length]) + '</p></li>';
+    }
+
+    box.innerHTML = '<h3>Avis des acheteurs</h3>' +
+      '<div class="rev-summary">' +
+        '<div><div class="rev-score">' + m.rating + '</div>' + starsHTML(m.rating) +
+        '<div class="rating-line">' + m.reviews + ' avis</div></div>' +
+        '<div class="rev-bars">' + [5, 4, 3, 2, 1].map(function (n) {
+          var c = dist[n - 1];
+          return '<div class="rev-bar"><span>' + n + '\u2605</span>' +
+            '<span class="rb-track"><i class="rb-fill" style="width:' + Math.round(c / sum * 100) + '%"></i></span>' +
+            '<span>' + Math.round(c / sum * 100) + '%</span></div>';
+        }).join('') + '</div>' +
+      '</div>' +
+      '<ul class="rev-list">' + revs + '</ul>' +
+      '<p class="rating-note" style="margin-top:10px">Avis d\u2019aperçu : la collecte réelle des avis après achat arrive avec le suivi de commande.</p>';
+  }
+
+  var pinQtyBox = byId('pinModalQty');
+  if (pinQtyBox) {
+    pinQtyBox.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-qty-step]');
+      if (!btn) return;
+      detailQty = Math.max(1, Math.min(99, detailQty + Number(btn.getAttribute('data-qty-step'))));
+      var q = byId('pinQtyValue');
+      if (q) q.textContent = String(detailQty);
+    });
+  }
+
+  /* Le bouton « Ajouter au panier » de la fiche respecte la quantité choisie. */
+  var pinAddQty = byId('pinModalAdd');
+  if (pinAddQty) {
+    pinAddQty.addEventListener('click', function () {
+      if (!detailItem || detailQty <= 1) return;
+      var line = cart.filter(function (x) { return x.id === detailItem.id; })[0];
+      if (line) { line.qty += detailQty - 1; persistCart(); }
+    });
+  }
+
+  /* ==========================================================================
      13. Démarrage
      ========================================================================== */
   renderCartBadge();
   renderCart();
   renderSaveBadge();
+  renderRecent();
+  renderCompareBar();
+  syncFacetControls();
+  buildCityFacet();
   showTab(tabFromHash(), { instant: true, keepScroll: true });
 
   if (sb) {
@@ -4166,7 +5504,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 var LANG_KEY='etalafrique.lang';
 var SUPPORTED=['fr','en','wo'];
 var DEFAULT_LANG='fr';
-var ENTRIES=[["ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.", "ÉtalAfrique integrates the main Mobile Money wallets of each country: Orange Money, Wave, MTN Mobile Money, Moov Money and others. Available options automatically adapt to the seller’s and buyer’s country.", "ÉtalAfrique am ngi ci portefeuille yi ci benn pays: Orange Money, Wave, MTN Mobile Money, Moov Money ak yu yokku. Lu am, ngi soppi ci pays bu jaaykat ak jëndukat."], ["Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.", "No, you can start as an independent seller. We then guide you if your activity grows and you want to formalise your business. Tax obligations vary by country: our support can point you in the right direction.", "Déedéet, man nga tàmbali niki jaaykat bu sañ-sañ. Nun di sa ngi yónne bu sa activité ba xel, te nga bëgg ngi sos sa société. Yarimu fiscal sopi ci pays: samay support mën na sa wone ci yónn."], ["La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.", "The platform is currently available in Senegal, Mali, Côte d’Ivoire, Benin, Togo, Cameroon, Guinea, Burkina Faso, Niger and Madagascar. We’re progressively opening new delivery and payment corridors.", "Platform bi am na tey ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Toogo, Kameruun, Gine, Burkina Faso, Niseer ak Madagascar. Nun di ub seen kër yu yokku ci livraison ak fey."], ["ÉtalAfrique : la marketplace qui transforme un téléphone en boutique en ligne pour les vendeurs d’Afrique de l’Ouest. Ouvre ton étal, publie tes produits, vends en Mobile Money.", "ÉtalAfrique: the marketplace that turns a phone into an online shop for West African sellers. Open your stall, list your products, sell with Mobile Money.", "ÉtalAfrique: ab place ki ub telefon ci boutique ci yónn ngir jaaykat yi ci Afrik Sowwu. Ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.", "The order is prepared on ÉtalAfrique. Payment is then settled directly between buyer and seller (Mobile Money, cash on delivery), coordinated over WhatsApp.", "Commande bi ngi jëfandiku ci ÉtalAfrique. Fey bi mu ngi defar seen ñaari ci jëndukat ak jaaykat (Mobile Money, xaalis ci livraison), ñu mu xalaat ci WhatsApp."], ["Une plateforme pensée pour les réalités du commerce africain : Mobile Money, livraison de proximité, langues locales et confiance de pair à pair.", "A platform built for African commerce realities: Mobile Money, local delivery, local languages, and peer-to-peer trust.", "Ab platform bu ngi defar ci seen Afrik: Mobile Money, livraison ci seen kër, làkk yi ci seen dëkk, ak seen seen béréb."], ["* Champs obligatoires. Le paiement se règle pour l’instant directement avec l’acheteur ; ÉtalAfrique ne traite pas encore les paiements en ligne.", "* Required fields. Payment is currently settled directly with the buyer; ÉtalAfrique does not yet process online payments.", "* Xibaar yu war. Fey bi ngi ngi defar ci seen jëndukat tey; ÉtalAfrique du fey ci yónn."], ["Chaque planche regroupe une famille de produits. Clique dessus pour filtrer le catalogue, ou ouvre ton étal si l'un de ces univers te ressemble.", "Each board gathers a family of products. Click to filter the catalog, or open your stall if one of these worlds feels like yours.", "Benn plan, benn wàll nun. Klik ngir filtrer catalogue bi, walla ub sa ndox bu benn ci yii ngi nga gis."], ["Acheteur et vendeur se mettent d'accord sur le mode de règlement (Mobile Money, espèces) et finalisent directement, sans intermédiaire caché.", "Buyer and seller agree on the payment method (Mobile Money, cash) and finalise directly, with no hidden middleman.", "Jëndukat ak jaaykat di xalaat ci fey bi (Mobile Money, xaalis) ñu mu seen dëgg, amul kilifanteer."], ["Pas d'abonnement caché, pas de mise en avant payante pour exister. L'étal est gratuit à ouvrir, la commission est la même pour tout le monde.", "No hidden subscription, no paid promotion to exist. Opening a stall is free, and the commission is the same for everyone.", "Amul abonnement bu suuf, amul prominence ngay fey ngir ngi am. Ndox mi ub ci free, commission bi nekk ci yépp."], ["Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.", "Payment is settled directly with the seller (Mobile Money, cash, ...). This button opens WhatsApp with your order summary.", "Fey bi ngi ngi defar ci seen jaaykat (Mobile Money, xaalis...). Butóo bi ub WhatsApp ak seen commande."], ["ÉtalAfrique transforme un simple téléphone en boutique en ligne. Publie tes produits en 60 secondes, reçois des commandes, encaisse en ", "ÉtalAfrique turns a simple phone into an online shop. List your products in 60 seconds, take orders, get paid in ", "ÉtalAfrique ub ab telefon ci boutique ci yónn. Bind sa nun ci 60 simili, jot commande, jot sa xaalis ci "], ["Ces profils sont des exemples imaginés pour montrer le potentiel d'un étal — les vraies boutiques arrivent au fil des inscriptions.", "These profiles are sample placeholders that show what a stall can become — real shops come in as people sign up.", "Saaf yii misaal yi ngir wone lu ngi mën a jeex ci ndox — boutique yi dëpp di ñu ub ci seen seen."], ["Tout ce que tu as enregistré sur ton compte : identité, étal, produits, brouillons. Tu peux modifier, republier ou repartir à zéro.", "Everything you’ve saved to your account: identity, stall, products, drafts. You can edit, republish or start fresh.", "Lépp lu nga denc ci sa compte: tur, ndox, nun, brouillon. Man nga soppi, téqal walla tàmbal ci tundu."], ["Laisse-nous tes coordonnées. Un membre de l'équipe ÉtalAfrique te répond sous 24h pour ouvrir ton étal ou répondre à tes questions.", "Leave us your details. A member of the ÉtalAfrique team replies within 24h to open your stall or answer your questions.", "Jox nun sa xibaar. Ab nit ci ekip ÉtalAfrique di tontu ci 24h ngir ub sa ndox walla tontu sa laaj."], ["Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement ", "Yes. Creating your stall, adding products and accessing the dashboard are free. ÉtalAfrique only takes ", "Waaw. Ub ndox mi, yokk nun, ak ci tableau de bord, lépp ci free. ÉtalAfrique jënd rekk "], ["Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.", "A buyer who gets a fast WhatsApp reply finishes their order far more often than one left hanging.", "Ab jëndukat buy jot tontu ci WhatsApp ci gaaw, mu ngi wéral sa commande bu néew."], ["Ces exemples illustrent le type de produits qu'un étal peut proposer sur ÉtalAfrique — fais défiler pour te donner des idées.", "These examples show the kind of products a stall can offer on ÉtalAfrique — scroll to get ideas.", "Misaal yii wone nun lan ngi yónne ci ÉtalAfrique — safal ngir jot yoon."], ["Compare deux ou trois étals similaires avant de publier, et garde en tête la commission de 3% sur chaque vente confirmée.", "Compare two or three similar stalls before posting, and keep the 3% commission in mind for every confirmed sale.", "Séddoo ñaari walla ñetti ndox yu mel nii sa nun, xal ci commission 3% ci benn jaay bu neex."], ["La marketplace des vendeurs informels d’Afrique de l’Ouest : ouvre ton étal, publie tes produits, vends en Mobile Money.", "The marketplace for informal West African sellers: open your stall, list your products, sell with Mobile Money.", "Place bi ci jaaykat yu ci Afrik Sowwu: ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["Tes informations sont synchronisées sur ton compte Supabase, accessible depuis n'importe quel appareil après connexion.", "Your info is synced to your Supabase account, accessible from any device once signed in.", "Sa xibaar yi ngi ci sa compte Supabase, nga koy gis ci benn appareil bu ngay dugg."], ["Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.", "Natural light, plain background, well-framed product: three reflexes that double the interest in a listing.", "Lëm bu wér, seen suuf, nun bu teg: Ñetti xelal yi xaalis ba ngi yokk ci seen annonce."], ["Le service de compte n’a pas pu se charger. Vérifie ta connexion ou ton bloqueur de publicité, puis recharge la page.", "The account service did not load. Check your connection or ad-blocker, then reload the page.", "Compte bi du ub. Xool sa réseau walla sa bloqueur publicité, ba nga yónn sa page."], ["Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.", "Explore the products and shops listed on ÉtalAfrique. The catalog grows with each new stall opened.", "Saytu nun ak boutique yi ci ÉtalAfrique. Catalogue bi ngi yónne ci benn ndox mu ub."], ["L'argent est sécurisé pendant la livraison. Après 48h ou confirmation du client, il arrive sur ton Mobile Money.", "Money is held safely during delivery. After 48h or buyer confirmation, it lands in your Mobile Money.", "Xaalis bi neex tey ci livraison. 48h walla jëndukat bi mu teg, xaalis bi dugg ci sa Mobile Money."], ["Trois informations suffisent : ton nom, le nom de l'étal, ta ville. Tu pourras ajouter tes produits juste après.", "Three details are enough: your name, the stall name, your city. You can add products right after.", "Ñetti xibaar rekk: sa tur, tur ndox mi, sa dëkk. Man nga yokk sa nun ci kanam."], ["Partage ton lien sur WhatsApp, Instagram ou autour de toi. Un client choisit, paie et reçoit une confirmation.", "Share your link on WhatsApp, Instagram or with people around you. A customer picks, pays, and gets a confirmation.", "Xaaj sa lien ci WhatsApp, Instagram walla ci njek yi ci wet. Ab jëndukat tànne, fey, jot confirmation."], ["Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.", "Whether you sell cloth, honey, jewellery, meals or your know-how: there’s room for you in the market.", "Bu ngay jaay pagn, lii, bijou, repas walla sa liggéey: benn wàll am ngir ngay ci su këyitu bi."], ["Des outils de suivi, de fidélité et d'avance de trésorerie pour transformer une activité en vraie entreprise.", "Tracking, loyalty, and cash-advance tools to turn a side activity into a real business.", "Liggéey yu ci topp, fidélité, ak xaalis ji nga jëfandiku, ngir waññ ab activité ci ab société bu dëgg."], ["Tu gardes 97% de chaque commande. L'inscription, la vitrine, le support et les mises à jour restent gratuits.", "You keep 97% of every order. Registration, storefront, support, and updates stay free.", "Denc 97% ci benn commande. Inscription, vitrine, support ak mise à jour du fee."], ["Crée ton compte Supabase, renseigne ton activité, ajoute tes produits et visualise immédiatement ta vitrine.", "Create your Supabase account, fill in your activity, add your products and see your storefront right away.", "Sos sa compte Supabase, bind sa activité, yokk sa nun, gis sa vitrine ci sa ngiir."], ["Choisis ton nom, ta ville et ajoute tes premiers produits. Pas de dossier compliqué, pas de frais d'entrée.", "Pick your name, your city, and add your first products. No paperwork, no entry fee.", "Tànne sa tur, sa dëkk, yokk sa nun yi ci ñu njëkk. Amul xibaar yu bare, amul frais."], ["Profils vendeurs, avis après achat, détection des annonces douteuses : la confiance n'est pas optionnelle.", "Seller profiles, post-purchase reviews, suspicious listing detection: trust is not optional.", "Saaf yu jaaykat, xalaat yu ci gëstu, xelal yu ci ndigte: béréb du dëpp."], ["Une vitrine claire, partageable sur WhatsApp, pour toucher des clients bien au-delà de ton quartier.", "A clear storefront, shareable on WhatsApp, to reach customers well beyond your neighbourhood.", "Ab vitrine bu leer, nga xaaj ci WhatsApp, ngay jënd njek yi ci seen kër."], ["Publie un produit en 60 secondes, même avec une connexion fragile. L'expérience parle ton langage.", "List a product in 60 seconds, even on a slow connection. The experience speaks your language.", "Bind ab nun ci 60 simili, dafa duux. Sa interëf xas nga."], ["Tes données, ton argent, tes clients : nous construisons les fondations pour un commerce qui dure.", "Your data, your money, your customers: we’re building the foundations for lasting commerce.", "Sa xibaar, sa xaalis, sa njek: nun di sos seen fondatiyo ngir ab jaay bu yónne."], ["Une photo, un prix, une quantité. Ton produit est en ligne, prêt à être partagé avec tes clients.", "A photo, a price, a quantity. Your product is online, ready to be shared with your customers.", "Ab nataal, ab prix, ab cantidad. Sa nun ci yónn, ngi ngi xaaj ak sa njek."], ["Ajoute la colonne « published » (boolean, défaut true) à la table stalls pour activer ce réglage.", "Add the column « published » (boolean, default true) to the stalls table to enable this setting.", "Yokk colonne « published » (boolean, défaut true) ci table stalls ngir ub ub réglages bi."], ["Le marché de tout le monde, dans la poche de tout le monde. Né en Afrique, pensé pour l'Afrique.", "A market for everyone, in everyone’s pocket. Born in Africa, built for Africa.", "Su këyitu yi, ci sa rokk. Ci Afrik, ngir Afrik."], ["Ouvre ton étal, publie tes produits, vends en Mobile Money — gratuit, 3% par vente confirmée.", "Open your stall, list your products, sell with Mobile Money — free, 3% per confirmed sale.", "Ub sa ndox, bind sa nun, jaay ci Mobile Money — ci free, 3% ci sa jaay bu neex."], ["Découvre des créations du Sénégal, du Mali, de Côte d'Ivoire, du Bénin, du Cameroun et plus.", "Discover crafts from Senegal, Mali, Côte d’Ivoire, Benin, Cameroon and beyond.", "Gis liggéey yu ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Kameruun, ak yu yu yokku."], ["Tu n'as besoin que de ton téléphone et de quelque chose à vendre. Le reste, on s'en occupe.", "You only need your phone and something to sell. We take care of the rest.", "Sa telefon rekk ak lu ngay jaay. Yoon, nun a ko jëfandiku."], ["Ventes, stock, clients, commissions : vois ce qui marche et décide avec de vraies données.", "Sales, stock, customers, commissions: see what works and decide with real data.", "Jaay, stok, njek, commission: gis lu baax, tànneef ak xibaar yi dëpp."], ["Des partenaires locaux et un suivi simple pour que chaque commande arrive au bon endroit.", "Local partners and simple tracking so every order reaches the right place.", "Kilifanteer yi ci seen dëkk ak topp bu njañte ngir benn commande ba mu defar ba."], ["Tout ce qu'il faut pour vendre avec confiance, même quand la boutique est ton téléphone.", "Everything you need to sell with confidence, even when your shop is your phone.", "Lépp lu ngay jëfandiku ngay jaay ci seen béréb, bu ko sa telefon."], ["Orange Money, Wave, MTN ou Moov. Tes clients paient comme ils ont l'habitude, toi aussi.", "Orange Money, Wave, MTN or Moov. Your customers pay the way they’re used to, and so do you.", "Orange Money, Wave, MTN walla Moov. Sa njek fey niki ñu lees def, yokk sa nekk."], ["Produit publié sur ÉtalAfrique. Contacte la boutique pour les détails de livraison.", "Product listed on ÉtalAfrique. Contact the shop for delivery details.", "Nun denc ci ÉtalAfrique. Wax ak boutique ngir gis livraison."], ["Trois astuces simples pour donner envie d'acheter dès ton premier produit publié.", "Three simple tips to make people want to buy as soon as your first product is up.", "Ñetti yoon yu njañte ngir njek yi bëgg jënd ci sa nun bi ci ñu njëkk."], ["Les premiers étals sont en train de s'ouvrir — sois parmi les premiers vendeurs.", "The first stalls are opening — be among the first sellers.", "Ndox yi di ub — bokk ci jaaykat yi ci ñu njëkk."], ["Aucune session — connecte-toi pour retrouver ton étal sur tous tes appareils.", "No session — sign in to find your stall on every device.", "Amul session — dugg ngir gis sa ndox ci benn appareil."], ["Compte créé. Ouvre le lien de confirmation reçu par email (pense aux spams).", "Account created. Open the confirmation link in your email (check spam).", "Compte sos na. Ub lien bu confirmation ci sa email (cek ci spam)."], ["Aperçu de l'application mobile ÉtalAfrique montrant des produits en vente", "Preview of the ÉtalAfrique mobile app showing items for sale", "Wonewu appli ÉtalAfrique bi ci yónn, wone nun yi di jaay"], ["ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde", "ÉtalAfrique — A market for everyone, in everyone’s pocket", "ÉtalAfrique — Su këyitu yi, ci sa rokk"], ["Ajoute une description pour donner envie de découvrir ton univers.", "Add a description to make people want to discover your world.", "Yokk ab description ngir njek yi bëgg sa yónne."], ["Une fois par mois : histoires de vendeurs, conseils et nouveautés.", "Once a month: seller stories, tips and updates.", "Benn weer: seen jaaykat, yoon ak seen yeneen."], ["Merci ! Ta demande est enregistrée. On revient vers toi sous 24h.", "Thanks! Your request is recorded. We’ll get back to you within 24h.", "Jërëjëf! Sa ñaan denc na. Nun dinna tontu ci 24h."], ["Démonstration : la messagerie boutique n’est pas encore branchée.", "Demo: shop messaging is not wired up yet.", "Misaal: jokkoo boutique bi du ngi ngi defar ba tey."], ["Ton étal est enregistré sur ton compte : tu le retrouves depuis n", "Your stall is saved to your account: find it from any", "Sa ndox mi denc ci sa compte: gis ko ci benn"], ["Email pas encore confirmé — un nouveau lien vient d’être envoyé.", "Email not confirmed yet — a new link was just sent.", "Email bi du fee ba tey — ab lien bu neex yónn na."], ["Ajoute des produits depuis le catalogue pour les retrouver ici.", "Add products from the catalog to find them here.", "Yokk nun ci catalogue ngir gis leen fi."], ["Connecté·e — ton étal sera synchronisé sur tous tes appareils.", "Signed in — your stall will sync across all your devices.", "Nga dugg — sa ndox mi dinna sync ci seen benn appareil."], ["Dis-nous ce que tu aimerais vendre ou ce dont tu as besoin...", "Tell us what you’d like to sell or what you need...", "Wax nun lu ngay bëgg jaay walla lu ngay jëfandiku..."], ["Vannerie et sculptures en bois faites main, pièce par pièce.", "Basketry and hand-carved wood pieces, one at a time.", "Vannerie ak nun yu buki yu ngi defar ci loxol, benn ci benn."], [" — sans local, sans stock immobilisé, sans intermédiaire.", " — no premises, no locked-up stock, no middleman.", " — amul seen kër, amul seen stok bu takku, amul kilifanteer."], ["Miel, céréales et produits de la ferme, vendus en direct.", "Honey, grains and farm goods, sold direct.", "Lii, céréale ak nun yu tool bi, di jaay ci seen ngiir."], ["Il manque le nom de l’étal, la ville, au moins un produit", "Missing the stall name, city, or at least one product", "Amul tur ndox mi, dëkk walla ab nun"], ["Email pas encore confirmé. Ouvre le lien reçu par mail.", "Email not confirmed yet. Open the link in your email.", "Email bi du fee ba tey. Ub lien ci sa mail."], [". Pas de frais mensuel, pas d'abonnement obligatoire.", ". No monthly fee, no required subscription.", ". Amul frais ci weer, amul abonnement bu war a fey."], ["Email de réinitialisation envoyé si ce compte existe.", "Reset email sent if this account exists.", "Email bu réinitialisation yónn na bu compte bi nekk."], ["Tenues, tissus imprimés et accessoires du quotidien.", "Outfits, printed fabrics and everyday accessories.", "Seen yéré, pagn yu imprimé, ak accessoire yi bepp tey."], ["Faut-il avoir une entreprise déclarée pour vendre ?", "Do I need a registered business to sell?", "War nga am ab société ngir jaay?"], ["Karité, savons et huiles fabriqués artisanalement.", "Shea, soaps and oils made by hand.", "Karite, savon ak huil yu ngi defar ci loxol."], ["Coiffure, réparation, cours et livraison locale.", "Hairdressing, repairs, classes and local delivery.", "Coiffure, reparasió, kàttan ak livraison ci wet."], [" (base de données réelle, pas seulement locale).", " (real database, not just local).", " (base bu dëgg, du ci yónn rekk)."], ["Ajoute un court message (10 caractères minimum).", "Add a short message (10 characters minimum).", "Yokk ab bataaxal bu néew (10 caractères ci néew)."], ["Rechercher un produit, une boutique, une ville…", "Search a product, a shop, or a city…", "Wut ab nun, ab boutique walla ab dëkk…"], ["Dans quels pays ÉtalAfrique est-il disponible ?", "In which countries is ÉtalAfrique available?", "Ci an pays ÉtalAfrique am na?"], ["Kits solaires, chargeurs et accessoires utiles.", "Solar kits, chargers and useful accessories.", "Kit solaire, chargeur ak accessoire yu am solo."], ["Est-ce vraiment gratuit pour ouvrir mon étal ?", "Is it really free to open my stall?", "Da ngi ngi fee ngir ub samay ndox?"], ["Des créations et produits choisis avec soin...", "Hand-picked crafts and products...", "Liggéey ak nun yu nga tànn ci seen xol..."], ["Miel, céréales, épices et produits du terroir.", "Honey, grains, spices and local produce.", "Lii, céréale, épice ak nun yu ci seen tool."], ["Indique ton nom pour qu'on puisse te répondre.", "Add your name so we can reply.", "Bind sa tur ngir nun mën a tontu."], ["Compte conservé uniquement dans ce navigateur.", "Account kept only in this browser.", "Compte denc ci sa navigateur rekk."], ["Coussins, tentures et objets pour la maison.", "Cushions, hangings and objects for the home.", "Coussin, tenture ak nun yu ci kër."], ["Les deux mots de passe ne correspondent pas.", "The two passwords don’t match.", "Baatu jubluwaay yi ñaari dëpp du dëpp."], ["Connecte-toi pour ouvrir ton espace vendeur.", "Sign in to open your seller space.", "Dugg ngir ub sa wàll jaaykat."], ["© 2026 ÉtalAfrique. Fait avec soin à Dakar.", "© 2026 ÉtalAfrique. Made with care in Dakar.", "© 2026 ÉtalAfrique. Defar ci seen xol ci Dakar."], ["Entre ton email ci-dessus, puis réessaie.", "Enter your email above, then try again.", "Bind sa email ci kaw, ba nga ese ci gaaw."], ["ÉtalAfrique — Le marché de tout le monde", "ÉtalAfrique — A market for everyone", "ÉtalAfrique — Su këyitu yi"], ["Marché numérique · zéro boutique requise", "Digital market · no shop needed", "Su këyitu numérique · amul boutique"], ["Quels moyens de paiement acceptez-vous ?", "Which payment methods do you accept?", "Naka lan nga ngi jënd ci fey?"], ["Ouvre ton étal en moins de deux minutes.", "Open your stall in under two minutes.", "Ub sa ndox ci ay simili."], ["Données sauvegardées sur ton compte via ", "Data saved to your account via ", "Xibaar denc ci sa compte ci "], ["Inspiration · façon tableaux Pinterest", "Inspiration · Pinterest-style boards", "Inspirasion · tablo Pinterest"], ["Vannerie, poterie et pièces sculptées.", "Basketry, pottery and carved pieces.", "Vannerie, poterie ak nun yu ngi ngi teg."], ["Jouets, vêtements et accessoires bébé.", "Toys, clothes and baby accessories.", "Jouet, yéré ak accessoire yu ci xale."], [" — les étals publiés apparaissent ici", " — published stalls appear here", " — ndox yi di ne fi"], ["Aucun enregistrement pour l’instant.", "No saves yet.", "Amul denc ci tey."], ["Mot de passe : 8 caractères minimum.", "Password: 8 characters minimum.", "Baatu jubluwaay: 8 caractères ci néew."], ["aucun abonnement, aucun frais caché", "no subscription, no hidden fees", "amul abonnement, amul frais bu suuf"], [" — nom, ville et catalogue visibles", " — name, city, and catalog visible", " — tur, dëkk ak catalogue bu gis"], ["Ce qui est inclus, dès aujourd'hui", "What’s included, today", "Lu nekk, tey"], ["Aucun résultat dans le catalogue.", "No results in the catalog.", "Amul résultat ci catalogue bi."], [" — paiement réglé avec le vendeur", " — payment settled with the seller", " — fey defar ak jaaykat"], ["Boutique publiée sur ÉtalAfrique.", "Shop listed on ÉtalAfrique.", "Boutique denc ci ÉtalAfrique."], ["ÉtalAfrique — retour à l'accueil", "ÉtalAfrique — back to home", "ÉtalAfrique — dellu ci wetu"], ["Espace vendeur · compte sécurisé", "Seller space · secure account", "Wàll jaaykat · compte bu neex"], ["Mot de passe (8 caractères min.)", "Password (8 characters min.)", "Baatu jubluwaay (8 caractères ci néew)"], ["ouverture en moins de 2 minutes", "open in under 2 minutes", "ub ci 2 simili"], ["Entre une adresse email valide.", "Enter a valid email address.", "Bind ab email bu jub."], ["Étal visible dans le catalogue.", "Stall visible in the catalog.", "Ndox mi gis ci catalogue bi."], ["Comment se passe le paiement ?", "How does payment work?", "Naka fey bi di doxe?"], ["Étal enregistré sur ton compte", "Stall saved to your account", "Ndox mi denc ci sa compte"], ["À quoi ressemblera ta boutique", "What your shop will look like", "Nika sa boutique dina mel"], ["Étal en ligne sur cet appareil", "Stall online on this device", "Ndox mi ci yónn ci appareil bi"], ["Voir mes produits enregistrés", "View my saved products", "Won sa nun yi nga tëdde"], ["Tes produits apparaîtront ici", "Your products will appear here", "Sa nun yi di ne fi"], ["Publier mon premier produit →", "Post my first product →", "Bind samay nun bi ci ñu njëkk →"], ["Retiré de tes enregistrements", "Removed from your saves", "Génnal ci sa denc"], ["Un paiement qui reste simple", "A payment that stays simple", "Ab fey bu njañte"], ["3% sur les ventes confirmées", "3% on confirmed sales", "3% ci jaay yi neex"], ["01 · Ton identité de vendeur", "01 · Your seller identity", "01 · Sa tur bu jaaykat"], ["Sous 24h, du lundi au samedi", "Within 24h, Monday to Saturday", "Ci 24h, altine ba dibiñer"], ["Ajouté à tes enregistrements", "Added to your saves", "Yokku ci sa denc"], ["Publier un produit · ⏱ 60 s", "Post a product · ⏱ 60 s", "Bind ab nun · ⏱ 60 simili"], ["Plan unique · sans surprise", "One plan · no surprises", "Ab plan · amul surprise"], ["Retape le même mot de passe", "Retype the same password", "Bind baatu bu nekk"], ["Retirer des enregistrements", "Remove from saves", "Génnal ci denc yi"], ["Supprimer définitivement « ", "Permanently delete « ", "Faral ci seen bi « "], ["3% affichés, rien de caché", "3% shown, nothing hidden", "3% wone, du suuf"], ["Aperçu · exemples imaginés", "Preview · sample ideas", "Wonewu · seen misaal"], ["Répondre vite, vendre plus", "Reply fast, sell more", "Tontu ci gaaw, jaay yu bare"], ["Envoyer aussi sur WhatsApp", "Also send on WhatsApp", "Yónn it ci WhatsApp"], ["S'inscrire à la newsletter", "Subscribe to the newsletter", "Bind ci newsletter"], ["ÉtalAfrique · compte local", "ÉtalAfrique · local account", "ÉtalAfrique · compte ci seen dëkk"], ["Étal repassé en brouillon.", "Stall back to draft.", "Ndox dellu ci brouillon."], ["Ouvrir mon étal — gratuit", "Open my stall — free", "Ub samay ndox — ci free"], ["12 500 FCFA · 3 commandes", "12,500 FCFA · 3 orders", "12 500 FCFA · 3 commande"], ["2 200 FCFA · 12 commandes", "2,200 FCFA · 12 orders", "2 200 FCFA · 12 commande"], ["Vendre sans mode d'emploi", "Sell without a manual", "Jaay amul benn yónn"], ["Fermer la création d'étal", "Close stall creation", "Tëj ubub ndox"], ["Voilà à quoi il ressemble", "Here’s what it looks like", "Loolu niki mu mel"], ["Une photo qui donne envie", "A photo that sparks interest", "Ab nataal buy njek bëgg"], ["sur ton compte, en clair.", "on your account, plain and simple.", "ci sa compte, bu leer."], ["Confirmer le mot de passe", "Confirm password", "Wone sa baatu"], [" » et tous ses produits ?", " » and all its products?", " » ak sa nun yépp?"], ["appareil après connexion.", "device once signed in.", "appareil bu ngay dugg."], ["Voir comment ça marche →", "See how it works →", "Gis naka la doxe →"], ["4 800 FCFA · 7 commandes", "4,800 FCFA · 7 orders", "4 800 FCFA · 7 commande"], ["Ton savoir-faire se voit", "Your know-how gets seen", "Sa liggéey gis na"], ["Sauvegarder le brouillon", "Save draft", "Denc brouillon"], ["synchronisé via Supabase", "synced via Supabase", "di sync ci Supabase"], ["référencés dans ton étal", "listed in your stall", "ngi ci sa ndox"], ["Parlons de ton activité.", "Let’s talk about your business.", "Nun di wax ci sa activité."], [" — par email ou WhatsApp", " — by email or WhatsApp", " — ci email walla WhatsApp"], ["Fermer l’aperçu détaillé", "Close detailed preview", "Tëj wonewu bi"], ["Chargement du catalogue…", "Loading catalog…", "Catalogue bi di ub…"], ["Inscription enregistrée.", "Subscription recorded.", "Bind denc na."], ["Nouveau sur ÉtalAfrique", "New on ÉtalAfrique", "Kaddu ci ÉtalAfrique"], ["à l'ouverture de l'étal", "to open your stall", "bu ub ndox mi"], ["10 pays, une communauté", "10 countries, one community", "10 pays, benn kilifanteer"], ["Tableau de bord vendeur", "Seller dashboard", "Tableau de bord jaaykat"], ["confidentialité d'abord", "privacy first", "sérété ci njëkk"], ["Une phrase sur ton étal", "A line about your stall", "Ab wax ci sa ndox"], ["à explorer et à vendre.", "to explore and sell.", "nga saytu te jaay."], ["Beauté & soins naturels", "Beauty & natural care", "Yaram ak luy yi wér"], ["Tech & maison connectée", "Tech & smart home", "Tech ak kër bu xam-xam"], ["publier en 60 secondes.", "post in 60 seconds.", "bind ci 60 simili."], ["Connecté·e en tant que ", "Signed in as ", "Nga dugg niki "], ["Acheter sur ÉtalAfrique", "Buy on ÉtalAfrique", "Jënd ci ÉtalAfrique"], ["Proposer un partenariat", "Propose a partnership", "Jox ab partenariat"], ["Les nouvelles du marché", "Market news", "Seen këyitu"], ["Vendre sur ÉtalAfrique", "Sell on ÉtalAfrique", "Jaay ci ÉtalAfrique"], ["Miel de brousse · 500g", "Wild honey · 500g", "Lii ci wàll · 500g"], ["Vitrine en 60 secondes", "Storefront in 60 seconds", "Vitrine ci 60 simili"], ["Piloter · ton activité", "Run · your business", "Yónn · sa activité"], ["Rassurer · durablement", "Reassure · durably", "Wone béréb · ci dëgg-dëgg"], ["Commencer gratuitement", "Start for free", "Tàmbali ci free"], ["Paiements Mobile Money", "Mobile Money payments", "Fey Mobile Money"], ["Ajoute ce que tu vends", "Add what you sell", "Yokk lu ngay jaay"], ["Idées pour les enfants", "Ideas for kids", "Yoon yu ci xale yi"], ["Sac en cuir cousu main", "Hand-stitched leather bag", "Sac bu cuir bu loxo"], ["est peut-être déjà là.", "may already be here.", "am niki fi."], ["Commander via WhatsApp", "Order via WhatsApp", "Sa commande ci WhatsApp"], ["Voir comment ça marche", "See how it works", "Gis naka la doxe"], ["Déconnexion effectuée.", "Signed out.", "Nga génn."], ["Navigation principale", "Main navigation", "Kàttan bu mag"], ["commerce de confiance", "trusted commerce", "jàgg ci seen béréb"], ["Recherche sur le site", "Search the site", "Wut ci site bi"], ["Explorer le catalogue", "Browse the catalog", "Saytu catalogue bi"], ["Beurre de karité brut", "Raw shea butter", "Tir bu karite"], ["de Dakar à Tananarive", "from Dakar to Antananarivo", "ci Dakar ba Tananarive"], ["Payer · sans friction", "Pay · frictionless", "Fey · du yokk"], ["Livraison de quartier", "Neighbourhood delivery", "Livraison ci seen kër"], ["Encaisse en confiance", "Cash in with trust", "Jot sa xaalis ci seen béréb"], ["Un partage équitable.", "A fair split.", "Ab séddoo bu jub."], ["Paiement Mobile Money", "Mobile Money payment", "Fey ci Mobile Money"], ["qui rend des comptes.", "that is accountable.", "di jokkoo."], ["On répond franchement", "We answer frankly", "Nun di tontu ci seen dëgg"], ["Présente ton activité", "Present your activity", "Wone sa activité"], ["03 · Aperçu en direct", "03 · Live preview", "03 · Wone ci yónn"], ["Services du quotidien", "Everyday services", "Liggéey yu bepp tey"], ["produits & boutiques.", "products & shops.", "nun ak boutique."], ["Commande par WhatsApp", "Order via WhatsApp", "Commande ci WhatsApp"], ["Mot de passe oublié ?", "Forgot password?", "Fëgg sa baatu jubluwaay?"], ["Contacter la boutique", "Contact the shop", "Wax ak boutique bi"], ["Ajouter un exemplaire", "Add an item", "Yokk ab unité"], ["Retirer un exemplaire", "Remove an item", "Génnal ab unité"], ["Effacer la recherche", "Clear search", "Mënal sa wut"], ["Grandir à ton rythme", "Grow at your own pace", "Yónn ci sa wàll"], ["Publier · simplement", "Post · simply", "Bind · ci seen yónn"], ["Livrer · à proximité", "Deliver · nearby", "Defar · ci wet"], ["Explorer · l'Afrique", "Explore · Africa", "Saytu · Afrik"], ["En quelques secondes", "In seconds", "Ci ay simili"], ["Questions fréquentes", "FAQ", "FAQ"], ["Publier ses produits", "List your products", "Bind sa nun"], ["Bâtir avec confiance", "Build with trust", "Sos ci seen béréb"], ["+ Ajouter un produit", "+ Add a product", "+ Yokk ab nun"], ["simples et soignées.", "storefronts.", "bu njañte te leer."], ["Voir la commission →", "See pricing →", "Gis commission bi →"], ["On commence ensemble", "We start together", "Nun di tàmbali ci nun ñaar"], ["Confiance & sécurité", "Trust & safety", "Béréb ak sérété"], ["Bienvenue au marché.", "Welcome to the market.", "Dalal jamm ci këyitu bi."], ["8 caractères minimum", "8 characters minimum", "8 caractères ci néew"], ["Ton panier est vide.", "Your cart is empty.", "Sa paar du fees."], ["par vente confirmée", "per confirmed sale", "ci sa jaay bu neex"], ["Tout ce qu'il faut.", "Everything you need.", "Lépp lu ngay jëfandiku."], ["Partage & rencontre", "Share & meet", "Xaaj & jot"], ["Reçois une commande", "Receive an order", "Jot ab commande"], ["Ouvrir une boutique", "Open a shop", "Ub boutique"], ["en français & local", "in French & local", "ci fransà & ci seen dëkk"], ["commission affichée", "commission displayed", "commission bi wone"], ["Les questions qu'on", "Questions we’re", "Laaj yi"], ["Artisanat fait main", "Handmade crafts", "Artisanat bu ngi defar ci loxol"], ["Vase en terre cuite", "Terracotta vase", "Vase bu tere cuite"], ["pour bien démarrer.", "to start strong.", "ngir tàmbali ci baax."], ["Découvrir le marché", "Discover the market", "Gis su këyitu bi"], ["Ton tableau de bord", "Your dashboard", "Sa tableau de bord"], ["Ton prochain client", "Your next customer", "Sa jëndukat bu ci ñu njëkk"], ["Envoyer ma demande ", "Send my request ", "Yónn sama ñaan "], ["Commission & tarifs", "Pricing", "Commission ak tariif"], ["produits en vitrine", "products in storefront", "nun ci vitrine"], [" produit en vitrine", " product in storefront", " nun ci vitrine"], ["vendeur ÉtalAfrique", "ÉtalAfrique seller", "jaaykat ÉtalAfrique"], ["un premier produit", "your first product", "sa nun bi ci ñu njëkk"], ["Mobile Money natif", "Native Mobile Money", "Mobile Money ci seen ngiir"], ["Confiance vérifiée", "Verified trust", "Béréb bu teg"], ["Une vente réussie.", "A successful sale.", "Ab jaay bu baax."], ["nous pose souvent.", "often asked.", "di ñu laaj."], ["Ton espace vendeur", "Your seller space", "Sa wàll jaaykat"], ["en quelques clics.", "in a few clicks.", "ci ay klik."], ["Ville / quartier *", "City / neighbourhood *", "Dëkk / kër *"], ["Beauté & bien-être", "Beauty & wellness", "Yaram ak luy"], ["Ce que tu pourras ", "What you’ll be able to ", "Lu ngay mën a "], ["Ferme de Casamance", "Casamance farm", "Tool bu Casamance"], ["Le Mag ÉtalAfrique", "The ÉtalAfrique Mag", "Mag ÉtalAfrique"], ["Connexion Supabase", "Supabase sign-in", "Dugg Supabase"], ["unités disponibles", "units available", "unité yi am"], ["Merci, à bientôt !", "Thanks, see you soon!", "Jërëjëf, ci kanam!"], ["Connexion réussie.", "Signed in.", "Nga dugg."], ["Parler à l'équipe", "Talk to the team", "Wax ak ekip bi"], ["Comment ça marche", "How it works", "Naka la doxe"], ["de tout le monde.", "of everyone.", "ci lépp."], ["La boîte à outils", "The toolbox", "Boyet bu karante"], ["Rien de superflu.", "Nothing more.", "Du dëpp."], ["Commission claire", "Clear commission", "Commission bu leer"], ["paiement sécurisé", "secure payment", "fey bu neex"], ["Modifier mon étal", "Edit my stall", "Soppi samay ndox"], ["Les trésors d'Awa", "Awa’s treasures", "Yenn yu Awa"], ["02 · Tes produits", "02 · Your products", "02 · Sa nun"], ["Publier mon étal ", "Publish my stall ", "Téqal samay ndox "], ["Ville · catégorie", "City · category", "Dëkk · catégorie"], ["Mode & pagnes wax", "Fashion & wax cloth", "Mode ak pagne wax"], ["Décoration maison", "Home decor", "Seen wàll"], ["Kit lampe solaire", "Solar lamp kit", "Kit lampe solaire"], ["Atelier d'Ibrahim", "Ibrahim’s workshop", "Atelie bu Ibrahima"], ["Fixer le bon prix", "Set the right price", "Tànne prix bu jub"], ["Boutiques locales", "Local shops", "Boutique yi ci wet"], ["Fermer la session", "Sign out", "Génn"], ["jamais enregistré", "never saved", "amul denc"], ["écrire à l’équipe", "write to the team", "bind ci ekip bi"], ["Parler au support", "Talk to support", "Wax ak support"], ["Réponse sous 24 h", "Reply within 24 h", "Tontu ci 24h"], ["Ajouter au panier", "Add to cart", "Yokk ci paar"], [" ajouté au panier", " added to cart", " yokku ci paar"], ["Ouvrir le panier", "Open the cart", "Ub sa paar"], ["Recherche rapide", "Quick search", "Wut gaaw"], ["Ton étal · Dakar", "Your stall · Dakar", "Sa ndox · Dakar"], ["Pagne wax Ankara", "Ankara wax cloth", "Pagne wax Ankara"], [" pour l'Afrique.", " for Africa.", " ci Afrik."], ["Aucune boutique.", "No shop needed.", "Amul boutique."], ["Sans exclusivité", "No exclusivity", "Amul exclusivity"], ["Conçu en Afrique", "Made in Africa", "Defar ci Afrik"], ["Prix décroissant", "Price descending", "Prix buy wàññ"], ["Exporter (.json)", "Export (.json)", "Génn ci (.json)"], ["Valeur catalogue", "Catalog value", "Yiir catalogue bi"], ["MTN Mobile Money", "MTN Mobile Money", "MTN Mobile Money"], ["Ton mot de passe", "Your password", "Sa baatu jubluwaay"], ["Créer mon compte", "Create my account", "Sos samay compte"], ["Fermer le panier", "Close cart", "Tëj sa paar"], ["Voir la boutique", "See the shop", "Gis boutique bi"], ["Ouvrir le détail", "Open details", "Ub détail"], ["Prix sur demande", "Price on request", "Prix ci ñaan"], ["Indique ton nom.", "Add your name.", "Bind sa tur."], ["Étal enregistré.", "Stall saved.", "Ndox denc."], [" » de ton étal ?", " » from your stall?", " » ci sa ndox?"], ["Ajouté au panier", "Added to cart", "Yokku ci paar"], ["Fonctionnalités", "Features", "Liggéey yi"], ["📍 Médina, Dakar", "📍 Médina, Dakar", "📍 Médina, Dakar"], ["01 — VISIBILITÉ", "01 — VISIBILITY", "01 — WONEWU"], ["02 — SIMPLICITÉ", "02 — SIMPLICITY", "02 — NJAÑTE"], ["04 — CROISSANCE", "04 — GROWTH", "04 — YÓNN"], ["Un modèle juste", "A fair model", "Modèl bu jub"], ["Tu ne paies que", "You only pay", "Fey nga rekk"], ["quand tu vends.", "when you sell.", "bu ngay jaay."], ["Sans engagement", "No commitment", "Amul engagement"], ["Données locales", "Local data", "Xibaar yi ci seen dëkk"], ["tu restes libre", "you stay free", "sa ngi ngi am"], ["pour nos usages", "for our ways", "ci seen Afrik"], ["même hors ligne", "even offline", "bu amul réseau"], ["Nom de l'étal *", "Stall name *", "Tur ndox *"], ["Saveurs locales", "Local flavours", "Lii ci seen wàll"], ["Miel de brousse", "Wild honey", "Lii ci wàll"], ["Agroalimentaire", "Food & groceries", "Agroalimentaire"], ["Poupée en tissu", "Fabric doll", "Poupée bu tissu"], ["Relation client", "Customer care", "Jokkoo ak njek"], ["Modifier l'étal", "Edit the stall", "Soppi ndox mi"], ["Ouvrir mon étal", "Open my stall", "Ub samay ndox"], ["Créer un compte", "Create account", "Sos ab compte"], ["Aucun résultat.", "No results.", "Amul résultat."], ["Produit retiré.", "Product removed.", "Nun génnal."], ["Fermer le menu", "Close menu", "Tëj kàttan"], ["Ouvrir le menu", "Open menu", "Ub kàttan"], ["Espace vendeur", "Seller space", "Sa wàll jaaykat"], ["Ventes du jour", "Today’s sales", "Jaay bu tey"], ["Avantages clés", "Key benefits", "Yu mëna jëfandiku"], ["03 — CONFIANCE", "03 — TRUST", "03 — BÉRÉB"], ["Support humain", "Human support", "Support njek"], ["Une plateforme", "A platform", "Ab platform"], ["Dakar · Médina", "Dakar · Médina", "Dakar · Médina"], ["Mode & textile", "Fashion & textile", "Mode ak textile"], ["Prix croissant", "Price ascending", "Prix buy yokk"], ["enregistré le ", "saved on ", "denc ci "], ["Réponse rapide", "Quick reply", "Tontu ci gaaw"], ["Catalogue réel", "Real catalog", "Catalogue bu dëgg"], ["Profil vendeur", "Seller profile", "Saaf jaaykat"], ["Copier le lien", "Copy link", "Copie lien bi"], ["Retour en haut", "Back to top", "Dellu ci kaaw"], ["Quantité pour ", "Quantity for ", "Cantidad ngir "], ["Étal supprimé.", "Stall deleted.", "Ndox faral."], ["dans la poche", "in everyone’s pocket", "ci sa rokk"], ["Bonjour Awa 👋", "Hello Awa 👋", "Asalaa maalekum Awa 👋"], ["+ 18 400 FCFA", "+ 18,400 FCFA", "+ 18 400 FCFA"], ["Trois étapes.", "Three steps.", "Ñetti etap."], ["Crée ton étal", "Create your stall", "Sos sa ndox"], ["Beauté & soin", "Beauty & care", "Yaram ak luy"], ["Panier tressé", "Woven basket", "Panier bu ngi wër"], ["Tech & maison", "Tech & home", "Tech ak kër"], ["Des vitrines ", "Clean, polished ", "Vitrine yi "], ["Photo produit", "Product photo", "Nataal nun"], ["Lire la FAQ →", "Read the FAQ →", "Jàng FAQ bi →"], ["Ville (A → Z)", "City (A → Z)", "Dëkk (A → Z)"], ["Réinitialiser", "Reset", "Tàmbal ci tundu"], ["Nos avantages", "Our benefits", "Samay mën"], ["Centre d'aide", "Help center", "Wàll ndimbal"], ["ton@email.com", "you@email.com", "sa@email.com"], ["Adresse email", "Email address", "Sa email"], ["Étal sans nom", "Unnamed stall", "Ndox amul tur"], ["Mobile Money", "Mobile Money", "Mobile Money"], ["pour publier", "to list", "nga bind"], ["Tu es payé·e", "You get paid", "Nga jot sa xaalis"], ["Étal gratuit", "Free stall", "Ndox mi free"], ["Transparence", "Transparency", "Seen leer"], ["Alimentation", "Food", "Lii"], ["prix × stock", "price × stock", "prix × stok"], ["Tes produits", "Your products", "Sa nun"], ["Ton message ", "Your message ", "Sa bataaxal "], ["Orange Money", "Orange Money", "Orange Money"], ["Mot de passe", "Password", "Baatu jubluwaay"], ["Se connecter", "Sign in", "Dugg"], ["Publication…", "Publishing…", "Téqal…"], ["ÉtalAfrique", "ÉtalAfrique", "ÉtalAfrique"], ["Enregistrés", "Saved", "Tëdde"], ["Déconnexion", "Sign out", "Génn"], ["Collections", "Collections", "Collecciyo"], ["📍 Casamance", "📍 Casamance", "📍 Casamance"], ["Le marché, ", "The market, ", "Su këyitu, "], ["Le parcours", "The journey", "Sa yónne"], ["Des univers", "Worlds", "Sa yónne yi"], ["Nom (A → Z)", "Name (A → Z)", "Tur (A → Z)"], ["Nom (Z → A)", "Name (Z → A)", "Tur (Z → A)"], ["Stock total", "Total stock", "Stok bu mat"], ["Nom complet", "Full name", "Sa tur"], ["Enregistrer", "Save", "Denc"], ["Un instant…", "One moment…", "Ab simili…"], ["actions sur", "actions on", "action yi ci"], ["Rechercher", "Search", "Wut"], ["Mon profil", "My profile", "Samay safar"], ["Commission", "Pricing", "Commission"], ["commission", "commission", "commission"], ["frais fixe", "fixed fee", "frais bu dëpp"], ["pays visés", "countries targeted", "pays yi"], ["✓ Illimité", "✓ Unlimited", "✓ Du fen"], ["À la carte", "Pay-per-use", "Ci seen béréb"], ["Accessible", "Accessible", "Am"], ["Awa Ndiaye", "Awa Ndiaye", "Awa Ndiaye"], ["Explorer →", "Explore →", "Saytu →"], ["Décoration", "Decoration", "Decoration"], ["Pertinence", "Relevance", "Seen baax"], ["Ton email ", "Your email ", "Sa email "], ["Je veux...", "I want to...", "Damay bëgg..."], ["Ressources", "Resources", "Seen am"], ["Moov Money", "Moov Money", "Moov Money"], ["Mon espace", "My space", "Samay wàll"], ["Ton panier", "Your cart", "Sa paar"], ["Enregistré", "Saved", "Denc"], ["Connexion…", "Signing in…", "Dugg…"], ["Il manque ", "Missing ", "Amul "], ["Lien copié", "Link copied", "Lien copié"], ["Retirer « ", "Remove « ", "Génnal « "], ["Connexion", "Sign in", "Dugg"], ["Avantages", "Benefits", "Yu mëna jëfandiku"], ["Catalogue", "Catalog", "Catalogue"], ["Ton étal,", "Your stall,", "Sa ndox,"], ["réinventé", "reinvented", "sàmpal"], ["par vente", "per sale", "ci sa jaay"], ["confirmée", "confirmed", "bu neex"], ["✓ Gratuit", "✓ Free", "✓ Ci free"], ["Ton nom *", "Your name *", "Sa tur *"], ["Catégorie", "Category", "Catégorie"], ["Artisanat", "Crafts", "Artisanat"], ["Conseils ", "Tips ", "Yoon "], ["Boutiques", "Shops", "Boutique"], ["Brouillon", "Draft", "Brouillon"], ["Découvrir", "Discover", "Saytu"], ["Instagram", "Instagram", "Instagram"], ["boutiques", "shops", "boutique yi"], ["résultats", "results", "résultats yi"], [" en stock", " in stock", " ci stok"], ["Création…", "Creating…", "Sos…"], ["📍 Bamako", "📍 Bamako", "📍 Bamako"], ["✓ Inclus", "✓ Included", "✓ Neex"], ["Variable", "Variable", "Sopi sopi"], ["✓ Direct", "✓ Direct", "✓ Ci seen ngiir"], ["Services", "Services", "Liggéey"], ["Produits", "Products", "Nun"], ["Supabase", "Supabase", "Supabase"], ["WhatsApp", "WhatsApp", "WhatsApp"], ["Ton nom ", "Your name ", "Sa tur "], ["LinkedIn", "LinkedIn", "LinkedIn"], ["Quantité", "Quantity", "Cantidad"], ["produits", "products", "nun"], ["résultat", "result", "résultat"], [" pour « ", " for « ", " ngir « "], ["Retirer ", "Remove ", "Génnal "], ["Ton étal", "Your stall", "Sa ndox"], ["Accueil", "Home", "Wet"], ["Contact", "Contact", "Sa jokkoo"], ["Enfants", "Kids", "Xale yi"], ["Textile", "Textile", "Textile"], ["Email :", "Email:", "Email:"], ["Ajouter", "Add", "Yokk"], ["Vendeur", "Seller", "Jaaykat"], ["produit", "product", "nun"], ["Bonjour", "Hello", "Asalaa maalekum"], ["Panier", "Cart", "Paar"], ["Payant", "Paid", "Nga fey"], ["Limité", "Limited", "Du fees"], ["✓ 7j/7", "✓ 7d/7", "✓ 7l/7"], ["Publié", "Published", "Téqal"], ["Statut", "Status", "Wér"], ["Fermer", "Close", "Tëj"], ["Aperçu", "Preview", "Wonewu"], ["Hello ", "Hello ", "Asalaa maalekum "], ["Plus d", "More on", "Yeneen ci"], ["Autre", "Other", "Yeneen"], ["Trier", "Sort", "Séddoo"], ["Email", "Email", "Email"], ["Nom :", "Name:", "Tur:"], ["Total", "Total", "Mat"], ["LIVE", "LIVE", "WÀN"], ["Mode", "Fashion", "Mode"], ["Prix", "Pricing", "Prix"], ["Tout", "All", "Lépp"], ["Wave", "Wave", "Wave"], ["FAQ", "FAQ", "FAQ"], ["TOP", "TOP", "KAW"], [" »", " »", " »"]];
+var ENTRIES=[["ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.", "ÉtalAfrique integrates the main Mobile Money wallets of each country: Orange Money, Wave, MTN Mobile Money, Moov Money and others. Available options automatically adapt to the seller’s and buyer’s country.", "ÉtalAfrique am ngi ci portefeuille yi ci benn pays: Orange Money, Wave, MTN Mobile Money, Moov Money ak yu yokku. Lu am, ngi soppi ci pays bu jaaykat ak jëndukat."], ["Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.", "No, you can start as an independent seller. We then guide you if your activity grows and you want to formalise your business. Tax obligations vary by country: our support can point you in the right direction.", "Déedéet, man nga tàmbali niki jaaykat bu sañ-sañ. Nun di sa ngi yónne bu sa activité ba xel, te nga bëgg ngi sos sa société. Yarimu fiscal sopi ci pays: samay support mën na sa wone ci yónn."], ["La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.", "The platform is currently available in Senegal, Mali, Côte d’Ivoire, Benin, Togo, Cameroon, Guinea, Burkina Faso, Niger and Madagascar. We’re progressively opening new delivery and payment corridors.", "Platform bi am na tey ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Toogo, Kameruun, Gine, Burkina Faso, Niseer ak Madagascar. Nun di ub seen kër yu yokku ci livraison ak fey."], ["ÉtalAfrique : la marketplace qui transforme un téléphone en boutique en ligne pour les vendeurs d’Afrique de l’Ouest. Ouvre ton étal, publie tes produits, vends en Mobile Money.", "ÉtalAfrique: the marketplace that turns a phone into an online shop for West African sellers. Open your stall, list your products, sell with Mobile Money.", "ÉtalAfrique: ab place ki ub telefon ci boutique ci yónn ngir jaaykat yi ci Afrik Sowwu. Ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.", "The order is prepared on ÉtalAfrique. Payment is then settled directly between buyer and seller (Mobile Money, cash on delivery), coordinated over WhatsApp.", "Commande bi ngi jëfandiku ci ÉtalAfrique. Fey bi mu ngi defar seen ñaari ci jëndukat ak jaaykat (Mobile Money, xaalis ci livraison), ñu mu xalaat ci WhatsApp."], ["Une plateforme pensée pour les réalités du commerce africain : Mobile Money, livraison de proximité, langues locales et confiance de pair à pair.", "A platform built for African commerce realities: Mobile Money, local delivery, local languages, and peer-to-peer trust.", "Ab platform bu ngi defar ci seen Afrik: Mobile Money, livraison ci seen kër, làkk yi ci seen dëkk, ak seen seen béréb."], ["* Champs obligatoires. Le paiement se règle pour l’instant directement avec l’acheteur ; ÉtalAfrique ne traite pas encore les paiements en ligne.", "* Required fields. Payment is currently settled directly with the buyer; ÉtalAfrique does not yet process online payments.", "* Xibaar yu war. Fey bi ngi ngi defar ci seen jëndukat tey; ÉtalAfrique du fey ci yónn."], ["Chaque planche regroupe une famille de produits. Clique dessus pour filtrer le catalogue, ou ouvre ton étal si l'un de ces univers te ressemble.", "Each board gathers a family of products. Click to filter the catalog, or open your stall if one of these worlds feels like yours.", "Benn plan, benn wàll nun. Klik ngir filtrer catalogue bi, walla ub sa ndox bu benn ci yii ngi nga gis."], ["Acheteur et vendeur se mettent d'accord sur le mode de règlement (Mobile Money, espèces) et finalisent directement, sans intermédiaire caché.", "Buyer and seller agree on the payment method (Mobile Money, cash) and finalise directly, with no hidden middleman.", "Jëndukat ak jaaykat di xalaat ci fey bi (Mobile Money, xaalis) ñu mu seen dëgg, amul kilifanteer."], ["Pas d'abonnement caché, pas de mise en avant payante pour exister. L'étal est gratuit à ouvrir, la commission est la même pour tout le monde.", "No hidden subscription, no paid promotion to exist. Opening a stall is free, and the commission is the same for everyone.", "Amul abonnement bu suuf, amul prominence ngay fey ngir ngi am. Ndox mi ub ci free, commission bi nekk ci yépp."], ["Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.", "Payment is settled directly with the seller (Mobile Money, cash, ...). This button opens WhatsApp with your order summary.", "Fey bi ngi ngi defar ci seen jaaykat (Mobile Money, xaalis...). Butóo bi ub WhatsApp ak seen commande."], ["ÉtalAfrique transforme un simple téléphone en boutique en ligne. Publie tes produits en 60 secondes, reçois des commandes, encaisse en ", "ÉtalAfrique turns a simple phone into an online shop. List your products in 60 seconds, take orders, get paid in ", "ÉtalAfrique ub ab telefon ci boutique ci yónn. Bind sa nun ci 60 simili, jot commande, jot sa xaalis ci "], ["Ces profils sont des exemples imaginés pour montrer le potentiel d'un étal — les vraies boutiques arrivent au fil des inscriptions.", "These profiles are sample placeholders that show what a stall can become — real shops come in as people sign up.", "Saaf yii misaal yi ngir wone lu ngi mën a jeex ci ndox — boutique yi dëpp di ñu ub ci seen seen."], ["Tout ce que tu as enregistré sur ton compte : identité, étal, produits, brouillons. Tu peux modifier, republier ou repartir à zéro.", "Everything you’ve saved to your account: identity, stall, products, drafts. You can edit, republish or start fresh.", "Lépp lu nga denc ci sa compte: tur, ndox, nun, brouillon. Man nga soppi, téqal walla tàmbal ci tundu."], ["Laisse-nous tes coordonnées. Un membre de l'équipe ÉtalAfrique te répond sous 24h pour ouvrir ton étal ou répondre à tes questions.", "Leave us your details. A member of the ÉtalAfrique team replies within 24h to open your stall or answer your questions.", "Jox nun sa xibaar. Ab nit ci ekip ÉtalAfrique di tontu ci 24h ngir ub sa ndox walla tontu sa laaj."], ["Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement ", "Yes. Creating your stall, adding products and accessing the dashboard are free. ÉtalAfrique only takes ", "Waaw. Ub ndox mi, yokk nun, ak ci tableau de bord, lépp ci free. ÉtalAfrique jënd rekk "], ["Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.", "A buyer who gets a fast WhatsApp reply finishes their order far more often than one left hanging.", "Ab jëndukat buy jot tontu ci WhatsApp ci gaaw, mu ngi wéral sa commande bu néew."], ["Ces exemples illustrent le type de produits qu'un étal peut proposer sur ÉtalAfrique — fais défiler pour te donner des idées.", "These examples show the kind of products a stall can offer on ÉtalAfrique — scroll to get ideas.", "Misaal yii wone nun lan ngi yónne ci ÉtalAfrique — safal ngir jot yoon."], ["Compare deux ou trois étals similaires avant de publier, et garde en tête la commission de 3% sur chaque vente confirmée.", "Compare two or three similar stalls before posting, and keep the 3% commission in mind for every confirmed sale.", "Séddoo ñaari walla ñetti ndox yu mel nii sa nun, xal ci commission 3% ci benn jaay bu neex."], ["La marketplace des vendeurs informels d’Afrique de l’Ouest : ouvre ton étal, publie tes produits, vends en Mobile Money.", "The marketplace for informal West African sellers: open your stall, list your products, sell with Mobile Money.", "Place bi ci jaaykat yu ci Afrik Sowwu: ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["Tes informations sont synchronisées sur ton compte Supabase, accessible depuis n'importe quel appareil après connexion.", "Your info is synced to your Supabase account, accessible from any device once signed in.", "Sa xibaar yi ngi ci sa compte Supabase, nga koy gis ci benn appareil bu ngay dugg."], ["Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.", "Natural light, plain background, well-framed product: three reflexes that double the interest in a listing.", "Lëm bu wér, seen suuf, nun bu teg: Ñetti xelal yi xaalis ba ngi yokk ci seen annonce."], ["Le service de compte n’a pas pu se charger. Vérifie ta connexion ou ton bloqueur de publicité, puis recharge la page.", "The account service did not load. Check your connection or ad-blocker, then reload the page.", "Compte bi du ub. Xool sa réseau walla sa bloqueur publicité, ba nga yónn sa page."], ["Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.", "Explore the products and shops listed on ÉtalAfrique. The catalog grows with each new stall opened.", "Saytu nun ak boutique yi ci ÉtalAfrique. Catalogue bi ngi yónne ci benn ndox mu ub."], ["L'argent est sécurisé pendant la livraison. Après 48h ou confirmation du client, il arrive sur ton Mobile Money.", "Money is held safely during delivery. After 48h or buyer confirmation, it lands in your Mobile Money.", "Xaalis bi neex tey ci livraison. 48h walla jëndukat bi mu teg, xaalis bi dugg ci sa Mobile Money."], ["Trois informations suffisent : ton nom, le nom de l'étal, ta ville. Tu pourras ajouter tes produits juste après.", "Three details are enough: your name, the stall name, your city. You can add products right after.", "Ñetti xibaar rekk: sa tur, tur ndox mi, sa dëkk. Man nga yokk sa nun ci kanam."], ["Partage ton lien sur WhatsApp, Instagram ou autour de toi. Un client choisit, paie et reçoit une confirmation.", "Share your link on WhatsApp, Instagram or with people around you. A customer picks, pays, and gets a confirmation.", "Xaaj sa lien ci WhatsApp, Instagram walla ci njek yi ci wet. Ab jëndukat tànne, fey, jot confirmation."], ["Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.", "Whether you sell cloth, honey, jewellery, meals or your know-how: there’s room for you in the market.", "Bu ngay jaay pagn, lii, bijou, repas walla sa liggéey: benn wàll am ngir ngay ci su këyitu bi."], ["Des outils de suivi, de fidélité et d'avance de trésorerie pour transformer une activité en vraie entreprise.", "Tracking, loyalty, and cash-advance tools to turn a side activity into a real business.", "Liggéey yu ci topp, fidélité, ak xaalis ji nga jëfandiku, ngir waññ ab activité ci ab société bu dëgg."], ["Tu gardes 97% de chaque commande. L'inscription, la vitrine, le support et les mises à jour restent gratuits.", "You keep 97% of every order. Registration, storefront, support, and updates stay free.", "Denc 97% ci benn commande. Inscription, vitrine, support ak mise à jour du fee."], ["Crée ton compte Supabase, renseigne ton activité, ajoute tes produits et visualise immédiatement ta vitrine.", "Create your Supabase account, fill in your activity, add your products and see your storefront right away.", "Sos sa compte Supabase, bind sa activité, yokk sa nun, gis sa vitrine ci sa ngiir."], ["Choisis ton nom, ta ville et ajoute tes premiers produits. Pas de dossier compliqué, pas de frais d'entrée.", "Pick your name, your city, and add your first products. No paperwork, no entry fee.", "Tànne sa tur, sa dëkk, yokk sa nun yi ci ñu njëkk. Amul xibaar yu bare, amul frais."], ["Profils vendeurs, avis après achat, détection des annonces douteuses : la confiance n'est pas optionnelle.", "Seller profiles, post-purchase reviews, suspicious listing detection: trust is not optional.", "Saaf yu jaaykat, xalaat yu ci gëstu, xelal yu ci ndigte: béréb du dëpp."], ["Une vitrine claire, partageable sur WhatsApp, pour toucher des clients bien au-delà de ton quartier.", "A clear storefront, shareable on WhatsApp, to reach customers well beyond your neighbourhood.", "Ab vitrine bu leer, nga xaaj ci WhatsApp, ngay jënd njek yi ci seen kër."], ["Publie un produit en 60 secondes, même avec une connexion fragile. L'expérience parle ton langage.", "List a product in 60 seconds, even on a slow connection. The experience speaks your language.", "Bind ab nun ci 60 simili, dafa duux. Sa interëf xas nga."], ["Tes données, ton argent, tes clients : nous construisons les fondations pour un commerce qui dure.", "Your data, your money, your customers: we’re building the foundations for lasting commerce.", "Sa xibaar, sa xaalis, sa njek: nun di sos seen fondatiyo ngir ab jaay bu yónne."], ["Une photo, un prix, une quantité. Ton produit est en ligne, prêt à être partagé avec tes clients.", "A photo, a price, a quantity. Your product is online, ready to be shared with your customers.", "Ab nataal, ab prix, ab cantidad. Sa nun ci yónn, ngi ngi xaaj ak sa njek."], ["Ajoute la colonne « published » (boolean, défaut true) à la table stalls pour activer ce réglage.", "Add the column « published » (boolean, default true) to the stalls table to enable this setting.", "Yokk colonne « published » (boolean, défaut true) ci table stalls ngir ub ub réglages bi."], ["Le marché de tout le monde, dans la poche de tout le monde. Né en Afrique, pensé pour l'Afrique.", "A market for everyone, in everyone’s pocket. Born in Africa, built for Africa.", "Su këyitu yi, ci sa rokk. Ci Afrik, ngir Afrik."], ["Ouvre ton étal, publie tes produits, vends en Mobile Money — gratuit, 3% par vente confirmée.", "Open your stall, list your products, sell with Mobile Money — free, 3% per confirmed sale.", "Ub sa ndox, bind sa nun, jaay ci Mobile Money — ci free, 3% ci sa jaay bu neex."], ["Découvre des créations du Sénégal, du Mali, de Côte d'Ivoire, du Bénin, du Cameroun et plus.", "Discover crafts from Senegal, Mali, Côte d’Ivoire, Benin, Cameroon and beyond.", "Gis liggéey yu ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Kameruun, ak yu yu yokku."], ["Tu n'as besoin que de ton téléphone et de quelque chose à vendre. Le reste, on s'en occupe.", "You only need your phone and something to sell. We take care of the rest.", "Sa telefon rekk ak lu ngay jaay. Yoon, nun a ko jëfandiku."], ["Ventes, stock, clients, commissions : vois ce qui marche et décide avec de vraies données.", "Sales, stock, customers, commissions: see what works and decide with real data.", "Jaay, stok, njek, commission: gis lu baax, tànneef ak xibaar yi dëpp."], ["Des partenaires locaux et un suivi simple pour que chaque commande arrive au bon endroit.", "Local partners and simple tracking so every order reaches the right place.", "Kilifanteer yi ci seen dëkk ak topp bu njañte ngir benn commande ba mu defar ba."], ["Tout ce qu'il faut pour vendre avec confiance, même quand la boutique est ton téléphone.", "Everything you need to sell with confidence, even when your shop is your phone.", "Lépp lu ngay jëfandiku ngay jaay ci seen béréb, bu ko sa telefon."], ["Orange Money, Wave, MTN ou Moov. Tes clients paient comme ils ont l'habitude, toi aussi.", "Orange Money, Wave, MTN or Moov. Your customers pay the way they’re used to, and so do you.", "Orange Money, Wave, MTN walla Moov. Sa njek fey niki ñu lees def, yokk sa nekk."], ["Produit publié sur ÉtalAfrique. Contacte la boutique pour les détails de livraison.", "Product listed on ÉtalAfrique. Contact the shop for delivery details.", "Nun denc ci ÉtalAfrique. Wax ak boutique ngir gis livraison."], ["Trois astuces simples pour donner envie d'acheter dès ton premier produit publié.", "Three simple tips to make people want to buy as soon as your first product is up.", "Ñetti yoon yu njañte ngir njek yi bëgg jënd ci sa nun bi ci ñu njëkk."], ["Les premiers étals sont en train de s'ouvrir — sois parmi les premiers vendeurs.", "The first stalls are opening — be among the first sellers.", "Ndox yi di ub — bokk ci jaaykat yi ci ñu njëkk."], ["Aucune session — connecte-toi pour retrouver ton étal sur tous tes appareils.", "No session — sign in to find your stall on every device.", "Amul session — dugg ngir gis sa ndox ci benn appareil."], ["Compte créé. Ouvre le lien de confirmation reçu par email (pense aux spams).", "Account created. Open the confirmation link in your email (check spam).", "Compte sos na. Ub lien bu confirmation ci sa email (cek ci spam)."], ["Aperçu de l'application mobile ÉtalAfrique montrant des produits en vente", "Preview of the ÉtalAfrique mobile app showing items for sale", "Wonewu appli ÉtalAfrique bi ci yónn, wone nun yi di jaay"], ["ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde", "ÉtalAfrique — A market for everyone, in everyone’s pocket", "ÉtalAfrique — Su këyitu yi, ci sa rokk"], ["Ajoute une description pour donner envie de découvrir ton univers.", "Add a description to make people want to discover your world.", "Yokk ab description ngir njek yi bëgg sa yónne."], ["Une fois par mois : histoires de vendeurs, conseils et nouveautés.", "Once a month: seller stories, tips and updates.", "Benn weer: seen jaaykat, yoon ak seen yeneen."], ["Merci ! Ta demande est enregistrée. On revient vers toi sous 24h.", "Thanks! Your request is recorded. We’ll get back to you within 24h.", "Jërëjëf! Sa ñaan denc na. Nun dinna tontu ci 24h."], ["Démonstration : la messagerie boutique n’est pas encore branchée.", "Demo: shop messaging is not wired up yet.", "Misaal: jokkoo boutique bi du ngi ngi defar ba tey."], ["Ton étal est enregistré sur ton compte : tu le retrouves depuis n", "Your stall is saved to your account: find it from any", "Sa ndox mi denc ci sa compte: gis ko ci benn"], ["Email pas encore confirmé — un nouveau lien vient d’être envoyé.", "Email not confirmed yet — a new link was just sent.", "Email bi du fee ba tey — ab lien bu neex yónn na."], ["Ajoute des produits depuis le catalogue pour les retrouver ici.", "Add products from the catalog to find them here.", "Yokk nun ci catalogue ngir gis leen fi."], ["Connecté·e — ton étal sera synchronisé sur tous tes appareils.", "Signed in — your stall will sync across all your devices.", "Nga dugg — sa ndox mi dinna sync ci seen benn appareil."], ["Dis-nous ce que tu aimerais vendre ou ce dont tu as besoin...", "Tell us what you’d like to sell or what you need...", "Wax nun lu ngay bëgg jaay walla lu ngay jëfandiku..."], ["Vannerie et sculptures en bois faites main, pièce par pièce.", "Basketry and hand-carved wood pieces, one at a time.", "Vannerie ak nun yu buki yu ngi defar ci loxol, benn ci benn."], [" — sans local, sans stock immobilisé, sans intermédiaire.", " — no premises, no locked-up stock, no middleman.", " — amul seen kër, amul seen stok bu takku, amul kilifanteer."], ["Miel, céréales et produits de la ferme, vendus en direct.", "Honey, grains and farm goods, sold direct.", "Lii, céréale ak nun yu tool bi, di jaay ci seen ngiir."], ["Il manque le nom de l’étal, la ville, au moins un produit", "Missing the stall name, city, or at least one product", "Amul tur ndox mi, dëkk walla ab nun"], ["Email pas encore confirmé. Ouvre le lien reçu par mail.", "Email not confirmed yet. Open the link in your email.", "Email bi du fee ba tey. Ub lien ci sa mail."], [". Pas de frais mensuel, pas d'abonnement obligatoire.", ". No monthly fee, no required subscription.", ". Amul frais ci weer, amul abonnement bu war a fey."], ["Email de réinitialisation envoyé si ce compte existe.", "Reset email sent if this account exists.", "Email bu réinitialisation yónn na bu compte bi nekk."], ["Tenues, tissus imprimés et accessoires du quotidien.", "Outfits, printed fabrics and everyday accessories.", "Seen yéré, pagn yu imprimé, ak accessoire yi bepp tey."], ["Faut-il avoir une entreprise déclarée pour vendre ?", "Do I need a registered business to sell?", "War nga am ab société ngir jaay?"], ["Karité, savons et huiles fabriqués artisanalement.", "Shea, soaps and oils made by hand.", "Karite, savon ak huil yu ngi defar ci loxol."], ["Coiffure, réparation, cours et livraison locale.", "Hairdressing, repairs, classes and local delivery.", "Coiffure, reparasió, kàttan ak livraison ci wet."], [" (base de données réelle, pas seulement locale).", " (real database, not just local).", " (base bu dëgg, du ci yónn rekk)."], ["Ajoute un court message (10 caractères minimum).", "Add a short message (10 characters minimum).", "Yokk ab bataaxal bu néew (10 caractères ci néew)."], ["Rechercher un produit, une boutique, une ville…", "Search a product, a shop, or a city…", "Wut ab nun, ab boutique walla ab dëkk…"], ["Dans quels pays ÉtalAfrique est-il disponible ?", "In which countries is ÉtalAfrique available?", "Ci an pays ÉtalAfrique am na?"], ["Kits solaires, chargeurs et accessoires utiles.", "Solar kits, chargers and useful accessories.", "Kit solaire, chargeur ak accessoire yu am solo."], ["Est-ce vraiment gratuit pour ouvrir mon étal ?", "Is it really free to open my stall?", "Da ngi ngi fee ngir ub samay ndox?"], ["Des créations et produits choisis avec soin...", "Hand-picked crafts and products...", "Liggéey ak nun yu nga tànn ci seen xol..."], ["Miel, céréales, épices et produits du terroir.", "Honey, grains, spices and local produce.", "Lii, céréale, épice ak nun yu ci seen tool."], ["Indique ton nom pour qu'on puisse te répondre.", "Add your name so we can reply.", "Bind sa tur ngir nun mën a tontu."], ["Compte conservé uniquement dans ce navigateur.", "Account kept only in this browser.", "Compte denc ci sa navigateur rekk."], ["Coussins, tentures et objets pour la maison.", "Cushions, hangings and objects for the home.", "Coussin, tenture ak nun yu ci kër."], ["Les deux mots de passe ne correspondent pas.", "The two passwords don’t match.", "Baatu jubluwaay yi ñaari dëpp du dëpp."], ["Connecte-toi pour ouvrir ton espace vendeur.", "Sign in to open your seller space.", "Dugg ngir ub sa wàll jaaykat."], ["© 2026 ÉtalAfrique. Fait avec soin à Dakar.", "© 2026 ÉtalAfrique. Made with care in Dakar.", "© 2026 ÉtalAfrique. Defar ci seen xol ci Dakar."], ["Entre ton email ci-dessus, puis réessaie.", "Enter your email above, then try again.", "Bind sa email ci kaw, ba nga ese ci gaaw."], ["ÉtalAfrique — Le marché de tout le monde", "ÉtalAfrique — A market for everyone", "ÉtalAfrique — Su këyitu yi"], ["Marché numérique · zéro boutique requise", "Digital market · no shop needed", "Su këyitu numérique · amul boutique"], ["Quels moyens de paiement acceptez-vous ?", "Which payment methods do you accept?", "Naka lan nga ngi jënd ci fey?"], ["Ouvre ton étal en moins de deux minutes.", "Open your stall in under two minutes.", "Ub sa ndox ci ay simili."], ["Données sauvegardées sur ton compte via ", "Data saved to your account via ", "Xibaar denc ci sa compte ci "], ["Inspiration · façon tableaux Pinterest", "Inspiration · Pinterest-style boards", "Inspirasion · tablo Pinterest"], ["Vannerie, poterie et pièces sculptées.", "Basketry, pottery and carved pieces.", "Vannerie, poterie ak nun yu ngi ngi teg."], ["Jouets, vêtements et accessoires bébé.", "Toys, clothes and baby accessories.", "Jouet, yéré ak accessoire yu ci xale."], [" — les étals publiés apparaissent ici", " — published stalls appear here", " — ndox yi di ne fi"], ["Aucun enregistrement pour l’instant.", "No saves yet.", "Amul denc ci tey."], ["Mot de passe : 8 caractères minimum.", "Password: 8 characters minimum.", "Baatu jubluwaay: 8 caractères ci néew."], ["aucun abonnement, aucun frais caché", "no subscription, no hidden fees", "amul abonnement, amul frais bu suuf"], [" — nom, ville et catalogue visibles", " — name, city, and catalog visible", " — tur, dëkk ak catalogue bu gis"], ["Ce qui est inclus, dès aujourd'hui", "What’s included, today", "Lu nekk, tey"], ["Aucun résultat dans le catalogue.", "No results in the catalog.", "Amul résultat ci catalogue bi."], [" — paiement réglé avec le vendeur", " — payment settled with the seller", " — fey defar ak jaaykat"], ["Boutique publiée sur ÉtalAfrique.", "Shop listed on ÉtalAfrique.", "Boutique denc ci ÉtalAfrique."], ["ÉtalAfrique — retour à l'accueil", "ÉtalAfrique — back to home", "ÉtalAfrique — dellu ci wetu"], ["Espace vendeur · compte sécurisé", "Seller space · secure account", "Wàll jaaykat · compte bu neex"], ["Mot de passe (8 caractères min.)", "Password (8 characters min.)", "Baatu jubluwaay (8 caractères ci néew)"], ["ouverture en moins de 2 minutes", "open in under 2 minutes", "ub ci 2 simili"], ["Entre une adresse email valide.", "Enter a valid email address.", "Bind ab email bu jub."], ["Étal visible dans le catalogue.", "Stall visible in the catalog.", "Ndox mi gis ci catalogue bi."], ["Comment se passe le paiement ?", "How does payment work?", "Naka fey bi di doxe?"], ["Étal enregistré sur ton compte", "Stall saved to your account", "Ndox mi denc ci sa compte"], ["À quoi ressemblera ta boutique", "What your shop will look like", "Nika sa boutique dina mel"], ["Étal en ligne sur cet appareil", "Stall online on this device", "Ndox mi ci yónn ci appareil bi"], ["Voir mes produits enregistrés", "View my saved products", "Won sa nun yi nga tëdde"], ["Tes produits apparaîtront ici", "Your products will appear here", "Sa nun yi di ne fi"], ["Publier mon premier produit →", "Post my first product →", "Bind samay nun bi ci ñu njëkk →"], ["Retiré de tes enregistrements", "Removed from your saves", "Génnal ci sa denc"], ["Un paiement qui reste simple", "A payment that stays simple", "Ab fey bu njañte"], ["3% sur les ventes confirmées", "3% on confirmed sales", "3% ci jaay yi neex"], ["01 · Ton identité de vendeur", "01 · Your seller identity", "01 · Sa tur bu jaaykat"], ["Sous 24h, du lundi au samedi", "Within 24h, Monday to Saturday", "Ci 24h, altine ba dibiñer"], ["Ajouté à tes enregistrements", "Added to your saves", "Yokku ci sa denc"], ["Publier un produit · ⏱ 60 s", "Post a product · ⏱ 60 s", "Bind ab nun · ⏱ 60 simili"], ["Plan unique · sans surprise", "One plan · no surprises", "Ab plan · amul surprise"], ["Retape le même mot de passe", "Retype the same password", "Bind baatu bu nekk"], ["Retirer des enregistrements", "Remove from saves", "Génnal ci denc yi"], ["Supprimer définitivement « ", "Permanently delete « ", "Faral ci seen bi « "], ["3% affichés, rien de caché", "3% shown, nothing hidden", "3% wone, du suuf"], ["Aperçu · exemples imaginés", "Preview · sample ideas", "Wonewu · seen misaal"], ["Répondre vite, vendre plus", "Reply fast, sell more", "Tontu ci gaaw, jaay yu bare"], ["Envoyer aussi sur WhatsApp", "Also send on WhatsApp", "Yónn it ci WhatsApp"], ["S'inscrire à la newsletter", "Subscribe to the newsletter", "Bind ci newsletter"], ["ÉtalAfrique · compte local", "ÉtalAfrique · local account", "ÉtalAfrique · compte ci seen dëkk"], ["Étal repassé en brouillon.", "Stall back to draft.", "Ndox dellu ci brouillon."], ["Ouvrir mon étal — gratuit", "Open my stall — free", "Ub samay ndox — ci free"], ["12 500 FCFA · 3 commandes", "12,500 FCFA · 3 orders", "12 500 FCFA · 3 commande"], ["2 200 FCFA · 12 commandes", "2,200 FCFA · 12 orders", "2 200 FCFA · 12 commande"], ["Vendre sans mode d'emploi", "Sell without a manual", "Jaay amul benn yónn"], ["Fermer la création d'étal", "Close stall creation", "Tëj ubub ndox"], ["Voilà à quoi il ressemble", "Here’s what it looks like", "Loolu niki mu mel"], ["Une photo qui donne envie", "A photo that sparks interest", "Ab nataal buy njek bëgg"], ["sur ton compte, en clair.", "on your account, plain and simple.", "ci sa compte, bu leer."], ["Confirmer le mot de passe", "Confirm password", "Wone sa baatu"], [" » et tous ses produits ?", " » and all its products?", " » ak sa nun yépp?"], ["appareil après connexion.", "device once signed in.", "appareil bu ngay dugg."], ["Voir comment ça marche →", "See how it works →", "Gis naka la doxe →"], ["4 800 FCFA · 7 commandes", "4,800 FCFA · 7 orders", "4 800 FCFA · 7 commande"], ["Ton savoir-faire se voit", "Your know-how gets seen", "Sa liggéey gis na"], ["Sauvegarder le brouillon", "Save draft", "Denc brouillon"], ["synchronisé via Supabase", "synced via Supabase", "di sync ci Supabase"], ["référencés dans ton étal", "listed in your stall", "ngi ci sa ndox"], ["Parlons de ton activité.", "Let’s talk about your business.", "Nun di wax ci sa activité."], [" — par email ou WhatsApp", " — by email or WhatsApp", " — ci email walla WhatsApp"], ["Fermer l’aperçu détaillé", "Close detailed preview", "Tëj wonewu bi"], ["Chargement du catalogue…", "Loading catalog…", "Catalogue bi di ub…"], ["Inscription enregistrée.", "Subscription recorded.", "Bind denc na."], ["Nouveau sur ÉtalAfrique", "New on ÉtalAfrique", "Kaddu ci ÉtalAfrique"], ["à l'ouverture de l'étal", "to open your stall", "bu ub ndox mi"], ["10 pays, une communauté", "10 countries, one community", "10 pays, benn kilifanteer"], ["Tableau de bord vendeur", "Seller dashboard", "Tableau de bord jaaykat"], ["confidentialité d'abord", "privacy first", "sérété ci njëkk"], ["Une phrase sur ton étal", "A line about your stall", "Ab wax ci sa ndox"], ["à explorer et à vendre.", "to explore and sell.", "nga saytu te jaay."], ["Beauté & soins naturels", "Beauty & natural care", "Yaram ak luy yi wér"], ["Tech & maison connectée", "Tech & smart home", "Tech ak kër bu xam-xam"], ["publier en 60 secondes.", "post in 60 seconds.", "bind ci 60 simili."], ["Connecté·e en tant que ", "Signed in as ", "Nga dugg niki "], ["Acheter sur ÉtalAfrique", "Buy on ÉtalAfrique", "Jënd ci ÉtalAfrique"], ["Proposer un partenariat", "Propose a partnership", "Jox ab partenariat"], ["Les nouvelles du marché", "Market news", "Seen këyitu"], ["Vendre sur ÉtalAfrique", "Sell on ÉtalAfrique", "Jaay ci ÉtalAfrique"], ["Miel de brousse · 500g", "Wild honey · 500g", "Lii ci wàll · 500g"], ["Vitrine en 60 secondes", "Storefront in 60 seconds", "Vitrine ci 60 simili"], ["Piloter · ton activité", "Run · your business", "Yónn · sa activité"], ["Rassurer · durablement", "Reassure · durably", "Wone béréb · ci dëgg-dëgg"], ["Commencer gratuitement", "Start for free", "Tàmbali ci free"], ["Paiements Mobile Money", "Mobile Money payments", "Fey Mobile Money"], ["Ajoute ce que tu vends", "Add what you sell", "Yokk lu ngay jaay"], ["Idées pour les enfants", "Ideas for kids", "Yoon yu ci xale yi"], ["Sac en cuir cousu main", "Hand-stitched leather bag", "Sac bu cuir bu loxo"], ["est peut-être déjà là.", "may already be here.", "am niki fi."], ["Commander via WhatsApp", "Order via WhatsApp", "Sa commande ci WhatsApp"], ["Voir comment ça marche", "See how it works", "Gis naka la doxe"], ["Déconnexion effectuée.", "Signed out.", "Nga génn."], ["Navigation principale", "Main navigation", "Kàttan bu mag"], ["commerce de confiance", "trusted commerce", "jàgg ci seen béréb"], ["Recherche sur le site", "Search the site", "Wut ci site bi"], ["Explorer le catalogue", "Browse the catalog", "Saytu catalogue bi"], ["Beurre de karité brut", "Raw shea butter", "Tir bu karite"], ["de Dakar à Tananarive", "from Dakar to Antananarivo", "ci Dakar ba Tananarive"], ["Payer · sans friction", "Pay · frictionless", "Fey · du yokk"], ["Livraison de quartier", "Neighbourhood delivery", "Livraison ci seen kër"], ["Encaisse en confiance", "Cash in with trust", "Jot sa xaalis ci seen béréb"], ["Un partage équitable.", "A fair split.", "Ab séddoo bu jub."], ["Paiement Mobile Money", "Mobile Money payment", "Fey ci Mobile Money"], ["qui rend des comptes.", "that is accountable.", "di jokkoo."], ["On répond franchement", "We answer frankly", "Nun di tontu ci seen dëgg"], ["Présente ton activité", "Present your activity", "Wone sa activité"], ["03 · Aperçu en direct", "03 · Live preview", "03 · Wone ci yónn"], ["Services du quotidien", "Everyday services", "Liggéey yu bepp tey"], ["produits & boutiques.", "products & shops.", "nun ak boutique."], ["Commande par WhatsApp", "Order via WhatsApp", "Commande ci WhatsApp"], ["Mot de passe oublié ?", "Forgot password?", "Fëgg sa baatu jubluwaay?"], ["Contacter la boutique", "Contact the shop", "Wax ak boutique bi"], ["Ajouter un exemplaire", "Add an item", "Yokk ab unité"], ["Retirer un exemplaire", "Remove an item", "Génnal ab unité"], ["Effacer la recherche", "Clear search", "Mënal sa wut"], ["Grandir à ton rythme", "Grow at your own pace", "Yónn ci sa wàll"], ["Publier · simplement", "Post · simply", "Bind · ci seen yónn"], ["Livrer · à proximité", "Deliver · nearby", "Defar · ci wet"], ["Explorer · l'Afrique", "Explore · Africa", "Saytu · Afrik"], ["En quelques secondes", "In seconds", "Ci ay simili"], ["Questions fréquentes", "FAQ", "FAQ"], ["Publier ses produits", "List your products", "Bind sa nun"], ["Bâtir avec confiance", "Build with trust", "Sos ci seen béréb"], ["+ Ajouter un produit", "+ Add a product", "+ Yokk ab nun"], ["simples et soignées.", "storefronts.", "bu njañte te leer."], ["Voir la commission →", "See pricing →", "Gis commission bi →"], ["On commence ensemble", "We start together", "Nun di tàmbali ci nun ñaar"], ["Confiance & sécurité", "Trust & safety", "Béréb ak sérété"], ["Bienvenue au marché.", "Welcome to the market.", "Dalal jamm ci këyitu bi."], ["8 caractères minimum", "8 characters minimum", "8 caractères ci néew"], ["Ton panier est vide.", "Your cart is empty.", "Sa paar du fees."], ["par vente confirmée", "per confirmed sale", "ci sa jaay bu neex"], ["Tout ce qu'il faut.", "Everything you need.", "Lépp lu ngay jëfandiku."], ["Partage & rencontre", "Share & meet", "Xaaj & jot"], ["Reçois une commande", "Receive an order", "Jot ab commande"], ["Ouvrir une boutique", "Open a shop", "Ub boutique"], ["en français & local", "in French & local", "ci fransà & ci seen dëkk"], ["commission affichée", "commission displayed", "commission bi wone"], ["Les questions qu'on", "Questions we’re", "Laaj yi"], ["Artisanat fait main", "Handmade crafts", "Artisanat bu ngi defar ci loxol"], ["Vase en terre cuite", "Terracotta vase", "Vase bu tere cuite"], ["pour bien démarrer.", "to start strong.", "ngir tàmbali ci baax."], ["Découvrir le marché", "Discover the market", "Gis su këyitu bi"], ["Ton tableau de bord", "Your dashboard", "Sa tableau de bord"], ["Ton prochain client", "Your next customer", "Sa jëndukat bu ci ñu njëkk"], ["Envoyer ma demande ", "Send my request ", "Yónn sama ñaan "], ["Commission & tarifs", "Pricing", "Commission ak tariif"], ["produits en vitrine", "products in storefront", "nun ci vitrine"], [" produit en vitrine", " product in storefront", " nun ci vitrine"], ["vendeur ÉtalAfrique", "ÉtalAfrique seller", "jaaykat ÉtalAfrique"], ["un premier produit", "your first product", "sa nun bi ci ñu njëkk"], ["Mobile Money natif", "Native Mobile Money", "Mobile Money ci seen ngiir"], ["Confiance vérifiée", "Verified trust", "Béréb bu teg"], ["Une vente réussie.", "A successful sale.", "Ab jaay bu baax."], ["nous pose souvent.", "often asked.", "di ñu laaj."], ["Ton espace vendeur", "Your seller space", "Sa wàll jaaykat"], ["en quelques clics.", "in a few clicks.", "ci ay klik."], ["Ville / quartier *", "City / neighbourhood *", "Dëkk / kër *"], ["Beauté & bien-être", "Beauty & wellness", "Yaram ak luy"], ["Ce que tu pourras ", "What you’ll be able to ", "Lu ngay mën a "], ["Ferme de Casamance", "Casamance farm", "Tool bu Casamance"], ["Le Mag ÉtalAfrique", "The ÉtalAfrique Mag", "Mag ÉtalAfrique"], ["Connexion Supabase", "Supabase sign-in", "Dugg Supabase"], ["unités disponibles", "units available", "unité yi am"], ["Merci, à bientôt !", "Thanks, see you soon!", "Jërëjëf, ci kanam!"], ["Connexion réussie.", "Signed in.", "Nga dugg."], ["Parler à l'équipe", "Talk to the team", "Wax ak ekip bi"], ["Comment ça marche", "How it works", "Naka la doxe"], ["de tout le monde.", "of everyone.", "ci lépp."], ["La boîte à outils", "The toolbox", "Boyet bu karante"], ["Rien de superflu.", "Nothing more.", "Du dëpp."], ["Commission claire", "Clear commission", "Commission bu leer"], ["paiement sécurisé", "secure payment", "fey bu neex"], ["Modifier mon étal", "Edit my stall", "Soppi samay ndox"], ["Les trésors d'Awa", "Awa’s treasures", "Yenn yu Awa"], ["02 · Tes produits", "02 · Your products", "02 · Sa nun"], ["Publier mon étal ", "Publish my stall ", "Téqal samay ndox "], ["Ville · catégorie", "City · category", "Dëkk · catégorie"], ["Mode & pagnes wax", "Fashion & wax cloth", "Mode ak pagne wax"], ["Décoration maison", "Home decor", "Seen wàll"], ["Kit lampe solaire", "Solar lamp kit", "Kit lampe solaire"], ["Atelier d'Ibrahim", "Ibrahim’s workshop", "Atelie bu Ibrahima"], ["Fixer le bon prix", "Set the right price", "Tànne prix bu jub"], ["Boutiques locales", "Local shops", "Boutique yi ci wet"], ["Fermer la session", "Sign out", "Génn"], ["jamais enregistré", "never saved", "amul denc"], ["écrire à l’équipe", "write to the team", "bind ci ekip bi"], ["Parler au support", "Talk to support", "Wax ak support"], ["Réponse sous 24 h", "Reply within 24 h", "Tontu ci 24h"], ["Ajouter au panier", "Add to cart", "Yokk ci paar"], [" ajouté au panier", " added to cart", " yokku ci paar"], ["Ouvrir le panier", "Open the cart", "Ub sa paar"], ["Recherche rapide", "Quick search", "Wut gaaw"], ["Ton étal · Dakar", "Your stall · Dakar", "Sa ndox · Dakar"], ["Pagne wax Ankara", "Ankara wax cloth", "Pagne wax Ankara"], [" pour l'Afrique.", " for Africa.", " ci Afrik."], ["Aucune boutique.", "No shop needed.", "Amul boutique."], ["Sans exclusivité", "No exclusivity", "Amul exclusivity"], ["Conçu en Afrique", "Made in Africa", "Defar ci Afrik"], ["Prix décroissant", "Price descending", "Prix buy wàññ"], ["Exporter (.json)", "Export (.json)", "Génn ci (.json)"], ["Valeur catalogue", "Catalog value", "Yiir catalogue bi"], ["MTN Mobile Money", "MTN Mobile Money", "MTN Mobile Money"], ["Ton mot de passe", "Your password", "Sa baatu jubluwaay"], ["Créer mon compte", "Create my account", "Sos samay compte"], ["Fermer le panier", "Close cart", "Tëj sa paar"], ["Voir la boutique", "See the shop", "Gis boutique bi"], ["Ouvrir le détail", "Open details", "Ub détail"], ["Prix sur demande", "Price on request", "Prix ci ñaan"], ["Indique ton nom.", "Add your name.", "Bind sa tur."], ["Étal enregistré.", "Stall saved.", "Ndox denc."], [" » de ton étal ?", " » from your stall?", " » ci sa ndox?"], ["Ajouté au panier", "Added to cart", "Yokku ci paar"], ["Fonctionnalités", "Features", "Liggéey yi"], ["📍 Médina, Dakar", "📍 Médina, Dakar", "📍 Médina, Dakar"], ["01 — VISIBILITÉ", "01 — VISIBILITY", "01 — WONEWU"], ["02 — SIMPLICITÉ", "02 — SIMPLICITY", "02 — NJAÑTE"], ["04 — CROISSANCE", "04 — GROWTH", "04 — YÓNN"], ["Un modèle juste", "A fair model", "Modèl bu jub"], ["Tu ne paies que", "You only pay", "Fey nga rekk"], ["quand tu vends.", "when you sell.", "bu ngay jaay."], ["Sans engagement", "No commitment", "Amul engagement"], ["Données locales", "Local data", "Xibaar yi ci seen dëkk"], ["tu restes libre", "you stay free", "sa ngi ngi am"], ["pour nos usages", "for our ways", "ci seen Afrik"], ["même hors ligne", "even offline", "bu amul réseau"], ["Nom de l'étal *", "Stall name *", "Tur ndox *"], ["Saveurs locales", "Local flavours", "Lii ci seen wàll"], ["Miel de brousse", "Wild honey", "Lii ci wàll"], ["Agroalimentaire", "Food & groceries", "Agroalimentaire"], ["Poupée en tissu", "Fabric doll", "Poupée bu tissu"], ["Relation client", "Customer care", "Jokkoo ak njek"], ["Modifier l'étal", "Edit the stall", "Soppi ndox mi"], ["Ouvrir mon étal", "Open my stall", "Ub samay ndox"], ["Créer un compte", "Create account", "Sos ab compte"], ["Aucun résultat.", "No results.", "Amul résultat."], ["Produit retiré.", "Product removed.", "Nun génnal."], ["Fermer le menu", "Close menu", "Tëj kàttan"], ["Ouvrir le menu", "Open menu", "Ub kàttan"], ["Espace vendeur", "Seller space", "Sa wàll jaaykat"], ["Ventes du jour", "Today’s sales", "Jaay bu tey"], ["Avantages clés", "Key benefits", "Yu mëna jëfandiku"], ["03 — CONFIANCE", "03 — TRUST", "03 — BÉRÉB"], ["Support humain", "Human support", "Support njek"], ["Une plateforme", "A platform", "Ab platform"], ["Dakar · Médina", "Dakar · Médina", "Dakar · Médina"], ["Mode & textile", "Fashion & textile", "Mode ak textile"], ["Prix croissant", "Price ascending", "Prix buy yokk"], ["enregistré le ", "saved on ", "denc ci "], ["Réponse rapide", "Quick reply", "Tontu ci gaaw"], ["Catalogue réel", "Real catalog", "Catalogue bu dëgg"], ["Profil vendeur", "Seller profile", "Saaf jaaykat"], ["Copier le lien", "Copy link", "Copie lien bi"], ["Retour en haut", "Back to top", "Dellu ci kaaw"], ["Quantité pour ", "Quantity for ", "Cantidad ngir "], ["Étal supprimé.", "Stall deleted.", "Ndox faral."], ["dans la poche", "in everyone’s pocket", "ci sa rokk"], ["Bonjour Awa 👋", "Hello Awa 👋", "Asalaa maalekum Awa 👋"], ["+ 18 400 FCFA", "+ 18,400 FCFA", "+ 18 400 FCFA"], ["Trois étapes.", "Three steps.", "Ñetti etap."], ["Crée ton étal", "Create your stall", "Sos sa ndox"], ["Beauté & soin", "Beauty & care", "Yaram ak luy"], ["Panier tressé", "Woven basket", "Panier bu ngi wër"], ["Tech & maison", "Tech & home", "Tech ak kër"], ["Des vitrines ", "Clean, polished ", "Vitrine yi "], ["Photo produit", "Product photo", "Nataal nun"], ["Lire la FAQ →", "Read the FAQ →", "Jàng FAQ bi →"], ["Ville (A → Z)", "City (A → Z)", "Dëkk (A → Z)"], ["Réinitialiser", "Reset", "Tàmbal ci tundu"], ["Nos avantages", "Our benefits", "Samay mën"], ["Centre d'aide", "Help center", "Wàll ndimbal"], ["ton@email.com", "you@email.com", "sa@email.com"], ["Adresse email", "Email address", "Sa email"], ["Étal sans nom", "Unnamed stall", "Ndox amul tur"], ["Mobile Money", "Mobile Money", "Mobile Money"], ["pour publier", "to list", "nga bind"], ["Tu es payé·e", "You get paid", "Nga jot sa xaalis"], ["Étal gratuit", "Free stall", "Ndox mi free"], ["Transparence", "Transparency", "Seen leer"], ["Alimentation", "Food", "Lii"], ["prix × stock", "price × stock", "prix × stok"], ["Tes produits", "Your products", "Sa nun"], ["Ton message ", "Your message ", "Sa bataaxal "], ["Orange Money", "Orange Money", "Orange Money"], ["Mot de passe", "Password", "Baatu jubluwaay"], ["Se connecter", "Sign in", "Dugg"], ["Publication…", "Publishing…", "Téqal…"], ["ÉtalAfrique", "ÉtalAfrique", "ÉtalAfrique"], ["Enregistrés", "Saved", "Tëdde"], ["Déconnexion", "Sign out", "Génn"], ["Collections", "Collections", "Collecciyo"], ["📍 Casamance", "📍 Casamance", "📍 Casamance"], ["Le marché, ", "The market, ", "Su këyitu, "], ["Le parcours", "The journey", "Sa yónne"], ["Des univers", "Worlds", "Sa yónne yi"], ["Nom (A → Z)", "Name (A → Z)", "Tur (A → Z)"], ["Nom (Z → A)", "Name (Z → A)", "Tur (Z → A)"], ["Stock total", "Total stock", "Stok bu mat"], ["Nom complet", "Full name", "Sa tur"], ["Enregistrer", "Save", "Denc"], ["Un instant…", "One moment…", "Ab simili…"], ["actions sur", "actions on", "action yi ci"], ["Rechercher", "Search", "Wut"], ["Mon profil", "My profile", "Samay safar"], ["Commission", "Pricing", "Commission"], ["commission", "commission", "commission"], ["frais fixe", "fixed fee", "frais bu dëpp"], ["pays visés", "countries targeted", "pays yi"], ["✓ Illimité", "✓ Unlimited", "✓ Du fen"], ["À la carte", "Pay-per-use", "Ci seen béréb"], ["Accessible", "Accessible", "Am"], ["Awa Ndiaye", "Awa Ndiaye", "Awa Ndiaye"], ["Explorer →", "Explore →", "Saytu →"], ["Décoration", "Decoration", "Decoration"], ["Pertinence", "Relevance", "Seen baax"], ["Ton email ", "Your email ", "Sa email "], ["Je veux...", "I want to...", "Damay bëgg..."], ["Ressources", "Resources", "Seen am"], ["Moov Money", "Moov Money", "Moov Money"], ["Mon espace", "My space", "Samay wàll"], ["Ton panier", "Your cart", "Sa paar"], ["Enregistré", "Saved", "Denc"], ["Connexion…", "Signing in…", "Dugg…"], ["Il manque ", "Missing ", "Amul "], ["Lien copié", "Link copied", "Lien copié"], ["Retirer « ", "Remove « ", "Génnal « "], ["Connexion", "Sign in", "Dugg"], ["Avantages", "Benefits", "Yu mëna jëfandiku"], ["Catalogue", "Catalog", "Catalogue"], ["Ton étal,", "Your stall,", "Sa ndox,"], ["réinventé", "reinvented", "sàmpal"], ["par vente", "per sale", "ci sa jaay"], ["confirmée", "confirmed", "bu neex"], ["✓ Gratuit", "✓ Free", "✓ Ci free"], ["Ton nom *", "Your name *", "Sa tur *"], ["Catégorie", "Category", "Catégorie"], ["Artisanat", "Crafts", "Artisanat"], ["Conseils ", "Tips ", "Yoon "], ["Boutiques", "Shops", "Boutique"], ["Brouillon", "Draft", "Brouillon"], ["Découvrir", "Discover", "Saytu"], ["Instagram", "Instagram", "Instagram"], ["boutiques", "shops", "boutique yi"], ["résultats", "results", "résultats yi"], [" en stock", " in stock", " ci stok"], ["Création…", "Creating…", "Sos…"], ["📍 Bamako", "📍 Bamako", "📍 Bamako"], ["✓ Inclus", "✓ Included", "✓ Neex"], ["Variable", "Variable", "Sopi sopi"], ["✓ Direct", "✓ Direct", "✓ Ci seen ngiir"], ["Services", "Services", "Liggéey"], ["Produits", "Products", "Nun"], ["Supabase", "Supabase", "Supabase"], ["WhatsApp", "WhatsApp", "WhatsApp"], ["Ton nom ", "Your name ", "Sa tur "], ["LinkedIn", "LinkedIn", "LinkedIn"], ["Quantité", "Quantity", "Cantidad"], ["produits", "products", "nun"], ["résultat", "result", "résultat"], [" pour « ", " for « ", " ngir « "], ["Retirer ", "Remove ", "Génnal "], ["Ton étal", "Your stall", "Sa ndox"], ["Accueil", "Home", "Wet"], ["Contact", "Contact", "Sa jokkoo"], ["Enfants", "Kids", "Xale yi"], ["Textile", "Textile", "Textile"], ["Email :", "Email:", "Email:"], ["Ajouter", "Add", "Yokk"], ["Vendeur", "Seller", "Jaaykat"], ["produit", "product", "nun"], ["Bonjour", "Hello", "Asalaa maalekum"], ["Panier", "Cart", "Paar"], ["Payant", "Paid", "Nga fey"], ["Limité", "Limited", "Du fees"], ["✓ 7j/7", "✓ 7d/7", "✓ 7l/7"], ["Publié", "Published", "Téqal"], ["Statut", "Status", "Wér"], ["Fermer", "Close", "Tëj"], ["Aperçu", "Preview", "Wonewu"], ["Hello ", "Hello ", "Asalaa maalekum "], ["Plus d", "More on", "Yeneen ci"], ["Autre", "Other", "Yeneen"], ["Trier", "Sort", "Séddoo"], ["Email", "Email", "Email"], ["Nom :", "Name:", "Tur:"], ["Total", "Total", "Mat"], ["LIVE", "LIVE", "WÀN"], ["Mode", "Fashion", "Mode"], ["Prix", "Pricing", "Prix"], ["Tout", "All", "Lépp"], ["Wave", "Wave", "Wave"], ["FAQ", "FAQ", "FAQ"], ["TOP", "TOP", "KAW"], [" »", " »", " »"], ["Affiner", "Refine", "Séddoo"], ["Tout effacer", "Clear all", "Mënal lépp"], ["Tous les prix", "All prices", "Prix yépp"], ["Moins de 2 000 FCFA", "Under 2,000 FCFA", "Ci suuf 2 000 FCFA"], ["2 000 – 5 000 FCFA", "2,000 – 5,000 FCFA", "2 000 – 5 000 FCFA"], ["5 000 – 15 000 FCFA", "5,000 – 15,000 FCFA", "5 000 – 15 000 FCFA"], ["Plus de 15 000 FCFA", "Over 15,000 FCFA", "Ci kaw 15 000 FCFA"], ["Appliquer la fourchette", "Apply range", "Jëfandiku fourchette bi"], ["Note des acheteurs", "Buyer rating", "Xalaat jëndukat yi"], ["Toutes les notes", "All ratings", "Xalaat yépp"], ["Ville", "City", "Dëkk"], ["Disponibilité", "Availability", "Lu am"], ["En stock uniquement", "In stock only", "Ci stok rekk"], ["Livraison en 2 jours", "2-day delivery", "Livraison ci 2 fan"], ["En promotion", "On sale", "Ci promo"], ["Filtres du catalogue", "Catalog filters", "Filtre catalogue bi"], ["Offres du jour", "Today’s deals", "Promo yu tey"], ["Les promotions des étals", "Stall promotions", "Promo yu ndox yi"], ["Les vendeurs qui baissent leurs prix aujourd’hui, jusqu’à minuit.", "Sellers cutting their prices today, until midnight.", "Jaaykat yi wàññ seen prix tey, ba ci xaaju guddi."], ["Voir les promotions", "See the deals", "Gis promo yi"], ["heures", "hours", "waxtu"], ["min", "min", "simili"], ["sec", "sec", "sek"], ["Meilleures notes", "Top rated", "Xalaat yu baax"], ["Les plus commentés", "Most reviewed", "Yu gëna xalaat"], ["Plus forte remise", "Biggest discount", "Remise bu mag"], ["Récemment consultés", "Recently viewed", "Yi nga gis ci kanam"], ["Effacer l’historique", "Clear history", "Mënal historique bi"], ["Comparer", "Compare", "Séddoo"], ["Comparer les produits", "Compare products", "Séddoo nun yi"], ["Vider", "Clear", "Mënal"], ["emplacement libre", "empty slot", "wàll bu neex"], ["Acheter", "Buy", "Jënd"], ["Avis des acheteurs", "Buyer reviews", "Xalaat jëndukat yi"], ["Achat vérifié", "Verified purchase", "Njënd bu teg"], ["Souvent pris ensemble", "Frequently bought together", "Ñu ko jënd ci benn"], ["Code promo", "Promo code", "Kod promo"], ["Appliquer", "Apply", "Jëfandiku"], ["Livraison", "Delivery", "Livraison"], ["Offerte", "Free", "Ci free"], ["À convenir", "To agree on", "Ñu ko xalaat"], ["Économies estimées", "Estimated savings", "Xaalis bu nga denc"], ["Bientôt épuisé", "Almost gone", "Di jeex"], ["Nouveau", "New", "Bu bees"], ["Choix ÉtalAfrique", "ÉtalAfrique’s pick", "Tànn ÉtalAfrique"], ["Épuisé pour le moment", "Out of stock for now", "Jeex na tey"], ["Livraison quartier dès demain", "Neighbourhood delivery from tomorrow", "Livraison ci kër ëllëg"], ["Profils vendeurs vérifiés", "Verified seller profiles", "Saaf jaaykat yu teg"], ["Support humain sous 24 h", "Human support within 24h", "Support njek ci 24h"], ["Quantité", "Quantity", "Cantidad"]];
 /* Chaque entrée est [fr, en, wo]. On construit, pour chaque langue cible,
    une table qui accepte les trois variantes en entrée : la page peut donc
    passer de n'importe quelle langue à n'importe quelle autre. */
@@ -4271,8 +5609,20 @@ function apply(lang){
     observe();
   }
 }
-function schedule(){
+function schedule(records){
   if(applying||scheduled)return;
+  /* Le compte à rebours des offres mute une fois par seconde : le retraduire
+     à chaque tic coûterait un parcours complet du document pour rien. */
+  if(records&&records.length){
+    var meaningful=false;
+    for(var i=0;i<records.length;i++){
+      var t=records[i].target;
+      var el=t&&t.nodeType===1?t:(t&&t.parentElement);
+      if(el&&el.closest&&el.closest('[data-cd],#dealsCountdown'))continue;
+      meaningful=true;break;
+    }
+    if(!meaningful)return;
+  }
   /* En français, le rendu dynamique est déjà dans la langue source :
      rien à retraduire. */
   if(currentLang===DEFAULT_LANG)return;
