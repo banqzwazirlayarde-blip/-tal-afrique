@@ -1758,10 +1758,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 .board-tile[data-swatch="6"] .board-cover{ background:linear-gradient(135deg,#F2C57A,#E8A83C); }
 .board-tile[data-swatch="7"] .board-cover{ background:linear-gradient(135deg,#6B677A,#3D3A56); }
 .board-tile[data-swatch="8"] .board-cover{ background:linear-gradient(135deg,#B8552E,#1B1B2F); }
-.board-cover span{ opacity:0.92; }
-.board-cover span:nth-child(2){ opacity:0.55; font-size:20px; }
-.board-cover span:nth-child(3){ opacity:0.7; }
-.board-cover span:nth-child(4){ opacity:0.45; font-size:18px; }
+/* span-specific sizing replaced by per-SVG sizing rules below */
 
 /* ---------- rail horizontal "aperçus" (façon fil Pinterest) ---------- */
 .trend-rail{
@@ -1862,6 +1859,19 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 /* ---------- section "collections" : espace haut cohérent avec les autres onglets ---------- */
 .collections-section{ padding-top:24px; }
 .collections-section .block-gap{ margin-top:56px; }
+
+/* ---------- SVG icons replacing emojis in collection section ---------- */
+.board-cover > svg{width:62%;height:62%;display:block;}
+.board-cover > svg:first-of-type{width:74%;height:74%;}
+.board-cover > svg:nth-of-type(2){width:38%;height:38%;opacity:.7;}
+.board-cover > svg:nth-of-type(3){width:48%;height:48%;opacity:.85;}
+.board-cover > svg:nth-of-type(4){width:34%;height:34%;opacity:.6;}
+.trend-thumb svg{width:62%;height:62%;display:block;position:relative;z-index:1;}
+.spotlight-strip > div svg{width:60%;height:60%;display:block;}
+.mag-cover svg{width:54%;height:54%;display:block;}
+
+.loc-pin{display:inline-flex;align-items:center;gap:4px;}
+.loc-pin svg{width:14px;height:14px;display:inline-block;}
 </style>
 </head>
 
@@ -2172,35 +2182,35 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 
     <div class="board-grid reveal" data-delay="1">
       <button type="button" class="board-tile" data-swatch="1" data-section="catalog" data-pin-cat="mode">
-        <div class="board-cover" aria-hidden="true"><span>👗</span><span>👜</span><span>🧵</span><span>💍</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-fabric"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-ring"/></svg></div>
         <div class="board-meta"><h3>Mode & pagnes wax</h3><p>Tenues, tissus imprimés et accessoires du quotidien.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="2" data-section="catalog" data-pin-cat="agro">
-        <div class="board-cover" aria-hidden="true"><span>🍯</span><span>🌾</span><span>☕</span><span>🌶️</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wheat"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-coffee"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-chili"/></svg></div>
         <div class="board-meta"><h3>Saveurs locales</h3><p>Miel, céréales, épices et produits du terroir.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="3" data-section="catalog" data-pin-cat="beaute">
-        <div class="board-cover" aria-hidden="true"><span>🧴</span><span>🧼</span><span>🌿</span><span>💧</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bottle"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-soap"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-leaf"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-drop"/></svg></div>
         <div class="board-meta"><h3>Beauté & soins naturels</h3><p>Karité, savons et huiles fabriqués artisanalement.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="4" data-section="catalog" data-pin-cat="artisanat">
-        <div class="board-cover" aria-hidden="true"><span>🧺</span><span>🗿</span><span>🪈</span><span>🏺</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sculpt"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-flute"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div>
         <div class="board-meta"><h3>Artisanat fait main</h3><p>Vannerie, poterie et pièces sculptées.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="5" data-section="catalog" data-pin-cat="decoration">
-        <div class="board-cover" aria-hidden="true"><span>🏺</span><span>🕯️</span><span>🧶</span><span>🖼️</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-candle"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-yarn"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-frame"/></svg></div>
         <div class="board-meta"><h3>Décoration maison</h3><p>Coussins, tentures et objets pour la maison.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="6" data-section="catalog" data-pin-cat="enfants">
-        <div class="board-cover" aria-hidden="true"><span>🧸</span><span>🪀</span><span>👶</span><span>🎈</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-teddy"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-ball"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-baby"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-balloon"/></svg></div>
         <div class="board-meta"><h3>Idées pour les enfants</h3><p>Jouets, vêtements et accessoires bébé.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="7" data-section="catalog" data-pin-cat="tech">
-        <div class="board-cover" aria-hidden="true"><span>🔌</span><span>🔋</span><span>📱</span><span>☀️</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-plug"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-battery"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-phone"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sun"/></svg></div>
         <div class="board-meta"><h3>Tech & maison connectée</h3><p>Kits solaires, chargeurs et accessoires utiles.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="8" data-section="catalog" data-pin-cat="services">
-        <div class="board-cover" aria-hidden="true"><span>🛠️</span><span>💇</span><span>🚚</span><span>📚</span></div>
+        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wrench"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-scissors"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-truck"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-book"/></svg></div>
         <div class="board-meta"><h3>Services du quotidien</h3><p>Coiffure, réparation, cours et livraison locale.</p><span class="board-cta">Explorer →</span></div>
       </button>
     </div>
@@ -2212,14 +2222,14 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
         <p class="section-lede">Ces exemples illustrent le type de produits qu'un étal peut proposer sur ÉtalAfrique — fais défiler pour te donner des idées.</p>
       </div>
       <div class="trend-rail" role="list" aria-label="Exemples de produits illustratifs">
-        <div class="trend-card" role="listitem"><div class="trend-thumb">👗</div><div class="trend-label"><strong>Pagne wax Ankara</strong><span>Mode & textile</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">🍯</div><div class="trend-label"><strong>Miel de brousse</strong><span>Agroalimentaire</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">🧴</div><div class="trend-label"><strong>Beurre de karité brut</strong><span>Beauté & soin</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">🧺</div><div class="trend-label"><strong>Panier tressé</strong><span>Artisanat</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">🏺</div><div class="trend-label"><strong>Vase en terre cuite</strong><span>Décoration</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">👜</div><div class="trend-label"><strong>Sac en cuir cousu main</strong><span>Mode</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">☀️</div><div class="trend-label"><strong>Kit lampe solaire</strong><span>Tech & maison</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb">🧸</div><div class="trend-label"><strong>Poupée en tissu</strong><span>Enfants</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg></div><div class="trend-label"><strong>Pagne wax Ankara</strong><span>Mode & textile</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg></div><div class="trend-label"><strong>Miel de brousse</strong><span>Agroalimentaire</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bottle"/></svg></div><div class="trend-label"><strong>Beurre de karité brut</strong><span>Beauté & soin</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg></div><div class="trend-label"><strong>Panier tressé</strong><span>Artisanat</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div><div class="trend-label"><strong>Vase en terre cuite</strong><span>Décoration</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg></div><div class="trend-label"><strong>Sac en cuir cousu main</strong><span>Mode</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sun"/></svg></div><div class="trend-label"><strong>Kit lampe solaire</strong><span>Tech & maison</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-teddy"/></svg></div><div class="trend-label"><strong>Poupée en tissu</strong><span>Enfants</span></div></div>
       </div>
     </div>
 
@@ -2231,20 +2241,20 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       </div>
       <div class="spotlight-grid">
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:var(--gold-soft);">A</span><div><h3>Les trésors d'Awa</h3><span>📍 Médina, Dakar</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#F2C57A;">👗</div><div style="background:#E8A892;">👜</div><div style="background:#F5C9BA;">🧣</div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:var(--gold-soft);">A</span><div><h3>Les trésors d'Awa</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Médina, Dakar</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#F2C57A;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg></div><div style="background:#E8A892;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg></div><div style="background:#F5C9BA;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-fabric"/></svg></div></div>
           <p class="spot-desc">Pagnes wax et accessoires choisis avec soin, expédiés dans tout Dakar.</p>
           <span class="spotlight-tag">Mode & textile</span>
         </div>
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#9FD8BE;">F</span><div><h3>Ferme de Casamance</h3><span>📍 Casamance</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#CDE7B0;">🍯</div><div style="background:#EAD9A0;">🌾</div><div style="background:#E3C79A;">☕</div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#9FD8BE;">F</span><div><h3>Ferme de Casamance</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Casamance</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#CDE7B0;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg></div><div style="background:#EAD9A0;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wheat"/></svg></div><div style="background:#E3C79A;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-coffee"/></svg></div></div>
           <p class="spot-desc">Miel, céréales et produits de la ferme, vendus en direct.</p>
           <span class="spotlight-tag">Agroalimentaire</span>
         </div>
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#D8D5E6;">I</span><div><h3>Atelier d'Ibrahim</h3><span>📍 Bamako</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#DCC7B4;">🧺</div><div style="background:#C9B79C;">🗿</div><div style="background:#EAD9C2;">🏺</div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#D8D5E6;">I</span><div><h3>Atelier d'Ibrahim</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Bamako</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#DCC7B4;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg></div><div style="background:#C9B79C;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sculpt"/></svg></div><div style="background:#EAD9C2;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div></div>
           <p class="spot-desc">Vannerie et sculptures en bois faites main, pièce par pièce.</p>
           <span class="spotlight-tag">Artisanat</span>
         </div>
@@ -2259,15 +2269,15 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       </div>
       <div class="mag-grid">
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true">📸</div>
+          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-camera"/></svg></div>
           <div class="mag-body"><span class="mag-kicker">Photo produit</span><h3>Une photo qui donne envie</h3><p>Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.</p><button type="button" class="mag-cta" data-open-creator>Publier mon premier produit →</button></div>
         </article>
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true">🏷️</div>
+          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-tag"/></svg></div>
           <div class="mag-body"><span class="mag-kicker">Prix</span><h3>Fixer le bon prix</h3><p>Compare deux ou trois étals similaires avant de publier, et garde en tête la commission de 3% sur chaque vente confirmée.</p><a class="mag-cta" href="#pricing" data-section="pricing">Voir la commission →</a></div>
         </article>
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true">💬</div>
+          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-chat"/></svg></div>
           <div class="mag-body"><span class="mag-kicker">Relation client</span><h3>Répondre vite, vendre plus</h3><p>Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.</p><a class="mag-cta" href="#faq" data-section="faq">Lire la FAQ →</a></div>
         </article>
       </div>
@@ -2530,7 +2540,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
         window.etalafriqueSupabaseLoadFailed = true;
       }
     } catch (err) {
-      console.error('Initialisation Supabase :', err);
+      try{console.error('Initialisation Supabase :', err);}catch(_){}
       window.etalafriqueSupabaseLoadFailed = true;
     }
     if (window.etalafriqueSupabaseLoadFailed) {
@@ -4150,5 +4160,55 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 })();
 
 </script>
+<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="g-warm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2C57A"/><stop offset="1" stop-color="#C48A24"/></linearGradient>
+    <linearGradient id="g-cream" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5F0E8"/><stop offset="1" stop-color="#E8A892"/></linearGradient>
+    <linearGradient id="g-ink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3D3A56"/><stop offset="1" stop-color="#1B1B2F"/></linearGradient>
+    <linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9FD8BE"/><stop offset="1" stop-color="#136B47"/></linearGradient>
+    <linearGradient id="g-ember" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8A892"/><stop offset="1" stop-color="#B8552E"/></linearGradient>
+    <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE3B0"/><stop offset="1" stop-color="#E8A83C"/></linearGradient>
+    <linearGradient id="g-iris" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CFCBE0"/><stop offset="1" stop-color="#6B677A"/></linearGradient>
+    <linearGradient id="g-rust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0B79A"/><stop offset="1" stop-color="#D4754E"/></linearGradient>
+    <radialGradient id="g-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FBF7EE" stop-opacity=".7"/><stop offset="1" stop-color="#FBF7EE" stop-opacity="0"/></radialGradient>
+
+    <symbol id="ic-dress" viewBox="0 0 32 32"><path d="M16 4c-3 0-5 2-5 5 0 2 1 3 1 5-3 2-6 6-6 12h20c0-6-3-10-6-12 0-2 1-3 1-5 0-3-2-5-5-5z" fill="url(#g-cream)"/><circle cx="16" cy="6" r="2.5" fill="url(#g-warm)"/></symbol>
+    <symbol id="ic-bag" viewBox="0 0 32 32"><path d="M8 12h16l-2 16h-12z" fill="url(#g-ember)"/><path d="M11 12v-3a5 5 0 0 1 10 0v3" fill="none" stroke="url(#g-ink)" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-fabric" viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="20" rx="2" fill="url(#g-gold)"/><path d="M5 12h22M5 18h22M11 6v20M21 6v20" stroke="#1B1B2F" stroke-opacity=".18" stroke-width="1"/></symbol>
+    <symbol id="ic-ring" viewBox="0 0 32 32"><circle cx="16" cy="22" r="6" fill="none" stroke="url(#g-gold)" stroke-width="3"/><path d="M13 9l3-4 3 4-2 5h-2z" fill="url(#g-rust)"/></symbol>
+    <symbol id="ic-honey" viewBox="0 0 32 32"><path d="M10 10h12l-2 16h-8z" fill="url(#g-gold)"/><rect x="9" y="8" width="14" height="4" rx="1" fill="url(#g-rust)"/><circle cx="16" cy="20" r="2.5" fill="#FBF7EE"/></symbol>
+    <symbol id="ic-wheat" viewBox="0 0 32 32"><path d="M16 28v-22" stroke="#1B1B2F" stroke-width="2"/><path d="M16 14c-3-1-5-3-5-6 3 0 5 2 5 5zM16 14c3-1 5-3 5-6-3 0-5 2-5 5zM16 20c-3-1-5-3-5-6 3 0 5 2 5 5zM16 20c3-1 5-3 5-6-3 0-5 2-5 5z" fill="url(#g-gold)"/></symbol>
+    <symbol id="ic-coffee" viewBox="0 0 32 32"><path d="M7 12h14v8a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4z" fill="url(#g-rust)"/><path d="M21 13h3a3 3 0 0 1 0 6h-3" fill="none" stroke="url(#g-rust)" stroke-width="2"/><path d="M11 8c0-2 1-3 1-3M15 8c0-2 1-3 1-3M19 8c0-2 1-3 1-3" stroke="url(#g-gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="ic-chili" viewBox="0 0 32 32"><path d="M9 24c-2-4 0-10 6-14 4-3 10-3 12 1-2-1-5 0-8 2-3 2-6 6-10 11z" fill="url(#g-ember)"/><path d="M27 11c1-3 3-4 3-4" stroke="#1F8A5F" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+    <symbol id="ic-bottle" viewBox="0 0 32 32"><path d="M13 4h6v4l2 4v15a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-15l2-4z" fill="url(#g-ink)"/><rect x="12" y="14" width="8" height="6" fill="url(#g-gold)"/></symbol>
+    <symbol id="ic-soap" viewBox="0 0 32 32"><rect x="6" y="12" width="20" height="14" rx="3" fill="url(#g-ember)"/><circle cx="12" cy="9" r="2" fill="url(#g-glow)"/><circle cx="18" cy="7" r="1.6" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-leaf" viewBox="0 0 32 32"><path d="M6 26c0-12 8-20 20-20 0 12-8 20-20 20z" fill="url(#g-leaf)"/><path d="M8 24c4-6 9-10 16-14" stroke="#FBF7EE" stroke-width="1.2" fill="none" opacity=".5"/></symbol>
+    <symbol id="ic-drop" viewBox="0 0 32 32"><path d="M16 4c-6 8-9 12-9 16a9 9 0 0 0 18 0c0-4-3-8-9-16z" fill="url(#g-iris)"/><circle cx="13" cy="18" r="2" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-basket" viewBox="0 0 32 32"><path d="M6 14h20l-3 14h-14z" fill="url(#g-warm)"/><path d="M10 14v-4M14 14v-5M18 14v-5M22 14v-4" stroke="#1B1B2F" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="ic-sculpt" viewBox="0 0 32 32"><path d="M11 6c-2 4-2 6 0 10-3 2-3 6-1 10h12c2-4 2-8-1-10 2-4 2-6 0-10-3-2-7-2-10 0z" fill="url(#g-ink)"/><circle cx="13" cy="13" r="1.5" fill="#FBF7EE"/><circle cx="19" cy="13" r="1.5" fill="#FBF7EE"/></symbol>
+    <symbol id="ic-flute" viewBox="0 0 32 32"><rect x="13" y="5" width="6" height="22" rx="3" fill="url(#g-warm)"/><circle cx="16" cy="10" r="1.2" fill="#1B1B2F"/><circle cx="16" cy="14" r="1.2" fill="#1B1B2F"/><circle cx="16" cy="18" r="1.2" fill="#1B1B2F"/></symbol>
+    <symbol id="ic-vase" viewBox="0 0 32 32"><path d="M10 6h12v4c2 2 3 5 3 9 0 6-3 9-9 9-6 0-9-3-9-9 0-4 1-7 3-9z" fill="url(#g-rust)"/><path d="M12 10c2 2 6 2 8 0" stroke="#FBF7EE" stroke-width="1.2" fill="none" opacity=".5"/></symbol>
+    <symbol id="ic-candle" viewBox="0 0 32 32"><rect x="12" y="14" width="8" height="14" rx="1" fill="url(#g-cream)"/><path d="M16 14v-6c-2-2-2-4 0-6 2 2 2 4 0 6z" fill="url(#g-ember)"/></symbol>
+    <symbol id="ic-yarn" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="url(#g-rust)"/><path d="M9 16a7 7 0 0 1 14 0M11 12a5 5 0 0 1 10 0" stroke="#FBF7EE" stroke-width="1.2" fill="none"/></symbol>
+    <symbol id="ic-frame" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" fill="url(#g-gold)"/><rect x="9" y="9" width="14" height="14" fill="url(#g-leaf)"/><circle cx="16" cy="16" r="3" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-teddy" viewBox="0 0 32 32"><circle cx="16" cy="13" r="6" fill="url(#g-warm)"/><circle cx="11" cy="9" r="2.5" fill="url(#g-warm)"/><circle cx="21" cy="9" r="2.5" fill="url(#g-warm)"/><circle cx="14" cy="13" r="1" fill="#1B1B2F"/><circle cx="18" cy="13" r="1" fill="#1B1B2F"/><path d="M8 22c0-3 3-5 8-5 5 0 8 2 8 5v6h-16z" fill="url(#g-warm)"/></symbol>
+    <symbol id="ic-ball" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="url(#g-rust)"/><path d="M7 16h18M16 7v18M9 9c4 4 10 4 14 0M9 23c4-4 10-4 14 0" stroke="#FBF7EE" stroke-width="1.2" fill="none"/></symbol>
+    <symbol id="ic-baby" viewBox="0 0 32 32"><circle cx="16" cy="11" r="6" fill="url(#g-cream)"/><path d="M10 28c0-6 3-10 6-10 3 0 6 4 6 10z" fill="url(#g-leaf)"/></symbol>
+    <symbol id="ic-balloon" viewBox="0 0 32 32"><ellipse cx="16" cy="10" rx="6" ry="8" fill="url(#g-ember)"/><path d="M16 18v13M14 28h4" stroke="#1B1B2F" stroke-width="1.2" fill="none"/></symbol>
+    <symbol id="ic-plug" viewBox="0 0 32 32"><rect x="9" y="10" width="14" height="14" rx="2" fill="url(#g-ink)"/><path d="M13 6v4M19 6v4M16 24v6" stroke="url(#g-ink)" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="16" cy="17" r="2" fill="url(#g-gold)"/></symbol>
+    <symbol id="ic-battery" viewBox="0 0 32 32"><rect x="6" y="10" width="18" height="12" rx="2" fill="url(#g-leaf)"/><rect x="24" y="13" width="3" height="6" fill="url(#g-leaf)"/><rect x="9" y="13" width="3" height="6" fill="url(#g-glow)"/><rect x="13" y="13" width="3" height="6" fill="url(#g-glow)"/><rect x="17" y="13" width="3" height="6" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-phone" viewBox="0 0 32 32"><rect x="10" y="5" width="12" height="22" rx="2" fill="url(#g-ink)"/><rect x="12" y="8" width="8" height="14" fill="url(#g-leaf)"/><circle cx="16" cy="24" r="1.5" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-sun" viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="url(#g-gold)"/><g stroke="url(#g-gold)" stroke-width="2" stroke-linecap="round"><path d="M16 4v4M16 24v4M4 16h4M24 16h4M8 8l3 3M21 21l3 3M8 24l3-3M21 11l3-3"/></g></symbol>
+    <symbol id="ic-wrench" viewBox="0 0 32 32"><path d="M22 4a6 6 0 0 0-6 8l-12 12 4 4 12-12a6 6 0 0 0 8-6 6 6 0 0 1-6-6z" fill="url(#g-iris)"/></symbol>
+    <symbol id="ic-scissors" viewBox="0 0 32 32"><circle cx="8" cy="22" r="4" fill="none" stroke="url(#g-ink)" stroke-width="2"/><circle cx="8" cy="10" r="4" fill="none" stroke="url(#g-ink)" stroke-width="2"/><path d="M11 11l16 12M11 21l16-12" stroke="url(#g-ink)" stroke-width="2"/></symbol>
+    <symbol id="ic-truck" viewBox="0 0 32 32"><rect x="4" y="12" width="14" height="10" fill="url(#g-ember)"/><path d="M18 14h6l4 4v4h-10z" fill="url(#g-rust)"/><circle cx="10" cy="24" r="3" fill="url(#g-ink)"/><circle cx="22" cy="24" r="3" fill="url(#g-ink)"/></symbol>
+    <symbol id="ic-book" viewBox="0 0 32 32"><path d="M6 6h9a3 3 0 0 1 3 3v17a3 3 0 0 0-3-3h-9z" fill="url(#g-iris)"/><path d="M26 6h-9a3 3 0 0 0-3 3v17a3 3 0 0 1 3-3h9z" fill="url(#g-warm)"/></symbol>
+    <symbol id="ic-camera" viewBox="0 0 32 32"><rect x="5" y="10" width="22" height="14" rx="2" fill="url(#g-ink)"/><circle cx="16" cy="17" r="5" fill="url(#g-gold)"/><circle cx="16" cy="17" r="2" fill="url(#g-ink)"/><rect x="22" y="6" width="6" height="4" rx="1" fill="url(#g-ink)"/></symbol>
+    <symbol id="ic-tag" viewBox="0 0 32 32"><path d="M6 6h12l8 8-12 12-8-8z" fill="url(#g-rust)"/><circle cx="12" cy="12" r="2.5" fill="url(#g-glow)"/></symbol>
+    <symbol id="ic-chat" viewBox="0 0 32 32"><path d="M6 8h20v14h-12l-6 5v-5h-2z" fill="url(#g-leaf)"/><circle cx="12" cy="15" r="1.4" fill="#FBF7EE"/><circle cx="17" cy="15" r="1.4" fill="#FBF7EE"/><circle cx="22" cy="15" r="1.4" fill="#FBF7EE"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 32 32"><path d="M16 4a8 8 0 0 0-8 8c0 6 8 16 8 16s8-10 8-16a8 8 0 0 0-8-8z" fill="url(#g-ember)"/><circle cx="16" cy="12" r="3" fill="#FBF7EE"/></symbol>
+</defs>
+</svg>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
