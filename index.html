@@ -1862,51 +1862,16 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 /* ---------- section "collections" : espace haut cohérent avec les autres onglets ---------- */
 .collections-section{ padding-top:24px; }
 .collections-section .block-gap{ margin-top:56px; }
-
-/* ---------- language switcher ---------- */
-.lang-switcher{position:relative;display:inline-flex;align-items:center;}
-.lang-switcher > button{
-  display:inline-flex;align-items:center;gap:6px;
-  font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.04em;
-  color:var(--cream);
-  background:rgba(245,240,232,0.08);
-  border:1px solid var(--line-on-ink);
-  border-radius:999px;
-  padding:7px 12px 7px 10px;
-  cursor:pointer;
-  transition:background .15s ease,border-color .15s ease,color .15s ease;
-}
-.lang-switcher > button:hover{background:rgba(245,240,232,0.16);border-color:var(--gold);}
-.lang-switcher > button .globe{width:14px;height:14px;flex:none;}
-.lang-switcher > button .chev{width:10px;height:10px;flex:none;opacity:.75;transition:transform .2s ease;}
-.lang-switcher.is-open > button .chev{transform:rotate(180deg);}
-.lang-switcher .lang-menu{
-  position:absolute;top:calc(100% + 8px);right:0;
-  min-width:170px;background:var(--paper);
-  border:1px solid var(--line);border-radius:12px;
-  box-shadow:var(--shadow-md);
-  padding:6px;display:none;z-index:130;
-}
-.lang-switcher.is-open .lang-menu{display:block;}
-.lang-switcher .lang-menu button{
-  width:100%;display:flex;align-items:center;gap:10px;
-  padding:8px 10px;border:0;background:transparent;
-  font:inherit;font-size:13.5px;color:var(--ink);
-  border-radius:8px;cursor:pointer;text-align:left;
-}
-.lang-switcher .lang-menu button:hover{background:var(--paper-2);}
-.lang-switcher .lang-menu button[aria-checked="true"]{background:var(--paper-2);font-weight:700;}
-.lang-switcher .lang-menu .flag{font-size:16px;line-height:1;}
-.lang-switcher .lang-menu .code{color:var(--ink-mute);font-size:11.5px;margin-left:auto;letter-spacing:.06em;}
-@media (max-width:880px){
-  .lang-switcher > button{font-size:11.5px;padding:6px 10px;}
-  .lang-switcher > button .full{display:none;}
-}
-@media (max-width:560px){
-  .lang-switcher{display:none;}
-}
-
 </style>
+
+<style>
+.lang-switcher{display:inline-flex;gap:4px;padding:4px;border-radius:99px;background:var(--paper);border:1px solid var(--line);margin-right:6px;align-items:center}
+.lang-switcher .lang-btn{appearance:none;background:transparent;border:0;cursor:pointer;font-family:inherit;font-size:12px;font-weight:700;letter-spacing:.04em;padding:6px 10px;border-radius:99px;color:var(--ink-soft);transition:background .15s,color .15s}
+.lang-switcher .lang-btn:hover{color:var(--ink)}
+.lang-switcher .lang-btn.is-active{background:var(--ink);color:var(--cream)}
+@media (max-width:880px){.lang-switcher{margin-right:0}}
+</style>
+
 </head>
 
 <body>
@@ -1919,45 +1884,33 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <nav class="nav" aria-label="Navigation principale">
     <a href="#home" class="brand" aria-label="ÉtalAfrique — retour à l'accueil">
       <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-text">ÉtalAfrique<small data-i18n="brand.tagline">commerce de confiance</small></span>
+      <span class="brand-text">ÉtalAfrique<small>commerce de confiance</small></span>
     </a>
     <div class="nav-links">
-      <a href="#advantages"  class="nav-link" data-nav="advantages" data-i18n="nav.advantages">Avantages</a>
-      <a href="#features"    class="nav-link" data-nav="features" data-i18n="nav.features">Fonctionnalités</a>
-      <a href="#how"         class="nav-link" data-nav="how" data-i18n="nav.how">Comment ça marche</a>
-      <a href="#pricing"     class="nav-link" data-nav="pricing" data-i18n="nav.pricing">Commission</a>
-      <a href="#faq"         class="nav-link" data-nav="faq" data-i18n="nav.faq">FAQ</a>
-      <a href="#catalog"     class="nav-link" data-nav="catalog" data-i18n="nav.catalog">Catalogue</a>
-      <a href="#collections" class="nav-link" data-nav="collections" data-i18n="nav.collections">Collections</a>
-      <a href="#seller-space" class="nav-link" data-nav="seller-space" data-i18n="nav.sellerSpace">Espace vendeur</a>
-      <a href="#contact"     class="nav-link" data-nav="contact" data-i18n="nav.contact">Contact</a>
+      <a href="#advantages"  class="nav-link" data-nav="advantages">Avantages</a>
+      <a href="#features"    class="nav-link" data-nav="features">Fonctionnalités</a>
+      <a href="#how"         class="nav-link" data-nav="how">Comment ça marche</a>
+      <a href="#pricing"     class="nav-link" data-nav="pricing">Commission</a>
+      <a href="#faq"         class="nav-link" data-nav="faq">FAQ</a>
+      <a href="#catalog"     class="nav-link" data-nav="catalog">Catalogue</a>
+      <a href="#collections" class="nav-link" data-nav="collections">Collections</a>
+      <a href="#seller-space" class="nav-link" data-nav="seller-space">Espace vendeur</a>
+      <a href="#contact"     class="nav-link" data-nav="contact">Contact</a>
     </div>
-    <div class="nav-actions">
-      <button type="button" class="icon-toggle" id="searchToggle" aria-expanded="false" aria-controls="headerSearchBar" data-i18n-aria="search.toggle" aria-label="Rechercher">
+    <div class="nav-actions"><div id="langSwitcher" class="lang-switcher" role="group" aria-label="Langue"></div>
+      <button type="button" class="icon-toggle" id="searchToggle" aria-expanded="false" aria-controls="headerSearchBar" aria-label="Rechercher">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
         </svg>
       </button>
-      <a href="#contact" class="btn btn-ghost" data-i18n="cta.contactTeam">Parler à l'équipe</a>
-      <a href="#create-stall" data-open-creator class="btn btn-primary" data-i18n="cta.openStall">Ouvrir mon étal</a>
-      <button type="button" class="saved-btn" id="savedBtn" aria-pressed="false" aria-label="Voir mes produits enregistrés"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-7-4-7 4z"/></svg><span class="saved-label" data-i18n="nav.saved">Enregistrés</span><span class="count-badge" data-save-count hidden></span></button>
+      <a href="#contact" class="btn btn-ghost">Parler à l'équipe</a>
+      <a href="#create-stall" data-open-creator class="btn btn-primary">Ouvrir mon étal</a>
+      <button type="button" class="saved-btn" id="savedBtn" aria-pressed="false" aria-label="Voir mes produits enregistrés"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-7-4-7 4z"/></svg><span class="saved-label">Enregistrés</span><span class="count-badge" data-save-count hidden></span></button>
       <button type="button" class="shop-cart-btn" id="shopCartBtn" aria-label="Ouvrir le panier" aria-haspopup="dialog" aria-controls="shopCartSidebar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.5 12h11L21 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
-    <span class="shop-cart-label" data-i18n="nav.cart">Panier</span>
-    <span class="shop-cart-badge" id="shopCartBadge" data-count="0" data-i18n-aria="cart.itemsCount" aria-label="articles">0</span>
-  </button><div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen" data-i18n="auth.login">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile" data-i18n="auth.profile">Mon profil</button><button type="button" class="auth-logout" id="authLogout" data-i18n="auth.logout">Déconnexion</button></div></div>
-      <div class="lang-switcher" id="langSwitcher" data-lang-switcher>
-        <button type="button" id="langSwitcherBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Changer de langue" title="Changer de langue">
-          <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 3.5 6 3.5 9s-1 6-3.5 9c-2.5-3-3.5-6-3.5-9S9.5 6 12 3z"/></svg>
-          <span class="full" data-i18n="lang.currentLabel">Français</span>
-          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="lang-menu" role="listbox" aria-label="Choisir la langue">
-          <button type="button" role="option" data-lang-value="fr" aria-checked="true"><span class="flag" aria-hidden="true">🇫🇷</span><span>Français</span><span class="code">FR</span></button>
-          <button type="button" role="option" data-lang-value="en" aria-checked="false"><span class="flag" aria-hidden="true">🇬🇧</span><span>English</span><span class="code">EN</span></button>
-          <button type="button" role="option" data-lang-value="wo" aria-checked="false"><span class="flag" aria-hidden="true">🇸🇳</span><span>Wolof</span><span class="code">WO</span></button>
-        </div>
-      </div>
+    <span class="shop-cart-label">Panier</span>
+    <span class="shop-cart-badge" id="shopCartBadge" data-count="0" aria-label="articles">0</span>
+  </button><div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile">Mon profil</button><button type="button" class="auth-logout" id="authLogout">Déconnexion</button></div></div>
       <button class="menu-toggle" id="menuToggle"
               aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
         <svg class="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -1970,8 +1923,8 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <svg class="pin-search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
       </svg>
-      <input type="search" id="pinSearch" data-i18n-placeholder="search.placeholder" placeholder="Rechercher un produit, une boutique, une ville…" aria-label="Recherche sur le site" autocomplete="off">
-      <button type="button" class="pin-search-clear" id="pinSearchClear" data-i18n-aria="search.clear" aria-label="Effacer la recherche">
+      <input type="search" id="pinSearch" placeholder="Rechercher un produit, une boutique, une ville…" aria-label="Recherche sur le site" autocomplete="off">
+      <button type="button" class="pin-search-clear" id="pinSearchClear" aria-label="Effacer la recherche">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -1979,9 +1932,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   </div>
   <div class="menu-scrim" id="menuScrim" aria-hidden="true"></div>
   <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Menu principal">
-    <div class="mobile-menu-head"><span class="menu-kicker" data-i18n="menu.kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" data-i18n-aria="menu.close" aria-label="Fermer le menu">×</button></div>
+    <div class="mobile-menu-head"><span class="menu-kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" aria-label="Fermer le menu">×</button></div>
     <nav class="mobile-menu-links" aria-label="Menu principal">
-      <a href="#" class="nav-link" data-section="home" data-nav="home" data-i18n="nav.home">Accueil</a>
+      <a href="#" class="nav-link" data-section="home" data-nav="home">Accueil</a>
       <a href="#" class="nav-link" data-section="catalog" data-nav="catalog">Explorer le catalogue</a>
       <a href="#" class="nav-link" data-section="collections" data-nav="collections">Collections</a>
       <a href="#" class="nav-link" data-section="advantages" data-nav="advantages">Avantages</a>
@@ -1990,7 +1943,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <a href="#" class="nav-link" data-section="pricing" data-nav="pricing">Commission</a>
       <a href="#" class="nav-link" data-section="faq" data-nav="faq">FAQ</a>
       <a href="#" class="nav-link" data-section="seller-space" data-nav="seller-space">Espace vendeur</a>
-      <a href="#" class="nav-link" data-section="create-stall" data-nav="create-stall" data-i18n="nav.sellOn">Vendre sur ÉtalAfrique</a>
+      <a href="#" class="nav-link" data-section="create-stall" data-nav="create-stall">Vendre sur ÉtalAfrique</a>
       <a href="#" class="nav-link" data-section="contact" data-nav="contact">Contact</a>
     </nav>
     
@@ -2013,9 +1966,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           <strong>Mobile Money</strong> — sans local, sans stock immobilisé, sans intermédiaire.
         </p>
         <div class="hero-ctas">
-          <a href="#create-stall" data-open-creator class="btn btn-gold"><span data-i18n="hero.ctaOpenFree">Ouvrir mon étal — gratuit</span></a>
-          <a href="#how" class="btn btn-ghost"><span data-i18n="hero.ctaHow">Voir comment ça marche</span> →</a>
-          <a href="#" data-section="catalog" class="btn btn-catalog-outline"><span data-i18n="hero.ctaCatalog">Explorer le catalogue</span></a>
+          <a href="#create-stall" data-open-creator class="btn btn-gold">Ouvrir mon étal — gratuit</a>
+          <a href="#how" class="btn btn-ghost">Voir comment ça marche →</a>
+          <a href="#" data-section="catalog" class="btn btn-catalog-outline">Explorer le catalogue</a>
         </div>
         <div class="hero-trust">
           <div class="avatars" aria-hidden="true">
@@ -2178,11 +2131,11 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <div class="wrap" style="max-width:900px;">
     <div class="section-head reveal"><span class="eyebrow">On répond franchement</span><h2 id="faq-h" class="section-title">Les questions qu'on<br>nous pose <em>souvent.</em></h2></div>
     <div class="faq-list reveal" data-delay="1">
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1" data-i18n="faq.q1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2" data-i18n="faq.q2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3" data-i18n="faq.q3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4" data-i18n="faq.q4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5" data-i18n="faq.q5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
     </div>
   </div>
 </section>
@@ -2316,7 +2269,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <div class="mag-grid">
         <article class="mag-card">
           <div class="mag-cover" aria-hidden="true">📸</div>
-          <div class="mag-body"><span class="mag-kicker">Photo produit</span><h3>Une photo qui donne envie</h3><p>Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.</p><button type="button" class="mag-cta" data-open-creator><span data-i18n="mag.publishCta">Publier mon premier produit</span> →</button></div>
+          <div class="mag-body"><span class="mag-kicker">Photo produit</span><h3>Une photo qui donne envie</h3><p>Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.</p><button type="button" class="mag-cta" data-open-creator>Publier mon premier produit →</button></div>
         </article>
         <article class="mag-card">
           <div class="mag-cover" aria-hidden="true">🏷️</div>
@@ -2336,22 +2289,22 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <div class="wrap">
     <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.</p></div>
     <div class="catalog-toolbar" role="search" aria-label="Rechercher dans le catalogue">
-      <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all" data-i18n="catalog.filterAll">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product" data-i18n="catalog.filterProducts">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall" data-i18n="catalog.filterStalls">Boutiques</button></div>
-      <input id="catalogSearch" class="catalog-search" type="search" data-i18n-placeholder="catalog.searchPlaceholder" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
+      <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall">Boutiques</button></div>
+      <input id="catalogSearch" class="catalog-search" type="search" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
     </div>
     
     <div class="pin-rail-inner" role="tablist" aria-label="Catégories du marché" id="pinRail">
-      <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.all">Tout</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.textile">Textile</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.beauty">Beauté & soin</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.agro">Agroalimentaire</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.crafts">Artisanat</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.decoration">Décoration</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.fashion">Mode</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.tech">Tech & maison</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.kids">Enfants</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.services">Services</span></button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.localOnly">Boutiques locales</span></button>
+      <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span>Tout</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span>Textile</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span>Beauté & soin</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span>Agroalimentaire</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span>Artisanat</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span>Décoration</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span>Mode</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span>Tech & maison</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span>Enfants</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span>Services</button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span>Boutiques locales</button>
     </div>
     
 <div class="shop-sort-bar" aria-label="Tri du catalogue">
@@ -2496,12 +2449,12 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Moov Money</span>
         </div>
       </div>
-      <div class="footer-col"><h4 data-i18n="footer.discover">Découvrir</h4><ul><li><a href="#advantages">data-i18n="footer.benefits">Nos avantages</a></li><li><a href="#features">data-i18n="footer.features">Fonctionnalités</a></li><li><a href="#how">data-i18n="footer.how">Comment ça marche</a></li></ul></div>
-      <div class="footer-col"><h4 data-i18n="footer.resources">Ressources</h4><ul><li><a href="#pricing">data-i18n="footer.pricing">Commission & tarifs</a></li><li><a href="#faq">data-i18n="footer.faq">Questions fréquentes</a></li><li><a href="#contact">data-i18n="footer.help">Centre d'aide</a></li><li><a href="#trust">data-i18n="footer.trust">Confiance & sécurité</a></li></ul></div>
-      <div class="footer-col"><h4 data-i18n="footer.newsletter">Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;"><span data-i18n="footer.newsletterBlurb">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</span></p><form class="footer-newsletter" id="newsletterForm" name="newsletter" novalidate>
-          <label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" data-i18n-placeholder="footer.emailPlaceholder" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" data-i18n-aria="footer.newsletterSubmit" aria-label="S'inscrire à la newsletter">→</button></form></div>
+      <div class="footer-col"><h4>Découvrir</h4><ul><li><a href="#advantages">Nos avantages</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#how">Comment ça marche</a></li></ul></div>
+      <div class="footer-col"><h4>Ressources</h4><ul><li><a href="#pricing">Commission & tarifs</a></li><li><a href="#faq">Questions fréquentes</a></li><li><a href="#contact">Centre d'aide</a></li><li><a href="#trust">Confiance & sécurité</a></li></ul></div>
+      <div class="footer-col"><h4>Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</p><form class="footer-newsletter" id="newsletterForm" name="newsletter" novalidate>
+          <label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" aria-label="S'inscrire à la newsletter">→</button></form></div>
     </div>
-    <div class="footer-bottom"><span data-i18n="footer.copyright">© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" data-i18n-aria="footer.social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
+    <div class="footer-bottom"><span>© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
   </div>
 </footer>
 
@@ -2603,393 +2556,6 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
     }
   })();
 </script>
-
-<script>
-/* =============================================================================
-   ÉtalAfrique — module i18n (côté client).
-   - Langues prises en charge : fr (par défaut), en, wo.
-   - Persistance : localStorage (clé "etal.lang").
-   - Bascule sans rechargement, mise à jour de <html lang>, aria-label,
-     title, placeholder.
-   - Les chaînes déjà affichées par le moteur JS (renderCards, modales…)
-     peuvent être récupérées via window.__i18n.t(key).
-   ============================================================================= */
-(function () {
-  'use strict';
-
-  var STORAGE_KEY = 'etal.lang';
-  var DEFAULT_LANG = 'fr';
-  var SUPPORTED = ['fr', 'en', 'wo'];
-
-  /* Dictionnaire des traductions.
-     Seules les chaînes présentes dans data-i18n du DOM sont listées ici. */
-  var STRINGS = {
-    fr: {
-      'lang.currentLabel': 'Français',
-      'lang.switcherLabel': 'Changer de langue',
-      'lang.menuLabel': 'Choisir la langue',
-      'brand.tagline': 'commerce de confiance',
-      'nav.home': 'Accueil',
-      'nav.advantages': 'Avantages',
-      'nav.features': 'Fonctionnalités',
-      'nav.how': 'Comment ça marche',
-      'nav.pricing': 'Commission',
-      'nav.faq': 'FAQ',
-      'nav.catalog': 'Catalogue',
-      'nav.collections': 'Collections',
-      'nav.sellerSpace': 'Espace vendeur',
-      'nav.contact': 'Contact',
-      'nav.saved': 'Enregistrés',
-      'nav.cart': 'Panier',
-      'nav.sellOn': 'Vendre sur ÉtalAfrique',
-      'cta.contactTeam': 'Parler à l\'équipe',
-      'cta.openStall': 'Ouvrir mon étal',
-      'search.toggle': 'Rechercher',
-      'search.placeholder': 'Rechercher un produit, une boutique, une ville…',
-      'search.clear': 'Effacer la recherche',
-      'cart.itemsCount': 'articles',
-      'auth.login': 'Connexion',
-      'auth.profile': 'Mon profil',
-      'auth.logout': 'Déconnexion',
-      'menu.kicker': 'Navigation',
-      'menu.close': 'Fermer le menu',
-      'hero.ctaOpen': 'Ouvrir mon étal',
-      'hero.ctaOpenFree': 'Ouvrir mon étal — gratuit',
-      'hero.ctaHow': 'Voir comment ça marche',
-      'hero.ctaCatalog': 'Explorer le catalogue',
-      'catalog.filterAll': 'Tout',
-      'catalog.filterProducts': 'Produits',
-      'catalog.filterStalls': 'Boutiques',
-      'catalog.all': 'Tout',
-      'catalog.textile': 'Textile',
-      'catalog.beauty': 'Beauté & soin',
-      'catalog.agro': 'Agroalimentaire',
-      'catalog.crafts': 'Artisanat',
-      'catalog.decoration': 'Décoration',
-      'catalog.fashion': 'Mode',
-      'catalog.tech': 'Tech & maison',
-      'catalog.kids': 'Enfants',
-      'catalog.services': 'Services',
-      'catalog.localOnly': 'Boutiques locales',
-      'catalog.searchPlaceholder': 'Rechercher un produit, une boutique ou une ville…',
-      'faq.q1': 'Est-ce vraiment gratuit pour ouvrir mon étal ?',
-      'faq.q2': 'Comment se passe le paiement ?',
-      'faq.q3': 'Quels moyens de paiement acceptez-vous ?',
-      'faq.q4': 'Faut-il avoir une entreprise déclarée pour vendre ?',
-      'faq.q5': 'Dans quels pays ÉtalAfrique est-il disponible ?',
-      'mag.publishCta': 'Publier mon premier produit',
-      'footer.discover': 'Découvrir',
-      'footer.resources': 'Ressources',
-      'footer.newsletter': 'Les nouvelles du marché',
-      'footer.benefits': 'Nos avantages',
-      'footer.features': 'Fonctionnalités',
-      'footer.how': 'Comment ça marche',
-      'footer.pricing': 'Commission & tarifs',
-      'footer.faq': 'Questions fréquentes',
-      'footer.help': 'Centre d\'aide',
-      'footer.trust': 'Confiance & sécurité',
-      'footer.newsletterBlurb': 'Une fois par mois : histoires de vendeurs, conseils et nouveautés.',
-      'footer.emailPlaceholder': 'ton@email.com',
-      'footer.newsletterSubmit': 'S\'inscrire à la newsletter',
-      'footer.copyright': '© 2026 ÉtalAfrique. Fait avec soin à Dakar.',
-      'footer.social': 'Réseaux sociaux'
-    },
-    en: {
-      'lang.currentLabel': 'English',
-      'lang.switcherLabel': 'Change language',
-      'lang.menuLabel': 'Choose a language',
-      'brand.tagline': 'trusted commerce',
-      'nav.home': 'Home',
-      'nav.advantages': 'Benefits',
-      'nav.features': 'Features',
-      'nav.how': 'How it works',
-      'nav.pricing': 'Pricing',
-      'nav.faq': 'FAQ',
-      'nav.catalog': 'Catalog',
-      'nav.collections': 'Collections',
-      'nav.sellerSpace': 'Seller space',
-      'nav.contact': 'Contact',
-      'nav.saved': 'Saved',
-      'nav.cart': 'Cart',
-      'nav.sellOn': 'Sell on ÉtalAfrique',
-      'cta.contactTeam': 'Talk to the team',
-      'cta.openStall': 'Open my stall',
-      'search.toggle': 'Search',
-      'search.placeholder': 'Search a product, a shop, a city…',
-      'search.clear': 'Clear search',
-      'cart.itemsCount': 'items',
-      'auth.login': 'Sign in',
-      'auth.profile': 'My profile',
-      'auth.logout': 'Sign out',
-      'menu.kicker': 'Navigation',
-      'menu.close': 'Close menu',
-      'hero.ctaOpen': 'Open my stall',
-      'hero.ctaOpenFree': 'Open my stall — free',
-      'hero.ctaHow': 'See how it works',
-      'hero.ctaCatalog': 'Browse the catalog',
-      'catalog.filterAll': 'All',
-      'catalog.filterProducts': 'Products',
-      'catalog.filterStalls': 'Shops',
-      'catalog.all': 'All',
-      'catalog.textile': 'Textile',
-      'catalog.beauty': 'Beauty & care',
-      'catalog.agro': 'Food',
-      'catalog.crafts': 'Crafts',
-      'catalog.decoration': 'Home decor',
-      'catalog.fashion': 'Fashion',
-      'catalog.tech': 'Tech & home',
-      'catalog.kids': 'Kids',
-      'catalog.services': 'Services',
-      'catalog.localOnly': 'Local shops',
-      'catalog.searchPlaceholder': 'Search a product, a shop or a city…',
-      'faq.q1': 'Is it really free to open my stall?',
-      'faq.q2': 'How does payment work?',
-      'faq.q3': 'Which payment methods do you accept?',
-      'faq.q4': 'Do I need a registered business to sell?',
-      'faq.q5': 'In which countries is ÉtalAfrique available?',
-      'mag.publishCta': 'Publish my first product',
-      'footer.discover': 'Discover',
-      'footer.resources': 'Resources',
-      'footer.newsletter': 'Market news',
-      'footer.benefits': 'Our benefits',
-      'footer.features': 'Features',
-      'footer.how': 'How it works',
-      'footer.pricing': 'Pricing & fees',
-      'footer.faq': 'FAQ',
-      'footer.help': 'Help center',
-      'footer.trust': 'Trust & safety',
-      'footer.newsletterBlurb': 'Once a month: seller stories, tips and updates.',
-      'footer.emailPlaceholder': 'you@email.com',
-      'footer.newsletterSubmit': 'Subscribe to the newsletter',
-      'footer.copyright': '© 2026 ÉtalAfrique. Made with care in Dakar.',
-      'footer.social': 'Social media'
-    },
-    wo: {
-      'lang.currentLabel': 'Wolof',
-      'lang.switcherLabel': 'Sopi lak',
-      'lang.menuLabel': 'Tànnal làkk',
-      'brand.tagline': 'jëfandiku bu kóllë',
-      'nav.home': 'Tàmbali',
-      'nav.advantages': 'Rawatina',
-      'nav.features': 'Yu mëna jëfandikoo',
-      'nav.how': 'Naka la doxe',
-      'nav.pricing': 'Njàngale',
-      'nav.faq': 'Laaj yi',
-      'nav.catalog': 'Taabal yi',
-      'nav.collections': 'Wér yi',
-      'nav.sellerSpace': 'Yónn waxtu',
-      'nav.contact': 'Sa jokkoo',
-      'nav.saved': 'Denc',
-      'nav.cart': 'Paar',
-      'nav.sellOn': 'Yónn ci ÉtalAfrique',
-      'cta.contactTeam': 'Waxtal ekip bi',
-      'cta.openStall': 'Ubbi sama etal',
-      'search.toggle': 'Seet',
-      'search.placeholder': 'Seet ab produk, ab butik, ab kër…',
-      'search.clear': 'Faral seet bi',
-      'cart.itemsCount': 'béréb yi',
-      'auth.login': 'Dugg',
-      'auth.profile': 'Sama xibaar',
-      'auth.logout': 'Génn',
-      'menu.kicker': 'Yoon',
-      'menu.close': 'Tëj yoon wi',
-      'hero.ctaOpen': 'Ubbi sama etal',
-      'hero.ctaOpenFree': 'Ubbi sama etal — kër',
-      'hero.ctaHow': 'Gis naka la doxe',
-      'hero.ctaCatalog': 'Xool taabal yi',
-      'catalog.filterAll': 'Lépp',
-      'catalog.filterProducts': 'Produit yi',
-      'catalog.filterStalls': 'Butik yi',
-      'catalog.all': 'Lépp',
-      'catalog.textile': 'Rëbb',
-      'catalog.beauty': 'Nataal',
-      'catalog.agro': 'Lekk',
-      'catalog.crafts': 'Liggéey bu kàttan',
-      'catalog.decoration': 'Sa kër saytu',
-      'catalog.fashion': 'Sëriñ',
-      'catalog.tech': 'Tek & kër',
-      'catalog.kids': 'Xale yi',
-      'catalog.services': 'Kàttan yi',
-      'catalog.localOnly': 'Butik yi ci seen dëkk',
-      'catalog.searchPlaceholder': 'Seet ab produk, ab butik wala ab dëkk…',
-      'faq.q1': 'Ndax dafa wér ci ubbi sama etal?',
-      'faq.q2': 'Naka la fay gi di doxe?',
-      'faq.q3': 'Yan lay fay?',
-      'faq.q4': 'Ndax war nga am ab nom ci jur bu kóllë ngay yónn?',
-      'faq.q5': 'An béréb la ÉtalAfrique nekk ci?',
-      'mag.publishCta': 'Yónnale sama produit bu njëkk',
-      'footer.discover': 'Gis',
-      'footer.resources': 'Nikiitu',
-      'footer.newsletter': 'Xibaar yi',
-      'footer.benefits': 'Sunu rawatina',
-      'footer.features': 'Yu mëna jëfandikoo',
-      'footer.how': 'Naka la doxe',
-      'footer.pricing': 'Njàngale',
-      'footer.faq': 'Laaj yi',
-      'footer.help': 'Ndim',
-      'footer.trust': 'Kóllë ak kaaraange',
-      'footer.newsletterBlurb': 'Abay weer: xibaar yi, yelleef yi ak yeneen yi.',
-      'footer.emailPlaceholder': 'sa@email.com',
-      'footer.newsletterSubmit': 'Bind ci xibaar bi',
-      'footer.copyright': '© 2026 ÉtalAfrique. Defar ci Dakar.',
-      'footer.social': 'Réseaux yi'
-    }
-  };
-
-  /* Sécurité : si la chaîne n'existe pas dans la langue cible, on retombe
-     sur le français, puis sur la clé brute. */
-  function lookup(lang, key) {
-    if (STRINGS[lang] && Object.prototype.hasOwnProperty.call(STRINGS[lang], key)) {
-      return STRINGS[lang][key];
-    }
-    if (STRINGS[DEFAULT_LANG] && Object.prototype.hasOwnProperty.call(STRINGS[DEFAULT_LANG], key)) {
-      return STRINGS[DEFAULT_LANG][key];
-    }
-    return key;
-  }
-
-  function getStoredLang() {
-    try {
-      var v = window.localStorage.getItem(STORAGE_KEY);
-      if (v && SUPPORTED.indexOf(v) !== -1) return v;
-    } catch (e) { /* localStorage indisponible */ }
-    return DEFAULT_LANG;
-  }
-
-  function setStoredLang(lang) {
-    try { window.localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
-  }
-
-  function applyLang(lang) {
-    if (SUPPORTED.indexOf(lang) === -1) lang = DEFAULT_LANG;
-
-    /* 1) Mettre à jour l'attribut lang du document. */
-    document.documentElement.setAttribute('lang', lang);
-
-    /* 2) Mettre à jour les nœuds portant data-i18n (textContent). */
-    var nodes = document.querySelectorAll('[data-i18n]');
-    for (var i = 0; i < nodes.length; i++) {
-      var key = nodes[i].getAttribute('data-i18n');
-      var value = lookup(lang, key);
-      /* Conserver les flèches ou autres décorations déjà présentes. */
-      if (nodes[i].children.length === 0) {
-        nodes[i].textContent = value;
-      } else {
-        /* Si l'élément contient des enfants non traduits (ex. flèche),
-           on remplace uniquement le premier nœud texte. */
-        for (var j = 0; j < nodes[i].childNodes.length; j++) {
-          if (nodes[i].childNodes[j].nodeType === 3) {
-            nodes[i].childNodes[j].nodeValue = value;
-            break;
-          }
-        }
-      }
-    }
-
-    /* 3) aria-label / title / placeholder. */
-    var ariaNodes = document.querySelectorAll('[data-i18n-aria]');
-    for (var k = 0; k < ariaNodes.length; k++) {
-      var aKey = ariaNodes[k].getAttribute('data-i18n-aria');
-      ariaNodes[k].setAttribute('aria-label', lookup(lang, aKey));
-      /* aria-label « switcherLabel » alimente aussi le title du bouton. */
-      if (aKey === 'lang.switcherLabel') {
-        ariaNodes[k].setAttribute('title', lookup(lang, aKey));
-      }
-    }
-    var phNodes = document.querySelectorAll('[data-i18n-placeholder]');
-    for (var p = 0; p < phNodes.length; p++) {
-      var pKey = phNodes[p].getAttribute('data-i18n-placeholder');
-      phNodes[p].setAttribute('placeholder', lookup(lang, pKey));
-    }
-
-    /* 4) Mettre à jour le menu du sélecteur (option cochée + libellé courant). */
-    var switcher = document.getElementById('langSwitcher');
-    if (switcher) {
-      var options = switcher.querySelectorAll('[data-lang-value]');
-      for (var o = 0; o < options.length; o++) {
-        var isActive = options[o].getAttribute('data-lang-value') === lang;
-        options[o].setAttribute('aria-checked', isActive ? 'true' : 'false');
-      }
-      var current = switcher.querySelector('[data-i18n="lang.currentLabel"]');
-      if (current) current.textContent = lookup(lang, 'lang.currentLabel');
-      var menuLabel = switcher.querySelector('.lang-menu');
-      if (menuLabel) menuLabel.setAttribute('aria-label', lookup(lang, 'lang.menuLabel'));
-    }
-
-    setStoredLang(lang);
-    document.documentElement.setAttribute('data-lang', lang);
-  }
-
-  /* API publique pour les modules JS générant du texte dynamique. */
-  window.__i18n = {
-    t: function (key, fallback) {
-      var lang = getStoredLang();
-      var v = lookup(lang, key);
-      return (v === key && fallback) ? fallback : v;
-    },
-    apply: applyLang,
-    get: getStoredLang,
-    set: function (lang) { applyLang(lang); },
-    SUPPORTED: SUPPORTED,
-    DEFAULT: DEFAULT_LANG
-  };
-
-  function initSwitcher() {
-    var switcher = document.getElementById('langSwitcher');
-    if (!switcher) return;
-    var btn = document.getElementById('langSwitcherBtn');
-
-    function close() {
-      switcher.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-    }
-    function toggle(e) {
-      if (e) e.stopPropagation();
-      var open = switcher.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    }
-    btn.addEventListener('click', toggle);
-
-    var options = switcher.querySelectorAll('[data-lang-value]');
-    for (var i = 0; i < options.length; i++) {
-      (function (opt) {
-        opt.addEventListener('click', function (ev) {
-          ev.stopPropagation();
-          var v = opt.getAttribute('data-lang-value');
-          applyLang(v);
-          close();
-        });
-      })(options[i]);
-    }
-
-    /* Fermer en cliquant ailleurs ou avec Échap. */
-    document.addEventListener('click', function (ev) {
-      if (!switcher.contains(ev.target)) close();
-    });
-    document.addEventListener('keydown', function (ev) {
-      if (ev.key === 'Escape') close();
-    });
-  }
-
-  /* Initialisation : appliquer la langue mémorisée avant que le moteur
-     principal ne rende quoi que ce soit. */
-  var initial = getStoredLang();
-  if (document.documentElement.getAttribute('lang') !== initial) {
-    document.documentElement.setAttribute('lang', initial);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initSwitcher();
-      applyLang(getStoredLang());
-    });
-  } else {
-    initSwitcher();
-    applyLang(getStoredLang());
-  }
-})();
-</script>
-
 <script>
 /* =============================================================================
    ÉtalAfrique — moteur unique de la page.
@@ -4593,6 +4159,142 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 })();
 
 </script>
+
+<script>
+(function(){
+'use strict';
+var LANG_KEY='etalafrique.lang';
+var SUPPORTED=['fr','en','wo'];
+var DEFAULT_LANG='fr';
+var ENTRIES=[["ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.", "ÉtalAfrique integrates the main Mobile Money wallets of each country: Orange Money, Wave, MTN Mobile Money, Moov Money and others. Available options automatically adapt to the seller’s and buyer’s country.", "ÉtalAfrique am ngi ci portefeuille yi ci benn pays: Orange Money, Wave, MTN Mobile Money, Moov Money ak yu yokku. Lu am, ngi soppi ci pays bu jaaykat ak jëndukat."], ["Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.", "No, you can start as an independent seller. We then guide you if your activity grows and you want to formalise your business. Tax obligations vary by country: our support can point you in the right direction.", "Déedéet, man nga tàmbali niki jaaykat bu sañ-sañ. Nun di sa ngi yónne bu sa activité ba xel, te nga bëgg ngi sos sa société. Yarimu fiscal sopi ci pays: samay support mën na sa wone ci yónn."], ["La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.", "The platform is currently available in Senegal, Mali, Côte d’Ivoire, Benin, Togo, Cameroon, Guinea, Burkina Faso, Niger and Madagascar. We’re progressively opening new delivery and payment corridors.", "Platform bi am na tey ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Toogo, Kameruun, Gine, Burkina Faso, Niseer ak Madagascar. Nun di ub seen kër yu yokku ci livraison ak fey."], ["ÉtalAfrique : la marketplace qui transforme un téléphone en boutique en ligne pour les vendeurs d’Afrique de l’Ouest. Ouvre ton étal, publie tes produits, vends en Mobile Money.", "ÉtalAfrique: the marketplace that turns a phone into an online shop for West African sellers. Open your stall, list your products, sell with Mobile Money.", "ÉtalAfrique: ab place ki ub telefon ci boutique ci yónn ngir jaaykat yi ci Afrik Sowwu. Ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.", "The order is prepared on ÉtalAfrique. Payment is then settled directly between buyer and seller (Mobile Money, cash on delivery), coordinated over WhatsApp.", "Commande bi ngi jëfandiku ci ÉtalAfrique. Fey bi mu ngi defar seen ñaari ci jëndukat ak jaaykat (Mobile Money, xaalis ci livraison), ñu mu xalaat ci WhatsApp."], ["Une plateforme pensée pour les réalités du commerce africain : Mobile Money, livraison de proximité, langues locales et confiance de pair à pair.", "A platform built for African commerce realities: Mobile Money, local delivery, local languages, and peer-to-peer trust.", "Ab platform bu ngi defar ci seen Afrik: Mobile Money, livraison ci seen kër, làkk yi ci seen dëkk, ak seen seen béréb."], ["* Champs obligatoires. Le paiement se règle pour l’instant directement avec l’acheteur ; ÉtalAfrique ne traite pas encore les paiements en ligne.", "* Required fields. Payment is currently settled directly with the buyer; ÉtalAfrique does not yet process online payments.", "* Xibaar yu war. Fey bi ngi ngi defar ci seen jëndukat tey; ÉtalAfrique du fey ci yónn."], ["Chaque planche regroupe une famille de produits. Clique dessus pour filtrer le catalogue, ou ouvre ton étal si l'un de ces univers te ressemble.", "Each board gathers a family of products. Click to filter the catalog, or open your stall if one of these worlds feels like yours.", "Benn plan, benn wàll nun. Klik ngir filtrer catalogue bi, walla ub sa ndox bu benn ci yii ngi nga gis."], ["Acheteur et vendeur se mettent d'accord sur le mode de règlement (Mobile Money, espèces) et finalisent directement, sans intermédiaire caché.", "Buyer and seller agree on the payment method (Mobile Money, cash) and finalise directly, with no hidden middleman.", "Jëndukat ak jaaykat di xalaat ci fey bi (Mobile Money, xaalis) ñu mu seen dëgg, amul kilifanteer."], ["Pas d'abonnement caché, pas de mise en avant payante pour exister. L'étal est gratuit à ouvrir, la commission est la même pour tout le monde.", "No hidden subscription, no paid promotion to exist. Opening a stall is free, and the commission is the same for everyone.", "Amul abonnement bu suuf, amul prominence ngay fey ngir ngi am. Ndox mi ub ci free, commission bi nekk ci yépp."], ["Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.", "Payment is settled directly with the seller (Mobile Money, cash, ...). This button opens WhatsApp with your order summary.", "Fey bi ngi ngi defar ci seen jaaykat (Mobile Money, xaalis...). Butóo bi ub WhatsApp ak seen commande."], ["ÉtalAfrique transforme un simple téléphone en boutique en ligne. Publie tes produits en 60 secondes, reçois des commandes, encaisse en ", "ÉtalAfrique turns a simple phone into an online shop. List your products in 60 seconds, take orders, get paid in ", "ÉtalAfrique ub ab telefon ci boutique ci yónn. Bind sa nun ci 60 simili, jot commande, jot sa xaalis ci "], ["Ces profils sont des exemples imaginés pour montrer le potentiel d'un étal — les vraies boutiques arrivent au fil des inscriptions.", "These profiles are sample placeholders that show what a stall can become — real shops come in as people sign up.", "Saaf yii misaal yi ngir wone lu ngi mën a jeex ci ndox — boutique yi dëpp di ñu ub ci seen seen."], ["Tout ce que tu as enregistré sur ton compte : identité, étal, produits, brouillons. Tu peux modifier, republier ou repartir à zéro.", "Everything you’ve saved to your account: identity, stall, products, drafts. You can edit, republish or start fresh.", "Lépp lu nga denc ci sa compte: tur, ndox, nun, brouillon. Man nga soppi, téqal walla tàmbal ci tundu."], ["Laisse-nous tes coordonnées. Un membre de l'équipe ÉtalAfrique te répond sous 24h pour ouvrir ton étal ou répondre à tes questions.", "Leave us your details. A member of the ÉtalAfrique team replies within 24h to open your stall or answer your questions.", "Jox nun sa xibaar. Ab nit ci ekip ÉtalAfrique di tontu ci 24h ngir ub sa ndox walla tontu sa laaj."], ["Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement ", "Yes. Creating your stall, adding products and accessing the dashboard are free. ÉtalAfrique only takes ", "Waaw. Ub ndox mi, yokk nun, ak ci tableau de bord, lépp ci free. ÉtalAfrique jënd rekk "], ["Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.", "A buyer who gets a fast WhatsApp reply finishes their order far more often than one left hanging.", "Ab jëndukat buy jot tontu ci WhatsApp ci gaaw, mu ngi wéral sa commande bu néew."], ["Ces exemples illustrent le type de produits qu'un étal peut proposer sur ÉtalAfrique — fais défiler pour te donner des idées.", "These examples show the kind of products a stall can offer on ÉtalAfrique — scroll to get ideas.", "Misaal yii wone nun lan ngi yónne ci ÉtalAfrique — safal ngir jot yoon."], ["Compare deux ou trois étals similaires avant de publier, et garde en tête la commission de 3% sur chaque vente confirmée.", "Compare two or three similar stalls before posting, and keep the 3% commission in mind for every confirmed sale.", "Séddoo ñaari walla ñetti ndox yu mel nii sa nun, xal ci commission 3% ci benn jaay bu neex."], ["La marketplace des vendeurs informels d’Afrique de l’Ouest : ouvre ton étal, publie tes produits, vends en Mobile Money.", "The marketplace for informal West African sellers: open your stall, list your products, sell with Mobile Money.", "Place bi ci jaaykat yu ci Afrik Sowwu: ub sa ndox, bind sa nun, jaay ci Mobile Money."], ["Tes informations sont synchronisées sur ton compte Supabase, accessible depuis n'importe quel appareil après connexion.", "Your info is synced to your Supabase account, accessible from any device once signed in.", "Sa xibaar yi ngi ci sa compte Supabase, nga koy gis ci benn appareil bu ngay dugg."], ["Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.", "Natural light, plain background, well-framed product: three reflexes that double the interest in a listing.", "Lëm bu wér, seen suuf, nun bu teg: Ñetti xelal yi xaalis ba ngi yokk ci seen annonce."], ["Le service de compte n’a pas pu se charger. Vérifie ta connexion ou ton bloqueur de publicité, puis recharge la page.", "The account service did not load. Check your connection or ad-blocker, then reload the page.", "Compte bi du ub. Xool sa réseau walla sa bloqueur publicité, ba nga yónn sa page."], ["Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.", "Explore the products and shops listed on ÉtalAfrique. The catalog grows with each new stall opened.", "Saytu nun ak boutique yi ci ÉtalAfrique. Catalogue bi ngi yónne ci benn ndox mu ub."], ["L'argent est sécurisé pendant la livraison. Après 48h ou confirmation du client, il arrive sur ton Mobile Money.", "Money is held safely during delivery. After 48h or buyer confirmation, it lands in your Mobile Money.", "Xaalis bi neex tey ci livraison. 48h walla jëndukat bi mu teg, xaalis bi dugg ci sa Mobile Money."], ["Trois informations suffisent : ton nom, le nom de l'étal, ta ville. Tu pourras ajouter tes produits juste après.", "Three details are enough: your name, the stall name, your city. You can add products right after.", "Ñetti xibaar rekk: sa tur, tur ndox mi, sa dëkk. Man nga yokk sa nun ci kanam."], ["Partage ton lien sur WhatsApp, Instagram ou autour de toi. Un client choisit, paie et reçoit une confirmation.", "Share your link on WhatsApp, Instagram or with people around you. A customer picks, pays, and gets a confirmation.", "Xaaj sa lien ci WhatsApp, Instagram walla ci njek yi ci wet. Ab jëndukat tànne, fey, jot confirmation."], ["Que tu vendes des pagnes, du miel, des bijoux, des repas ou ton savoir-faire : le marché a une place pour toi.", "Whether you sell cloth, honey, jewellery, meals or your know-how: there’s room for you in the market.", "Bu ngay jaay pagn, lii, bijou, repas walla sa liggéey: benn wàll am ngir ngay ci su këyitu bi."], ["Des outils de suivi, de fidélité et d'avance de trésorerie pour transformer une activité en vraie entreprise.", "Tracking, loyalty, and cash-advance tools to turn a side activity into a real business.", "Liggéey yu ci topp, fidélité, ak xaalis ji nga jëfandiku, ngir waññ ab activité ci ab société bu dëgg."], ["Tu gardes 97% de chaque commande. L'inscription, la vitrine, le support et les mises à jour restent gratuits.", "You keep 97% of every order. Registration, storefront, support, and updates stay free.", "Denc 97% ci benn commande. Inscription, vitrine, support ak mise à jour du fee."], ["Crée ton compte Supabase, renseigne ton activité, ajoute tes produits et visualise immédiatement ta vitrine.", "Create your Supabase account, fill in your activity, add your products and see your storefront right away.", "Sos sa compte Supabase, bind sa activité, yokk sa nun, gis sa vitrine ci sa ngiir."], ["Choisis ton nom, ta ville et ajoute tes premiers produits. Pas de dossier compliqué, pas de frais d'entrée.", "Pick your name, your city, and add your first products. No paperwork, no entry fee.", "Tànne sa tur, sa dëkk, yokk sa nun yi ci ñu njëkk. Amul xibaar yu bare, amul frais."], ["Profils vendeurs, avis après achat, détection des annonces douteuses : la confiance n'est pas optionnelle.", "Seller profiles, post-purchase reviews, suspicious listing detection: trust is not optional.", "Saaf yu jaaykat, xalaat yu ci gëstu, xelal yu ci ndigte: béréb du dëpp."], ["Une vitrine claire, partageable sur WhatsApp, pour toucher des clients bien au-delà de ton quartier.", "A clear storefront, shareable on WhatsApp, to reach customers well beyond your neighbourhood.", "Ab vitrine bu leer, nga xaaj ci WhatsApp, ngay jënd njek yi ci seen kër."], ["Publie un produit en 60 secondes, même avec une connexion fragile. L'expérience parle ton langage.", "List a product in 60 seconds, even on a slow connection. The experience speaks your language.", "Bind ab nun ci 60 simili, dafa duux. Sa interëf xas nga."], ["Tes données, ton argent, tes clients : nous construisons les fondations pour un commerce qui dure.", "Your data, your money, your customers: we’re building the foundations for lasting commerce.", "Sa xibaar, sa xaalis, sa njek: nun di sos seen fondatiyo ngir ab jaay bu yónne."], ["Une photo, un prix, une quantité. Ton produit est en ligne, prêt à être partagé avec tes clients.", "A photo, a price, a quantity. Your product is online, ready to be shared with your customers.", "Ab nataal, ab prix, ab cantidad. Sa nun ci yónn, ngi ngi xaaj ak sa njek."], ["Ajoute la colonne « published » (boolean, défaut true) à la table stalls pour activer ce réglage.", "Add the column « published » (boolean, default true) to the stalls table to enable this setting.", "Yokk colonne « published » (boolean, défaut true) ci table stalls ngir ub ub réglages bi."], ["Le marché de tout le monde, dans la poche de tout le monde. Né en Afrique, pensé pour l'Afrique.", "A market for everyone, in everyone’s pocket. Born in Africa, built for Africa.", "Su këyitu yi, ci sa rokk. Ci Afrik, ngir Afrik."], ["Ouvre ton étal, publie tes produits, vends en Mobile Money — gratuit, 3% par vente confirmée.", "Open your stall, list your products, sell with Mobile Money — free, 3% per confirmed sale.", "Ub sa ndox, bind sa nun, jaay ci Mobile Money — ci free, 3% ci sa jaay bu neex."], ["Découvre des créations du Sénégal, du Mali, de Côte d'Ivoire, du Bénin, du Cameroun et plus.", "Discover crafts from Senegal, Mali, Côte d’Ivoire, Benin, Cameroon and beyond.", "Gis liggéey yu ci Senegaal, Maali, Côte d'Ivoire, Benuwaan, Kameruun, ak yu yu yokku."], ["Tu n'as besoin que de ton téléphone et de quelque chose à vendre. Le reste, on s'en occupe.", "You only need your phone and something to sell. We take care of the rest.", "Sa telefon rekk ak lu ngay jaay. Yoon, nun a ko jëfandiku."], ["Ventes, stock, clients, commissions : vois ce qui marche et décide avec de vraies données.", "Sales, stock, customers, commissions: see what works and decide with real data.", "Jaay, stok, njek, commission: gis lu baax, tànneef ak xibaar yi dëpp."], ["Des partenaires locaux et un suivi simple pour que chaque commande arrive au bon endroit.", "Local partners and simple tracking so every order reaches the right place.", "Kilifanteer yi ci seen dëkk ak topp bu njañte ngir benn commande ba mu defar ba."], ["Tout ce qu'il faut pour vendre avec confiance, même quand la boutique est ton téléphone.", "Everything you need to sell with confidence, even when your shop is your phone.", "Lépp lu ngay jëfandiku ngay jaay ci seen béréb, bu ko sa telefon."], ["Orange Money, Wave, MTN ou Moov. Tes clients paient comme ils ont l'habitude, toi aussi.", "Orange Money, Wave, MTN or Moov. Your customers pay the way they’re used to, and so do you.", "Orange Money, Wave, MTN walla Moov. Sa njek fey niki ñu lees def, yokk sa nekk."], ["Produit publié sur ÉtalAfrique. Contacte la boutique pour les détails de livraison.", "Product listed on ÉtalAfrique. Contact the shop for delivery details.", "Nun denc ci ÉtalAfrique. Wax ak boutique ngir gis livraison."], ["Trois astuces simples pour donner envie d'acheter dès ton premier produit publié.", "Three simple tips to make people want to buy as soon as your first product is up.", "Ñetti yoon yu njañte ngir njek yi bëgg jënd ci sa nun bi ci ñu njëkk."], ["Les premiers étals sont en train de s'ouvrir — sois parmi les premiers vendeurs.", "The first stalls are opening — be among the first sellers.", "Ndox yi di ub — bokk ci jaaykat yi ci ñu njëkk."], ["Aucune session — connecte-toi pour retrouver ton étal sur tous tes appareils.", "No session — sign in to find your stall on every device.", "Amul session — dugg ngir gis sa ndox ci benn appareil."], ["Compte créé. Ouvre le lien de confirmation reçu par email (pense aux spams).", "Account created. Open the confirmation link in your email (check spam).", "Compte sos na. Ub lien bu confirmation ci sa email (cek ci spam)."], ["Aperçu de l'application mobile ÉtalAfrique montrant des produits en vente", "Preview of the ÉtalAfrique mobile app showing items for sale", "Wonewu appli ÉtalAfrique bi ci yónn, wone nun yi di jaay"], ["ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde", "ÉtalAfrique — A market for everyone, in everyone’s pocket", "ÉtalAfrique — Su këyitu yi, ci sa rokk"], ["Ajoute une description pour donner envie de découvrir ton univers.", "Add a description to make people want to discover your world.", "Yokk ab description ngir njek yi bëgg sa yónne."], ["Une fois par mois : histoires de vendeurs, conseils et nouveautés.", "Once a month: seller stories, tips and updates.", "Benn weer: seen jaaykat, yoon ak seen yeneen."], ["Merci ! Ta demande est enregistrée. On revient vers toi sous 24h.", "Thanks! Your request is recorded. We’ll get back to you within 24h.", "Jërëjëf! Sa ñaan denc na. Nun dinna tontu ci 24h."], ["Démonstration : la messagerie boutique n’est pas encore branchée.", "Demo: shop messaging is not wired up yet.", "Misaal: jokkoo boutique bi du ngi ngi defar ba tey."], ["Ton étal est enregistré sur ton compte : tu le retrouves depuis n", "Your stall is saved to your account: find it from any", "Sa ndox mi denc ci sa compte: gis ko ci benn"], ["Email pas encore confirmé — un nouveau lien vient d’être envoyé.", "Email not confirmed yet — a new link was just sent.", "Email bi du fee ba tey — ab lien bu neex yónn na."], ["Ajoute des produits depuis le catalogue pour les retrouver ici.", "Add products from the catalog to find them here.", "Yokk nun ci catalogue ngir gis leen fi."], ["Connecté·e — ton étal sera synchronisé sur tous tes appareils.", "Signed in — your stall will sync across all your devices.", "Nga dugg — sa ndox mi dinna sync ci seen benn appareil."], ["Dis-nous ce que tu aimerais vendre ou ce dont tu as besoin...", "Tell us what you’d like to sell or what you need...", "Wax nun lu ngay bëgg jaay walla lu ngay jëfandiku..."], ["Vannerie et sculptures en bois faites main, pièce par pièce.", "Basketry and hand-carved wood pieces, one at a time.", "Vannerie ak nun yu buki yu ngi defar ci loxol, benn ci benn."], [" — sans local, sans stock immobilisé, sans intermédiaire.", " — no premises, no locked-up stock, no middleman.", " — amul seen kër, amul seen stok bu takku, amul kilifanteer."], ["Miel, céréales et produits de la ferme, vendus en direct.", "Honey, grains and farm goods, sold direct.", "Lii, céréale ak nun yu tool bi, di jaay ci seen ngiir."], ["Il manque le nom de l’étal, la ville, au moins un produit", "Missing the stall name, city, or at least one product", "Amul tur ndox mi, dëkk walla ab nun"], ["Email pas encore confirmé. Ouvre le lien reçu par mail.", "Email not confirmed yet. Open the link in your email.", "Email bi du fee ba tey. Ub lien ci sa mail."], [". Pas de frais mensuel, pas d'abonnement obligatoire.", ". No monthly fee, no required subscription.", ". Amul frais ci weer, amul abonnement bu war a fey."], ["Email de réinitialisation envoyé si ce compte existe.", "Reset email sent if this account exists.", "Email bu réinitialisation yónn na bu compte bi nekk."], ["Tenues, tissus imprimés et accessoires du quotidien.", "Outfits, printed fabrics and everyday accessories.", "Seen yéré, pagn yu imprimé, ak accessoire yi bepp tey."], ["Faut-il avoir une entreprise déclarée pour vendre ?", "Do I need a registered business to sell?", "War nga am ab société ngir jaay?"], ["Karité, savons et huiles fabriqués artisanalement.", "Shea, soaps and oils made by hand.", "Karite, savon ak huil yu ngi defar ci loxol."], ["Coiffure, réparation, cours et livraison locale.", "Hairdressing, repairs, classes and local delivery.", "Coiffure, reparasió, kàttan ak livraison ci wet."], [" (base de données réelle, pas seulement locale).", " (real database, not just local).", " (base bu dëgg, du ci yónn rekk)."], ["Ajoute un court message (10 caractères minimum).", "Add a short message (10 characters minimum).", "Yokk ab bataaxal bu néew (10 caractères ci néew)."], ["Rechercher un produit, une boutique, une ville…", "Search a product, a shop, or a city…", "Wut ab nun, ab boutique walla ab dëkk…"], ["Dans quels pays ÉtalAfrique est-il disponible ?", "In which countries is ÉtalAfrique available?", "Ci an pays ÉtalAfrique am na?"], ["Kits solaires, chargeurs et accessoires utiles.", "Solar kits, chargers and useful accessories.", "Kit solaire, chargeur ak accessoire yu am solo."], ["Est-ce vraiment gratuit pour ouvrir mon étal ?", "Is it really free to open my stall?", "Da ngi ngi fee ngir ub samay ndox?"], ["Des créations et produits choisis avec soin...", "Hand-picked crafts and products...", "Liggéey ak nun yu nga tànn ci seen xol..."], ["Miel, céréales, épices et produits du terroir.", "Honey, grains, spices and local produce.", "Lii, céréale, épice ak nun yu ci seen tool."], ["Indique ton nom pour qu'on puisse te répondre.", "Add your name so we can reply.", "Bind sa tur ngir nun mën a tontu."], ["Compte conservé uniquement dans ce navigateur.", "Account kept only in this browser.", "Compte denc ci sa navigateur rekk."], ["Coussins, tentures et objets pour la maison.", "Cushions, hangings and objects for the home.", "Coussin, tenture ak nun yu ci kër."], ["Les deux mots de passe ne correspondent pas.", "The two passwords don’t match.", "Baatu jubluwaay yi ñaari dëpp du dëpp."], ["Connecte-toi pour ouvrir ton espace vendeur.", "Sign in to open your seller space.", "Dugg ngir ub sa wàll jaaykat."], ["© 2026 ÉtalAfrique. Fait avec soin à Dakar.", "© 2026 ÉtalAfrique. Made with care in Dakar.", "© 2026 ÉtalAfrique. Defar ci seen xol ci Dakar."], ["Entre ton email ci-dessus, puis réessaie.", "Enter your email above, then try again.", "Bind sa email ci kaw, ba nga ese ci gaaw."], ["ÉtalAfrique — Le marché de tout le monde", "ÉtalAfrique — A market for everyone", "ÉtalAfrique — Su këyitu yi"], ["Marché numérique · zéro boutique requise", "Digital market · no shop needed", "Su këyitu numérique · amul boutique"], ["Quels moyens de paiement acceptez-vous ?", "Which payment methods do you accept?", "Naka lan nga ngi jënd ci fey?"], ["Ouvre ton étal en moins de deux minutes.", "Open your stall in under two minutes.", "Ub sa ndox ci ay simili."], ["Données sauvegardées sur ton compte via ", "Data saved to your account via ", "Xibaar denc ci sa compte ci "], ["Inspiration · façon tableaux Pinterest", "Inspiration · Pinterest-style boards", "Inspirasion · tablo Pinterest"], ["Vannerie, poterie et pièces sculptées.", "Basketry, pottery and carved pieces.", "Vannerie, poterie ak nun yu ngi ngi teg."], ["Jouets, vêtements et accessoires bébé.", "Toys, clothes and baby accessories.", "Jouet, yéré ak accessoire yu ci xale."], [" — les étals publiés apparaissent ici", " — published stalls appear here", " — ndox yi di ne fi"], ["Aucun enregistrement pour l’instant.", "No saves yet.", "Amul denc ci tey."], ["Mot de passe : 8 caractères minimum.", "Password: 8 characters minimum.", "Baatu jubluwaay: 8 caractères ci néew."], ["aucun abonnement, aucun frais caché", "no subscription, no hidden fees", "amul abonnement, amul frais bu suuf"], [" — nom, ville et catalogue visibles", " — name, city, and catalog visible", " — tur, dëkk ak catalogue bu gis"], ["Ce qui est inclus, dès aujourd'hui", "What’s included, today", "Lu nekk, tey"], ["Aucun résultat dans le catalogue.", "No results in the catalog.", "Amul résultat ci catalogue bi."], [" — paiement réglé avec le vendeur", " — payment settled with the seller", " — fey defar ak jaaykat"], ["Boutique publiée sur ÉtalAfrique.", "Shop listed on ÉtalAfrique.", "Boutique denc ci ÉtalAfrique."], ["ÉtalAfrique — retour à l'accueil", "ÉtalAfrique — back to home", "ÉtalAfrique — dellu ci wetu"], ["Espace vendeur · compte sécurisé", "Seller space · secure account", "Wàll jaaykat · compte bu neex"], ["Mot de passe (8 caractères min.)", "Password (8 characters min.)", "Baatu jubluwaay (8 caractères ci néew)"], ["ouverture en moins de 2 minutes", "open in under 2 minutes", "ub ci 2 simili"], ["Entre une adresse email valide.", "Enter a valid email address.", "Bind ab email bu jub."], ["Étal visible dans le catalogue.", "Stall visible in the catalog.", "Ndox mi gis ci catalogue bi."], ["Comment se passe le paiement ?", "How does payment work?", "Naka fey bi di doxe?"], ["Étal enregistré sur ton compte", "Stall saved to your account", "Ndox mi denc ci sa compte"], ["À quoi ressemblera ta boutique", "What your shop will look like", "Nika sa boutique dina mel"], ["Étal en ligne sur cet appareil", "Stall online on this device", "Ndox mi ci yónn ci appareil bi"], ["Voir mes produits enregistrés", "View my saved products", "Won sa nun yi nga tëdde"], ["Tes produits apparaîtront ici", "Your products will appear here", "Sa nun yi di ne fi"], ["Publier mon premier produit →", "Post my first product →", "Bind samay nun bi ci ñu njëkk →"], ["Retiré de tes enregistrements", "Removed from your saves", "Génnal ci sa denc"], ["Un paiement qui reste simple", "A payment that stays simple", "Ab fey bu njañte"], ["3% sur les ventes confirmées", "3% on confirmed sales", "3% ci jaay yi neex"], ["01 · Ton identité de vendeur", "01 · Your seller identity", "01 · Sa tur bu jaaykat"], ["Sous 24h, du lundi au samedi", "Within 24h, Monday to Saturday", "Ci 24h, altine ba dibiñer"], ["Ajouté à tes enregistrements", "Added to your saves", "Yokku ci sa denc"], ["Publier un produit · ⏱ 60 s", "Post a product · ⏱ 60 s", "Bind ab nun · ⏱ 60 simili"], ["Plan unique · sans surprise", "One plan · no surprises", "Ab plan · amul surprise"], ["Retape le même mot de passe", "Retype the same password", "Bind baatu bu nekk"], ["Retirer des enregistrements", "Remove from saves", "Génnal ci denc yi"], ["Supprimer définitivement « ", "Permanently delete « ", "Faral ci seen bi « "], ["3% affichés, rien de caché", "3% shown, nothing hidden", "3% wone, du suuf"], ["Aperçu · exemples imaginés", "Preview · sample ideas", "Wonewu · seen misaal"], ["Répondre vite, vendre plus", "Reply fast, sell more", "Tontu ci gaaw, jaay yu bare"], ["Envoyer aussi sur WhatsApp", "Also send on WhatsApp", "Yónn it ci WhatsApp"], ["S'inscrire à la newsletter", "Subscribe to the newsletter", "Bind ci newsletter"], ["ÉtalAfrique · compte local", "ÉtalAfrique · local account", "ÉtalAfrique · compte ci seen dëkk"], ["Étal repassé en brouillon.", "Stall back to draft.", "Ndox dellu ci brouillon."], ["Ouvrir mon étal — gratuit", "Open my stall — free", "Ub samay ndox — ci free"], ["12 500 FCFA · 3 commandes", "12,500 FCFA · 3 orders", "12 500 FCFA · 3 commande"], ["2 200 FCFA · 12 commandes", "2,200 FCFA · 12 orders", "2 200 FCFA · 12 commande"], ["Vendre sans mode d'emploi", "Sell without a manual", "Jaay amul benn yónn"], ["Fermer la création d'étal", "Close stall creation", "Tëj ubub ndox"], ["Voilà à quoi il ressemble", "Here’s what it looks like", "Loolu niki mu mel"], ["Une photo qui donne envie", "A photo that sparks interest", "Ab nataal buy njek bëgg"], ["sur ton compte, en clair.", "on your account, plain and simple.", "ci sa compte, bu leer."], ["Confirmer le mot de passe", "Confirm password", "Wone sa baatu"], [" » et tous ses produits ?", " » and all its products?", " » ak sa nun yépp?"], ["appareil après connexion.", "device once signed in.", "appareil bu ngay dugg."], ["Voir comment ça marche →", "See how it works →", "Gis naka la doxe →"], ["4 800 FCFA · 7 commandes", "4,800 FCFA · 7 orders", "4 800 FCFA · 7 commande"], ["Ton savoir-faire se voit", "Your know-how gets seen", "Sa liggéey gis na"], ["Sauvegarder le brouillon", "Save draft", "Denc brouillon"], ["synchronisé via Supabase", "synced via Supabase", "di sync ci Supabase"], ["référencés dans ton étal", "listed in your stall", "ngi ci sa ndox"], ["Parlons de ton activité.", "Let’s talk about your business.", "Nun di wax ci sa activité."], [" — par email ou WhatsApp", " — by email or WhatsApp", " — ci email walla WhatsApp"], ["Fermer l’aperçu détaillé", "Close detailed preview", "Tëj wonewu bi"], ["Chargement du catalogue…", "Loading catalog…", "Catalogue bi di ub…"], ["Inscription enregistrée.", "Subscription recorded.", "Bind denc na."], ["Nouveau sur ÉtalAfrique", "New on ÉtalAfrique", "Kaddu ci ÉtalAfrique"], ["à l'ouverture de l'étal", "to open your stall", "bu ub ndox mi"], ["10 pays, une communauté", "10 countries, one community", "10 pays, benn kilifanteer"], ["Tableau de bord vendeur", "Seller dashboard", "Tableau de bord jaaykat"], ["confidentialité d'abord", "privacy first", "sérété ci njëkk"], ["Une phrase sur ton étal", "A line about your stall", "Ab wax ci sa ndox"], ["à explorer et à vendre.", "to explore and sell.", "nga saytu te jaay."], ["Beauté & soins naturels", "Beauty & natural care", "Yaram ak luy yi wér"], ["Tech & maison connectée", "Tech & smart home", "Tech ak kër bu xam-xam"], ["publier en 60 secondes.", "post in 60 seconds.", "bind ci 60 simili."], ["Connecté·e en tant que ", "Signed in as ", "Nga dugg niki "], ["Acheter sur ÉtalAfrique", "Buy on ÉtalAfrique", "Jënd ci ÉtalAfrique"], ["Proposer un partenariat", "Propose a partnership", "Jox ab partenariat"], ["Les nouvelles du marché", "Market news", "Seen këyitu"], ["Vendre sur ÉtalAfrique", "Sell on ÉtalAfrique", "Jaay ci ÉtalAfrique"], ["Miel de brousse · 500g", "Wild honey · 500g", "Lii ci wàll · 500g"], ["Vitrine en 60 secondes", "Storefront in 60 seconds", "Vitrine ci 60 simili"], ["Piloter · ton activité", "Run · your business", "Yónn · sa activité"], ["Rassurer · durablement", "Reassure · durably", "Wone béréb · ci dëgg-dëgg"], ["Commencer gratuitement", "Start for free", "Tàmbali ci free"], ["Paiements Mobile Money", "Mobile Money payments", "Fey Mobile Money"], ["Ajoute ce que tu vends", "Add what you sell", "Yokk lu ngay jaay"], ["Idées pour les enfants", "Ideas for kids", "Yoon yu ci xale yi"], ["Sac en cuir cousu main", "Hand-stitched leather bag", "Sac bu cuir bu loxo"], ["est peut-être déjà là.", "may already be here.", "am niki fi."], ["Commander via WhatsApp", "Order via WhatsApp", "Sa commande ci WhatsApp"], ["Voir comment ça marche", "See how it works", "Gis naka la doxe"], ["Déconnexion effectuée.", "Signed out.", "Nga génn."], ["Navigation principale", "Main navigation", "Kàttan bu mag"], ["commerce de confiance", "trusted commerce", "jàgg ci seen béréb"], ["Recherche sur le site", "Search the site", "Wut ci site bi"], ["Explorer le catalogue", "Browse the catalog", "Saytu catalogue bi"], ["Beurre de karité brut", "Raw shea butter", "Tir bu karite"], ["de Dakar à Tananarive", "from Dakar to Antananarivo", "ci Dakar ba Tananarive"], ["Payer · sans friction", "Pay · frictionless", "Fey · du yokk"], ["Livraison de quartier", "Neighbourhood delivery", "Livraison ci seen kër"], ["Encaisse en confiance", "Cash in with trust", "Jot sa xaalis ci seen béréb"], ["Un partage équitable.", "A fair split.", "Ab séddoo bu jub."], ["Paiement Mobile Money", "Mobile Money payment", "Fey ci Mobile Money"], ["qui rend des comptes.", "that is accountable.", "di jokkoo."], ["On répond franchement", "We answer frankly", "Nun di tontu ci seen dëgg"], ["Présente ton activité", "Present your activity", "Wone sa activité"], ["03 · Aperçu en direct", "03 · Live preview", "03 · Wone ci yónn"], ["Services du quotidien", "Everyday services", "Liggéey yu bepp tey"], ["produits & boutiques.", "products & shops.", "nun ak boutique."], ["Commande par WhatsApp", "Order via WhatsApp", "Commande ci WhatsApp"], ["Mot de passe oublié ?", "Forgot password?", "Fëgg sa baatu jubluwaay?"], ["Contacter la boutique", "Contact the shop", "Wax ak boutique bi"], ["Ajouter un exemplaire", "Add an item", "Yokk ab unité"], ["Retirer un exemplaire", "Remove an item", "Génnal ab unité"], ["Effacer la recherche", "Clear search", "Mënal sa wut"], ["Grandir à ton rythme", "Grow at your own pace", "Yónn ci sa wàll"], ["Publier · simplement", "Post · simply", "Bind · ci seen yónn"], ["Livrer · à proximité", "Deliver · nearby", "Defar · ci wet"], ["Explorer · l'Afrique", "Explore · Africa", "Saytu · Afrik"], ["En quelques secondes", "In seconds", "Ci ay simili"], ["Questions fréquentes", "FAQ", "FAQ"], ["Publier ses produits", "List your products", "Bind sa nun"], ["Bâtir avec confiance", "Build with trust", "Sos ci seen béréb"], ["+ Ajouter un produit", "+ Add a product", "+ Yokk ab nun"], ["simples et soignées.", "storefronts.", "bu njañte te leer."], ["Voir la commission →", "See pricing →", "Gis commission bi →"], ["On commence ensemble", "We start together", "Nun di tàmbali ci nun ñaar"], ["Confiance & sécurité", "Trust & safety", "Béréb ak sérété"], ["Bienvenue au marché.", "Welcome to the market.", "Dalal jamm ci këyitu bi."], ["8 caractères minimum", "8 characters minimum", "8 caractères ci néew"], ["Ton panier est vide.", "Your cart is empty.", "Sa paar du fees."], ["par vente confirmée", "per confirmed sale", "ci sa jaay bu neex"], ["Tout ce qu'il faut.", "Everything you need.", "Lépp lu ngay jëfandiku."], ["Partage & rencontre", "Share & meet", "Xaaj & jot"], ["Reçois une commande", "Receive an order", "Jot ab commande"], ["Ouvrir une boutique", "Open a shop", "Ub boutique"], ["en français & local", "in French & local", "ci fransà & ci seen dëkk"], ["commission affichée", "commission displayed", "commission bi wone"], ["Les questions qu'on", "Questions we’re", "Laaj yi"], ["Artisanat fait main", "Handmade crafts", "Artisanat bu ngi defar ci loxol"], ["Vase en terre cuite", "Terracotta vase", "Vase bu tere cuite"], ["pour bien démarrer.", "to start strong.", "ngir tàmbali ci baax."], ["Découvrir le marché", "Discover the market", "Gis su këyitu bi"], ["Ton tableau de bord", "Your dashboard", "Sa tableau de bord"], ["Ton prochain client", "Your next customer", "Sa jëndukat bu ci ñu njëkk"], ["Envoyer ma demande ", "Send my request ", "Yónn sama ñaan "], ["Commission & tarifs", "Pricing", "Commission ak tariif"], ["produits en vitrine", "products in storefront", "nun ci vitrine"], [" produit en vitrine", " product in storefront", " nun ci vitrine"], ["vendeur ÉtalAfrique", "ÉtalAfrique seller", "jaaykat ÉtalAfrique"], ["un premier produit", "your first product", "sa nun bi ci ñu njëkk"], ["Mobile Money natif", "Native Mobile Money", "Mobile Money ci seen ngiir"], ["Confiance vérifiée", "Verified trust", "Béréb bu teg"], ["Une vente réussie.", "A successful sale.", "Ab jaay bu baax."], ["nous pose souvent.", "often asked.", "di ñu laaj."], ["Ton espace vendeur", "Your seller space", "Sa wàll jaaykat"], ["en quelques clics.", "in a few clicks.", "ci ay klik."], ["Ville / quartier *", "City / neighbourhood *", "Dëkk / kër *"], ["Beauté & bien-être", "Beauty & wellness", "Yaram ak luy"], ["Ce que tu pourras ", "What you’ll be able to ", "Lu ngay mën a "], ["Ferme de Casamance", "Casamance farm", "Tool bu Casamance"], ["Le Mag ÉtalAfrique", "The ÉtalAfrique Mag", "Mag ÉtalAfrique"], ["Connexion Supabase", "Supabase sign-in", "Dugg Supabase"], ["unités disponibles", "units available", "unité yi am"], ["Merci, à bientôt !", "Thanks, see you soon!", "Jërëjëf, ci kanam!"], ["Connexion réussie.", "Signed in.", "Nga dugg."], ["Parler à l'équipe", "Talk to the team", "Wax ak ekip bi"], ["Comment ça marche", "How it works", "Naka la doxe"], ["de tout le monde.", "of everyone.", "ci lépp."], ["La boîte à outils", "The toolbox", "Boyet bu karante"], ["Rien de superflu.", "Nothing more.", "Du dëpp."], ["Commission claire", "Clear commission", "Commission bu leer"], ["paiement sécurisé", "secure payment", "fey bu neex"], ["Modifier mon étal", "Edit my stall", "Soppi samay ndox"], ["Les trésors d'Awa", "Awa’s treasures", "Yenn yu Awa"], ["02 · Tes produits", "02 · Your products", "02 · Sa nun"], ["Publier mon étal ", "Publish my stall ", "Téqal samay ndox "], ["Ville · catégorie", "City · category", "Dëkk · catégorie"], ["Mode & pagnes wax", "Fashion & wax cloth", "Mode ak pagne wax"], ["Décoration maison", "Home decor", "Seen wàll"], ["Kit lampe solaire", "Solar lamp kit", "Kit lampe solaire"], ["Atelier d'Ibrahim", "Ibrahim’s workshop", "Atelie bu Ibrahima"], ["Fixer le bon prix", "Set the right price", "Tànne prix bu jub"], ["Boutiques locales", "Local shops", "Boutique yi ci wet"], ["Fermer la session", "Sign out", "Génn"], ["jamais enregistré", "never saved", "amul denc"], ["écrire à l’équipe", "write to the team", "bind ci ekip bi"], ["Parler au support", "Talk to support", "Wax ak support"], ["Réponse sous 24 h", "Reply within 24 h", "Tontu ci 24h"], ["Ajouter au panier", "Add to cart", "Yokk ci paar"], [" ajouté au panier", " added to cart", " yokku ci paar"], ["Ouvrir le panier", "Open the cart", "Ub sa paar"], ["Recherche rapide", "Quick search", "Wut gaaw"], ["Ton étal · Dakar", "Your stall · Dakar", "Sa ndox · Dakar"], ["Pagne wax Ankara", "Ankara wax cloth", "Pagne wax Ankara"], [" pour l'Afrique.", " for Africa.", " ci Afrik."], ["Aucune boutique.", "No shop needed.", "Amul boutique."], ["Sans exclusivité", "No exclusivity", "Amul exclusivity"], ["Conçu en Afrique", "Made in Africa", "Defar ci Afrik"], ["Prix décroissant", "Price descending", "Prix buy wàññ"], ["Exporter (.json)", "Export (.json)", "Génn ci (.json)"], ["Valeur catalogue", "Catalog value", "Yiir catalogue bi"], ["MTN Mobile Money", "MTN Mobile Money", "MTN Mobile Money"], ["Ton mot de passe", "Your password", "Sa baatu jubluwaay"], ["Créer mon compte", "Create my account", "Sos samay compte"], ["Fermer le panier", "Close cart", "Tëj sa paar"], ["Voir la boutique", "See the shop", "Gis boutique bi"], ["Ouvrir le détail", "Open details", "Ub détail"], ["Prix sur demande", "Price on request", "Prix ci ñaan"], ["Indique ton nom.", "Add your name.", "Bind sa tur."], ["Étal enregistré.", "Stall saved.", "Ndox denc."], [" » de ton étal ?", " » from your stall?", " » ci sa ndox?"], ["Ajouté au panier", "Added to cart", "Yokku ci paar"], ["Fonctionnalités", "Features", "Liggéey yi"], ["📍 Médina, Dakar", "📍 Médina, Dakar", "📍 Médina, Dakar"], ["01 — VISIBILITÉ", "01 — VISIBILITY", "01 — WONEWU"], ["02 — SIMPLICITÉ", "02 — SIMPLICITY", "02 — NJAÑTE"], ["04 — CROISSANCE", "04 — GROWTH", "04 — YÓNN"], ["Un modèle juste", "A fair model", "Modèl bu jub"], ["Tu ne paies que", "You only pay", "Fey nga rekk"], ["quand tu vends.", "when you sell.", "bu ngay jaay."], ["Sans engagement", "No commitment", "Amul engagement"], ["Données locales", "Local data", "Xibaar yi ci seen dëkk"], ["tu restes libre", "you stay free", "sa ngi ngi am"], ["pour nos usages", "for our ways", "ci seen Afrik"], ["même hors ligne", "even offline", "bu amul réseau"], ["Nom de l'étal *", "Stall name *", "Tur ndox *"], ["Saveurs locales", "Local flavours", "Lii ci seen wàll"], ["Miel de brousse", "Wild honey", "Lii ci wàll"], ["Agroalimentaire", "Food & groceries", "Agroalimentaire"], ["Poupée en tissu", "Fabric doll", "Poupée bu tissu"], ["Relation client", "Customer care", "Jokkoo ak njek"], ["Modifier l'étal", "Edit the stall", "Soppi ndox mi"], ["Ouvrir mon étal", "Open my stall", "Ub samay ndox"], ["Créer un compte", "Create account", "Sos ab compte"], ["Aucun résultat.", "No results.", "Amul résultat."], ["Produit retiré.", "Product removed.", "Nun génnal."], ["Fermer le menu", "Close menu", "Tëj kàttan"], ["Ouvrir le menu", "Open menu", "Ub kàttan"], ["Espace vendeur", "Seller space", "Sa wàll jaaykat"], ["Ventes du jour", "Today’s sales", "Jaay bu tey"], ["Avantages clés", "Key benefits", "Yu mëna jëfandiku"], ["03 — CONFIANCE", "03 — TRUST", "03 — BÉRÉB"], ["Support humain", "Human support", "Support njek"], ["Une plateforme", "A platform", "Ab platform"], ["Dakar · Médina", "Dakar · Médina", "Dakar · Médina"], ["Mode & textile", "Fashion & textile", "Mode ak textile"], ["Prix croissant", "Price ascending", "Prix buy yokk"], ["enregistré le ", "saved on ", "denc ci "], ["Réponse rapide", "Quick reply", "Tontu ci gaaw"], ["Catalogue réel", "Real catalog", "Catalogue bu dëgg"], ["Profil vendeur", "Seller profile", "Saaf jaaykat"], ["Copier le lien", "Copy link", "Copie lien bi"], ["Retour en haut", "Back to top", "Dellu ci kaaw"], ["Quantité pour ", "Quantity for ", "Cantidad ngir "], ["Étal supprimé.", "Stall deleted.", "Ndox faral."], ["dans la poche", "in everyone’s pocket", "ci sa rokk"], ["Bonjour Awa 👋", "Hello Awa 👋", "Asalaa maalekum Awa 👋"], ["+ 18 400 FCFA", "+ 18,400 FCFA", "+ 18 400 FCFA"], ["Trois étapes.", "Three steps.", "Ñetti etap."], ["Crée ton étal", "Create your stall", "Sos sa ndox"], ["Beauté & soin", "Beauty & care", "Yaram ak luy"], ["Panier tressé", "Woven basket", "Panier bu ngi wër"], ["Tech & maison", "Tech & home", "Tech ak kër"], ["Des vitrines ", "Clean, polished ", "Vitrine yi "], ["Photo produit", "Product photo", "Nataal nun"], ["Lire la FAQ →", "Read the FAQ →", "Jàng FAQ bi →"], ["Ville (A → Z)", "City (A → Z)", "Dëkk (A → Z)"], ["Réinitialiser", "Reset", "Tàmbal ci tundu"], ["Nos avantages", "Our benefits", "Samay mën"], ["Centre d'aide", "Help center", "Wàll ndimbal"], ["ton@email.com", "you@email.com", "sa@email.com"], ["Adresse email", "Email address", "Sa email"], ["Étal sans nom", "Unnamed stall", "Ndox amul tur"], ["Mobile Money", "Mobile Money", "Mobile Money"], ["pour publier", "to list", "nga bind"], ["Tu es payé·e", "You get paid", "Nga jot sa xaalis"], ["Étal gratuit", "Free stall", "Ndox mi free"], ["Transparence", "Transparency", "Seen leer"], ["Alimentation", "Food", "Lii"], ["prix × stock", "price × stock", "prix × stok"], ["Tes produits", "Your products", "Sa nun"], ["Ton message ", "Your message ", "Sa bataaxal "], ["Orange Money", "Orange Money", "Orange Money"], ["Mot de passe", "Password", "Baatu jubluwaay"], ["Se connecter", "Sign in", "Dugg"], ["Publication…", "Publishing…", "Téqal…"], ["ÉtalAfrique", "ÉtalAfrique", "ÉtalAfrique"], ["Enregistrés", "Saved", "Tëdde"], ["Déconnexion", "Sign out", "Génn"], ["Collections", "Collections", "Collecciyo"], ["📍 Casamance", "📍 Casamance", "📍 Casamance"], ["Le marché, ", "The market, ", "Su këyitu, "], ["Le parcours", "The journey", "Sa yónne"], ["Des univers", "Worlds", "Sa yónne yi"], ["Nom (A → Z)", "Name (A → Z)", "Tur (A → Z)"], ["Nom (Z → A)", "Name (Z → A)", "Tur (Z → A)"], ["Stock total", "Total stock", "Stok bu mat"], ["Nom complet", "Full name", "Sa tur"], ["Enregistrer", "Save", "Denc"], ["Un instant…", "One moment…", "Ab simili…"], ["actions sur", "actions on", "action yi ci"], ["Rechercher", "Search", "Wut"], ["Mon profil", "My profile", "Samay safar"], ["Commission", "Pricing", "Commission"], ["commission", "commission", "commission"], ["frais fixe", "fixed fee", "frais bu dëpp"], ["pays visés", "countries targeted", "pays yi"], ["✓ Illimité", "✓ Unlimited", "✓ Du fen"], ["À la carte", "Pay-per-use", "Ci seen béréb"], ["Accessible", "Accessible", "Am"], ["Awa Ndiaye", "Awa Ndiaye", "Awa Ndiaye"], ["Explorer →", "Explore →", "Saytu →"], ["Décoration", "Decoration", "Decoration"], ["Pertinence", "Relevance", "Seen baax"], ["Ton email ", "Your email ", "Sa email "], ["Je veux...", "I want to...", "Damay bëgg..."], ["Ressources", "Resources", "Seen am"], ["Moov Money", "Moov Money", "Moov Money"], ["Mon espace", "My space", "Samay wàll"], ["Ton panier", "Your cart", "Sa paar"], ["Enregistré", "Saved", "Denc"], ["Connexion…", "Signing in…", "Dugg…"], ["Il manque ", "Missing ", "Amul "], ["Lien copié", "Link copied", "Lien copié"], ["Retirer « ", "Remove « ", "Génnal « "], ["Connexion", "Sign in", "Dugg"], ["Avantages", "Benefits", "Yu mëna jëfandiku"], ["Catalogue", "Catalog", "Catalogue"], ["Ton étal,", "Your stall,", "Sa ndox,"], ["réinventé", "reinvented", "sàmpal"], ["par vente", "per sale", "ci sa jaay"], ["confirmée", "confirmed", "bu neex"], ["✓ Gratuit", "✓ Free", "✓ Ci free"], ["Ton nom *", "Your name *", "Sa tur *"], ["Catégorie", "Category", "Catégorie"], ["Artisanat", "Crafts", "Artisanat"], ["Conseils ", "Tips ", "Yoon "], ["Boutiques", "Shops", "Boutique"], ["Brouillon", "Draft", "Brouillon"], ["Découvrir", "Discover", "Saytu"], ["Instagram", "Instagram", "Instagram"], ["boutiques", "shops", "boutique yi"], ["résultats", "results", "résultats yi"], [" en stock", " in stock", " ci stok"], ["Création…", "Creating…", "Sos…"], ["📍 Bamako", "📍 Bamako", "📍 Bamako"], ["✓ Inclus", "✓ Included", "✓ Neex"], ["Variable", "Variable", "Sopi sopi"], ["✓ Direct", "✓ Direct", "✓ Ci seen ngiir"], ["Services", "Services", "Liggéey"], ["Produits", "Products", "Nun"], ["Supabase", "Supabase", "Supabase"], ["WhatsApp", "WhatsApp", "WhatsApp"], ["Ton nom ", "Your name ", "Sa tur "], ["LinkedIn", "LinkedIn", "LinkedIn"], ["Quantité", "Quantity", "Cantidad"], ["produits", "products", "nun"], ["résultat", "result", "résultat"], [" pour « ", " for « ", " ngir « "], ["Retirer ", "Remove ", "Génnal "], ["Ton étal", "Your stall", "Sa ndox"], ["Accueil", "Home", "Wet"], ["Contact", "Contact", "Sa jokkoo"], ["Enfants", "Kids", "Xale yi"], ["Textile", "Textile", "Textile"], ["Email :", "Email:", "Email:"], ["Ajouter", "Add", "Yokk"], ["Vendeur", "Seller", "Jaaykat"], ["produit", "product", "nun"], ["Bonjour", "Hello", "Asalaa maalekum"], ["Panier", "Cart", "Paar"], ["Payant", "Paid", "Nga fey"], ["Limité", "Limited", "Du fees"], ["✓ 7j/7", "✓ 7d/7", "✓ 7l/7"], ["Publié", "Published", "Téqal"], ["Statut", "Status", "Wér"], ["Fermer", "Close", "Tëj"], ["Aperçu", "Preview", "Wonewu"], ["Hello ", "Hello ", "Asalaa maalekum "], ["Plus d", "More on", "Yeneen ci"], ["Autre", "Other", "Yeneen"], ["Trier", "Sort", "Séddoo"], ["Email", "Email", "Email"], ["Nom :", "Name:", "Tur:"], ["Total", "Total", "Mat"], ["LIVE", "LIVE", "WÀN"], ["Mode", "Fashion", "Mode"], ["Prix", "Pricing", "Prix"], ["Tout", "All", "Lépp"], ["Wave", "Wave", "Wave"], ["FAQ", "FAQ", "FAQ"], ["TOP", "TOP", "KAW"], [" »", " »", " »"]];
+/* Chaque entrée est [fr, en, wo]. On construit, pour chaque langue cible,
+   une table qui accepte les trois variantes en entrée : la page peut donc
+   passer de n'importe quelle langue à n'importe quelle autre. */
+function buildMaps(){
+  var fr={},en={},wo={},i,e;
+  /* Passe 1 : routes de retour (texte déjà traduit -> langue cible). */
+  for(i=0;i<ENTRIES.length;i++){
+    e=ENTRIES[i];
+    fr[e[1]]=e[0]; fr[e[2]]=e[0];
+    en[e[2]]=e[1];
+    wo[e[1]]=e[2];
+  }
+  /* Passe 2 : le français est la clé de référence, il gagne toujours. */
+  for(i=0;i<ENTRIES.length;i++){
+    e=ENTRIES[i];
+    fr[e[0]]=e[0]; en[e[0]]=e[1]; wo[e[0]]=e[2];
+  }
+  return {fr:fr,en:en,wo:wo};
+}
+var M=buildMaps();
+function mapFor(l){return l==='en'?M.en:(l==='wo'?M.wo:M.fr);}
+function detect(){
+  try{var v=localStorage.getItem(LANG_KEY);if(v&&SUPPORTED.indexOf(v)!==-1)return v;}catch(e){}
+  var n=(navigator.language||navigator.userLanguage||'fr').slice(0,2).toLowerCase();
+  if(SUPPORTED.indexOf(n)!==-1)return n; return DEFAULT_LANG;
+}
+var currentLang=detect();
+var SKIP={SCRIPT:1,STYLE:1,NOSCRIPT:1,TEMPLATE:1};
+function translateRoot(root,lang){
+  if(!root)return;
+  var map=mapFor(lang);
+  var tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+    var p=n.parentNode;while(p&&p.nodeType===1){if(SKIP[p.nodeName])return NodeFilter.FILTER_REJECT;p=p.parentNode;}
+    return NodeFilter.FILTER_ACCEPT;
+  }});
+  var node,pending=[];
+  while((node=tw.nextNode())){
+    var t=node.nodeValue;if(!t)continue;
+    var tr=t.trim();if(!tr)continue;
+    if(typeof map[tr]==='string'&&map[tr]!==tr){
+      var lead=t.match(/^\s*/)[0],trail=t.match(/\s*$/)[0];
+      pending.push({n:node,v:lead+map[tr]+trail});
+    }
+  }
+  for(var j=0;j<pending.length;j++)pending[j].n.nodeValue=pending[j].v;
+}
+function translateAttrs(root,lang){
+  if(!root)return; var map=mapFor(lang);
+  var sel='input,textarea,select,button,a,[aria-label],[placeholder],[title]';
+  var nodes=root.querySelectorAll(sel);
+  for(var i=0;i<nodes.length;i++){
+    var el=nodes[i];
+    ['placeholder','aria-label','title','alt'].forEach(function(a){
+      if(!el.hasAttribute(a))return;
+      var v=el.getAttribute(a);
+      var tr=v.trim();
+      if(typeof map[tr]==='string'&&map[tr]!==v)el.setAttribute(a,map[tr]);
+    });
+  }
+}
+function translateMeta(lang){
+  var map=mapFor(lang);
+  var t=document.title.trim();
+  if(typeof map[t]==='string')document.title=map[t];
+}
+function renderSwitcher(){
+  var box=document.getElementById('langSwitcher');if(!box)return;
+  var labels={fr:'Français',en:'English',wo:'Wolof'};
+  box.innerHTML='';
+  SUPPORTED.forEach(function(l){
+    var b=document.createElement('button');
+    b.type='button';b.className='lang-btn'+(l===currentLang?' is-active':'');
+    b.setAttribute('aria-pressed',l===currentLang?'true':'false');
+    b.textContent=labels[l];
+    b.addEventListener('click',function(){apply(l);});
+    box.appendChild(b);
+  });
+}
+var observer=null,applying=false,scheduled=false;
+function observe(){
+  if(!observer||!document.body)return;
+  try{observer.observe(document.body,{childList:true,subtree:true,characterData:true});}catch(e){}
+}
+function apply(lang){
+  if(SUPPORTED.indexOf(lang)===-1)lang=DEFAULT_LANG;
+  /* apply() modifie le DOM : sans ce garde-fou, l'observateur ci-dessous
+     se redéclencherait en boucle et figerait la page. */
+  if(applying)return;
+  applying=true;
+  if(observer)observer.disconnect();
+  try{
+    currentLang=lang;
+    document.documentElement.lang=lang;
+    translateRoot(document.body,lang);
+    translateAttrs(document,lang);
+    translateMeta(lang);
+    renderSwitcher();
+    try{localStorage.setItem(LANG_KEY,lang);}catch(e){}
+    try{window.dispatchEvent(new CustomEvent('etalafrique:lang',{detail:{lang:lang}}));}catch(e){}
+  }finally{
+    applying=false;
+    observe();
+  }
+}
+function schedule(){
+  if(applying||scheduled)return;
+  /* En français, le rendu dynamique est déjà dans la langue source :
+     rien à retraduire. */
+  if(currentLang===DEFAULT_LANG)return;
+  scheduled=true;
+  var run=function(){scheduled=false;apply(currentLang);};
+  if(typeof window.requestAnimationFrame==='function')window.requestAnimationFrame(run);
+  else setTimeout(run,16);
+}
+function boot(){
+  /* Re-traduit les rendus dynamiques ultérieurs (catalogue, tableau de bord…). */
+  try{observer=new MutationObserver(schedule);}catch(e){observer=null;}
+  apply(currentLang);
+}
+window.i18n={
+  set:apply,get:function(){return currentLang;},
+  t:function(fr,lang){return mapFor(lang||currentLang)[fr]||fr;}
+};
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);
+else boot();
+})();
+</script>
+
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
