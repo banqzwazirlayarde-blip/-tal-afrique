@@ -1005,10 +1005,7 @@ section{padding:96px 0;position:relative;}
   .catalog-search{width:100%;margin-top:10px;}
 }
 
-/* Bandeau permanent de transparence pour la démonstration */
-.demo-banner{position:sticky;top:0;z-index:1000;background:var(--terra-deep);color:var(--cream);padding:10px 18px;text-align:center;font-size:13px;font-weight:700;letter-spacing:.01em;box-shadow:0 3px 12px rgba(27,27,47,.18);}
 .local-warning{margin:0 0 18px;padding:14px 16px;background:rgba(232,168,60,.2);border:2px solid var(--gold-deep);border-radius:12px;color:var(--ink);font-weight:750;}
-.local-only-badge{font-family:var(--mono);font-size:10px;letter-spacing:.04em;text-transform:none;color:var(--leaf);background:rgba(31,138,95,.12);border:1px solid rgba(31,138,95,.4);border-radius:999px;padding:3px 8px;font-weight:800;}
 
 /* ---------- local authentication ---------- */
 .auth-nav{display:flex;align-items:center;gap:10px;position:relative;}
@@ -1880,28 +1877,6 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
    la palette maison (encre / or / terre / crème).
    ========================================================= */
 
-/* ---------- 1. Bandeau d'annonce ---------- */
-.promo-bar{
-  position:relative;z-index:60;background:var(--ink);color:var(--cream);
-  font-size:13px;overflow:hidden;
-  border-bottom:1px solid rgba(245,240,232,0.14);
-}
-.promo-bar[hidden]{display:none;}
-.promo-bar-track{display:flex;align-items:center;gap:36px;white-space:nowrap;
-  padding:9px 56px 9px 24px;animation:promo-slide 34s linear infinite;}
-.promo-bar-track span{display:inline-flex;align-items:center;gap:8px;opacity:.92;}
-.promo-bar-track b{color:var(--gold);font-weight:800;}
-@keyframes promo-slide{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-@media (prefers-reduced-motion:reduce){
-  .promo-bar-track{animation:none;flex-wrap:wrap;white-space:normal;justify-content:center;gap:18px;}
-}
-.promo-bar-close{
-  position:absolute;right:10px;top:50%;transform:translateY(-50%);
-  background:transparent;border:0;color:var(--cream);opacity:.6;
-  font-size:19px;line-height:1;padding:4px 8px;border-radius:8px;
-}
-.promo-bar-close:hover{opacity:1;background:rgba(245,240,232,.12);}
-
 /* ---------- 2. Offres du jour ---------- */
 .deals-strip{
   margin:0 0 26px;padding:18px 20px;border-radius:var(--radius-lg);
@@ -2205,19 +2180,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
 </head>
 
 <body>
-<div class="promo-bar" id="promoBar" role="region" aria-label="Annonces ÉtalAfrique">
-  <div class="promo-bar-track">
-    <span><b>Ouverture gratuite</b> · l’étal ne coûte rien, 3 % par vente confirmée</span>
-    <span><b>Livraison de quartier offerte</b> dès 25 000 FCFA de panier</span>
-    <span><b>10 pays</b> · Sénégal, Mali, Côte d’Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina, Niger, Madagascar</span>
-    <span><b>Support sous 24 h</b> · par email ou WhatsApp</span>
-    <span aria-hidden="true"><b>Ouverture gratuite</b> · l’étal ne coûte rien, 3 % par vente confirmée</span>
-    <span aria-hidden="true"><b>Livraison de quartier offerte</b> dès 25 000 FCFA de panier</span>
-    <span aria-hidden="true"><b>10 pays</b> · Sénégal, Mali, Côte d’Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina, Niger, Madagascar</span>
-    <span aria-hidden="true"><b>Support sous 24 h</b> · par email ou WhatsApp</span>
-  </div>
-  <button type="button" class="promo-bar-close" id="promoBarClose" aria-label="Masquer le bandeau d’annonces">×</button>
-</div>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 <a class="skip" href="#main">Aller au contenu principal</a>
 <noscript><p class="nojs-note">JavaScript est désactivé : la page reste lisible d’un bloc, mais le catalogue, le panier et la création d’étal ne fonctionnent pas.</p></noscript>
@@ -2502,6 +2464,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           <div class="creator-field"><label for="sellerName">Ton nom *</label><input id="sellerName" name="sellerName" required placeholder="Awa Ndiaye" autocomplete="name"></div>
           <div class="creator-field"><label for="stallName">Nom de l'étal *</label><input id="stallName" name="stallName" required placeholder="Les trésors d'Awa"></div>
           <div class="creator-field"><label for="stallCity">Ville / quartier *</label><input id="stallCity" name="stallCity" required placeholder="Dakar · Médina"></div>
+          <div class="creator-field"><label for="stallWhatsapp">WhatsApp de l'étal</label><input id="stallWhatsapp" name="stallWhatsapp" type="tel" inputmode="tel" placeholder="+229 01 23 45 67 89" autocomplete="tel"></div>
           <div class="creator-field"><label for="stallCategory">Catégorie</label><select id="stallCategory" name="stallCategory"><option>Mode & textile</option><option>Alimentation</option><option>Beauté & bien-être</option><option>Artisanat</option><option>Services</option><option>Autre</option></select></div>
           <div class="creator-field full"><label for="stallDescription">Une phrase sur ton étal</label><textarea id="stallDescription" name="stallDescription" placeholder="Des créations et produits choisis avec soin..."></textarea></div>
         </div>
@@ -3759,7 +3722,16 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           );
         } else toast('Lien : ' + url);
       } else if (act === 'contact') {
-        toast('Démonstration : la messagerie boutique n\u2019est pas encore branchée.');
+        var waDigits = (item.whatsapp || '').replace(/\D/g, '');
+        var waMsg = 'Bonjour, je suis intéressé·e par : ' + item.name + (item.stall ? ' (' + item.stall + ')' : '') + '.';
+        if (waDigits) {
+          window.open('https://wa.me/' + waDigits + '?text=' + encodeURIComponent(waMsg), '_blank', 'noopener');
+        } else {
+          /* Le vendeur n'a pas encore renseigné de numéro WhatsApp : on route vers
+             l'équipe ÉtalAfrique, qui met en relation avec lui (même mécanisme que
+             le paiement du panier). */
+          window.open('https://wa.me/2290166584697?text=' + encodeURIComponent('Bonjour ÉtalAfrique, ' + waMsg), '_blank', 'noopener');
+        }
       } else {
         openDetail(item);
       }
@@ -4009,6 +3981,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       ownerId: row.owner_id,
       stallName: row.name || 'Étal sans nom',
       stallCity: row.city || '',
+      whatsapp: row.whatsapp || '',
       stallCategory: row.category || '',
       stallDescription: row.description || '',
       products: Array.isArray(row.products) ? row.products : [],
@@ -4030,7 +4003,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           type: 'product',
           id: 'sb-' + s.id + '-' + i,
           name: p.name, price: Number(p.price) || 0, stock: Number(p.stock) || 0,
-          city: s.stallCity, stall: s.stallName, seller: s.sellerName,
+          city: s.stallCity, stall: s.stallName, seller: s.sellerName, whatsapp: s.whatsapp,
           cat: guessCategory(p.name + ' ' + s.stallCategory), emoji: '\uD83D\uDECD\uFE0F',
           desc: s.stallDescription
         });
@@ -4038,7 +4011,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       items.push({
         type: 'stall',
         id: 'sb-s-' + s.id,
-        name: s.stallName, city: s.stallCity, seller: s.sellerName,
+        name: s.stallName, city: s.stallCity, seller: s.sellerName, whatsapp: s.whatsapp,
         cat: guessCategory(s.stallCategory + ' ' + s.stallDescription),
         catLabel: s.stallCategory, desc: s.stallDescription,
         count: s.products.filter(function (p) { return p && p.name; }).length,
@@ -4223,6 +4196,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       sellerName: byId('sellerName').value.trim(),
       stallName: byId('stallName').value.trim(),
       stallCity: byId('stallCity').value.trim(),
+      stallWhatsapp: byId('stallWhatsapp').value.trim(),
       stallCategory: byId('stallCategory').value,
       stallDescription: byId('stallDescription').value.trim(),
       products: $$('.product-row', productRows).map(function (row) {
@@ -4258,6 +4232,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     byId('sellerName').value = data.sellerName || meta.name || '';
     byId('stallName').value = data.stallName || '';
     byId('stallCity').value = data.stallCity || '';
+    byId('stallWhatsapp').value = data.stallWhatsapp || data.whatsapp || '';
     byId('stallCategory').value = data.stallCategory || 'Mode & textile';
     byId('stallDescription').value = data.stallDescription || '';
     productRows.innerHTML = '';
@@ -4310,6 +4285,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       owner_id: session.user.id,
       name: data.stallName,
       city: data.stallCity,
+      whatsapp: data.stallWhatsapp,
       category: data.stallCategory,
       description: data.stallDescription,
       products: data.products
@@ -4320,7 +4296,13 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
 
     query.then(function (res) {
       setBusy(stallForm, false);
-      if (res.error) { byId('stallError').textContent = res.error.message; return; }
+      if (res.error) {
+        /* 42703 = colonne absente : le schéma n'a pas encore la colonne whatsapp. */
+        byId('stallError').textContent = (/column .*whatsapp/i.test(res.error.message) || res.error.code === '42703')
+          ? 'Ajoute la colonne « whatsapp » (text) à la table stalls pour activer ce champ.'
+          : res.error.message;
+        return;
+      }
       toast('Étal enregistré.');
       creatorDialog.close();
       refreshAll(true);
@@ -5264,20 +5246,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
         syncFacetControls();
         renderCatalog();
         goToTab('catalog');
-      });
-    }
-  })();
-
-  /* ---- Bandeau d'annonce ---- */
-  (function () {
-    var bar = byId('promoBar');
-    if (!bar) return;
-    if (store.get('etalafrique.promoDismissed', false) === true) { bar.hidden = true; return; }
-    var close = byId('promoBarClose');
-    if (close) {
-      close.addEventListener('click', function () {
-        bar.hidden = true;
-        store.set('etalafrique.promoDismissed', true);
       });
     }
   })();
