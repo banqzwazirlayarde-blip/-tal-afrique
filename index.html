@@ -1758,7 +1758,10 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 .board-tile[data-swatch="6"] .board-cover{ background:linear-gradient(135deg,#F2C57A,#E8A83C); }
 .board-tile[data-swatch="7"] .board-cover{ background:linear-gradient(135deg,#6B677A,#3D3A56); }
 .board-tile[data-swatch="8"] .board-cover{ background:linear-gradient(135deg,#B8552E,#1B1B2F); }
-/* span-specific sizing replaced by per-SVG sizing rules below */
+.board-cover span{ opacity:0.92; }
+.board-cover span:nth-child(2){ opacity:0.55; font-size:20px; }
+.board-cover span:nth-child(3){ opacity:0.7; }
+.board-cover span:nth-child(4){ opacity:0.45; font-size:18px; }
 
 /* ---------- rail horizontal "aperçus" (façon fil Pinterest) ---------- */
 .trend-rail{
@@ -1860,18 +1863,49 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 .collections-section{ padding-top:24px; }
 .collections-section .block-gap{ margin-top:56px; }
 
-/* ---------- SVG icons replacing emojis in collection section ---------- */
-.board-cover > svg{width:62%;height:62%;display:block;}
-.board-cover > svg:first-of-type{width:74%;height:74%;}
-.board-cover > svg:nth-of-type(2){width:38%;height:38%;opacity:.7;}
-.board-cover > svg:nth-of-type(3){width:48%;height:48%;opacity:.85;}
-.board-cover > svg:nth-of-type(4){width:34%;height:34%;opacity:.6;}
-.trend-thumb svg{width:62%;height:62%;display:block;position:relative;z-index:1;}
-.spotlight-strip > div svg{width:60%;height:60%;display:block;}
-.mag-cover svg{width:54%;height:54%;display:block;}
+/* ---------- language switcher ---------- */
+.lang-switcher{position:relative;display:inline-flex;align-items:center;}
+.lang-switcher > button{
+  display:inline-flex;align-items:center;gap:6px;
+  font:inherit;font-size:12.5px;font-weight:700;letter-spacing:.04em;
+  color:var(--cream);
+  background:rgba(245,240,232,0.08);
+  border:1px solid var(--line-on-ink);
+  border-radius:999px;
+  padding:7px 12px 7px 10px;
+  cursor:pointer;
+  transition:background .15s ease,border-color .15s ease,color .15s ease;
+}
+.lang-switcher > button:hover{background:rgba(245,240,232,0.16);border-color:var(--gold);}
+.lang-switcher > button .globe{width:14px;height:14px;flex:none;}
+.lang-switcher > button .chev{width:10px;height:10px;flex:none;opacity:.75;transition:transform .2s ease;}
+.lang-switcher.is-open > button .chev{transform:rotate(180deg);}
+.lang-switcher .lang-menu{
+  position:absolute;top:calc(100% + 8px);right:0;
+  min-width:170px;background:var(--paper);
+  border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow-md);
+  padding:6px;display:none;z-index:130;
+}
+.lang-switcher.is-open .lang-menu{display:block;}
+.lang-switcher .lang-menu button{
+  width:100%;display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border:0;background:transparent;
+  font:inherit;font-size:13.5px;color:var(--ink);
+  border-radius:8px;cursor:pointer;text-align:left;
+}
+.lang-switcher .lang-menu button:hover{background:var(--paper-2);}
+.lang-switcher .lang-menu button[aria-checked="true"]{background:var(--paper-2);font-weight:700;}
+.lang-switcher .lang-menu .flag{font-size:16px;line-height:1;}
+.lang-switcher .lang-menu .code{color:var(--ink-mute);font-size:11.5px;margin-left:auto;letter-spacing:.06em;}
+@media (max-width:880px){
+  .lang-switcher > button{font-size:11.5px;padding:6px 10px;}
+  .lang-switcher > button .full{display:none;}
+}
+@media (max-width:560px){
+  .lang-switcher{display:none;}
+}
 
-.loc-pin{display:inline-flex;align-items:center;gap:4px;}
-.loc-pin svg{width:14px;height:14px;display:inline-block;}
 </style>
 </head>
 
@@ -1885,33 +1919,45 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <nav class="nav" aria-label="Navigation principale">
     <a href="#home" class="brand" aria-label="ÉtalAfrique — retour à l'accueil">
       <span class="brand-mark" aria-hidden="true"></span>
-      <span class="brand-text">ÉtalAfrique<small>commerce de confiance</small></span>
+      <span class="brand-text">ÉtalAfrique<small data-i18n="brand.tagline">commerce de confiance</small></span>
     </a>
     <div class="nav-links">
-      <a href="#advantages"  class="nav-link" data-nav="advantages">Avantages</a>
-      <a href="#features"    class="nav-link" data-nav="features">Fonctionnalités</a>
-      <a href="#how"         class="nav-link" data-nav="how">Comment ça marche</a>
-      <a href="#pricing"     class="nav-link" data-nav="pricing">Commission</a>
-      <a href="#faq"         class="nav-link" data-nav="faq">FAQ</a>
-      <a href="#catalog"     class="nav-link" data-nav="catalog">Catalogue</a>
-      <a href="#collections" class="nav-link" data-nav="collections">Collections</a>
-      <a href="#seller-space" class="nav-link" data-nav="seller-space">Espace vendeur</a>
-      <a href="#contact"     class="nav-link" data-nav="contact">Contact</a>
+      <a href="#advantages"  class="nav-link" data-nav="advantages" data-i18n="nav.advantages">Avantages</a>
+      <a href="#features"    class="nav-link" data-nav="features" data-i18n="nav.features">Fonctionnalités</a>
+      <a href="#how"         class="nav-link" data-nav="how" data-i18n="nav.how">Comment ça marche</a>
+      <a href="#pricing"     class="nav-link" data-nav="pricing" data-i18n="nav.pricing">Commission</a>
+      <a href="#faq"         class="nav-link" data-nav="faq" data-i18n="nav.faq">FAQ</a>
+      <a href="#catalog"     class="nav-link" data-nav="catalog" data-i18n="nav.catalog">Catalogue</a>
+      <a href="#collections" class="nav-link" data-nav="collections" data-i18n="nav.collections">Collections</a>
+      <a href="#seller-space" class="nav-link" data-nav="seller-space" data-i18n="nav.sellerSpace">Espace vendeur</a>
+      <a href="#contact"     class="nav-link" data-nav="contact" data-i18n="nav.contact">Contact</a>
     </div>
     <div class="nav-actions">
-      <button type="button" class="icon-toggle" id="searchToggle" aria-expanded="false" aria-controls="headerSearchBar" aria-label="Rechercher">
+      <button type="button" class="icon-toggle" id="searchToggle" aria-expanded="false" aria-controls="headerSearchBar" data-i18n-aria="search.toggle" aria-label="Rechercher">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
         </svg>
       </button>
-      <a href="#contact" class="btn btn-ghost">Parler à l'équipe</a>
-      <a href="#create-stall" data-open-creator class="btn btn-primary">Ouvrir mon étal</a>
-      <button type="button" class="saved-btn" id="savedBtn" aria-pressed="false" aria-label="Voir mes produits enregistrés"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-7-4-7 4z"/></svg><span class="saved-label">Enregistrés</span><span class="count-badge" data-save-count hidden></span></button>
+      <a href="#contact" class="btn btn-ghost" data-i18n="cta.contactTeam">Parler à l'équipe</a>
+      <a href="#create-stall" data-open-creator class="btn btn-primary" data-i18n="cta.openStall">Ouvrir mon étal</a>
+      <button type="button" class="saved-btn" id="savedBtn" aria-pressed="false" aria-label="Voir mes produits enregistrés"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-7-4-7 4z"/></svg><span class="saved-label" data-i18n="nav.saved">Enregistrés</span><span class="count-badge" data-save-count hidden></span></button>
       <button type="button" class="shop-cart-btn" id="shopCartBtn" aria-label="Ouvrir le panier" aria-haspopup="dialog" aria-controls="shopCartSidebar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.5 12h11L21 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
-    <span class="shop-cart-label">Panier</span>
-    <span class="shop-cart-badge" id="shopCartBadge" data-count="0" aria-label="articles">0</span>
-  </button><div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile">Mon profil</button><button type="button" class="auth-logout" id="authLogout">Déconnexion</button></div></div>
+    <span class="shop-cart-label" data-i18n="nav.cart">Panier</span>
+    <span class="shop-cart-badge" id="shopCartBadge" data-count="0" data-i18n-aria="cart.itemsCount" aria-label="articles">0</span>
+  </button><div class="auth-nav" id="authNav" aria-label="Compte"><button type="button" class="auth-btn" id="authOpen" data-i18n="auth.login">Connexion</button><button type="button" class="auth-user" id="authUser" hidden aria-expanded="false"><span class="auth-avatar" id="authAvatar"></span><span class="auth-user-name" id="authUserName"></span><span class="auth-caret">▾</span></button><div class="auth-dropdown" id="authDropdown" hidden><button type="button" id="authProfile" data-i18n="auth.profile">Mon profil</button><button type="button" class="auth-logout" id="authLogout" data-i18n="auth.logout">Déconnexion</button></div></div>
+      <div class="lang-switcher" id="langSwitcher" data-lang-switcher>
+        <button type="button" id="langSwitcherBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="Changer de langue" title="Changer de langue">
+          <svg class="globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 3.5 6 3.5 9s-1 6-3.5 9c-2.5-3-3.5-6-3.5-9S9.5 6 12 3z"/></svg>
+          <span class="full" data-i18n="lang.currentLabel">Français</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="lang-menu" role="listbox" aria-label="Choisir la langue">
+          <button type="button" role="option" data-lang-value="fr" aria-checked="true"><span class="flag" aria-hidden="true">🇫🇷</span><span>Français</span><span class="code">FR</span></button>
+          <button type="button" role="option" data-lang-value="en" aria-checked="false"><span class="flag" aria-hidden="true">🇬🇧</span><span>English</span><span class="code">EN</span></button>
+          <button type="button" role="option" data-lang-value="wo" aria-checked="false"><span class="flag" aria-hidden="true">🇸🇳</span><span>Wolof</span><span class="code">WO</span></button>
+        </div>
+      </div>
       <button class="menu-toggle" id="menuToggle"
               aria-expanded="false" aria-controls="mobileMenu" aria-label="Ouvrir le menu">
         <svg class="open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -1924,8 +1970,8 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <svg class="pin-search-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
       </svg>
-      <input type="search" id="pinSearch" placeholder="Rechercher un produit, une boutique, une ville…" aria-label="Recherche sur le site" autocomplete="off">
-      <button type="button" class="pin-search-clear" id="pinSearchClear" aria-label="Effacer la recherche">
+      <input type="search" id="pinSearch" data-i18n-placeholder="search.placeholder" placeholder="Rechercher un produit, une boutique, une ville…" aria-label="Recherche sur le site" autocomplete="off">
+      <button type="button" class="pin-search-clear" id="pinSearchClear" data-i18n-aria="search.clear" aria-label="Effacer la recherche">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="14" height="14" aria-hidden="true">
           <path d="M6 6l12 12M18 6L6 18"/></svg>
       </button>
@@ -1933,9 +1979,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   </div>
   <div class="menu-scrim" id="menuScrim" aria-hidden="true"></div>
   <aside class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Menu principal">
-    <div class="mobile-menu-head"><span class="menu-kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" aria-label="Fermer le menu">×</button></div>
+    <div class="mobile-menu-head"><span class="menu-kicker" data-i18n="menu.kicker">Navigation</span><button type="button" class="menu-close" id="menuClose" data-i18n-aria="menu.close" aria-label="Fermer le menu">×</button></div>
     <nav class="mobile-menu-links" aria-label="Menu principal">
-      <a href="#" class="nav-link" data-section="home" data-nav="home">Accueil</a>
+      <a href="#" class="nav-link" data-section="home" data-nav="home" data-i18n="nav.home">Accueil</a>
       <a href="#" class="nav-link" data-section="catalog" data-nav="catalog">Explorer le catalogue</a>
       <a href="#" class="nav-link" data-section="collections" data-nav="collections">Collections</a>
       <a href="#" class="nav-link" data-section="advantages" data-nav="advantages">Avantages</a>
@@ -1944,7 +1990,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       <a href="#" class="nav-link" data-section="pricing" data-nav="pricing">Commission</a>
       <a href="#" class="nav-link" data-section="faq" data-nav="faq">FAQ</a>
       <a href="#" class="nav-link" data-section="seller-space" data-nav="seller-space">Espace vendeur</a>
-      <a href="#" class="nav-link" data-section="create-stall" data-nav="create-stall">Vendre sur ÉtalAfrique</a>
+      <a href="#" class="nav-link" data-section="create-stall" data-nav="create-stall" data-i18n="nav.sellOn">Vendre sur ÉtalAfrique</a>
       <a href="#" class="nav-link" data-section="contact" data-nav="contact">Contact</a>
     </nav>
     
@@ -1967,9 +2013,9 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           <strong>Mobile Money</strong> — sans local, sans stock immobilisé, sans intermédiaire.
         </p>
         <div class="hero-ctas">
-          <a href="#create-stall" data-open-creator class="btn btn-gold">Ouvrir mon étal — gratuit</a>
-          <a href="#how" class="btn btn-ghost">Voir comment ça marche →</a>
-          <a href="#" data-section="catalog" class="btn btn-catalog-outline">Explorer le catalogue</a>
+          <a href="#create-stall" data-open-creator class="btn btn-gold"><span data-i18n="hero.ctaOpenFree">Ouvrir mon étal — gratuit</span></a>
+          <a href="#how" class="btn btn-ghost"><span data-i18n="hero.ctaHow">Voir comment ça marche</span> →</a>
+          <a href="#" data-section="catalog" class="btn btn-catalog-outline"><span data-i18n="hero.ctaCatalog">Explorer le catalogue</span></a>
         </div>
         <div class="hero-trust">
           <div class="avatars" aria-hidden="true">
@@ -2132,11 +2178,11 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <div class="wrap" style="max-width:900px;">
     <div class="section-head reveal"><span class="eyebrow">On répond franchement</span><h2 id="faq-h" class="section-title">Les questions qu'on<br>nous pose <em>souvent.</em></h2></div>
     <div class="faq-list reveal" data-delay="1">
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-1" data-i18n="faq.q1">Est-ce vraiment gratuit pour ouvrir mon étal ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-1"><div class="faq-a-inner">Oui. La création de ton étal, l'ajout de produits et l'accès au tableau de bord sont gratuits. ÉtalAfrique prélève uniquement <strong>3% sur les ventes confirmées</strong>. Pas de frais mensuel, pas d'abonnement obligatoire.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2" data-i18n="faq.q2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3" data-i18n="faq.q3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4" data-i18n="faq.q4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
+      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5" data-i18n="faq.q5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
     </div>
   </div>
 </section>
@@ -2182,35 +2228,35 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 
     <div class="board-grid reveal" data-delay="1">
       <button type="button" class="board-tile" data-swatch="1" data-section="catalog" data-pin-cat="mode">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-fabric"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-ring"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>👗</span><span>👜</span><span>🧵</span><span>💍</span></div>
         <div class="board-meta"><h3>Mode & pagnes wax</h3><p>Tenues, tissus imprimés et accessoires du quotidien.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="2" data-section="catalog" data-pin-cat="agro">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wheat"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-coffee"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-chili"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🍯</span><span>🌾</span><span>☕</span><span>🌶️</span></div>
         <div class="board-meta"><h3>Saveurs locales</h3><p>Miel, céréales, épices et produits du terroir.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="3" data-section="catalog" data-pin-cat="beaute">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bottle"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-soap"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-leaf"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-drop"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🧴</span><span>🧼</span><span>🌿</span><span>💧</span></div>
         <div class="board-meta"><h3>Beauté & soins naturels</h3><p>Karité, savons et huiles fabriqués artisanalement.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="4" data-section="catalog" data-pin-cat="artisanat">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sculpt"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-flute"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🧺</span><span>🗿</span><span>🪈</span><span>🏺</span></div>
         <div class="board-meta"><h3>Artisanat fait main</h3><p>Vannerie, poterie et pièces sculptées.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="5" data-section="catalog" data-pin-cat="decoration">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-candle"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-yarn"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-frame"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🏺</span><span>🕯️</span><span>🧶</span><span>🖼️</span></div>
         <div class="board-meta"><h3>Décoration maison</h3><p>Coussins, tentures et objets pour la maison.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="6" data-section="catalog" data-pin-cat="enfants">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-teddy"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-ball"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-baby"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-balloon"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🧸</span><span>🪀</span><span>👶</span><span>🎈</span></div>
         <div class="board-meta"><h3>Idées pour les enfants</h3><p>Jouets, vêtements et accessoires bébé.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="7" data-section="catalog" data-pin-cat="tech">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-plug"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-battery"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-phone"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sun"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🔌</span><span>🔋</span><span>📱</span><span>☀️</span></div>
         <div class="board-meta"><h3>Tech & maison connectée</h3><p>Kits solaires, chargeurs et accessoires utiles.</p><span class="board-cta">Explorer →</span></div>
       </button>
       <button type="button" class="board-tile" data-swatch="8" data-section="catalog" data-pin-cat="services">
-        <div class="board-cover" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wrench"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-scissors"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-truck"/></svg><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-book"/></svg></div>
+        <div class="board-cover" aria-hidden="true"><span>🛠️</span><span>💇</span><span>🚚</span><span>📚</span></div>
         <div class="board-meta"><h3>Services du quotidien</h3><p>Coiffure, réparation, cours et livraison locale.</p><span class="board-cta">Explorer →</span></div>
       </button>
     </div>
@@ -2222,14 +2268,14 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
         <p class="section-lede">Ces exemples illustrent le type de produits qu'un étal peut proposer sur ÉtalAfrique — fais défiler pour te donner des idées.</p>
       </div>
       <div class="trend-rail" role="list" aria-label="Exemples de produits illustratifs">
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg></div><div class="trend-label"><strong>Pagne wax Ankara</strong><span>Mode & textile</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg></div><div class="trend-label"><strong>Miel de brousse</strong><span>Agroalimentaire</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bottle"/></svg></div><div class="trend-label"><strong>Beurre de karité brut</strong><span>Beauté & soin</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg></div><div class="trend-label"><strong>Panier tressé</strong><span>Artisanat</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div><div class="trend-label"><strong>Vase en terre cuite</strong><span>Décoration</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg></div><div class="trend-label"><strong>Sac en cuir cousu main</strong><span>Mode</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sun"/></svg></div><div class="trend-label"><strong>Kit lampe solaire</strong><span>Tech & maison</span></div></div>
-        <div class="trend-card" role="listitem"><div class="trend-thumb"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-teddy"/></svg></div><div class="trend-label"><strong>Poupée en tissu</strong><span>Enfants</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">👗</div><div class="trend-label"><strong>Pagne wax Ankara</strong><span>Mode & textile</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">🍯</div><div class="trend-label"><strong>Miel de brousse</strong><span>Agroalimentaire</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">🧴</div><div class="trend-label"><strong>Beurre de karité brut</strong><span>Beauté & soin</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">🧺</div><div class="trend-label"><strong>Panier tressé</strong><span>Artisanat</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">🏺</div><div class="trend-label"><strong>Vase en terre cuite</strong><span>Décoration</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">👜</div><div class="trend-label"><strong>Sac en cuir cousu main</strong><span>Mode</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">☀️</div><div class="trend-label"><strong>Kit lampe solaire</strong><span>Tech & maison</span></div></div>
+        <div class="trend-card" role="listitem"><div class="trend-thumb">🧸</div><div class="trend-label"><strong>Poupée en tissu</strong><span>Enfants</span></div></div>
       </div>
     </div>
 
@@ -2241,20 +2287,20 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       </div>
       <div class="spotlight-grid">
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:var(--gold-soft);">A</span><div><h3>Les trésors d'Awa</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Médina, Dakar</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#F2C57A;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-dress"/></svg></div><div style="background:#E8A892;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-bag"/></svg></div><div style="background:#F5C9BA;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-fabric"/></svg></div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:var(--gold-soft);">A</span><div><h3>Les trésors d'Awa</h3><span>📍 Médina, Dakar</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#F2C57A;">👗</div><div style="background:#E8A892;">👜</div><div style="background:#F5C9BA;">🧣</div></div>
           <p class="spot-desc">Pagnes wax et accessoires choisis avec soin, expédiés dans tout Dakar.</p>
           <span class="spotlight-tag">Mode & textile</span>
         </div>
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#9FD8BE;">F</span><div><h3>Ferme de Casamance</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Casamance</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#CDE7B0;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-honey"/></svg></div><div style="background:#EAD9A0;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-wheat"/></svg></div><div style="background:#E3C79A;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-coffee"/></svg></div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#9FD8BE;">F</span><div><h3>Ferme de Casamance</h3><span>📍 Casamance</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#CDE7B0;">🍯</div><div style="background:#EAD9A0;">🌾</div><div style="background:#E3C79A;">☕</div></div>
           <p class="spot-desc">Miel, céréales et produits de la ferme, vendus en direct.</p>
           <span class="spotlight-tag">Agroalimentaire</span>
         </div>
         <div class="spotlight-card">
-          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#D8D5E6;">I</span><div><h3>Atelier d'Ibrahim</h3><span class="loc-pin"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-pin"/></svg> Bamako</span></div></div>
-          <div class="spotlight-strip" aria-hidden="true"><div style="background:#DCC7B4;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-basket"/></svg></div><div style="background:#C9B79C;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-sculpt"/></svg></div><div style="background:#EAD9C2;"><svg viewBox="0 0 32 32" aria-hidden="true"><use href="#ic-vase"/></svg></div></div>
+          <div class="spotlight-head"><span class="spotlight-avatar" style="background:#D8D5E6;">I</span><div><h3>Atelier d'Ibrahim</h3><span>📍 Bamako</span></div></div>
+          <div class="spotlight-strip" aria-hidden="true"><div style="background:#DCC7B4;">🧺</div><div style="background:#C9B79C;">🗿</div><div style="background:#EAD9C2;">🏺</div></div>
           <p class="spot-desc">Vannerie et sculptures en bois faites main, pièce par pièce.</p>
           <span class="spotlight-tag">Artisanat</span>
         </div>
@@ -2269,15 +2315,15 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
       </div>
       <div class="mag-grid">
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-camera"/></svg></div>
-          <div class="mag-body"><span class="mag-kicker">Photo produit</span><h3>Une photo qui donne envie</h3><p>Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.</p><button type="button" class="mag-cta" data-open-creator>Publier mon premier produit →</button></div>
+          <div class="mag-cover" aria-hidden="true">📸</div>
+          <div class="mag-body"><span class="mag-kicker">Photo produit</span><h3>Une photo qui donne envie</h3><p>Lumière naturelle, fond neutre, produit bien cadré : trois réflexes qui suffisent à doubler l'intérêt pour une annonce.</p><button type="button" class="mag-cta" data-open-creator><span data-i18n="mag.publishCta">Publier mon premier produit</span> →</button></div>
         </article>
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-tag"/></svg></div>
+          <div class="mag-cover" aria-hidden="true">🏷️</div>
           <div class="mag-body"><span class="mag-kicker">Prix</span><h3>Fixer le bon prix</h3><p>Compare deux ou trois étals similaires avant de publier, et garde en tête la commission de 3% sur chaque vente confirmée.</p><a class="mag-cta" href="#pricing" data-section="pricing">Voir la commission →</a></div>
         </article>
         <article class="mag-card">
-          <div class="mag-cover" aria-hidden="true"><svg viewBox="0 0 32 32"><use href="#ic-chat"/></svg></div>
+          <div class="mag-cover" aria-hidden="true">💬</div>
           <div class="mag-body"><span class="mag-kicker">Relation client</span><h3>Répondre vite, vendre plus</h3><p>Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.</p><a class="mag-cta" href="#faq" data-section="faq">Lire la FAQ →</a></div>
         </article>
       </div>
@@ -2290,22 +2336,22 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
   <div class="wrap">
     <div class="section-head reveal"><span class="eyebrow">Découvrir le marché</span><h2 id="catalog-h" class="section-title">Catalogue<br><em>produits & boutiques.</em></h2><p class="section-lede">Explore les produits et les boutiques publiés sur ÉtalAfrique. Le catalogue s’enrichit à chaque nouvel étal ouvert.</p></div>
     <div class="catalog-toolbar" role="search" aria-label="Rechercher dans le catalogue">
-      <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall">Boutiques</button></div>
-      <input id="catalogSearch" class="catalog-search" type="search" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
+      <div class="catalog-tabs" role="tablist" aria-label="Filtrer le catalogue"><button class="catalog-tab is-active" type="button" role="tab" aria-selected="true" data-catalog-filter="all" data-i18n="catalog.filterAll">Tout</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="product" data-i18n="catalog.filterProducts">Produits</button><button class="catalog-tab" type="button" role="tab" aria-selected="false" data-catalog-filter="stall" data-i18n="catalog.filterStalls">Boutiques</button></div>
+      <input id="catalogSearch" class="catalog-search" type="search" data-i18n-placeholder="catalog.searchPlaceholder" placeholder="Rechercher un produit, une boutique ou une ville…" aria-label="Rechercher dans le catalogue">
     </div>
     
     <div class="pin-rail-inner" role="tablist" aria-label="Catégories du marché" id="pinRail">
-      <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span>Tout</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span>Textile</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span>Beauté & soin</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span>Agroalimentaire</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span>Artisanat</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span>Décoration</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span>Mode</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span>Tech & maison</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span>Enfants</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span>Services</button>
-      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span>Boutiques locales</button>
+      <button type="button" class="pin-pill is-active" role="tab" aria-selected="true" data-pin-cat="all"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.all">Tout</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="textile"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.textile">Textile</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="beaute"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.beauty">Beauté & soin</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="agro"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.agro">Agroalimentaire</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="artisanat"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.crafts">Artisanat</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="decoration"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.decoration">Décoration</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="mode"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.fashion">Mode</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="tech"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.tech">Tech & maison</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="enfants"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.kids">Enfants</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="services"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.services">Services</span></button>
+      <button type="button" class="pin-pill" role="tab" aria-selected="false" data-pin-cat="local-only"><span class="dot" aria-hidden="true"></span><span data-i18n="catalog.localOnly">Boutiques locales</span></button>
     </div>
     
 <div class="shop-sort-bar" aria-label="Tri du catalogue">
@@ -2450,12 +2496,12 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
           <span class="trust-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg>Moov Money</span>
         </div>
       </div>
-      <div class="footer-col"><h4>Découvrir</h4><ul><li><a href="#advantages">Nos avantages</a></li><li><a href="#features">Fonctionnalités</a></li><li><a href="#how">Comment ça marche</a></li></ul></div>
-      <div class="footer-col"><h4>Ressources</h4><ul><li><a href="#pricing">Commission & tarifs</a></li><li><a href="#faq">Questions fréquentes</a></li><li><a href="#contact">Centre d'aide</a></li><li><a href="#trust">Confiance & sécurité</a></li></ul></div>
-      <div class="footer-col"><h4>Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</p><form class="footer-newsletter" id="newsletterForm" name="newsletter" novalidate>
-          <label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" aria-label="S'inscrire à la newsletter">→</button></form></div>
+      <div class="footer-col"><h4 data-i18n="footer.discover">Découvrir</h4><ul><li><a href="#advantages">data-i18n="footer.benefits">Nos avantages</a></li><li><a href="#features">data-i18n="footer.features">Fonctionnalités</a></li><li><a href="#how">data-i18n="footer.how">Comment ça marche</a></li></ul></div>
+      <div class="footer-col"><h4 data-i18n="footer.resources">Ressources</h4><ul><li><a href="#pricing">data-i18n="footer.pricing">Commission & tarifs</a></li><li><a href="#faq">data-i18n="footer.faq">Questions fréquentes</a></li><li><a href="#contact">data-i18n="footer.help">Centre d'aide</a></li><li><a href="#trust">data-i18n="footer.trust">Confiance & sécurité</a></li></ul></div>
+      <div class="footer-col"><h4 data-i18n="footer.newsletter">Les nouvelles du marché</h4><p style="font-size:14px;color:rgba(245,240,232,.7);line-height:1.55;"><span data-i18n="footer.newsletterBlurb">Une fois par mois : histoires de vendeurs, conseils et nouveautés.</span></p><form class="footer-newsletter" id="newsletterForm" name="newsletter" novalidate>
+          <label class="sr-only" for="newsletterEmail">Ton adresse email</label><input id="newsletterEmail" type="email" data-i18n-placeholder="footer.emailPlaceholder" placeholder="ton@email.com" required aria-label="Ton adresse email"><button type="submit" data-i18n-aria="footer.newsletterSubmit" aria-label="S'inscrire à la newsletter">→</button></form></div>
     </div>
-    <div class="footer-bottom"><span>© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
+    <div class="footer-bottom"><span data-i18n="footer.copyright">© 2026 ÉtalAfrique. Fait avec soin à Dakar.</span><div class="footer-social" data-i18n-aria="footer.social" aria-label="Réseaux sociaux"><a href="#contact" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11.5A8 8 0 0 1 8 19l-4 1 1-4a8 8 0 1 1 15-4.5z"/><path d="M8.5 9.5c.5 2 2 3.5 4 4l1-1 1.5.5"/></svg></a><a href="#contact" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 8H2v12h3V8zm.2-3.5A1.7 1.7 0 1 0 1.8 4.5a1.7 1.7 0 0 0 3.4 0zM22 13.2c0-3.6-1.9-5.3-4.5-5.3-2.1 0-3 1.2-3.5 2v-1.7h-3v12h3v-6c0-1.6.3-3.2 2.3-3.2 2 0 2 1.8 2 3.3v5.9h3.1v-7z"/></svg></a></div></div>
   </div>
 </footer>
 
@@ -2540,7 +2586,7 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
         window.etalafriqueSupabaseLoadFailed = true;
       }
     } catch (err) {
-      try{console.error('Initialisation Supabase :', err);}catch(_){}
+      console.error('Initialisation Supabase :', err);
       window.etalafriqueSupabaseLoadFailed = true;
     }
     if (window.etalafriqueSupabaseLoadFailed) {
@@ -2557,6 +2603,393 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
     }
   })();
 </script>
+
+<script>
+/* =============================================================================
+   ÉtalAfrique — module i18n (côté client).
+   - Langues prises en charge : fr (par défaut), en, wo.
+   - Persistance : localStorage (clé "etal.lang").
+   - Bascule sans rechargement, mise à jour de <html lang>, aria-label,
+     title, placeholder.
+   - Les chaînes déjà affichées par le moteur JS (renderCards, modales…)
+     peuvent être récupérées via window.__i18n.t(key).
+   ============================================================================= */
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'etal.lang';
+  var DEFAULT_LANG = 'fr';
+  var SUPPORTED = ['fr', 'en', 'wo'];
+
+  /* Dictionnaire des traductions.
+     Seules les chaînes présentes dans data-i18n du DOM sont listées ici. */
+  var STRINGS = {
+    fr: {
+      'lang.currentLabel': 'Français',
+      'lang.switcherLabel': 'Changer de langue',
+      'lang.menuLabel': 'Choisir la langue',
+      'brand.tagline': 'commerce de confiance',
+      'nav.home': 'Accueil',
+      'nav.advantages': 'Avantages',
+      'nav.features': 'Fonctionnalités',
+      'nav.how': 'Comment ça marche',
+      'nav.pricing': 'Commission',
+      'nav.faq': 'FAQ',
+      'nav.catalog': 'Catalogue',
+      'nav.collections': 'Collections',
+      'nav.sellerSpace': 'Espace vendeur',
+      'nav.contact': 'Contact',
+      'nav.saved': 'Enregistrés',
+      'nav.cart': 'Panier',
+      'nav.sellOn': 'Vendre sur ÉtalAfrique',
+      'cta.contactTeam': 'Parler à l\'équipe',
+      'cta.openStall': 'Ouvrir mon étal',
+      'search.toggle': 'Rechercher',
+      'search.placeholder': 'Rechercher un produit, une boutique, une ville…',
+      'search.clear': 'Effacer la recherche',
+      'cart.itemsCount': 'articles',
+      'auth.login': 'Connexion',
+      'auth.profile': 'Mon profil',
+      'auth.logout': 'Déconnexion',
+      'menu.kicker': 'Navigation',
+      'menu.close': 'Fermer le menu',
+      'hero.ctaOpen': 'Ouvrir mon étal',
+      'hero.ctaOpenFree': 'Ouvrir mon étal — gratuit',
+      'hero.ctaHow': 'Voir comment ça marche',
+      'hero.ctaCatalog': 'Explorer le catalogue',
+      'catalog.filterAll': 'Tout',
+      'catalog.filterProducts': 'Produits',
+      'catalog.filterStalls': 'Boutiques',
+      'catalog.all': 'Tout',
+      'catalog.textile': 'Textile',
+      'catalog.beauty': 'Beauté & soin',
+      'catalog.agro': 'Agroalimentaire',
+      'catalog.crafts': 'Artisanat',
+      'catalog.decoration': 'Décoration',
+      'catalog.fashion': 'Mode',
+      'catalog.tech': 'Tech & maison',
+      'catalog.kids': 'Enfants',
+      'catalog.services': 'Services',
+      'catalog.localOnly': 'Boutiques locales',
+      'catalog.searchPlaceholder': 'Rechercher un produit, une boutique ou une ville…',
+      'faq.q1': 'Est-ce vraiment gratuit pour ouvrir mon étal ?',
+      'faq.q2': 'Comment se passe le paiement ?',
+      'faq.q3': 'Quels moyens de paiement acceptez-vous ?',
+      'faq.q4': 'Faut-il avoir une entreprise déclarée pour vendre ?',
+      'faq.q5': 'Dans quels pays ÉtalAfrique est-il disponible ?',
+      'mag.publishCta': 'Publier mon premier produit',
+      'footer.discover': 'Découvrir',
+      'footer.resources': 'Ressources',
+      'footer.newsletter': 'Les nouvelles du marché',
+      'footer.benefits': 'Nos avantages',
+      'footer.features': 'Fonctionnalités',
+      'footer.how': 'Comment ça marche',
+      'footer.pricing': 'Commission & tarifs',
+      'footer.faq': 'Questions fréquentes',
+      'footer.help': 'Centre d\'aide',
+      'footer.trust': 'Confiance & sécurité',
+      'footer.newsletterBlurb': 'Une fois par mois : histoires de vendeurs, conseils et nouveautés.',
+      'footer.emailPlaceholder': 'ton@email.com',
+      'footer.newsletterSubmit': 'S\'inscrire à la newsletter',
+      'footer.copyright': '© 2026 ÉtalAfrique. Fait avec soin à Dakar.',
+      'footer.social': 'Réseaux sociaux'
+    },
+    en: {
+      'lang.currentLabel': 'English',
+      'lang.switcherLabel': 'Change language',
+      'lang.menuLabel': 'Choose a language',
+      'brand.tagline': 'trusted commerce',
+      'nav.home': 'Home',
+      'nav.advantages': 'Benefits',
+      'nav.features': 'Features',
+      'nav.how': 'How it works',
+      'nav.pricing': 'Pricing',
+      'nav.faq': 'FAQ',
+      'nav.catalog': 'Catalog',
+      'nav.collections': 'Collections',
+      'nav.sellerSpace': 'Seller space',
+      'nav.contact': 'Contact',
+      'nav.saved': 'Saved',
+      'nav.cart': 'Cart',
+      'nav.sellOn': 'Sell on ÉtalAfrique',
+      'cta.contactTeam': 'Talk to the team',
+      'cta.openStall': 'Open my stall',
+      'search.toggle': 'Search',
+      'search.placeholder': 'Search a product, a shop, a city…',
+      'search.clear': 'Clear search',
+      'cart.itemsCount': 'items',
+      'auth.login': 'Sign in',
+      'auth.profile': 'My profile',
+      'auth.logout': 'Sign out',
+      'menu.kicker': 'Navigation',
+      'menu.close': 'Close menu',
+      'hero.ctaOpen': 'Open my stall',
+      'hero.ctaOpenFree': 'Open my stall — free',
+      'hero.ctaHow': 'See how it works',
+      'hero.ctaCatalog': 'Browse the catalog',
+      'catalog.filterAll': 'All',
+      'catalog.filterProducts': 'Products',
+      'catalog.filterStalls': 'Shops',
+      'catalog.all': 'All',
+      'catalog.textile': 'Textile',
+      'catalog.beauty': 'Beauty & care',
+      'catalog.agro': 'Food',
+      'catalog.crafts': 'Crafts',
+      'catalog.decoration': 'Home decor',
+      'catalog.fashion': 'Fashion',
+      'catalog.tech': 'Tech & home',
+      'catalog.kids': 'Kids',
+      'catalog.services': 'Services',
+      'catalog.localOnly': 'Local shops',
+      'catalog.searchPlaceholder': 'Search a product, a shop or a city…',
+      'faq.q1': 'Is it really free to open my stall?',
+      'faq.q2': 'How does payment work?',
+      'faq.q3': 'Which payment methods do you accept?',
+      'faq.q4': 'Do I need a registered business to sell?',
+      'faq.q5': 'In which countries is ÉtalAfrique available?',
+      'mag.publishCta': 'Publish my first product',
+      'footer.discover': 'Discover',
+      'footer.resources': 'Resources',
+      'footer.newsletter': 'Market news',
+      'footer.benefits': 'Our benefits',
+      'footer.features': 'Features',
+      'footer.how': 'How it works',
+      'footer.pricing': 'Pricing & fees',
+      'footer.faq': 'FAQ',
+      'footer.help': 'Help center',
+      'footer.trust': 'Trust & safety',
+      'footer.newsletterBlurb': 'Once a month: seller stories, tips and updates.',
+      'footer.emailPlaceholder': 'you@email.com',
+      'footer.newsletterSubmit': 'Subscribe to the newsletter',
+      'footer.copyright': '© 2026 ÉtalAfrique. Made with care in Dakar.',
+      'footer.social': 'Social media'
+    },
+    wo: {
+      'lang.currentLabel': 'Wolof',
+      'lang.switcherLabel': 'Sopi lak',
+      'lang.menuLabel': 'Tànnal làkk',
+      'brand.tagline': 'jëfandiku bu kóllë',
+      'nav.home': 'Tàmbali',
+      'nav.advantages': 'Rawatina',
+      'nav.features': 'Yu mëna jëfandikoo',
+      'nav.how': 'Naka la doxe',
+      'nav.pricing': 'Njàngale',
+      'nav.faq': 'Laaj yi',
+      'nav.catalog': 'Taabal yi',
+      'nav.collections': 'Wér yi',
+      'nav.sellerSpace': 'Yónn waxtu',
+      'nav.contact': 'Sa jokkoo',
+      'nav.saved': 'Denc',
+      'nav.cart': 'Paar',
+      'nav.sellOn': 'Yónn ci ÉtalAfrique',
+      'cta.contactTeam': 'Waxtal ekip bi',
+      'cta.openStall': 'Ubbi sama etal',
+      'search.toggle': 'Seet',
+      'search.placeholder': 'Seet ab produk, ab butik, ab kër…',
+      'search.clear': 'Faral seet bi',
+      'cart.itemsCount': 'béréb yi',
+      'auth.login': 'Dugg',
+      'auth.profile': 'Sama xibaar',
+      'auth.logout': 'Génn',
+      'menu.kicker': 'Yoon',
+      'menu.close': 'Tëj yoon wi',
+      'hero.ctaOpen': 'Ubbi sama etal',
+      'hero.ctaOpenFree': 'Ubbi sama etal — kër',
+      'hero.ctaHow': 'Gis naka la doxe',
+      'hero.ctaCatalog': 'Xool taabal yi',
+      'catalog.filterAll': 'Lépp',
+      'catalog.filterProducts': 'Produit yi',
+      'catalog.filterStalls': 'Butik yi',
+      'catalog.all': 'Lépp',
+      'catalog.textile': 'Rëbb',
+      'catalog.beauty': 'Nataal',
+      'catalog.agro': 'Lekk',
+      'catalog.crafts': 'Liggéey bu kàttan',
+      'catalog.decoration': 'Sa kër saytu',
+      'catalog.fashion': 'Sëriñ',
+      'catalog.tech': 'Tek & kër',
+      'catalog.kids': 'Xale yi',
+      'catalog.services': 'Kàttan yi',
+      'catalog.localOnly': 'Butik yi ci seen dëkk',
+      'catalog.searchPlaceholder': 'Seet ab produk, ab butik wala ab dëkk…',
+      'faq.q1': 'Ndax dafa wér ci ubbi sama etal?',
+      'faq.q2': 'Naka la fay gi di doxe?',
+      'faq.q3': 'Yan lay fay?',
+      'faq.q4': 'Ndax war nga am ab nom ci jur bu kóllë ngay yónn?',
+      'faq.q5': 'An béréb la ÉtalAfrique nekk ci?',
+      'mag.publishCta': 'Yónnale sama produit bu njëkk',
+      'footer.discover': 'Gis',
+      'footer.resources': 'Nikiitu',
+      'footer.newsletter': 'Xibaar yi',
+      'footer.benefits': 'Sunu rawatina',
+      'footer.features': 'Yu mëna jëfandikoo',
+      'footer.how': 'Naka la doxe',
+      'footer.pricing': 'Njàngale',
+      'footer.faq': 'Laaj yi',
+      'footer.help': 'Ndim',
+      'footer.trust': 'Kóllë ak kaaraange',
+      'footer.newsletterBlurb': 'Abay weer: xibaar yi, yelleef yi ak yeneen yi.',
+      'footer.emailPlaceholder': 'sa@email.com',
+      'footer.newsletterSubmit': 'Bind ci xibaar bi',
+      'footer.copyright': '© 2026 ÉtalAfrique. Defar ci Dakar.',
+      'footer.social': 'Réseaux yi'
+    }
+  };
+
+  /* Sécurité : si la chaîne n'existe pas dans la langue cible, on retombe
+     sur le français, puis sur la clé brute. */
+  function lookup(lang, key) {
+    if (STRINGS[lang] && Object.prototype.hasOwnProperty.call(STRINGS[lang], key)) {
+      return STRINGS[lang][key];
+    }
+    if (STRINGS[DEFAULT_LANG] && Object.prototype.hasOwnProperty.call(STRINGS[DEFAULT_LANG], key)) {
+      return STRINGS[DEFAULT_LANG][key];
+    }
+    return key;
+  }
+
+  function getStoredLang() {
+    try {
+      var v = window.localStorage.getItem(STORAGE_KEY);
+      if (v && SUPPORTED.indexOf(v) !== -1) return v;
+    } catch (e) { /* localStorage indisponible */ }
+    return DEFAULT_LANG;
+  }
+
+  function setStoredLang(lang) {
+    try { window.localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* ignore */ }
+  }
+
+  function applyLang(lang) {
+    if (SUPPORTED.indexOf(lang) === -1) lang = DEFAULT_LANG;
+
+    /* 1) Mettre à jour l'attribut lang du document. */
+    document.documentElement.setAttribute('lang', lang);
+
+    /* 2) Mettre à jour les nœuds portant data-i18n (textContent). */
+    var nodes = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < nodes.length; i++) {
+      var key = nodes[i].getAttribute('data-i18n');
+      var value = lookup(lang, key);
+      /* Conserver les flèches ou autres décorations déjà présentes. */
+      if (nodes[i].children.length === 0) {
+        nodes[i].textContent = value;
+      } else {
+        /* Si l'élément contient des enfants non traduits (ex. flèche),
+           on remplace uniquement le premier nœud texte. */
+        for (var j = 0; j < nodes[i].childNodes.length; j++) {
+          if (nodes[i].childNodes[j].nodeType === 3) {
+            nodes[i].childNodes[j].nodeValue = value;
+            break;
+          }
+        }
+      }
+    }
+
+    /* 3) aria-label / title / placeholder. */
+    var ariaNodes = document.querySelectorAll('[data-i18n-aria]');
+    for (var k = 0; k < ariaNodes.length; k++) {
+      var aKey = ariaNodes[k].getAttribute('data-i18n-aria');
+      ariaNodes[k].setAttribute('aria-label', lookup(lang, aKey));
+      /* aria-label « switcherLabel » alimente aussi le title du bouton. */
+      if (aKey === 'lang.switcherLabel') {
+        ariaNodes[k].setAttribute('title', lookup(lang, aKey));
+      }
+    }
+    var phNodes = document.querySelectorAll('[data-i18n-placeholder]');
+    for (var p = 0; p < phNodes.length; p++) {
+      var pKey = phNodes[p].getAttribute('data-i18n-placeholder');
+      phNodes[p].setAttribute('placeholder', lookup(lang, pKey));
+    }
+
+    /* 4) Mettre à jour le menu du sélecteur (option cochée + libellé courant). */
+    var switcher = document.getElementById('langSwitcher');
+    if (switcher) {
+      var options = switcher.querySelectorAll('[data-lang-value]');
+      for (var o = 0; o < options.length; o++) {
+        var isActive = options[o].getAttribute('data-lang-value') === lang;
+        options[o].setAttribute('aria-checked', isActive ? 'true' : 'false');
+      }
+      var current = switcher.querySelector('[data-i18n="lang.currentLabel"]');
+      if (current) current.textContent = lookup(lang, 'lang.currentLabel');
+      var menuLabel = switcher.querySelector('.lang-menu');
+      if (menuLabel) menuLabel.setAttribute('aria-label', lookup(lang, 'lang.menuLabel'));
+    }
+
+    setStoredLang(lang);
+    document.documentElement.setAttribute('data-lang', lang);
+  }
+
+  /* API publique pour les modules JS générant du texte dynamique. */
+  window.__i18n = {
+    t: function (key, fallback) {
+      var lang = getStoredLang();
+      var v = lookup(lang, key);
+      return (v === key && fallback) ? fallback : v;
+    },
+    apply: applyLang,
+    get: getStoredLang,
+    set: function (lang) { applyLang(lang); },
+    SUPPORTED: SUPPORTED,
+    DEFAULT: DEFAULT_LANG
+  };
+
+  function initSwitcher() {
+    var switcher = document.getElementById('langSwitcher');
+    if (!switcher) return;
+    var btn = document.getElementById('langSwitcherBtn');
+
+    function close() {
+      switcher.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    function toggle(e) {
+      if (e) e.stopPropagation();
+      var open = switcher.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', toggle);
+
+    var options = switcher.querySelectorAll('[data-lang-value]');
+    for (var i = 0; i < options.length; i++) {
+      (function (opt) {
+        opt.addEventListener('click', function (ev) {
+          ev.stopPropagation();
+          var v = opt.getAttribute('data-lang-value');
+          applyLang(v);
+          close();
+        });
+      })(options[i]);
+    }
+
+    /* Fermer en cliquant ailleurs ou avec Échap. */
+    document.addEventListener('click', function (ev) {
+      if (!switcher.contains(ev.target)) close();
+    });
+    document.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Escape') close();
+    });
+  }
+
+  /* Initialisation : appliquer la langue mémorisée avant que le moteur
+     principal ne rende quoi que ce soit. */
+  var initial = getStoredLang();
+  if (document.documentElement.getAttribute('lang') !== initial) {
+    document.documentElement.setAttribute('lang', initial);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      initSwitcher();
+      applyLang(getStoredLang());
+    });
+  } else {
+    initSwitcher();
+    applyLang(getStoredLang());
+  }
+})();
+</script>
+
 <script>
 /* =============================================================================
    ÉtalAfrique — moteur unique de la page.
@@ -4160,55 +4593,6 @@ body[style*="position: fixed"]{ background-attachment:scroll; }
 })();
 
 </script>
-<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="g-warm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2C57A"/><stop offset="1" stop-color="#C48A24"/></linearGradient>
-    <linearGradient id="g-cream" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F5F0E8"/><stop offset="1" stop-color="#E8A892"/></linearGradient>
-    <linearGradient id="g-ink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3D3A56"/><stop offset="1" stop-color="#1B1B2F"/></linearGradient>
-    <linearGradient id="g-leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9FD8BE"/><stop offset="1" stop-color="#136B47"/></linearGradient>
-    <linearGradient id="g-ember" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E8A892"/><stop offset="1" stop-color="#B8552E"/></linearGradient>
-    <linearGradient id="g-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBE3B0"/><stop offset="1" stop-color="#E8A83C"/></linearGradient>
-    <linearGradient id="g-iris" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CFCBE0"/><stop offset="1" stop-color="#6B677A"/></linearGradient>
-    <linearGradient id="g-rust" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0B79A"/><stop offset="1" stop-color="#D4754E"/></linearGradient>
-    <radialGradient id="g-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FBF7EE" stop-opacity=".7"/><stop offset="1" stop-color="#FBF7EE" stop-opacity="0"/></radialGradient>
-
-    <symbol id="ic-dress" viewBox="0 0 32 32"><path d="M16 4c-3 0-5 2-5 5 0 2 1 3 1 5-3 2-6 6-6 12h20c0-6-3-10-6-12 0-2 1-3 1-5 0-3-2-5-5-5z" fill="url(#g-cream)"/><circle cx="16" cy="6" r="2.5" fill="url(#g-warm)"/></symbol>
-    <symbol id="ic-bag" viewBox="0 0 32 32"><path d="M8 12h16l-2 16h-12z" fill="url(#g-ember)"/><path d="M11 12v-3a5 5 0 0 1 10 0v3" fill="none" stroke="url(#g-ink)" stroke-width="2.2" stroke-linecap="round"/></symbol>
-    <symbol id="ic-fabric" viewBox="0 0 32 32"><rect x="5" y="6" width="22" height="20" rx="2" fill="url(#g-gold)"/><path d="M5 12h22M5 18h22M11 6v20M21 6v20" stroke="#1B1B2F" stroke-opacity=".18" stroke-width="1"/></symbol>
-    <symbol id="ic-ring" viewBox="0 0 32 32"><circle cx="16" cy="22" r="6" fill="none" stroke="url(#g-gold)" stroke-width="3"/><path d="M13 9l3-4 3 4-2 5h-2z" fill="url(#g-rust)"/></symbol>
-    <symbol id="ic-honey" viewBox="0 0 32 32"><path d="M10 10h12l-2 16h-8z" fill="url(#g-gold)"/><rect x="9" y="8" width="14" height="4" rx="1" fill="url(#g-rust)"/><circle cx="16" cy="20" r="2.5" fill="#FBF7EE"/></symbol>
-    <symbol id="ic-wheat" viewBox="0 0 32 32"><path d="M16 28v-22" stroke="#1B1B2F" stroke-width="2"/><path d="M16 14c-3-1-5-3-5-6 3 0 5 2 5 5zM16 14c3-1 5-3 5-6-3 0-5 2-5 5zM16 20c-3-1-5-3-5-6 3 0 5 2 5 5zM16 20c3-1 5-3 5-6-3 0-5 2-5 5z" fill="url(#g-gold)"/></symbol>
-    <symbol id="ic-coffee" viewBox="0 0 32 32"><path d="M7 12h14v8a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4z" fill="url(#g-rust)"/><path d="M21 13h3a3 3 0 0 1 0 6h-3" fill="none" stroke="url(#g-rust)" stroke-width="2"/><path d="M11 8c0-2 1-3 1-3M15 8c0-2 1-3 1-3M19 8c0-2 1-3 1-3" stroke="url(#g-gold)" stroke-width="1.5" fill="none" stroke-linecap="round"/></symbol>
-    <symbol id="ic-chili" viewBox="0 0 32 32"><path d="M9 24c-2-4 0-10 6-14 4-3 10-3 12 1-2-1-5 0-8 2-3 2-6 6-10 11z" fill="url(#g-ember)"/><path d="M27 11c1-3 3-4 3-4" stroke="#1F8A5F" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
-    <symbol id="ic-bottle" viewBox="0 0 32 32"><path d="M13 4h6v4l2 4v15a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2v-15l2-4z" fill="url(#g-ink)"/><rect x="12" y="14" width="8" height="6" fill="url(#g-gold)"/></symbol>
-    <symbol id="ic-soap" viewBox="0 0 32 32"><rect x="6" y="12" width="20" height="14" rx="3" fill="url(#g-ember)"/><circle cx="12" cy="9" r="2" fill="url(#g-glow)"/><circle cx="18" cy="7" r="1.6" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-leaf" viewBox="0 0 32 32"><path d="M6 26c0-12 8-20 20-20 0 12-8 20-20 20z" fill="url(#g-leaf)"/><path d="M8 24c4-6 9-10 16-14" stroke="#FBF7EE" stroke-width="1.2" fill="none" opacity=".5"/></symbol>
-    <symbol id="ic-drop" viewBox="0 0 32 32"><path d="M16 4c-6 8-9 12-9 16a9 9 0 0 0 18 0c0-4-3-8-9-16z" fill="url(#g-iris)"/><circle cx="13" cy="18" r="2" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-basket" viewBox="0 0 32 32"><path d="M6 14h20l-3 14h-14z" fill="url(#g-warm)"/><path d="M10 14v-4M14 14v-5M18 14v-5M22 14v-4" stroke="#1B1B2F" stroke-width="2" stroke-linecap="round"/></symbol>
-    <symbol id="ic-sculpt" viewBox="0 0 32 32"><path d="M11 6c-2 4-2 6 0 10-3 2-3 6-1 10h12c2-4 2-8-1-10 2-4 2-6 0-10-3-2-7-2-10 0z" fill="url(#g-ink)"/><circle cx="13" cy="13" r="1.5" fill="#FBF7EE"/><circle cx="19" cy="13" r="1.5" fill="#FBF7EE"/></symbol>
-    <symbol id="ic-flute" viewBox="0 0 32 32"><rect x="13" y="5" width="6" height="22" rx="3" fill="url(#g-warm)"/><circle cx="16" cy="10" r="1.2" fill="#1B1B2F"/><circle cx="16" cy="14" r="1.2" fill="#1B1B2F"/><circle cx="16" cy="18" r="1.2" fill="#1B1B2F"/></symbol>
-    <symbol id="ic-vase" viewBox="0 0 32 32"><path d="M10 6h12v4c2 2 3 5 3 9 0 6-3 9-9 9-6 0-9-3-9-9 0-4 1-7 3-9z" fill="url(#g-rust)"/><path d="M12 10c2 2 6 2 8 0" stroke="#FBF7EE" stroke-width="1.2" fill="none" opacity=".5"/></symbol>
-    <symbol id="ic-candle" viewBox="0 0 32 32"><rect x="12" y="14" width="8" height="14" rx="1" fill="url(#g-cream)"/><path d="M16 14v-6c-2-2-2-4 0-6 2 2 2 4 0 6z" fill="url(#g-ember)"/></symbol>
-    <symbol id="ic-yarn" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="url(#g-rust)"/><path d="M9 16a7 7 0 0 1 14 0M11 12a5 5 0 0 1 10 0" stroke="#FBF7EE" stroke-width="1.2" fill="none"/></symbol>
-    <symbol id="ic-frame" viewBox="0 0 32 32"><rect x="6" y="6" width="20" height="20" fill="url(#g-gold)"/><rect x="9" y="9" width="14" height="14" fill="url(#g-leaf)"/><circle cx="16" cy="16" r="3" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-teddy" viewBox="0 0 32 32"><circle cx="16" cy="13" r="6" fill="url(#g-warm)"/><circle cx="11" cy="9" r="2.5" fill="url(#g-warm)"/><circle cx="21" cy="9" r="2.5" fill="url(#g-warm)"/><circle cx="14" cy="13" r="1" fill="#1B1B2F"/><circle cx="18" cy="13" r="1" fill="#1B1B2F"/><path d="M8 22c0-3 3-5 8-5 5 0 8 2 8 5v6h-16z" fill="url(#g-warm)"/></symbol>
-    <symbol id="ic-ball" viewBox="0 0 32 32"><circle cx="16" cy="16" r="9" fill="url(#g-rust)"/><path d="M7 16h18M16 7v18M9 9c4 4 10 4 14 0M9 23c4-4 10-4 14 0" stroke="#FBF7EE" stroke-width="1.2" fill="none"/></symbol>
-    <symbol id="ic-baby" viewBox="0 0 32 32"><circle cx="16" cy="11" r="6" fill="url(#g-cream)"/><path d="M10 28c0-6 3-10 6-10 3 0 6 4 6 10z" fill="url(#g-leaf)"/></symbol>
-    <symbol id="ic-balloon" viewBox="0 0 32 32"><ellipse cx="16" cy="10" rx="6" ry="8" fill="url(#g-ember)"/><path d="M16 18v13M14 28h4" stroke="#1B1B2F" stroke-width="1.2" fill="none"/></symbol>
-    <symbol id="ic-plug" viewBox="0 0 32 32"><rect x="9" y="10" width="14" height="14" rx="2" fill="url(#g-ink)"/><path d="M13 6v4M19 6v4M16 24v6" stroke="url(#g-ink)" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="16" cy="17" r="2" fill="url(#g-gold)"/></symbol>
-    <symbol id="ic-battery" viewBox="0 0 32 32"><rect x="6" y="10" width="18" height="12" rx="2" fill="url(#g-leaf)"/><rect x="24" y="13" width="3" height="6" fill="url(#g-leaf)"/><rect x="9" y="13" width="3" height="6" fill="url(#g-glow)"/><rect x="13" y="13" width="3" height="6" fill="url(#g-glow)"/><rect x="17" y="13" width="3" height="6" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-phone" viewBox="0 0 32 32"><rect x="10" y="5" width="12" height="22" rx="2" fill="url(#g-ink)"/><rect x="12" y="8" width="8" height="14" fill="url(#g-leaf)"/><circle cx="16" cy="24" r="1.5" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-sun" viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="url(#g-gold)"/><g stroke="url(#g-gold)" stroke-width="2" stroke-linecap="round"><path d="M16 4v4M16 24v4M4 16h4M24 16h4M8 8l3 3M21 21l3 3M8 24l3-3M21 11l3-3"/></g></symbol>
-    <symbol id="ic-wrench" viewBox="0 0 32 32"><path d="M22 4a6 6 0 0 0-6 8l-12 12 4 4 12-12a6 6 0 0 0 8-6 6 6 0 0 1-6-6z" fill="url(#g-iris)"/></symbol>
-    <symbol id="ic-scissors" viewBox="0 0 32 32"><circle cx="8" cy="22" r="4" fill="none" stroke="url(#g-ink)" stroke-width="2"/><circle cx="8" cy="10" r="4" fill="none" stroke="url(#g-ink)" stroke-width="2"/><path d="M11 11l16 12M11 21l16-12" stroke="url(#g-ink)" stroke-width="2"/></symbol>
-    <symbol id="ic-truck" viewBox="0 0 32 32"><rect x="4" y="12" width="14" height="10" fill="url(#g-ember)"/><path d="M18 14h6l4 4v4h-10z" fill="url(#g-rust)"/><circle cx="10" cy="24" r="3" fill="url(#g-ink)"/><circle cx="22" cy="24" r="3" fill="url(#g-ink)"/></symbol>
-    <symbol id="ic-book" viewBox="0 0 32 32"><path d="M6 6h9a3 3 0 0 1 3 3v17a3 3 0 0 0-3-3h-9z" fill="url(#g-iris)"/><path d="M26 6h-9a3 3 0 0 0-3 3v17a3 3 0 0 1 3-3h9z" fill="url(#g-warm)"/></symbol>
-    <symbol id="ic-camera" viewBox="0 0 32 32"><rect x="5" y="10" width="22" height="14" rx="2" fill="url(#g-ink)"/><circle cx="16" cy="17" r="5" fill="url(#g-gold)"/><circle cx="16" cy="17" r="2" fill="url(#g-ink)"/><rect x="22" y="6" width="6" height="4" rx="1" fill="url(#g-ink)"/></symbol>
-    <symbol id="ic-tag" viewBox="0 0 32 32"><path d="M6 6h12l8 8-12 12-8-8z" fill="url(#g-rust)"/><circle cx="12" cy="12" r="2.5" fill="url(#g-glow)"/></symbol>
-    <symbol id="ic-chat" viewBox="0 0 32 32"><path d="M6 8h20v14h-12l-6 5v-5h-2z" fill="url(#g-leaf)"/><circle cx="12" cy="15" r="1.4" fill="#FBF7EE"/><circle cx="17" cy="15" r="1.4" fill="#FBF7EE"/><circle cx="22" cy="15" r="1.4" fill="#FBF7EE"/></symbol>
-  <symbol id="ic-pin" viewBox="0 0 32 32"><path d="M16 4a8 8 0 0 0-8 8c0 6 8 16 8 16s8-10 8-16a8 8 0 0 0-8-8z" fill="url(#g-ember)"/><circle cx="16" cy="12" r="3" fill="#FBF7EE"/></symbol>
-</defs>
-</svg>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
