@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2",
+    "@vercel/analytics": "^2.0.1",
     "fedapay": "^1"
   }
 }
