@@ -2177,38 +2177,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
 .detail-qty .dq-box button:hover{background:var(--paper-2);}
 .detail-qty .dq-box span{min-width:34px;text-align:center;font-family:var(--mono);font-weight:700;}
 </style>
-
-<style id="digital-product-css">
-/* Présentation intelligente des produits numériques — couche additive */
-.digital-media{position:relative;width:100%;overflow:hidden;background:#17172a;color:#fff;}
-.digital-media--film{aspect-ratio:16/9;}
-.digital-media--game{aspect-ratio:3/4;background:linear-gradient(150deg,#27376e,#17172a);}
-.digital-media--ebook{aspect-ratio:3/4;background:linear-gradient(135deg,#f1d49b,#8b4d37);}
-.digital-media--file{aspect-ratio:4/3;background:linear-gradient(135deg,#edf0ea,#c8d3cb);color:var(--ink);}
-.digital-media .pin-cover-art{width:100%;height:100%!important;object-fit:cover;display:block;}
-.digital-media--ebook .pin-cover-art{width:78%;margin:0 auto;box-shadow:14px 10px 18px rgba(27,27,47,.35);transform:perspective(700px) rotateY(-7deg);}
-.digital-media--game .pin-cover-art{width:82%;margin:0 auto;box-shadow:0 12px 22px rgba(0,0,0,.3);}
-.digital-media--file .pin-cover-art{opacity:.18;filter:grayscale(1);}
-.digital-media__shade{position:absolute;inset:0;background:linear-gradient(transparent 40%,rgba(8,8,20,.9));pointer-events:none;}
-.digital-media__title{position:absolute;left:12px;right:12px;bottom:12px;font-weight:800;font-size:15px;line-height:1.1;text-shadow:0 2px 9px #000;}
-.digital-media__icon{position:absolute;inset:0;display:grid;place-items:center;font-size:42px;}
-.digital-media__play{position:absolute;top:10px;left:10px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);color:var(--ink);font-size:17px;box-shadow:0 4px 12px rgba(0,0,0,.25);}
-.digital-kind-badge{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:4px 8px;font-size:10px;line-height:1;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:#1b1b2f;color:#f5f0e8;}
-.digital-kind-badge--film{background:#b8552e}.digital-kind-badge--game{background:#3f63c7}.digital-kind-badge--ebook{background:#8b4d37}.digital-kind-badge--file{background:#3a8a5b}
-.digital-detail{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.45);font-size:13px;color:var(--ink-soft);}
-.digital-detail strong{color:var(--ink);}.digital-player{aspect-ratio:16/9;border-radius:12px;background:radial-gradient(circle at 50% 45%,#45456b,#17172a 68%);display:grid;place-items:center;color:#fff;font-size:42px;margin-bottom:4px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);}
-.digital-player small{display:block;font-size:11px;margin-top:6px;color:#ddd;text-align:center;font-weight:700;}
-.digital-cart-badge{display:inline-flex;margin-top:3px;border-radius:999px;padding:3px 7px;background:#1b1b2f;color:#f5f0e8;font-size:10px;font-weight:800;}
-.digital-no-shipping{color:#3a8a5b!important;font-weight:800!important;}
-@media(max-width:780px){.digital-media__title{font-size:13px}.digital-detail{font-size:12.5px}}
-
-<style id="digital-download-css">
-.digital-fields{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px;border:1px solid var(--line-soft);border-radius:12px;background:rgba(232,168,60,.08)}
-.digital-fields[hidden]{display:none!important}.digital-fields .creator-field{min-width:0}.digital-hint{grid-column:1/-1;margin:0;color:var(--ink-mute);font-size:12px}
-.downloads-panel{margin:18px 0;padding:18px 20px;border:1px solid rgba(31,138,95,.32);border-radius:var(--radius-lg);background:linear-gradient(135deg,rgba(31,138,95,.1),rgba(232,168,60,.1));}
-.downloads-panel h3{margin:0 0 6px;font-size:18px}.downloads-panel p{font-size:13px;color:var(--ink-soft);margin:0 0 12px}.downloads-list{display:flex;flex-wrap:wrap;gap:8px}.download-link{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;background:var(--leaf);color:var(--cream);font-weight:800;font-size:12.5px;text-decoration:none}.download-link:hover{filter:brightness(1.08);transform:translateY(-1px)}
-@media(max-width:600px){.digital-fields{grid-template-columns:1fr}}
-</style>
 </head>
 
 <body>
@@ -2231,6 +2199,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       <a href="#faq"         class="nav-link" data-nav="faq">FAQ</a>
       <a href="#catalog"     class="nav-link" data-nav="catalog">Catalogue</a>
       <a href="#collections" class="nav-link" data-nav="collections">Collections</a>
+      <a href="#nouvelles" class="nav-link" data-nav="nouvelles">Nouvelles</a>
       <a href="#seller-space" class="nav-link" data-nav="seller-space">Espace vendeur</a>
       <a href="#contact"     class="nav-link" data-nav="contact">Contact</a>
     </div>
@@ -2274,6 +2243,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       <a href="#" class="nav-link" data-section="home" data-nav="home">Accueil</a>
       <a href="#" class="nav-link" data-section="catalog" data-nav="catalog">Explorer le catalogue</a>
       <a href="#" class="nav-link" data-section="collections" data-nav="collections">Collections</a>
+      <a href="#nouvelles" class="nav-link" data-section="nouvelles" data-nav="nouvelles">Nouvelles</a>
       <a href="#" class="nav-link" data-section="advantages" data-nav="advantages">Avantages</a>
       <a href="#" class="nav-link" data-section="features" data-nav="features">Fonctionnalités</a>
       <a href="#" class="nav-link" data-section="how" data-nav="how">Comment ça marche</a>
@@ -2472,7 +2442,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-2">Comment se passe le paiement ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-2"><div class="faq-a-inner">La commande se prépare sur ÉtalAfrique. Le paiement se règle ensuite directement entre l'acheteur et le vendeur (Mobile Money, espèces à la livraison), coordonné par WhatsApp.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-3">Quels moyens de paiement acceptez-vous ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-3"><div class="faq-a-inner">ÉtalAfrique s'intègre aux principaux portefeuilles Mobile Money de chaque pays : Orange Money, Wave, MTN Mobile Money, Moov Money et d'autres. Les options disponibles s'adaptent automatiquement au pays du vendeur et de l'acheteur.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-4">Faut-il avoir une entreprise déclarée pour vendre ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-4"><div class="faq-a-inner">Non, tu peux commencer comme vendeur indépendant. Nous t'accompagnons ensuite si ton activité grandit et que tu souhaites formaliser ton entreprise. Les obligations fiscales varient selon les pays : notre support peut t'orienter.</div></div></div>
-      <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-digital">Comment fonctionne l’achat d’un produit numérique ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-digital"><div class="faq-a-inner">Les fichiers, jeux vidéo, ebooks et films sont accessibles immédiatement après confirmation de la commande. Le vendeur fournit une URL de téléchargement sécurisée ; aucun transport physique n’est nécessaire.</div></div></div>
       <div class="faq-item"><button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a-5">Dans quels pays ÉtalAfrique est-il disponible ?<span class="chev" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></button><div class="faq-a" id="faq-a-5"><div class="faq-a-inner">La plateforme est actuellement disponible au Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger et Madagascar. Nous ouvrons progressivement de nouveaux corridors de livraison et de paiement.</div></div></div>
     </div>
   </div>
@@ -2498,10 +2467,10 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           <div class="creator-field"><label for="stallName">Nom de l'étal *</label><input id="stallName" name="stallName" required placeholder="Les trésors d'Awa"></div>
           <div class="creator-field"><label for="stallCity">Ville / quartier *</label><input id="stallCity" name="stallCity" required placeholder="Dakar · Médina"></div>
           <div class="creator-field"><label for="stallWhatsapp">WhatsApp de l'étal</label><input id="stallWhatsapp" name="stallWhatsapp" type="tel" inputmode="tel" placeholder="+229 01 23 45 67 89" autocomplete="tel"></div>
-          <div class="creator-field"><label for="stallCategory">Catégorie</label><select id="stallCategory" name="stallCategory"><option>Mode & textile</option><option>Alimentation</option><option>Beauté & bien-être</option><option>Artisanat</option><option>Décoration</option><option>Tech & maison</option><option>Enfants</option><option>Services</option><option>Fichiers numériques</option><option>Jeux vidéo</option><option>Ebooks</option><option>Films</option><option>Autre</option></select></div>
+          <div class="creator-field"><label for="stallCategory">Catégorie</label><select id="stallCategory" name="stallCategory"><option>Mode & textile</option><option>Alimentation</option><option>Beauté & bien-être</option><option>Artisanat</option><option>Services</option><option>Autre</option></select></div>
           <div class="creator-field full"><label for="stallDescription">Une phrase sur ton étal</label><textarea id="stallDescription" name="stallDescription" placeholder="Des créations et produits choisis avec soin..."></textarea></div>
         </div>
-        <div class="product-builder"><span class="creator-kicker">02 · Tes produits</span><h3 class="creator-section-title">Ajoute ce que tu vends</h3><p class="creator-note">Choisis « Numérique » pour proposer un fichier, un jeu vidéo, un ebook ou un film téléchargeable après achat.</p><div id="productRows"></div><button class="btn btn-ghost" type="button" id="addProduct">+ Ajouter un produit</button></div>
+        <div class="product-builder"><span class="creator-kicker">02 · Tes produits</span><h3 class="creator-section-title">Ajoute ce que tu vends</h3><div id="productRows"></div><button class="btn btn-ghost" type="button" id="addProduct">+ Ajouter un produit</button></div>
         <div class="creator-error" id="stallError" role="alert" aria-live="polite"></div><div class="creator-actions"><button class="btn btn-primary" type="submit">Publier mon étal <span aria-hidden="true">→</span></button><button class="btn btn-ghost" type="button" id="saveDraft">Sauvegarder le brouillon</button></div><p class="creator-note">* Champs obligatoires. Le paiement se règle pour l’instant directement avec l’acheteur ; ÉtalAfrique ne traite pas encore les paiements en ligne.</p>
       </form>
       <aside class="creator-preview" aria-label="Aperçu de l'étal"><span class="creator-kicker">03 · Aperçu en direct</span><h3 class="creator-section-title">Voilà à quoi il ressemble</h3><div class="stall-card"><h3 id="previewTitle">Ton étal</h3><p class="stall-meta" id="previewMeta">Ville · catégorie</p><p class="stall-description" id="previewDescription">Ajoute une description pour donner envie de découvrir ton univers.</p><div class="stall-products" id="previewProducts"><div class="stall-product"><strong>Tes produits apparaîtront ici</strong><span>—</span></div></div></div></aside>
@@ -2619,6 +2588,18 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           <div class="mag-body"><span class="mag-kicker">Relation client</span><h3>Répondre vite, vendre plus</h3><p>Un acheteur qui reçoit une réponse rapide sur WhatsApp finalise sa commande bien plus souvent qu'un message laissé sans suite.</p><a class="mag-cta" href="#faq" data-section="faq">Lire la FAQ →</a></div>
         </article>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== NOUVELLES ====== -->
+<section id="nouvelles" data-tab="nouvelles" aria-labelledby="nouvelles-h" style="background:var(--paper);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);scroll-margin-top:100px;">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="eyebrow">Le journal du marché</span><h2 id="nouvelles-h" class="section-title">Les nouvelles<br><em>d'ÉtalAfrique.</em></h2><p class="section-lede">Des repères concrets, des histoires de vendeurs et les nouveautés qui font grandir le commerce local.</p></div>
+    <div class="mag-grid reveal" data-delay="1">
+      <article class="mag-card"><div class="mag-cover" aria-hidden="true">🌍</div><div class="mag-body"><span class="mag-kicker">Vie du marché · 24 septembre 2026</span><h3>Un marché plus proche, dans chaque poche</h3><p>ÉtalAfrique continue de relier vendeurs et acheteurs autour de boutiques locales, avec des échanges simples et des paiements adaptés à chaque pays.</p><span class="mag-cta">Lire la nouvelle →</span></div></article>
+      <article class="mag-card"><div class="mag-cover" aria-hidden="true">📱</div><div class="mag-body"><span class="mag-kicker">Conseil vendeur</span><h3>Trois détails qui rassurent avant l'achat</h3><p>Une photo nette, un prix affiché et une réponse rapide : ces trois gestes rendent une vitrine plus claire et facilitent la première conversation.</p><span class="mag-cta">Voir le conseil →</span></div></article>
+      <article class="mag-card"><div class="mag-cover" aria-hidden="true">✨</div><div class="mag-body"><span class="mag-kicker">Nouveauté plateforme</span><h3>Les collections pour trouver son prochain coup de cœur</h3><p>Mode, saveurs locales, artisanat ou services : explore les univers du catalogue et ouvre ton étal quand l'inspiration devient une idée.</p><a class="mag-cta" href="#collections" data-section="collections">Explorer les collections →</a></div></article>
     </div>
   </div>
 </section>
@@ -3026,12 +3007,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     <p class="cart-demo-note">Le paiement se règle directement avec le vendeur (Mobile Money, espèces...). Ce bouton ouvre WhatsApp avec le récapitulatif de ta commande.</p>
   </div>
 </aside>
-
-<div class="downloads-panel" id="downloadsPanel" hidden role="status" aria-live="polite">
-  <h3>Commande confirmée · accès numériques</h3>
-  <p>Retrouve ici les téléchargements disponibles pour cette commande.</p>
-  <div class="downloads-list" id="downloadsList"></div>
-</div>
 
 <!-- =============================================================================
      Scripts — chargés en fin de document pour ne pas bloquer le premier rendu.
@@ -3482,21 +3457,11 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
          WhatsApp pré-rempli avec le détail de la commande, envoyé à l'équipe ÉtalAfrique
          qui met en relation avec le ou les vendeurs concernés. */
       var lines = cart.map(function (it) {
-        var delivery = it.digitalKind && it.digitalKind !== 'physical' ? ' — ' + digitalLabel(it.digitalKind) + ', accès immédiat, sans livraison' : ' — livraison à convenir';
-        return '\u2022 ' + it.qty + ' \u00d7 ' + it.name + ' (' + fcfa(it.price) + ')' + delivery + ' — ' + (it.stall || 'ÉtalAfrique');
+        return '\u2022 ' + it.qty + ' \u00d7 ' + it.name + ' (' + fcfa(it.price) + ') \u2014 ' + (it.stall || 'ÉtalAfrique');
       });
       var text = 'Bonjour ÉtalAfrique, je souhaite commander :\n' + lines.join('\n') +
-        '\n\nTotal : ' + fcfa(cartTotal()) + '\n\nLes produits numériques sont fournis par accès ou téléchargement, sans livraison physique.';
+        '\n\nTotal : ' + fcfa(cartTotal());
       window.open('https://wa.me/2290166584697?text=' + encodeURIComponent(text), '_blank', 'noopener');
-      var digitalLines = cart.filter(function (it) { return it.digitalKind && it.digitalKind !== 'physical' && it.fileUrl; });
-      var panel = byId('downloadsPanel'), list = byId('downloadsList');
-      if (panel && list && digitalLines.length) {
-        list.innerHTML = digitalLines.map(function (it) {
-          return '<a class="download-link" href="' + esc(it.fileUrl) + '" target="_blank" rel="noopener" download>↧ ' + esc(it.fileName || it.name) + '</a>';
-        }).join('');
-        panel.hidden = false;
-        panel.scrollIntoView({behavior:'smooth', block:'nearest'});
-      }
     });
   }
 
@@ -4053,10 +4018,8 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
           id: 'sb-' + s.id + '-' + i,
           name: p.name, price: Number(p.price) || 0, stock: Number(p.stock) || 0,
           city: s.stallCity, stall: s.stallName, seller: s.sellerName, whatsapp: s.whatsapp,
-          cat: guessCategory((p.name || '') + ' ' + (s.stallCategory || '') + ' ' + (p.productType || '')), emoji: '\uD83D\uDECD\uFE0F',
-          desc: s.stallDescription, productType: p.productType || (p.digital ? 'digital' : 'physical'),
-          digitalType: p.digitalType || p.kind || '', fileUrl: p.fileUrl || p.file_url || p.downloadUrl || '',
-          fileName: p.fileName || p.filename || '', format: p.format || p.file_type || '', image: p.image || p.image_url || p.imageUrl || '', category: p.category || p.catLabel || '' 
+          cat: guessCategory(p.name + ' ' + s.stallCategory), emoji: '\uD83D\uDECD\uFE0F',
+          desc: s.stallDescription
         });
       });
       items.push({
@@ -4254,11 +4217,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
         return {
           name: (row.querySelector('.p-name') || {}).value ? row.querySelector('.p-name').value.trim() : '',
           price: Number((row.querySelector('.p-price') || {}).value) || 0,
-          stock: Number((row.querySelector('.p-stock') || {}).value) || 0,
-          productType: (row.querySelector('.p-type') || {}).value || 'physical',
-          fileUrl: ((row.querySelector('.p-file') || {}).value || '').trim(),
-          fileName: ((row.querySelector('.p-file-name') || {}).value || '').trim(),
-          format: ((row.querySelector('.p-format') || {}).value || '').trim()
+          stock: Number((row.querySelector('.p-stock') || {}).value) || 0
         };
       }).filter(function (p) { return p.name; })
     };
@@ -4269,20 +4228,10 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     var row = doc.createElement('div');
     row.className = 'product-row';
     row.innerHTML =
-      '<div class="product-name"><label>Produit *</label><input class="p-name" value="' + esc(p.name || '') + '" placeholder="Pagne wax 6 yards"></div>' +
-      '<div><label>Type</label><select class="p-type"><option value="physical">Physique</option><option value="digital">Numérique</option></select></div>' +
+      '<div><label>Produit *</label><input class="p-name" value="' + esc(p.name || '') + '" placeholder="Pagne wax 6 yards"></div>' +
       '<div><label>Prix FCFA</label><input class="p-price" type="number" min="0" step="50" value="' + esc(p.price || '') + '"></div>' +
       '<div><label>Stock</label><input class="p-stock" type="number" min="0" step="1" value="' + esc(p.stock || '') + '"></div>' +
-      '<div class="digital-fields" hidden><p class="digital-hint">Les acheteurs recevront ce lien après confirmation de commande.</p><div class="creator-field"><label>URL fichier *</label><input class="p-file" type="url" placeholder="https://..."></div><div class="creator-field"><label>Nom du fichier</label><input class="p-file-name" placeholder="mon-ebook.pdf"></div><div class="creator-field"><label>Format</label><input class="p-format" placeholder="PDF, EPUB, MP4…"></div></div>' +
       '<button class="remove-product" type="button" aria-label="Retirer cette ligne">\u00d7</button>';
-    row.querySelector('.p-type').value = p.productType || (p.digital ? 'digital' : 'physical');
-    var digitalFields = row.querySelector('.digital-fields');
-    var syncDigital = function () { digitalFields.hidden = row.querySelector('.p-type').value !== 'digital'; };
-    row.querySelector('.p-type').addEventListener('change', syncDigital);
-    row.querySelector('.p-file').value = p.fileUrl || p.file_url || '';
-    row.querySelector('.p-file-name').value = p.fileName || p.filename || '';
-    row.querySelector('.p-format').value = p.format || '';
-    syncDigital();
     productRows.appendChild(row);
     row.querySelector('.remove-product').addEventListener('click', function () {
       row.remove();
@@ -4339,9 +4288,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     if (!data.stallName) errors.push('le nom de l\u2019étal');
     if (!data.stallCity) errors.push('la ville');
     if (!data.products.length) errors.push('au moins un produit');
-    data.products.forEach(function (p) {
-      if (p.productType === 'digital' && !p.fileUrl) errors.push('une URL de fichier pour « ' + p.name + ' »');
-    });
     if (errors.length) {
       byId('stallError').textContent = 'Il manque ' + errors.join(', ') + '.';
       return;
@@ -4513,7 +4459,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
   var SECTION_TO_TAB = {
     home: 'home', advantages: 'advantages', features: 'features', how: 'how', testimonials: 'how',
     pricing: 'pricing', trust: 'pricing', faq: 'faq', 'create-stall': 'create-stall',
-    catalog: 'catalog', collections: 'collections', 'seller-space': 'seller-space', contact: 'contact'
+    catalog: 'catalog', collections: 'collections', nouvelles: 'nouvelles', 'seller-space': 'seller-space', contact: 'contact'
   };
   var TAB_TITLES = {
     home: 'ÉtalAfrique — Le marché de tout le monde, dans la poche de tout le monde',
@@ -4525,6 +4471,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     'create-stall': 'Créer mon étal — ÉtalAfrique',
     catalog: 'Catalogue — ÉtalAfrique',
     collections: 'Collections — ÉtalAfrique',
+    nouvelles: 'Nouvelles — ÉtalAfrique',
     'seller-space': 'Espace vendeur — ÉtalAfrique',
     contact: 'Contact — ÉtalAfrique'
   };
@@ -4569,6 +4516,15 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     if (!raw || !(raw in SECTION_TO_TAB)) return;
     e.preventDefault();
     goToTab(SECTION_TO_TAB[raw]);
+    /* Fallback explicite pour l'onglet Nouvelles : après révélation du panneau,
+       l'ancre est amenée dans la fenêtre même si un navigateur/routeur
+       ignore le défilement natif du hash. */
+    if (raw === 'nouvelles') {
+      var newsSection = byId('nouvelles');
+      if (newsSection) window.requestAnimationFrame(function () {
+        newsSection.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+      });
+    }
     if (mobileMenu && mobileMenu.contains(el)) closeMenu(false);
   });
 
@@ -5499,94 +5455,6 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
       if (line) { line.qty += detailQty - 1; persistCart(); }
     });
   }
-
-
-  /* ==========================================================================
-     12 bis. Produits numériques : classification et rendus spécialisés
-     ========================================================================== */
-  function productKind(item) {
-    if (!item || item.type !== 'product') return 'physical';
-    var raw = fold([item.digitalType, item.productType, item.kind, item.category, item.catLabel,
-      item.cat, item.name, item.image, item.image_url, item.imageUrl, item.fileName, item.filename,
-      item.file_type, item.mimeType, item.format].filter(Boolean).join(' '));
-    if (/film|movie|video|vidéo|serie|série|cinema|cinéma|documentaire|trailer|mp4|webm|mov/.test(raw)) return 'film';
-    if (/jeu|game|gaming|playstation|xbox|steam|epic|nintendo|switch|ps4|ps5|xbox|pc gamer/.test(raw)) return 'game';
-    if (/ebook|e-book|livre|roman|book|lecture|pdf book|epub/.test(raw)) return 'ebook';
-    if (/fichier|file|document|template|zip|rar|docx|xlsx|csv|pdf|mp3|png|jpg|download|num[eé]rique|digital/.test(raw)) return 'file';
-    return 'physical';
-  }
-  function digitalLabel(kind) { return ({film:'Film',game:'Jeu',ebook:'Ebook',file:'Fichier'})[kind] || ''; }
-  function digitalMeta(item, kind) {
-    var d=item.digital||{};
-    if(kind==='film') return '<div class="digital-detail"><strong>▶ Aperçu du film</strong><br>Durée : '+esc(d.duration||item.duration||'à découvrir')+' · Genre : '+esc(d.genre||item.genre||'Cinéma')+'</div>';
-    if(kind==='game') return '<div class="digital-detail"><strong>Jeu vidéo</strong><br>Joueurs : '+esc(d.players||item.players||'1–4')+' · Plateforme : '+esc(d.platform||item.platform||'PC / console')+' · Genre : '+esc(d.genre||item.genre||'Aventure')+'</div>';
-    if(kind==='ebook') return '<div class="digital-detail"><strong>Auteur : '+esc(d.author||item.author||'Auteur indépendant')+'</strong><br>Pages : '+esc(d.pages||item.pages||'—')+' · Format : '+esc(d.format||item.format||'PDF / EPUB')+'</div>';
-    return '<div class="digital-detail"><strong>Fichier numérique</strong><br>Type : '+esc(d.format||item.format||item.file_type||'Document')+' · Taille : '+esc(d.size||item.size||'—')+' · Compatibilité : '+esc(d.compatibility||item.compatibility||'Téléphone et ordinateur')+'</div>';
-  }
-  function digitalMediaHTML(item, kind, modal) {
-    if (kind==='physical') return coverArt(item);
-    var icon={film:'▶',game:'🎮',ebook:'📖',file:'📄'}[kind];
-    return '<div class="digital-media digital-media--'+kind+'">'+coverArt(item)+
-      (kind==='film' ? '<span class="digital-media__play" aria-hidden="true">▶</span><span class="digital-media__shade"></span><span class="digital-media__title">'+esc(item.name)+'</span>' :
-       kind==='file' ? '<span class="digital-media__icon" aria-hidden="true">'+icon+'</span><span class="digital-media__shade"></span><span class="digital-media__title">'+esc(item.name)+'</span>' : '')+
-      (kind==='game' || kind==='ebook' ? '<span class="digital-media__shade"></span><span class="digital-media__title">'+esc(item.name)+'</span>' : '')+
-      '</div>';
-  }
-  var originalCardHTML = cardHTML;
-  cardHTML = function(item) {
-    var kind=productKind(item), out=originalCardHTML(item);
-    if (kind==='physical') return out;
-    var media=digitalMediaHTML(item,kind,false);
-    out=out.replace('<div class="pin-cover">'+coverArt(item), '<div class="pin-cover">'+media);
-    var badge='<span class="digital-kind-badge digital-kind-badge--'+kind+'">'+digitalLabel(kind)+'</span>';
-    out=out.replace('<span class="demo-badge">'+esc(CAT_LABEL[item.cat] || 'Produit')+'</span>', badge+'<span class="demo-badge">'+esc(CAT_LABEL[item.cat] || 'Produit')+'</span>');
-    out=out.replace(/<div class="ship-line[^>]*>[\s\S]*?<\/div>/, '<div class="ship-line digital-no-shipping">↗ Accès numérique immédiat</div>');
-    return out;
-  };
-  var originalOpenDetail = openDetail;
-  openDetail = function(item) {
-    var kind=productKind(item);
-    originalOpenDetail(item);
-    if(kind==='physical') return;
-    var img=byId('pinModalImg');
-    if(img) img.innerHTML = kind==='film' ? '<div class="digital-player" aria-label="Aperçu vidéo indisponible">▶<small>Aperçu vidéo — lecture à venir</small></div>' : digitalMediaHTML(item,kind,true);
-    var tags=byId('pinModalTags');
-    if(tags){ var b=doc.createElement('span'); b.className='digital-kind-badge digital-kind-badge--'+kind; b.textContent=digitalLabel(kind); tags.prepend(b); }
-    var desc=byId('pinModalDesc');
-    if(desc) desc.insertAdjacentHTML('afterend', digitalMeta(item,kind));
-  };
-  var originalAddToCart = addToCart;
-  addToCart = function(item) {
-    originalAddToCart(item);
-    var line=cart.filter(function(x){return x.id===item.id;})[0];
-    if(line){ line.digitalKind=productKind(item); line.digital=productKind(item)!=='physical'; line.fileUrl=item.fileUrl || item.file_url || item.downloadUrl || ''; line.fileName=item.fileName || item.filename || ''; store.set(CART_KEY,cart); }
-  };
-  var originalRenderCart = renderCart;
-  renderCart = function(){
-    originalRenderCart();
-    $$('#shopCartList li[data-cart-id]').forEach(function(li){
-      var id=li.getAttribute('data-cart-id'), it=cart.filter(function(x){return x.id===id;})[0], k=it&&it.digitalKind;
-      if(k && k!=='physical'){
-        var meta=li.querySelector('.ci-meta'); if(meta) meta.innerHTML='<span class="digital-cart-badge">'+digitalLabel(k)+' · sans livraison</span>';
-      }
-    });
-  };
-  var originalRenderCartExtras = renderCartExtras;
-  renderCartExtras = function(){
-    originalRenderCartExtras();
-    var lines=byId('cartLines');
-    if(lines && cart.length){
-      var allDigital=cart.every(function(it){return it.digitalKind && it.digitalKind!=='physical';});
-      if(allDigital) lines.innerHTML=lines.innerHTML.replace('<span>Livraison</span><b>À convenir</b>','<span>Livraison</span><b class="digital-no-shipping">Aucune — accès immédiat</b>');
-    }
-  };
-  var originalCheckoutHandler = checkoutBtn && checkoutBtn.onclick;
-  if(checkoutBtn){ checkoutBtn.addEventListener('click',function(){
-    if(!cart.length) return;
-    /* Ajoute une indication explicite au récapitulatif WhatsApp sans changer le flux existant. */
-    var digital=cart.some(function(it){return it.digitalKind && it.digitalKind!=='physical';});
-    if(digital) toast('Les produits numériques sont livrés par accès ou téléchargement, sans livraison physique.');
-  },true); }
 
   /* ==========================================================================
      13. Démarrage
