@@ -80,9 +80,7 @@ body{
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
   overflow-x:hidden;
-  background-image:
-    radial-gradient(1100px 600px at 90% -10%, rgba(232,168,60,0.18), transparent 60%),
-    radial-gradient(900px 500px at -10% 20%, rgba(212,117,78,0.10), transparent 60%);
+  background-image:radial-gradient(1100px 600px at 90% -10%, rgba(232,168,60,0.18), transparent 60%), radial-gradient(900px 500px at -10% 20%, rgba(212,117,78,0.10), transparent 60%);
   background-attachment:fixed;
 }
 img,svg{max-width:100%;display:block;}
@@ -1193,7 +1191,6 @@ section{padding:96px 0;position:relative;}
   background:var(--paper); border:1px solid var(--line-soft);
   border-radius:var(--radius-lg);
   transition:transform .25s ease, box-shadow .25s ease, border-color .2s ease;
-  will-change:transform;
 }
 .catalog-grid.is-masonry .catalog-card:hover{
   transform:translateY(-3px);
@@ -1529,7 +1526,7 @@ section{padding:96px 0;position:relative;}
 /* ---- 1. Fond : background-attachment:fixed provoquait des saccades sur mobile
         (repaint du dégradé à chaque frame de scroll sur iOS et Android). ---- */
 body{ background-attachment:scroll; }
-@media (min-width:1025px){ body{ background-attachment:fixed; } }
+@media (min-width:1025px){  }
 
 /* Le verrou de défilement fige <body> : on neutralise l'ancrage du fond. */
 body[style*="position: fixed"]{ background-attachment:scroll; }
@@ -2201,6 +2198,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
 .detail-qty .dq-box span{min-width:34px;text-align:center;font-family:var(--mono);font-weight:700;}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"ÉtalAfrique","description":"La marketplace des vendeurs informels d’Afrique de l’Ouest : ouvre ton étal, publie tes produits, vends en Mobile Money.","areaServed":["SN","ML","CI","BJ","TG","CM","GN","BF","NE","MG"]}</script>
+<script>(function(){try{var t=localStorage.getItem("ea-theme")||"light";var d=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light")}catch(e){}})();</script>
 </head>
 
 <body>
@@ -3903,7 +3901,7 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     applySearch();
   }
 
-  if (catalogSearch) catalogSearch.addEventListener('input', function () { setQuery(catalogSearch.value, 'catalog'); });
+  if (catalogSearch) catalogSearch.addEventListener('input', debounce(function () { setQuery(catalogSearch.value, 'catalog'); }, 180));
   if (headerSearch) {
     headerSearch.addEventListener('input', function () {
       setQuery(headerSearch.value, 'header');
@@ -5751,5 +5749,250 @@ else boot();
 })();
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"8607d2a720d14b038279025b2b5a82e5","spa":2}' crossorigin="anonymous"></script>
+<!-- ====== DOCK + ASSISTANT (interface inspirée des jeux de stratégie : dock d'actions + panneau latéral) ====== -->
+<style>
+.ea-dock{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:65;display:flex;gap:4px;padding:6px;border-radius:999px;background:rgba(27,27,47,.96);border:1px solid var(--line-on-ink);box-shadow:0 14px 40px rgba(27,27,47,.35)}
+.ea-dock button{display:flex;align-items:center;gap:8px;border:0;background:transparent;color:var(--cream);font:600 13px/1 var(--sans,system-ui,sans-serif);padding:11px 15px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+.ea-dock button:hover,.ea-dock button:focus-visible{background:rgba(245,240,232,.12)}
+.ea-dock button.is-primary{background:var(--gold);color:var(--ink)}.ea-dock button.is-primary:hover{background:var(--gold-soft)}
+.ea-dock svg{width:18px;height:18px;flex:none}
+.ea-panel{position:fixed;top:0;right:0;bottom:0;z-index:95;width:min(400px,100vw);display:flex;flex-direction:column;background:var(--ink);color:var(--cream);border-left:1px solid var(--line-on-ink);box-shadow:-20px 0 60px rgba(27,27,47,.4);transform:translateX(105%);visibility:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),visibility .3s}
+.ea-panel.is-open{transform:none;visibility:visible}
+.ea-panel-head{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line-on-ink)}
+.ea-panel-head strong{font-size:15px;flex:1}.ea-panel-head button{border:0;background:rgba(245,240,232,.1);color:var(--cream);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px}
+.ea-tabs{display:flex;gap:4px;padding:10px 14px 0}.ea-tabs button{flex:1;border:0;border-bottom:2px solid transparent;background:none;color:rgba(245,240,232,.6);padding:10px;font:600 13px var(--sans,system-ui,sans-serif);cursor:pointer}.ea-tabs button[aria-selected=true]{color:var(--gold);border-color:var(--gold)}
+.ea-view{flex:1;overflow:auto;padding:16px 18px;display:none}.ea-view.is-on{display:block}
+.ea-msg{max-width:88%;margin:0 0 10px;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-line}
+.ea-msg.bot{background:rgba(245,240,232,.09)}.ea-msg.me{margin-left:auto;background:var(--gold);color:var(--ink)}
+.ea-msg a{color:var(--gold-soft)}
+.ea-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 10px}.ea-chips button{border:1px solid rgba(232,168,60,.55);background:rgba(232,168,60,.12);color:var(--gold-soft);border-radius:999px;padding:7px 12px;font:500 12.5px var(--sans,system-ui,sans-serif);cursor:pointer;text-align:left}
+.ea-chips button:hover{background:rgba(232,168,60,.24)}
+.ea-form{display:flex;gap:8px;padding:12px 18px calc(14px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line-on-ink)}
+.ea-form input{flex:1;min-width:0;border:1px solid var(--line-on-ink);background:rgba(245,240,232,.07);color:var(--cream);border-radius:999px;padding:11px 15px;font:14px var(--sans,system-ui,sans-serif)}
+.ea-form button{border:0;background:var(--gold);color:var(--ink);border-radius:999px;padding:0 16px;font-weight:700;cursor:pointer}
+.ea-brief{display:grid;gap:10px}.ea-brief div{padding:13px 14px;border-radius:12px;background:rgba(245,240,232,.07)}.ea-brief b{display:block;color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}.ea-brief span{font-size:14px;line-height:1.5}
+@media(max-width:560px){.ea-dock{width:calc(100vw - 20px);justify-content:space-around}.ea-dock button{padding:11px 10px;font-size:0}.ea-dock button svg{width:22px;height:22px}}
+@media(prefers-reduced-motion:reduce){.ea-panel{transition:none}}
+@media print{.ea-dock,.ea-panel{display:none!important}}
+</style>
+<nav class="ea-dock" aria-label="Actions rapides">
+  <button type="button" data-ea="catalog" title="Raccourci : E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Explorer</button>
+  <button type="button" data-ea="sell" title="Raccourci : V" class="is-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>Vendre</button>
+  <button type="button" data-ea="atlas" title="Atlas des marchés (M)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>Atlas</button>
+  <button type="button" data-ea="cart" title="Raccourci : P"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6h15l-2 9H8zM6 6 5 3H2"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>Panier</button>
+</nav>
+<aside class="ea-panel" id="eaPanel" role="complementary" aria-label="Assistant ÉtalAfrique" aria-hidden="true">
+  <div class="ea-panel-head"><strong>Assistant ÉtalAfrique</strong><button type="button" id="eaClose" aria-label="Fermer l'assistant">×</button></div>
+  <div class="ea-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-v="chat">Questions</button><button type="button" role="tab" aria-selected="false" data-v="brief">En bref</button></div>
+  <div class="ea-view is-on" id="eaChat" role="log" aria-live="polite"></div>
+  <div class="ea-view" id="eaBrief"><div class="ea-brief">
+    <div><b>Ouverture</b><span>Création de l'étal, ajout de produits et tableau de bord : gratuits.</span></div>
+    <div><b>Commission</b><span>3 % uniquement sur les ventes confirmées. Pas d'abonnement.</span></div>
+    <div><b>Paiement</b><span>Réglé directement entre acheteur et vendeur (Mobile Money, espèces), coordonné par WhatsApp.</span></div>
+    <div><b>Pays</b><span>Sénégal, Mali, Côte d'Ivoire, Bénin, Togo, Cameroun, Guinée, Burkina Faso, Niger, Madagascar.</span></div>
+  </div></div>
+  <div class="ea-chips" id="eaChips"></div>
+  <form class="ea-form" id="eaForm"><input id="eaInput" type="text" autocomplete="off" placeholder="Pose ta question…" aria-label="Ta question"><button type="submit">Envoyer</button></form>
+</aside>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)},panel=$('eaPanel'),chat=$('eaChat'),chips=$('eaChips'),form=$('eaForm'),inp=$('eaInput');
+  var WA='https://wa.me/2290166584697',kb=[],started=false;
+  [].slice.call(document.querySelectorAll('#faq .faq-item')).forEach(function(it){var q=it.querySelector('.faq-q'),a=it.querySelector('.faq-a');if(q&&a)kb.push({q:q.textContent.trim(),a:a.textContent.replace(/\s+/g,' ').trim()});});
+  var SYN={commission:'preleve frais gratuit',tarif:'preleve frais gratuit',prix:'preleve frais gratuit',cout:'preleve frais gratuit',abonnement:'abonnement gratuit',payer:'paiement mobile',reglement:'paiement',wave:'mobile money',orange:'mobile money',momo:'mobile money',livraison:'livraison pays',entreprise:'entreprise declaree',inscrire:'etal gratuit',inscription:'etal gratuit',vendre:'etal gratuit',ouvrir:'etal gratuit',disponible:'pays'};
+  function norm(t){var w=t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,' ').split(/\s+/).filter(function(x){return x.length>3}),o=w.slice();w.forEach(function(x){if(SYN[x])o=o.concat(SYN[x].split(' '));});return o;}
+  function add(t,cls,link){var d=document.createElement('div');d.className='ea-msg '+cls;d.textContent=t;if(link){d.appendChild(document.createTextNode(' '));var a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener';a.textContent='Écrire à l\'équipe sur WhatsApp';d.appendChild(a);}chat.appendChild(d);chat.scrollTop=chat.scrollHeight;}
+  function answer(q){add(q,'me');var w=norm(q),best=null,sc=0;kb.forEach(function(e){var hq=norm(e.q),h=norm(e.a),s=0;w.forEach(function(x){if(hq.indexOf(x)>-1)s+=2;else if(h.indexOf(x)>-1)s++;});if(s>sc){sc=s;best=e;}});
+    if(best&&sc>0)add(best.a,'bot');else add('Je n\'ai pas de réponse précise à cela. L\'équipe te répond sous 24 h.','bot',WA);}
+  function open(){if(!started){started=true;add('Bonjour ! Je réponds aux questions fréquentes sur ÉtalAfrique. Choisis une suggestion ou écris ta question.','bot');kb.slice(0,4).forEach(function(e){var b=document.createElement('button');b.type='button';b.textContent=e.q;b.onclick=function(){answer(e.q);};chips.appendChild(b);});}
+    var c=$('shopCartClose');if(document.getElementById('shopCartSidebar')&&document.getElementById('shopCartSidebar').classList.contains('is-open')&&c)c.click();
+    panel.classList.add('is-open');panel.setAttribute('aria-hidden','false');setTimeout(function(){inp.focus();},250);}
+  function close(){panel.classList.remove('is-open');panel.setAttribute('aria-hidden','true');}
+  $('eaClose').onclick=close;document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  form.onsubmit=function(e){e.preventDefault();var v=inp.value.trim();if(v){answer(v);inp.value='';}};
+  [].slice.call(panel.querySelectorAll('.ea-tabs button')).forEach(function(b){b.onclick=function(){[].slice.call(panel.querySelectorAll('.ea-tabs button')).forEach(function(x){x.setAttribute('aria-selected',x===b);});$('eaChat').classList.toggle('is-on',b.dataset.v==='chat');$('eaBrief').classList.toggle('is-on',b.dataset.v==='brief');chips.style.display=form.style.display=b.dataset.v==='chat'?'':'none';};});
+  var act={
+    catalog:function(){var l=document.querySelector('a[data-section="catalog"],[data-section="catalog"]');if(l)l.click();else location.hash='#catalog';close();},
+    sell:function(){var l=document.querySelector('[data-open-creator]');if(l)l.click();close();},
+    assistant:function(){panel.classList.contains('is-open')?close():open();},
+    atlas:function(){close();window.__eaAtlas.open();},
+    contact:function(){window.open(WA,'_blank','noopener');},
+    cart:function(){close();var c=$('shopCartBtn');if(c)c.click();}
+  };
+  [].slice.call(document.querySelectorAll('[data-ea]')).forEach(function(b){b.addEventListener('click',function(){act[b.dataset.ea]();});});
+})();
+</script>
+
+<style>
+.ea-chat,.ea-flag{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:65;width:54px;height:54px;border-radius:50%;border:1px solid var(--line-on-ink);background:rgba(27,27,47,.96);color:var(--cream);display:grid;place-items:center;cursor:pointer;box-shadow:0 14px 40px rgba(27,27,47,.35);transition:transform .2s}
+.ea-chat{left:16px}.ea-flag{right:16px;bottom:calc(86px + env(safe-area-inset-bottom,0px));background:var(--gold);color:var(--ink);border-color:var(--gold-deep)}
+.ea-chat:hover,.ea-flag:hover{transform:scale(1.08)}.ea-chat svg,.ea-flag svg{width:24px;height:24px}
+.ea-dock kbd{font:600 10px var(--sans,system-ui,sans-serif);opacity:.55;border:1px solid currentColor;border-radius:4px;padding:1px 4px}
+.ea-atlas{position:fixed;inset:0;z-index:98;display:none;grid-template-columns:1fr 380px;background:radial-gradient(circle at 30% 20%,#2a2a47,var(--ink) 70%);color:var(--cream)}
+.ea-atlas.is-open{display:grid}
+.ea-map{position:relative;padding:76px 28px 28px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.ea-top{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line-on-ink);background:rgba(27,27,47,.6)}
+.ea-top strong{flex:1;font-size:15px}.ea-top span{font-size:12.5px;opacity:.7}
+.ea-top button{border:0;background:rgba(245,240,232,.1);color:var(--cream);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:19px}
+.ea-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;max-width:640px;margin:0 auto;width:100%}
+.ea-tile{aspect-ratio:1.15;border-radius:12px;border:1px solid rgba(232,168,60,.45);background:rgba(232,168,60,.16);color:var(--cream);font:600 clamp(11px,1.5vw,14px)/1.2 var(--sans,system-ui,sans-serif);cursor:pointer;padding:6px;transition:background .2s,transform .2s}
+.ea-tile:hover{background:rgba(232,168,60,.32);transform:translateY(-2px)}.ea-tile[aria-pressed=true]{background:var(--gold);color:var(--ink);border-color:var(--gold-soft)}
+.ea-gap{border-radius:12px;border:1px dashed rgba(245,240,232,.14)}
+.ea-note{text-align:center;font-size:12px;opacity:.55;margin-top:14px}
+.ea-side{border-left:1px solid var(--line-on-ink);padding:76px 22px 22px;overflow:auto;background:rgba(27,27,47,.55)}
+.ea-side h3{font-size:26px;margin:0 0 4px}.ea-side .sub{opacity:.65;font-size:13px;margin-bottom:16px}
+.ea-sec{padding:13px 14px;border-radius:12px;background:rgba(245,240,232,.07);margin-bottom:10px}
+.ea-sec b{display:block;color:var(--gold);font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px}.ea-sec span{font-size:14px;line-height:1.55}
+.ea-play{display:block;width:100%;border:0;border-radius:12px;padding:15px;background:var(--gold);color:var(--ink);font:700 15px var(--sans,system-ui,sans-serif);cursor:pointer;margin-top:6px}.ea-play:hover{background:var(--gold-soft)}
+.ea-play.alt{background:transparent;color:var(--cream);border:1px solid var(--line-on-ink)}
+@media(max-width:820px){.ea-atlas.is-open{grid-template-columns:1fr;grid-template-rows:auto 1fr}.ea-map{padding-top:70px}.ea-side{border-left:0;border-top:1px solid var(--line-on-ink);padding-top:18px}.ea-flag{bottom:calc(84px + env(safe-area-inset-bottom,0px))}}
+@media print{.ea-atlas,.ea-chat,.ea-flag{display:none!important}}
+</style>
+<button type="button" class="ea-chat" data-ea="contact" aria-label="Écrire à l'équipe sur WhatsApp" title="Contact (C)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></button>
+<button type="button" class="ea-flag" data-ea="assistant" aria-label="Ouvrir l'assistant" title="Assistant (A)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></button>
+<section class="ea-atlas" id="eaAtlas" role="dialog" aria-modal="true" aria-label="Atlas des marchés">
+  <div class="ea-map"><div class="ea-top"><strong>Atlas des marchés</strong><span id="eaDate"></span><button type="button" id="eaAtlasClose" aria-label="Fermer l'atlas">×</button></div>
+    <div class="ea-grid" id="eaGrid"></div><p class="ea-note">Carte schématique : chaque case est un pays.</p></div>
+  <div class="ea-side" id="eaSide"></div>
+</section>
+<script>
+(function(){
+  var at=document.getElementById('eaAtlas'),grid=document.getElementById('eaGrid'),side=document.getElementById('eaSide'),sum=document.getElementById('eaDate');
+  var C=['Sénégal','Mali','Burkina Faso','Niger','','Guinée','Côte d\'Ivoire','','Togo','Bénin','Madagascar','','','','Cameroun'];
+  var CITIES={'Bénin':'cotonou porto novo parakou abomey calavi bohicon ouidah natitingou djougou lokossa kandi godomey allada savalou dassa','Sénégal':'dakar thies saint louis touba kaolack ziguinchor mbour rufisque pikine guediawaye diourbel louga tambacounda kolda','Mali':'bamako sikasso segou mopti kayes koutiala gao tombouctou','Côte d\'Ivoire':'abidjan bouake yamoussoukro daloa san pedro korhogo cocody yopougon','Togo':'lome kara sokode atakpame kpalime dapaong','Burkina Faso':'ouagadougou bobo koudougou banfora ouahigouya','Niger':'niamey zinder maradi agadez tahoua','Guinée':'conakry kankan labe nzerekore kindia','Cameroun':'douala yaounde garoua bamenda bafoussam maroua','Madagascar':'antananarivo tananarive toamasina antsirabe mahajanga fianarantsoa'};
+  var ALIAS={'Côte d\'Ivoire':['cote d ivoire'],'Burkina Faso':['burkina']};
+  function fold(t){return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z]+/g,' ').trim();}
+  var KEYS=[];Object.keys(CITIES).forEach(function(c){var ks=[fold(c)].concat(ALIAS[c]||[]);
+    var l=CITIES[c].split(' '),j=0,multi={'porto novo':1,'saint louis':1,'san pedro':1};
+    while(j<l.length){var two=l[j]+' '+l[j+1];if(multi[two]){ks.push(two);j+=2;}else{ks.push(l[j]);j++;}}
+    ks.forEach(function(k){KEYS.push([new RegExp('(^| )'+k+'( |$)'),c]);});});
+  function countryOf(city){var f=fold(city);for(var i=0;i<KEYS.length;i++)if(KEYS[i][0].test(f))return KEYS[i][1];return null;}
+  var data={};
+  function read(){data={};var other=[],total=0,labels=document.querySelectorAll('#facetCityList label');
+    [].slice.call(labels).forEach(function(l){var inp=l.querySelector('input'),n=parseInt((l.querySelector('.facet-count')||{}).textContent,10)||0;if(!inp)return;
+      var c=countryOf(inp.value),o={city:inp.value,n:n};total+=n;if(c){(data[c]=data[c]||{n:0,cities:[]});data[c].n+=n;data[c].cities.push(o);}else other.push(o);});
+    data.__other=other;data.__total=total;}
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function sec(t,x){var d=el('div','ea-sec'),b=el('b',0,t),s=el('span',0,x);d.appendChild(b);d.appendChild(s);return d;}
+  function btn(t,alt,fn){var b=el('button','ea-play'+(alt?' alt':''),t);b.type='button';b.onclick=fn;return b;}
+  function faq(k){var r='';[].slice.call(document.querySelectorAll('#faq .faq-item')).forEach(function(i){var q=i.querySelector('.faq-q'),a=i.querySelector('.faq-a');if(q&&a&&q.textContent.toLowerCase().indexOf(k)>-1)r=a.textContent.replace(/\s+/g,' ').trim();});return r;}
+  function setCities(list){var set={};list.forEach(function(c){set[c]=1;});
+    [].slice.call(document.querySelectorAll('[data-facet-city]')).forEach(function(i){var want=!!set[i.value];if(i.checked!==want){i.checked=want;i.dispatchEvent(new Event('change',{bubbles:true}));}});}
+  function toCatalog(list){close();setCities(list);var l=document.querySelector('[data-section="catalog"]');if(l)l.click();else location.hash='#catalog';}
+  function plural(n,w){return n+' '+w+(n>1?'s':'');}
+  function show(n,tile){[].slice.call(grid.querySelectorAll('.ea-tile')).forEach(function(c){c.setAttribute('aria-pressed',c===tile);});side.textContent='';
+    var d=data[n],cnt=d?d.n:0;
+    side.appendChild(el('h3',0,n));side.appendChild(el('div','sub',cnt?plural(cnt,'article')+' · '+plural(d.cities.length,'ville')+' sur ÉtalAfrique':'Aucun article publié pour l\'instant'));
+    if(cnt){
+      side.appendChild(btn('Voir les '+cnt+' articles de '+n,0,function(){toCatalog(d.cities.map(function(c){return c.city;}));}));
+      var h=el('div','ea-sec');h.appendChild(el('b',0,'Villes actives'));var row=el('div','ea-cities');
+      d.cities.sort(function(a,b){return b.n-a.n;}).forEach(function(c){var b=el('button','ea-city',c.city+' · '+c.n);b.type='button';b.onclick=function(){toCatalog([c.city]);};row.appendChild(b);});
+      h.appendChild(row);side.appendChild(h);
+      side.appendChild(btn('Ouvrir mon étal ici',1,function(){close();var l=document.querySelector('[data-open-creator]');if(l)l.click();}));
+    }else{
+      side.appendChild(sec('Marché à ouvrir','Personne ne vend encore depuis ce pays sur la plateforme. Le premier étal y sera visible en tête du marché.'));
+      side.appendChild(btn('Ouvrir le premier étal',0,function(){close();var l=document.querySelector('[data-open-creator]');if(l)l.click();}));
+      side.appendChild(btn('Explorer tout le catalogue',1,function(){toCatalog([]);}));
+    }
+    var dt=el('details','ea-more'),sm=el('summary',0,'Règles et paiement');dt.appendChild(sm);dt.appendChild(sec('Règles du marché',faq('gratuit')));dt.appendChild(sec('Paiement',faq('se passe le paiement')));side.appendChild(dt);}
+  function paint(){var max=1,act=0;C.forEach(function(n){if(n&&data[n]){max=Math.max(max,data[n].n);act++;}});
+    [].slice.call(grid.querySelectorAll('.ea-tile')).forEach(function(t){var n=t.dataset.c,v=data[n]?data[n].n:0;t.style.setProperty('--h',v?(0.18+0.5*v/max).toFixed(2):'0');t.classList.toggle('is-empty',!v);var b=t.querySelector('.ea-count');b.textContent=v||'';});
+    var cities=0;Object.keys(data).forEach(function(k){if(k.indexOf('__')!==0)cities+=data[k].cities.length;});
+    sum.textContent=data.__total?plural(data.__total,'article')+' · '+plural(cities,'ville')+' · '+act+' pays actif'+(act>1?'s':''):'Le catalogue se charge…';}
+  C.forEach(function(n){var e;if(!n){e=el('div','ea-gap');}else{e=el('button','ea-tile');e.type='button';e.dataset.c=n;e.appendChild(el('span','ea-name',n));e.appendChild(el('span','ea-count',''));e.setAttribute('aria-pressed','false');e.onclick=function(){show(n,e);};}grid.appendChild(e);});
+  function open(){read();paint();at.classList.add('is-open');document.body.style.overflow='hidden';
+    var tiles=[].slice.call(grid.querySelectorAll('.ea-tile')),best=tiles.filter(function(t){return data[t.dataset.c];}).sort(function(a,b){return data[b.dataset.c].n-data[a.dataset.c].n;})[0]||tiles.filter(function(t){return t.dataset.c==='Bénin';})[0]||tiles[0];
+    show(best.dataset.c,best);best.focus();}
+  function close(){at.classList.remove('is-open');document.body.style.overflow='';}
+  document.getElementById('eaAtlasClose').onclick=close;
+  window.__eaAtlas={open:open,close:close};
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();var t=e.target.tagName;if(/INPUT|TEXTAREA|SELECT/.test(t)||e.metaKey||e.ctrlKey||e.altKey)return;
+    var k=e.key.toLowerCase(),m={e:'catalog',v:'sell',m:'atlas',a:'assistant',p:'cart',c:'contact'}[k];if(m){var b=document.querySelector('[data-ea="'+m+'"]');if(b)b.click();}});
+})();
+</script>
+
+<!-- ea-catalog-skin : catalogue façon « bibliothèque de scénarios » -->
+<style>
+#catalog.catalog-section{background:radial-gradient(circle at 20% 0%,#2a2a47,var(--ink) 65%);color:var(--cream);padding-block:56px 72px}
+#catalog .section-title{color:var(--cream)}#catalog .section-title em{color:var(--gold)}
+#catalog .eyebrow,#catalog .section-lede,#catalog .crumbs,#catalog .crumbs a,#catalog #catalogResultsCount,#catalog #catalogStatus{color:rgba(245,240,232,.78)}
+#catalog .deals-text h3{color:var(--cream)}#catalog .deals-text p{color:rgba(245,240,232,.78)}#catalog .deals-kicker{color:var(--gold)}
+#catalog .catalog-empty{color:var(--ink-mute)}
+#catalog .catalog-toolbar{position:sticky;top:70px;z-index:30;margin:10px 0 14px;padding:10px 12px;border-radius:18px;background:rgba(27,27,47,.97);border:1px solid var(--line-on-ink);box-shadow:0 12px 34px rgba(0,0,0,.28)}
+#catalog .catalog-tabs{display:flex;gap:2px;padding:4px;border-radius:999px;background:rgba(245,240,232,.08)}
+#catalog .catalog-tab{color:rgba(245,240,232,.78)}#catalog .catalog-tab.is-active{background:var(--gold);color:var(--ink)}
+#catalog .catalog-search{background:rgba(245,240,232,.08);border-color:var(--line-on-ink);color:var(--cream)}
+#catalog .catalog-search::placeholder{color:rgba(245,240,232,.55)}#catalog .catalog-search:focus{outline:2px solid var(--gold);outline-offset:2px}
+#catalog .pin-pill{background:rgba(245,240,232,.07);color:var(--cream);border-color:var(--line-on-ink);transition:background .2s,transform .2s}
+#catalog .pin-pill:hover{background:rgba(232,168,60,.22)}#catalog .pin-pill.is-active{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+#catalog .catalog-grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+#catalog .catalog-card{border-color:rgba(245,240,232,.1);transition:transform .22s cubic-bezier(.2,.7,.2,1),box-shadow .22s}
+#catalog .catalog-card:hover{transform:translateY(-5px);box-shadow:0 22px 46px rgba(0,0,0,.5),0 0 0 2px var(--gold)}
+#catalog .catalog-card:focus-within{box-shadow:0 0 0 2px var(--gold)}
+@media(max-width:700px){#catalog .catalog-toolbar{top:62px;border-radius:14px}#catalog .catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}}
+@media(prefers-reduced-motion:reduce){#catalog .catalog-card,#catalog .pin-pill{transition:none}#catalog .catalog-card:hover{transform:none}}
+</style>
+<script>
+document.addEventListener('keydown',function(e){if(e.key!=='/'||e.metaKey||e.ctrlKey||e.altKey)return;if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  var i=document.getElementById('catalogSearch'),sec=document.getElementById('catalog');if(!i||!sec||getComputedStyle(sec).display==='none')return;e.preventDefault();i.focus();});
+</script>
+<style>
+html[data-theme=dark]{color-scheme:dark;--ink:#F5F0E8;--ink-soft:#D8D3E6;--ink-mute:#A5A1B8;--cream:#16162A;--paper:#1E1E36;--paper-2:#28283F;--terra-deep:#EE9A74;--gold-deep:#E8A83C;--line:rgba(245,240,232,.16);--line-soft:rgba(245,240,232,.09);--shadow-sm:0 2px 6px rgba(0,0,0,.35);--shadow-md:0 10px 30px rgba(0,0,0,.4);--shadow-lg:0 24px 50px rgba(0,0,0,.5)}
+html[data-theme=dark] .site-header{background:rgba(22,22,42,.88)}
+html[data-theme=dark] .ea-dock,html[data-theme=dark] .ea-panel,html[data-theme=dark] .ea-atlas,html[data-theme=dark] .ea-chat,html[data-theme=dark] .ea-flag,html[data-theme=dark] #catalog{--ink:#1B1B2F;--ink-soft:#3D3A56;--ink-mute:#6B677A;--cream:#F5F0E8;--paper:#FBF7EE;--paper-2:#EFE6CE;--terra-deep:#B8552E;--line:rgba(27,27,47,.14);--line-soft:rgba(27,27,47,.08);--shadow-sm:0 2px 6px rgba(27,27,47,.06)}
+@media(min-width:881px){.menu-toggle{display:grid}}
+.mobile-menu{overflow-y:auto}
+.menu-settings{margin-top:auto;padding-top:18px;border-top:1px solid var(--line);display:grid;gap:12px}
+.menu-settings .lang-switcher{margin-right:0;display:flex;justify-content:space-between}.menu-settings .lang-switcher .lang-btn{flex:1}
+.menu-settings .theme-switcher{display:flex;gap:4px;padding:4px;border-radius:99px;background:var(--paper);border:1px solid var(--line)}
+.menu-settings .theme-switcher .lang-btn{flex:1;font-size:15px}
+</style>
+<script>
+(function(){
+  var menu=document.getElementById('mobileMenu'),lang=document.getElementById('langSwitcher');if(!menu)return;
+  var box=document.createElement('div');box.className='menu-settings';
+  function label(t){var k=document.createElement('span');k.className='menu-kicker';k.textContent=t;return k;}
+  box.appendChild(label('Langue · Language'));if(lang)box.appendChild(lang);
+  box.appendChild(label('Thème · Theme'));
+  var tw=document.createElement('div');tw.className='theme-switcher';tw.setAttribute('role','group');tw.setAttribute('aria-label','Thème');
+  var opts=[['light','\u2600','Clair · Light'],['dark','\u263E','Sombre · Dark'],['auto','\u25D0','Auto']],mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+  function get(){try{return localStorage.getItem('ea-theme')||'light';}catch(e){return 'light';}}
+  function set(t){try{localStorage.setItem('ea-theme',t);}catch(e){}paint(t);}
+  function paint(t){var d=t==='dark'||(t==='auto'&&mq&&mq.matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');
+    [].slice.call(tw.children).forEach(function(b){var on=b.dataset.t===t;b.classList.toggle('is-active',on);b.setAttribute('aria-pressed',on);});}
+  opts.forEach(function(o){var b=document.createElement('button');b.type='button';b.className='lang-btn';b.dataset.t=o[0];b.textContent=o[1];b.setAttribute('aria-label',o[2]);b.title=o[2];b.onclick=function(){set(o[0]);};tw.appendChild(b);});
+  box.appendChild(tw);menu.appendChild(box);paint(get());
+  if(mq&&mq.addEventListener)mq.addEventListener('change',function(){if(get()==='auto')paint('auto');});
+})();
+</script>
+<!-- ea-culling : ce qui est hors écran n'est ni mis en page ni peint (comme le « frustum culling » des jeux) -->
+<style>
+.catalog-grid>*,.board-grid>*,.community-grid>*,.grid>*,.features-grid>*,.steps>*,.faq-list>*,.news-layout article,.recent-rail,.assurance-row,.contact-grid,.block-gap,.site-footer{content-visibility:auto;contain-intrinsic-size:auto 320px;overflow-clip-margin:32px}
+.site-footer{contain-intrinsic-size:auto 480px}
+.ea-paused,.ea-paused *{animation-play-state:paused!important}
+@media print{*{content-visibility:visible!important}}
+</style>
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var sel='.news-ticker-track,.news-live,.news-nav-dot,.topbar-dot,.pin-skeleton';
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('ea-paused',!e.isIntersecting);});},{rootMargin:'120px'});
+  function watch(r){[].slice.call((r||document).querySelectorAll(sel)).forEach(function(n){if(!n.__ea){n.__ea=1;io.observe(n);}});}
+  watch();
+  if('MutationObserver' in window){var t=0;new MutationObserver(function(){if(t)return;t=setTimeout(function(){t=0;watch();},400);}).observe(document.body,{childList:true,subtree:true});}
+  /* Les minuteries inutiles s'arrêtent quand l'onglet du navigateur est caché. */
+  document.addEventListener('visibilitychange',function(){document.documentElement.classList.toggle('ea-tab-hidden',document.hidden);});
+})();
+</script>
+<style>
+.ea-tile{position:relative;background:rgba(232,168,60,var(--h,0));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.ea-tile.is-empty{border-style:dashed;border-color:rgba(245,240,232,.22);color:rgba(245,240,232,.62)}
+.ea-tile[aria-pressed=true]{background:var(--gold)!important;color:var(--ink);border-style:solid}
+.ea-count{font:800 15px var(--sans,system-ui,sans-serif);min-height:1em}.ea-tile:not(.is-empty) .ea-count{color:var(--gold-soft)}.ea-tile[aria-pressed=true] .ea-count{color:var(--ink)}
+.ea-cities{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
+.ea-city{border:1px solid rgba(232,168,60,.55);background:rgba(232,168,60,.12);color:var(--gold-soft);border-radius:999px;padding:7px 12px;font:600 12.5px var(--sans,system-ui,sans-serif);cursor:pointer}.ea-city:hover{background:rgba(232,168,60,.26)}
+.ea-more{margin-top:14px}.ea-more summary{cursor:pointer;font-weight:600;font-size:13px;opacity:.75;padding:6px 0}
+.ea-play+.ea-sec,.ea-sec+.ea-play{margin-top:10px}
+</style>
 </body>
 </html>
