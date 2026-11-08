@@ -4216,13 +4216,50 @@ table.compare-table .best{color:var(--leaf);font-weight:800;}
     if (password.length < 8) { toast('Mot de passe : 8 caractères minimum.', 'error'); byId('authPassword').focus(); return; }
     if (password !== byId('authConfirm').value) { toast('Les deux mots de passe ne correspondent pas.', 'error'); byId('authConfirm').focus(); return; }
     setBusy(registerForm, true, 'Création…');
-    sb.auth.signUp({ email: email, password: password, options: { data: { name: name } } })
+    function signupError(err) {
+      var m = String((err && err.message) || err || '');
+      if (/rate limit|too many|over_email_send_rate_limit|429/i.test(m)) return 'Trop de tentatives d\u2019inscription pour le moment. Réessaie dans une heure, ou contacte-nous sur WhatsApp.';
+      if (/already (registered|exists)|user_already_exists/i.test(m)) return 'Cet email a déjà un compte. Utilise « Se connecter ».';
+      if (/password/i.test(m) && /(weak|short|least|characters)/i.test(m)) return 'Mot de passe trop faible : 8 caractères minimum, évite les mots courants.';
+      if (/invalid.*email|email.*invalid|unable to validate email/i.test(m)) return 'Adresse email invalide.';
+      if (/signups? (not allowed|are disabled)|signup_disabled/i.test(m)) return 'Les inscriptions sont momentanément fermées.';
+      if (/failed to fetch|network|load failed/i.test(m)) return 'Connexion impossible. Vérifie ton réseau et réessaie.';
+      if (/sending (confirmation )?email|error sending/i.test(m)) return 'L\u2019email de confirmation n\u2019a pas pu être envoyé. Réessaie dans quelques minutes.';
+      return 'Inscription impossible : ' + m;
+    }
+    sb.auth.signUp({
+      email: email,
+      password: password,
+      options: { data: { name: name }, emailRedirectTo: window.location.origin + window.location.pathname }
+    })
       .then(function (res) {
         setBusy(registerForm, false);
-        if (res.error) { toast(res.error.message, 'error'); return; }
+        if (res.error) { console.warn('signUp:', res.error); toast(signupError(res.error), 'error'); return; }
+        var user = res.data && res.data.user;
+        /* Supabase renvoie un user sans identités quand l'email existe déjà (anti-énumération). */
+        if (user && Array.isArray(user.identities) && user.identities.length === 0) {
+          toast('Cet email a déjà un compte. Utilise « Se connecter ».', 'error');
+          switchAuthTab('login');
+          byId('authLoginEmail').value = email;
+          return;
+        }
+        /* Confirmation email désactivée côté Supabase : on a déjà une session. */
+        if (res.data && res.data.session) {
+          session = res.data.session;
+          renderAccount();
+          authDialog.close();
+          toast('Compte créé. Bienvenue !');
+          refreshAll(true);
+          return;
+        }
         toast('Compte créé. Ouvre le lien de confirmation reçu par email (pense aux spams).');
         switchAuthTab('login');
         byId('authLoginEmail').value = email;
+      })
+      .catch(function (err) {
+        setBusy(registerForm, false);
+        console.error('signUp:', err);
+        toast(signupError(err), 'error');
       });
   });
 
